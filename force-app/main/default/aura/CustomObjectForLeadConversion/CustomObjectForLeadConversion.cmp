@@ -1,0 +1,183 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickAction">
+    
+    <aura:attribute Name="cusObj" type="object" access="public"/>
+    <aura:attribute Name="cusFields" type="object" access="public"/>
+    <aura:attribute Name="useDuplicate" type="boolean" access="public" default="false"/>
+    <aura:attribute Name="selectedDuplicate" type="string" access="public" default=""/>
+    <aura:attribute Name="objectRadio" type="string" access="public" default="Create New"/>
+    <aura:attribute Name="completedAction" type="string" access="public" default=""/>
+    <aura:attribute Name="isCompleted" type="boolean" access="public" default="false"/>
+    <aura:attribute Name="showError" type="boolean" access="public" default="false"/>
+    <aura:attribute Name="errorMessage" type="string" access="public" default=""/>
+    <aura:attribute Name="recordId" type="string" access="public" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:method name="submitCustomForm" action="{!c.submitForm}"
+                 description="Submit the Custom Object Form">
+    </aura:method>
+    <aura:registerEvent name="customComponentEvent" type="c:LeadConversionEvent"/>
+    <aura:attribute Name="dep1Exists" type="boolean" access="public" default="false"/>
+    <aura:attribute Name="dep1Name" type="string" access="public"/>
+    <aura:attribute Name="dep1Value" type="string" access="public"/>
+    <aura:attribute Name="dep2Exists" type="boolean" access="public" default="false"/>
+    <aura:attribute Name="dep2Name" type="string" access="public"/>
+    <aura:attribute Name="dep2Value" type="string" access="public"/>
+    <aura:attribute Name="dep3Exists" type="boolean" access="public" default="false"/>
+    <aura:attribute Name="dep3Name" type="string" access="public"/>
+    <aura:attribute Name="dep3Value" type="string" access="public"/>
+    <aura:attribute Name="dep4Exists" type="boolean" access="public" default="false"/>
+    <aura:attribute Name="dep4Name" type="string" access="public"/>
+    <aura:attribute Name="dep4Value" type="string" access="public"/>
+    
+    <aura:if isTrue="{!v.isCompleted}">
+        <div class="slds-grid entitypanelbox" style="margin-top: 10px; padding: 10px">
+            <div class="col2">
+                <div class="slds-align_left slds-grid_vertical-align-center slds-m-left--medium">
+                    <lightning:icon iconName="action:approval" alternativeText="Approved" title="Approved" class="slds-p-around_medium" />
+                    &nbsp;&nbsp;{!v.completedAction}
+                </div>
+            </div>
+            <div class="col4">
+                <div class="slds-align_left slds-grid_vertical-align-center slds-m-left--medium">
+                    <lightning:recordViewForm
+                                              recordId="{!v.recordId}"
+                                              objectApiName="{!v.cusObj.ObjectAPIName}"
+                                              density="comfy"
+                                              >
+                        <div class="slds-box">
+                            <lightning:outputField fieldName="Name" />
+                        </div>
+                        <p><a onclick="{!c.handleLinkClick}">Open Record</a></p>
+                    </lightning:recordViewForm>
+                </div>
+            </div>
+        </div>
+        
+        <aura:set attribute="else">
+            <div class="slds-grid entitypanelbox" style="margin-top: 10px; padding: 10px">
+                <div class="col1">
+                    <div style="cursor: pointer;" onclick="{!c.toggleSections}" data-id="{!v.cusObj.Label}">
+                        <section class="slds-clearfix">
+                            <div class="slds-float--left ">
+                                <lightning:icon class="slds-hide" aura:id="articleOn" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates add"/>
+                                <lightning:icon class="slds-show" aura:id="articleOff" iconName="utility:chevronright" size="x-small" alternativeText="Indicates dash"/>
+                            </div>
+                            <div class="slds-m-left-large"><h3><a>{!v.cusObj.Label}</a></h3></div>
+                        </section>
+                    </div>
+                    
+                </div>
+                <div class="col2">
+                     <b><lightning:input type="radio" label="Don't Create" name="{!'RadioSelect' + v.cusObj.Label}" value="No Create"  checked="{! v.cusObj.DefaultBehaviour =='Do Not Create'? true : false}" onchange="{!c.handleRadio}"/></b>
+                    <b><lightning:input type="radio" label="Create New"   name="{!'RadioSelect' + v.cusObj.Label}" value="Create New"  checked="{! v.cusObj.DefaultBehaviour !='Do Not Create'? true : false}" onchange="{!c.handleRadio}"/></b>
+					
+                    <!--b><lightning:input type="radio" label="Don't Create" name="{!'RadioSelect' + v.cusObj.Label}" value="No Create"  checked="" onchange="{!c.handleRadio}"/></b>
+                    <b><lightning:input type="radio" label="Create New"   name="{!'RadioSelect' + v.cusObj.Label}" value="Create New"  checked="true" onchange="{!c.handleRadio}"/></b-->
+                </div>
+                <div class="col3">
+                    <div class = "divisor">
+                        <h1> -OR - </h1>
+                    </div >
+                </div>
+                <div class="col4">
+                    <b><lightning:input type="radio" label="Choose Existing" value="Choose Existing" name="{!'RadioSelect' + v.cusObj.Label}" checked="" onchange="{!c.handleRadio}"/></b>
+                </div>
+                
+            </div>
+            <aura:if isTrue="{!v.showError}">
+                <div class="slds-grid expand entitypanelbox">
+                    <ui:message title="There was an error creating your record.  Please try again." severity="error" closable="false">
+                        {!v.errorMessage}
+                    </ui:message>
+                </div>
+            </aura:if>
+            <div id="{!'shrinked'+v.cusObj.Label}" class="slds-grid expand entitypanelbox" style="height: 100px;">
+                <div class="col1">
+                </div>
+                <div class="col2">
+                </div>
+                <div class="col3">
+                </div>
+                <div class="col4">
+                    <div class="slds-box_border matchPanelCollapsed">
+                        <span class="uiOutputText">{!v.cusObj.dupeResults.length}  "{!v.cusObj.Label}" Matches Detected</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div id="{!'expanded'+v.cusObj.Label}" class="slds-grid invisible expand entitypanelbox">
+                <div class="col1">
+                </div>
+                <div class="col2">
+                    <div class="slds-box_border expandbox">
+                        <lightning:recordEditForm objectApiName="{!v.cusObj.ObjectAPIName}"
+                                                  class="slds-card slds-p-around_medium"
+                                                  aura:id="editForm"
+                                                  onsuccess="{!c.onSuccess}"
+                                                  onerror="{!c.onError}"
+                                                  onload="{!c.onLoaded}"
+                                                  >
+                            <aura:iteration items="{!v.cusFields}" var="field">
+                                <aura:if isTrue="{! !field.hasDependency}">
+                                    
+                                    <aura:if isTrue="{! or(field.destField == 'Project_Roles__c',field.destField == 'Converted_Lead__c')}">
+                                        <lightning:inputField fieldName="{!field.destField}" value="{!field.sourceFieldValue}" class="slds-hide"  />
+                                        
+                                        <aura:set attribute="else">
+                                             
+                                            <aura:if isTrue="{! field.destField == 'Is_Estimate_Required__c'}">
+                                                 <lightning:inputField fieldName="{!field.destField}" value="{! if(field.sourceFieldValue =='false',false,true)}"  />
+                
+                                            </aura:if>
+                                            
+                                             <aura:if isTrue="{! field.destField != 'Is_Estimate_Required__c'}">
+                                                
+                                                  <lightning:inputField fieldName="{!field.destField}" value="{!field.sourceFieldValue}" required="{!field.isRequired}" />
+                                            </aura:if>
+                                           
+                                        </aura:set>
+                                    </aura:if> 
+                                    
+                                </aura:if>
+                            </aura:iteration>
+                            <aura:if isTrue="{!v.dep1Exists}">
+                                <lightning:inputField aura:id="dependencyOne" class="slds-hide" fieldName="{!v.dep1Name}" value="{!v.dep1Value}" />
+                            </aura:if>
+                            <aura:if isTrue="{!v.dep2Exists}">
+                                <lightning:inputField aura:id="dependencyTwo" class="slds-hide" fieldName="{!v.dep2Name}" value="{!v.dep2Value}" />
+                            </aura:if>
+                            <aura:if isTrue="{!v.dep3Exists}">
+                                <lightning:inputField aura:id="dependencyThree" class="slds-hide" fieldName="{!v.dep3Name}" value="{!v.dep3Value}" />
+                            </aura:if>
+                            <aura:if isTrue="{!v.dep4Exists}">
+                                <lightning:inputField aura:id="dependencyFour" class="slds-hide" fieldName="{!v.dep4Name}" value="{!v.dep4Value}" />
+                            </aura:if>
+                        </lightning:recordEditForm>
+                        
+                    </div>
+                </div>
+                
+                <div class="col3">
+                    &nbsp;
+                </div>
+                <div class="col4">
+                    <div class="slds-box" style="background:white;">
+                        <div style="overflow-y: scroll;overflow-x: hidden;max-height: 150px;">
+                            <div aura:id="{!v.cusObj.Label+'Selecteddiv'}" >
+                                <div class="title">{!v.cusObj.dupeResults.length}&nbsp;"{!v.cusObj.Label}" Matches Detected</div>
+                                <aura:iteration items="{!v.cusObj.dupeResults}" var="dup">
+                                    <div class="slds-box" style="border:rgb(221, 219, 218) 1px solid;margin:1% 1% 1% 1%;background:white;">
+                                        <b><lightning:input aura:id="{!dup.Id}" name="{!v.cusObj.Label+'dupButtonGroup'}" label="{! dup.Name}" type="radio"  value="{!dup.Id}" onchange="{!c.handleDupeRadio}"/></b>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

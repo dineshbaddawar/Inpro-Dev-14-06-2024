@@ -1,0 +1,821 @@
+<apex:page renderAs="PDF" standardStylesheets="false" controller="QuoteBidPDFController"  lightningStylesheets="false"  applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                body {
+                    background-image: url("{!IF(quoteDetails.internal,URLFOR($Resource.Quote_Draft_Watermark),URLFOR($Resource.Quote_Empty_Watermark))}");
+                    background-repeat: repeat;
+                }
+                @page {
+                margin-top:20px;
+                margin-bottom:40px;
+                size: 8.5in 11in;
+                margin-left: 0.4in;
+                margin-right: 0.3in;
+                size: portrait;
+                @top-center {
+                content: element(header);
+                }
+                @bottom-left {
+                content: element(footer);
+                }
+                }
+                html{
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                }
+                body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font: 8.5pt "Calibri";
+                }                   
+                div.header {
+                padding:20px;
+                position: header;
+                }
+                div.footer {
+                display: block;
+                padding: 2px;
+                position: running(footer);
+                }
+                .pagenumber:before {
+                content: counter(page);
+                }
+                .pagecount:before {
+                content: counter(pages);
+                }
+                
+                table{
+                border-collapse: collapse;
+                }
+                
+                #leftHeader{
+                float:right;
+                width: 25%;
+                }
+                
+                #rightHeader{
+                display: inline-block;
+                float:right;
+                width: 35%;
+                margin-top: 2%;
+                }
+                
+                #middleHeader{
+                float:right;
+                width: 40%;
+                margin-top: 4%;
+                }
+                
+                #leftFooter{
+                float:left;
+                width: 33%;
+                text-align:left;
+                font: 12pt "Calibri";
+                }
+                
+                #rightFooter{
+                float:right;
+                width: 33%;
+                text-align:right;
+                font: 12pt "Calibri";
+                }
+                
+                #middleFooter{
+                float:left;
+                width: 33%;
+                text-align:center;
+                font: 12pt "Calibri";
+                }
+                
+                .addressLine{
+                text-align:right;
+                font: 8pt "Calibri";
+                }
+                
+                #titleDiv{
+                padding-left:260px;
+                font: 8.5pt "Calibri";
+                }
+                
+                #titleDiv{
+                float:left;
+                font: 8.5pt "Calibri";
+                width:100%
+                }
+                
+                
+                .ft0{font: 12px 'Helvetica';line-height: 13px;}
+                .ft1{font: 12px 'Helvetica';line-height: 13px;}
+                .ft2{font: bold 20px 'Helvetica';line-height: 22px;}
+                .ft3{font: bold 10px 'Helvetica';line-height: 12px;}
+                .ft4{font: 12px 'Helvetica';line-height: 13px;}
+                .ft5{font: 12px 'Helvetica';line-height: 13px;}
+                .ft6{font: 12px 'Helvetica';line-height: 13px;}
+                .ft7{font: 12px 'Helvetica';line-height: 13px;}
+                .ft8{font: 12px 'Helvetica';line-height: 13px;}
+                .ft9{font: bold 9px 'Helvetica';line-height: 13px;}
+                .ft10{font: 12px 'Helvetica';line-height: 13px;}
+                .ft11{font: 12px 'Helvetica';line-height: 13px;}
+                .ft12{font: 12px 'Helvetica';line-height: 13px;}
+                .ft13{font: 12px 'Helvetica';line-height: 13px;}
+                .ft14{font: bold 14px 'Helvetica';line-height: 16px;}
+                .ft15{font: bold 15px 'Helvetica';line-height: 18px;}
+                .ft16{font: 12px 'Helvetica';line-height: 13px;}
+                .ft17{font: 12px 'Helvetica';line-height: 13px;}
+                .ft18{font: bold 16px 'Helvetica';line-height: 19px;}
+                .ft19{font: bold 13px 'Helvetica';line-height: 16px;}
+                .ft20{font: 12px 'Calibri';line-height: 13px;}
+                
+                .p0{text-align: right;padding-right: 108px;margin-top: 0px;margin-bottom: 0px;}
+                .p1{text-align: left;padding-left: 275px;margin-top: 90px;margin-bottom: 0px;}
+                .p2{text-align: right;padding-right: 5px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p3{text-align: left;padding-left: 21px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p4{text-align: left;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p5{text-align: right;padding-right: 3px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p6{text-align: left;padding-left: 3px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p7{text-align: right;padding-right: 6px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p8{text-align: left;padding-left: 20px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p9{text-align: right;padding-right: 2px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p10{text-align: right;padding-right: 66px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p11{text-align: right;padding-right: 10px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p12{text-align: left;padding-left: 4px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p13{text-align: center;padding-left: 72px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p14{text-align: center;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p15{text-align: center;padding-right: 48px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p16{text-align: center;padding-left: 3px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p17{text-align: right;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p18{text-align: right;padding-right: 4px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p19{text-align: center;padding-left: 71px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p20{text-align: left;padding-left: 262px;margin-top: 0px;margin-bottom: 0px;}
+                .p21{text-align: left;margin-top: 0px;margin-bottom: 0px;}
+                .p22{text-align: left;padding-left: 198px;margin-top: 0px;margin-bottom: 0px;}
+                .p23{text-align: right;padding-right: 34px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p23a{text-align: right;padding-right: 34px;margin-top: 0px;margin-bottom: 0px;overflow-wrap:break-word;}
+                .p24{text-align: right;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p25{text-align: left;padding-left: 7px;padding-right: 50px;margin-top: 8px;margin-bottom: 0px;text-indent: -1px;}
+                .p26{text-align: left;padding-left: 171px;margin-top: 0px;margin-bottom: 0px;}
+                
+                .td0{padding: 0px;margin: 0px;width: 102px;vertical-align: bottom;}
+                .td1{padding: 0px;margin: 0px;width: 125px;vertical-align: bottom;}
+                .td2{padding: 0px;margin: 0px;width: 103px;vertical-align: bottom;}
+                .td3{padding: 0px;margin: 0px;width: 137px;vertical-align: bottom;}
+                .td4{padding: 0px;margin: 0px;width: 94px;vertical-align: bottom;}
+                .td5{padding: 0px;margin: 0px;width: 96px;vertical-align: bottom;}
+                .td6{padding: 0px;margin: 0px;width: 80px;vertical-align: bottom;}
+                .td7{padding: 0px;margin: 0px;width: 57px;vertical-align: bottom;}
+                .td8{padding: 0px;margin: 0px;width: 37px;vertical-align: bottom;}
+                .td9{padding: 0px;margin: 0px;width: 176px;vertical-align: bottom;}
+                .td10{padding: 0px;margin: 0px;width: 228px;vertical-align: bottom;}
+                .td11{padding-left: 47px;margin: 0px;width: 133px;vertical-align: bottom;}
+                .td12{padding-left: 50px;margin: 0px;width: 190px;vertical-align: bottom;}
+                .td13{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 102px;vertical-align: bottom;}
+                .td14{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 125px;vertical-align: bottom;}
+                .td15{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 103px;vertical-align: bottom;}
+                .td16{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 137px;vertical-align: bottom;}
+                .td17{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 57px;vertical-align: bottom;}
+                .td18{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 133px;vertical-align: bottom;}
+                .td19{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 80px;vertical-align: bottom;}
+                .td20{padding: 0px;margin: 0px;width: 102px;vertical-align: bottom;background: #b0c4de;}
+                .td21{padding: 0px;margin: 0px;width: 125px;vertical-align: bottom;background: #b0c4de;}
+                .td22{padding: 0px;margin: 0px;width: 103px;vertical-align: bottom;background: #b0c4de;}
+                .td23{padding: 0px;margin: 0px;width: 125px;vertical-align: bottom;background: #b0c4de;}
+                .td24{padding: 0px;margin: 0px;width: 57px;vertical-align: bottom;background: #b0c4de;}
+                .td25{padding: 0px;margin: 0px;width: 120px;vertical-align: bottom;background: #b0c4de;}
+                .td26{padding: 0px;margin: 0px;width: 80px;vertical-align: bottom;background: #b0c4de;}
+                
+                .td27{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 102px;vertical-align: bottom;background: #b0c4de;}
+                .td28{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 125px;vertical-align: bottom;background: #b0c4de;}
+                .td29{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 103px;vertical-align: bottom;background: #b0c4de;}
+                .td30{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 125px;vertical-align: bottom;background: #b0c4de;}
+                .td31{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 57px;vertical-align: bottom;background: #b0c4de;}
+                .td32{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 37px;vertical-align: bottom;background: #b0c4de;}
+                .td33{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 96px;vertical-align: bottom;background: #b0c4de;}
+                .td34{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 80px;vertical-align: bottom;background: #b0c4de;}
+                .td35{padding: 0px;margin: 0px;width: 37px;vertical-align: bottom;background: #b0c4de;}
+                .td36{padding: 0px;margin: 0px;width: 96px;vertical-align: bottom;background: #b0c4de;}
+                .td37{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 327px;vertical-align: bottom;}
+                .td38{padding: 0px;margin: 0px;width: 327px;vertical-align: bottom;}
+                .td39{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 37px;vertical-align: bottom;}
+                .td40{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 96px;vertical-align: bottom;}
+                .td41{padding: 0px;margin: 0px;width: 313px;vertical-align: bottom;}
+                .td42{padding: 0px;margin: 0px;width: 271px;vertical-align: bottom;}
+                .td43{padding: 0px;margin: 0px;width: 634px;vertical-align: bottom;}
+                .td44{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 634px;vertical-align: bottom;}
+                .td45{padding: 0px;margin: 0px;width: 189px;vertical-align: bottom;}
+                .td46{padding: 0px;margin: 0px;width: 99px;vertical-align: bottom;}
+                .td47{padding: 0px;margin: 0px;width: 435px;vertical-align: bottom;}
+                .td48{padding: 0px;margin: 0px;width: 21px;vertical-align: bottom;}
+                
+                .tr0{height: 17px;}
+                .tr1{height: 21px;}
+                .tr2{height: 11px;}
+                .tr3{height: 34px;}
+                .tr4{height: 19px;}
+                .tr5{height: 16px;}
+                .tr6{height: 20px;}
+                .tr7{height: 4px;}
+                .tr8{height: 10px;}
+                .tr9{height: 13px;}
+                .tr10{height: 12px;}
+                .tr11{height: 5px;}
+                .tr12{height: 3px;}
+                .tr13{height: 6px;}
+                .tr14{height: 23px;}
+                .tr15{height: 2px;}
+                .tr16{height: 14px;}
+                
+                .t0{width: 700px;margin-top: 11px;font: 10px 'Helvetica';}
+                .t1{width: 717px;margin-top: 83px;font: bold 16px 'Helvetica';}
+                .t2{width: 737px;font: bold 10px 'Helvetica';}
+                
+                .t3{width: 288px;margin-left: 445px;margin-top: 52px;font: bold 15px 'Helvetica';}
+                .t4{width: 456px;margin-top: 61px;font: bold 9px 'Helvetica';}
+                .t5{width: 717px;margin-left: 6px;margin-top: 672px;font: bold 16px 'Helvetica';}
+                
+                .tdBorder {
+                height:26px;
+                vertical-align:top;
+                }
+                tdBorder2{
+                height: 20px;
+                border-bottom:#000000 1px solid;
+                }
+                
+                .tdHeaderBorder {
+                height: 25px;
+                font: 12px;
+                font-weight: bold;
+                
+                
+                }
+                
+                .trBorder {
+                
+                }
+                .alternateTable {
+                width:730px;
+                border: #000000 1px solid;
+                border-collapse: collapse;
+                font: 11px 'Helvetica';
+                }
+                .pstyle{text-align: right;padding-right: 20px;margin-top: 0px;margin-bottom: 0px;overflow-wrap: break-word;}
+                .pstyle2{
+                margin-top: 0px;margin-bottom: 0px;white-space: nowrap;
+                }
+                .pstyle3{
+                text-align: right;padding-right: 10px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;
+                }
+                .pShipping{
+                font: 13px;
+                font-weight: bold;
+                }
+                .tdBorder4{
+                
+                border-right:#000000 1px solid;
+                border-bottom:#000000 1px solid
+                }
+                
+            </style>
+        </head>
+        <body>
+            <div class="header" >
+                <div id="leftHeader">
+                </div>
+                <div id="rightHeader">
+                    <div class="addressLine">Corporate Headquarters</div>
+                    <div class="addressLine">S80 W18766 Apollo Drive</div>
+                    <div class="addressLine">PO Box 406</div>
+                    <div class="addressLine">Muskego, WI 53150</div>
+                    <div class="addressLine">www.inprocorp.com</div>
+                    <div class="addressLine">Nationwide: (800) 222-5556</div>
+                    <div class="addressLine">Fax: (888) 715-8407</div>
+                    
+                    <br/>
+                    <div class="addressLine">
+                        <!--apex:image url="{!$Resource.IPC_Logo}" width="175" height="40" /--> 
+                    </div>
+                </div>
+                <div id="middleHeader">
+                    <apex:image url="{!$Resource.Inpro_Logo}" width="250" height="100"/>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <div id="leftFooter">
+                    <!--<b>Quote:{!quoteDetails.quoteRecord.Name}</b>-->
+                </div>
+                <div id="middleFooter">
+                    <b><div>Page <span class="pagenumber"/> of <span class="pagecount"/></div></b>
+                </div>
+                <div id="rightFooter">
+                    <!--<b>{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</b>-->
+                </div>
+            </div>
+            <div calss ='content'>
+                <DIV id="page_1" style="margin-top:150px;">
+                    
+                   <div style="text-align: center;">
+                       
+                        <P class="ft2"> {!IF(quoteDetails.internal,'In-House Version ','')}Pro Forma Invoice</P>
+                   </div> 
+                    <TABLE cellpadding="0" cellspacing="0" class="t0" style="">
+                        <TR>
+                            <TD class="tr0 td0"><P class="p2 ft3">Date:</P></TD>
+                            <TD class="tr0 td1"><P class="p3 ft0">
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!today()}" /> 
+                                </apex:outputText>
+                                </P></TD>
+                            <TD class="tr0 td2"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD class="tr0 td3"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr0 td4"><P class="p5 ft3">Customer Number:</P></TD>
+                            <TD class="tr0 td5"><P class="p6 ft0">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.quoteRecord.Primary_Bidder__r.Customer_Number__c}</P></TD>
+                            <TD class="tr0 td6"><P class="p4 ft4">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr1 td0"><P class="p7 ft3">PO Number:</P></TD>
+                            <TD class="tr1 td1"><P class="p4 ft4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.poNumber}</P></TD>
+                            <TD class="tr1 td2"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD class="tr1 td3"><P class="p4 ft4">&nbsp;</P></TD>
+                            <!--TD colspan="2" class="tr1 td4"><P class="p5 ft3">Our Reference:</P></TD>
+                            <TD class="tr1 td5"><P class="p6 ft0">{!quoteDetails.quoteRecord.Name}</P></TD-->
+                             <TD colspan="2" class="tr1 td4"><P class="p5 ft3">Project Number:</P></TD>
+                            <TD class="tr1 td5"><P class="p6 ft0">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.opportunityRecord.Project_Number__c}</P></TD>
+                            <TD class="tr1 td6"><P class="p4 ft4">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr1 td0"><P class="p2 ft3">Sold To:</P></TD>
+                            <TD class="tr1 td1"><P class="p8 ft0">ATTN: {!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</P></TD>
+                            <TD class="tr1 td2"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD class="tr1 td3"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr1 td4"><P class="p5 ft3">Quote #:</P></TD>
+                            <TD class="tr1 td5"><P class="p4 ft4">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.quoteRecord.QuoteNumber}</P></TD>
+                            <TD class="tr1 td6"><P class="p4 ft4">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr2 td0"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td1"><P class="p8 ft1">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</P></TD>
+                            <TD class="tr2 td2"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td3"><P class="p4 ft5">&nbsp;</P></TD>
+                             <TD colspan="2" class="tr1 td4"><P class="p5 ft3">Revision:</P></TD>
+                            <TD class="tr2 td5"><P class="p4 ft5">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.quoteRecord.Revision_Number__c}</P></TD>
+                            <TD class="tr2 td6"><P class="p4 ft5">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr2 td0"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td1"><P class="p8 ft1">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingStreet}</P></TD>
+                            <TD class="tr2 td2"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td3"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr1 td4"><P class="p5 ft3">Ship To:</P></TD>
+                            <TD colspan="2" class="tr2 td9"><P class="p6 ft1">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.shipToName}</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr2 td0"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td1"><P class="p8 ft1">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCity}, {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingState} {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingPostalCode}</P></TD>
+                            <TD class="tr2 td2"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td3"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr1 td4"><P class="p6 ft1">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr2 td9"><P class="p6 ft1">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.shipToStreet}</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr2 td0"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr2 td10"><P class="p8 ft1">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCountry}</P></TD>
+                            <TD class="tr2 td3"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td7"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td8"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td5"><P class="p6 ft1">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.shipToCity}, {!quoteDetails.shipToState}  {!quoteDetails.shipToPostalCode}</P></TD>
+                            <TD class="tr2 td6"><P class="p4 ft5"></P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr1 td0"><P class="p7 ft3">Sold To Phone:</P></TD>
+                            <TD class="tr1 td1"><P class="p4 ft4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.contactPhone}</P></TD>
+                            <TD class="tr2 td2"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td3"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td7"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td8"><P class="p4 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td5"><P class="p6 ft1">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.shipToCountry}</P></TD>
+                            <TD class="tr2 td6"><P class="p4 ft5">&nbsp;</P></TD>
+                        </TR>
+                       
+                         <TR>
+                            <TD class="tr1 td0"><P class="p7 ft3">Sold To Fax:</P></TD>
+                            <TD class="tr1 td1"><P class="p4 ft4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.fax}</P></TD>
+                            <TD class="tr1 td2"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD class="tr1 td3"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr1 td4"><P class="p5 ft3">Ship To Contact:</P></TD>
+                            <TD class="tr1 td5"><P class="p6 ft0">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.contactName}</P></TD>
+                            <TD class="tr1 td6"><P class="p4 ft4">&nbsp;</P></TD>
+                        </TR>
+                      
+                         <TR>
+                            <TD class="tr1 td0"><P class="p7 ft3">Sold To Email:</P></TD>
+                            <TD class="tr1 td1"><P class="p4 ft4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.contactEmail}</P></TD>
+                            <TD class="tr1 td2"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD class="tr1 td3"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr1 td4"><P class="p5 ft3">Terms:</P></TD>
+                            <TD class="tr1 td5"><P class="p6 ft0">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.paymentTerms}</P></TD>
+                            <TD class="tr1 td6"><P class="p4 ft4">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr7 td0"><P class="p4 ft7">&nbsp;</P></TD>
+                            <TD class="tr7 td1"><P class="p4 ft7">&nbsp;</P></TD>
+                            <TD class="tr1 td2"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD class="tr1 td3"><P class="p4 ft4">&nbsp;</P></TD>
+                            <TD colspan="2" class="tr1 td4"><P class="p5 ft3">Document ID:</P></TD>
+                            <TD class="tr1 td5"><P class="p6 ft0">&nbsp;&nbsp;&nbsp;&nbsp;{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</P></TD>
+                            <TD class="tr1 td6"><P class="p4 ft4">&nbsp;</P></TD>
+                        </TR>
+                         
+                        <TR>
+                            <TD class="tr7 td0"><P class="p4 ft7">&nbsp;</P></TD>
+                            <TD class="tr7 td1"><P class="p4 ft7">&nbsp;</P></TD>
+                            <TD class="tr7 td2"><P class="p4 ft7">&nbsp;</P></TD>
+                            <TD class="tr7 td3"><P class="p4 ft7">&nbsp;</P></TD>
+                            <TD class="tr7 td6"><P class="p4 ft7">&nbsp;</P></TD>
+                        </TR>
+                        <!--TR>
+                            
+                            <TD colspan="8" style="Padding:10px;" class="tr7 td0 ft0">
+                                <apex:outputField value="{!quoteDetails.quoteRecord.Quote_Estimating_Notes__c}"/>
+                                <br/>
+                            </TD>
+                        </TR-->
+                        
+                    </TABLE> 
+                    <br/>
+                    
+                    <apex:pageBlock rendered="{!quoteDetails.isTaxable}"> 
+
+                    <table cellpadding="2" class="alternateTable">
+                        <apex:repeat value="{!quoteDetails.mapkey}" var="key">
+                            
+                            <tr class ="trBorder" style="background: #b0c4de;">
+                                <TD class="tdHeaderBorder"  style="width: 100px;border-left:#000000 1px solid;border-top: #000000 1px solid;">Part Number</TD>
+                                <TD class="tdHeaderBorder"  style="width: 100px;border-top: #000000 1px solid;">Color</TD>
+                                <TD class="tdHeaderBorder"  style="width: 250px;border-top: #000000 1px solid;">Description</TD>
+                                <TD class="tdHeaderBorder"  style="width: 85px;border-top: #000000 1px solid;">Quantity</TD>
+                                <TD class="tdHeaderBorder"  style="text-align:right;width: 100px;border-top: #000000 1px solid;">Unit Price</TD>
+                                <TD class="tdHeaderBorder"  style="text-align:right;width: 100px;border-right:#000000 1px solid;border-top: #000000 1px solid; ">Total Price</TD>
+                            </tr>
+                            <tr class ="trBorder" style="background: #b0c4de;">
+                                <TD colspan="6" class="tdBorder" style="border: #000000 1px solid; font: 12px;"><b> {!key}</b></TD>
+                            </tr>
+                            <apex:repeat value="{! quoteDetails.alternatesMap[key].quoteItems}" var="item">
+                                <tr class ="trBorder">
+                                    
+                                    <TD class="tdBorder"  style="border-left:#000000 1px solid;">{! IF(item.Custom_Part_Number__c != null, item.Custom_Part_Number__c,item.Item_Number__c)}</TD>
+                                    <TD class="tdBorder">{!item.Color__c}</TD>
+                                    <TD class="tdBorder">{!item.Description}<br/>
+                                         {!item.Description_2__c}<br/>{!item.Note__c}</TD>
+                                    <TD class="tdBorder"  >
+                                        <div style="width:100%;text-align: right;padding-right:10px">
+                                            <p class="pstyle3"> <apex:outputText value="{!FLOOR(item.Quantity)}"/> {!item.Unit_of_Measure__c}</p>
+                                        </div>
+                                    </TD>
+                                    <TD class="tdBorder" style="text-align:right;">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!item.UnitPrice}" />
+                                        </apex:outputText>
+                                    </TD>
+                                    <TD class="tdBorder" style="text-align:right;border-right:#000000 1px solid;">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!item.TotalPrice}" />
+                                        </apex:outputText>
+                                    </TD>
+                                </tr>
+                                <tr class ="trBorder">
+                                    <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2 tdBorder4" ></TD>
+                                </tr>
+                            </apex:repeat>
+                            
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        {!key} Material Total (US <NOBR>Dollars-EX-Works):</NOBR>
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping"><apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.alternatesMap[key].subTotal}" />
+                                        </apex:outputText> </p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2 tdBorder4" ></TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! quoteDetails.alternatesMap[key].freightCarrier}:
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping">   
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.alternatesMap[key].freightAmount}" />
+                                        </apex:outputText></p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2 tdBorder4" ></TD>
+                            </tr>
+                            
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        Product Tax Amount:
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.alternatesMap[key].productTax}" />
+                                        </apex:outputText>
+                                    </p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        Freight Tax Amount:
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.alternatesMap[key].freightTax}" />
+                                        </apex:outputText>
+                                    </p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2 tdBorder4" ></TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        {!key} Total: (USD)
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.alternatesMap[key].alternateTotalwTax}" />
+                                        </apex:outputText></p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border-bottom:#000000 1px solid" ></TD>
+                            </tr>
+                             <tr>
+                                <TD class="" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border:none" ></TD>
+                            </tr>
+                              <tr>
+                                <TD class="" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border:none" ></TD>
+                            </tr>
+                              <tr>
+                                <TD class="" style="border:none"><br/></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border:none" ></TD>
+                            </tr>
+                        </apex:repeat>
+                    </table>
+                    </apex:pageBlock>
+                    
+                    <apex:pageBlock rendered="{! !quoteDetails.isTaxable}"> 
+
+                    <table cellpadding="2" class="alternateTable">
+                        <apex:repeat value="{!quoteDetails.mapkey}" var="key">
+                            
+                            <tr class ="trBorder" style="background: #b0c4de;">
+                                <TD class="tdHeaderBorder"  style="width: 100px;border-left:#000000 1px solid;border-top: #000000 1px solid;">Part Number</TD>
+                                <TD class="tdHeaderBorder"  style="width: 100px;border-top: #000000 1px solid;">Color</TD>
+                                <TD class="tdHeaderBorder"  style="width: 250px;border-top: #000000 1px solid;">Description</TD>
+                                <TD class="tdHeaderBorder"  style="width: 85px;border-top: #000000 1px solid;">Quantity</TD>
+                                <TD class="tdHeaderBorder"  style="text-align:right;width: 100px;border-top: #000000 1px solid;">Unit Price</TD>
+                                <TD class="tdHeaderBorder"  style="text-align:right;width: 100px;border-right:#000000 1px solid;border-top: #000000 1px solid; ">Total Price</TD>
+                            </tr>
+                            <tr class ="trBorder" style="background: #b0c4de;">
+                                <TD colspan="6" class="tdBorder" style="border: #000000 1px solid; font: 12px;"><b> {!key}</b></TD>
+                            </tr>
+                            <apex:repeat value="{! quoteDetails.alternatesMap[key].quoteItems}" var="item">
+                                <tr class ="trBorder">
+                                    
+                                    <TD class="tdBorder"  style="border-left:#000000 1px solid;">{! IF(item.Custom_Part_Number__c != null, item.Custom_Part_Number__c,item.Item_Number__c)}</TD>
+                                    <TD class="tdBorder">{!item.Color__c}</TD>
+                                    <TD class="tdBorder">{!item.Description}
+                                        <br/> {!item.Description_2__c}<br/>{!item.Note__c}</TD>
+                                    <TD class="tdBorder"  >
+                                        <div style="width:100%;text-align: right;padding-right:10px">
+                                            <p class="pstyle3"> <apex:outputText value="{!FLOOR(item.Quantity)}"/> {!item.Unit_of_Measure__c}</p>
+                                        </div>
+                                    </TD>
+                                    <TD class="tdBorder" style="text-align:right;">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!item.UnitPrice}" />
+                                        </apex:outputText>
+                                    </TD>
+                                    <TD class="tdBorder" style="text-align:right;border-right:#000000 1px solid;">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!item.TotalPrice}" />
+                                        </apex:outputText>
+                                    </TD>
+                                </tr>
+                                <tr class ="trBorder">
+                                    <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                    <TD class="tdBorder2 tdBorder4" ></TD>
+                                </tr>
+                            </apex:repeat>
+                            
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        {!key} Material Total (US <NOBR>Dollars-EX-Works):</NOBR>
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping"><apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.alternatesMap[key].subTotal}" />
+                                        </apex:outputText> </p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2 tdBorder4" ></TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! quoteDetails.alternatesMap[key].freightCarrier}:
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping">   
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.alternatesMap[key].freightAmount}" />
+                                        </apex:outputText></p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2 tdBorder4" ></TD>
+                            </tr>
+                        
+                            <tr class ="trBorder">
+                                <TD  colspan="5" class="tdBorder" style="width: 150px;border-left:#000000 1px solid;" > 
+                                    <p class="pstyle pShipping">
+                                        {!key} Total: (USD)
+                                    </p>
+                                </TD>
+                                <TD class="tdBorder" style="width: 150px;border-right:#000000 1px solid;" >
+                                    <p class="pstyle3 pShipping">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.alternatesMap[key].alternateTotal}" />
+                                        </apex:outputText></p>
+                                    
+                                </TD>
+                            </tr>
+                            <tr class ="trBorder">
+                                <TD class="tdBorder2" style="width: 150px;border-left:#000000 1px solid;border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2" style="border-bottom:#000000 1px solid"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border-bottom:#000000 1px solid" ></TD>
+                            </tr>
+                             <tr>
+                                <TD class="" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border:none" ></TD>
+                            </tr>
+                              <tr>
+                                <TD class="" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border:none" ></TD>
+                            </tr>
+                              <tr>
+                                <TD class="" style="border:none"><br/></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2" style="border:none"></TD>
+                                <TD class="tdBorder2 tdBorder4" style="border:none" ></TD>
+                            </tr>
+                        </apex:repeat>
+                    </table>
+                    </apex:pageBlock>
+                   
+                    
+                </DIV>
+                <DIV id="page_2">
+                    
+                    
+                    <DIV id="id2_1">
+                        <apex:pageBlock rendered="{!quoteDetails.printGrandTotal}">
+                            <TABLE cellpadding="0" cellspacing="0" class="t2">
+                               
+                                <TR>
+                                    <TD class="tr4 td43"><P class="p23a ft15">Grand Total for ({!quoteDetails.quoteRecord.Project__c}):</P></TD>
+                                    <TD class="tr4 td2"><P class="p18 ft15">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.grandTotal}" />
+                                        </apex:outputText></P></TD>
+                                </TR>
+                                <TR>
+                                    <TD class="tr9 td44"><P class="p4 ft4">&nbsp;</P></TD>
+                                    <TD class="tr9 td15"><P class="p4 ft4">&nbsp;</P></TD>
+                                </TR>
+                                
+                            </TABLE>
+                        </apex:pageBlock>
+                        <P class="p25 ft6">By signing below we acknowledge that the materials, models, quantities, colors, and prices quoted are accepted as shown. All orders are subject to approval by the Credit Department. We also acknowledge the terms specified above. 2% discount not available on credit card payments, shipping charges or PREPAY accounts.</P>
+                        <P class="p26 ft0">Due to the volatility of freight rates, actual charges will be applied at the time of shipping.</P>
+                         <p  class="ft6" style="{!IF ((quoteDetails.opportunityRecord.Division_Abbreviation__c ='IPC'), 'display:none;','')}">
+                            This proposal is valid for thirty (30) days from the date of issue and subject to Inpro's Standard Terms and Conditions. Inpro reserves the right to adjust pricing after thirty (30) days based on current market volatility of raw materials.
+                            </p>
+                        <p  class="ft6" style=" {!IF (!(quoteDetails.opportunityRecord.Division_Abbreviation__c ='IPC'), 'display:none;','')} ">
+                            This proposal is valid for thirty (30) days from the date of issue and is subject to Inpro's Standard Terms and Conditions.
+                           Inpro reserves the right to adjust pricing during or after thirty (30) days based on current market volatility of raw materials.
+                        </p>
+                        <TABLE cellpadding="0" cellspacing="0" class="t4">
+                            <TR>
+                                <TD class="tr16 td47"><P class="p4 ft3">Authorized Signature:_______________________</P></TD>
+                                <TD class="tr16 td48"><P class="p4 ft9">Date:_______________________</P></TD>
+                            </TR>
+                        </TABLE>
+                        
+                    </DIV>
+                    
+                </DIV>
+            </div>
+            
+        </body>
+    </html>
+</apex:page>

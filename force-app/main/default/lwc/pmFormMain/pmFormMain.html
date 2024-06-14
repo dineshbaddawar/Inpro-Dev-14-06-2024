@@ -1,0 +1,61 @@
+<template>
+    <lightning-card title="Information">
+        <div class="slds-p-around_medium">
+            <lightning-record-edit-form record-id={recordId} object-api-name="Project_Management__c">
+                <lightning-input-field field-name="Name"></lightning-input-field>
+                <lightning-input-field field-name="Project_Management_Name__c"></lightning-input-field>
+                <lightning-input-field field-name="PO_Number__c"></lightning-input-field>
+                <lightning-input-field field-name="PO_Updated_Timestamp__c"></lightning-input-field>
+                <lightning-input-field field-name="Construction_Project__c"></lightning-input-field>
+                <lightning-input-field field-name="Colors__c"></lightning-input-field>
+                <lightning-input-field field-name="Colors_Approved__c"></lightning-input-field>
+                <lightning-input-field field-name="Award_Decision_Date__c"></lightning-input-field>
+                <lightning-input-field field-name="Bid_Due_Date__c"></lightning-input-field>
+                <lightning-input-field field-name="Lead_Time_Days__c"></lightning-input-field>
+                <lightning-input-field field-name="Contract_Based_on_Single_Quote__c"></lightning-input-field>
+                <lightning-input-field field-name="Credit_Line__c"></lightning-input-field>
+                <lightning-input-field field-name="Credit_Remaining__c"></lightning-input-field>
+                <lightning-input-field field-name="Project_Dollar_Amount__c"></lightning-input-field>
+                <lightning-input-field field-name="Materials_Needed_Date__c"></lightning-input-field>
+                <lightning-input-field field-name="Exact_Materials_Needed_Date_Date__c"></lightning-input-field>
+                <lightning-input-field field-name="Exact_Materials_Needed_Date__c"></lightning-input-field>
+                <lightning-input-field field-name="Tax_Exempt_Cert_Required__c"></lightning-input-field>
+                <lightning-input-field field-name="S_OP_Meeting_Required__c"></lightning-input-field>
+                <lightning-input-field field-name="Phasing_Requirement_Detail__c"></lightning-input-field>
+                <lightning-input-field field-name="Custom_Pricing_Needed__c"></lightning-input-field>
+                <lightning-input-field field-name="Custom_Part_Numbers__c"></lightning-input-field>
+                <lightning-input-field field-name="Custom_Product_Needed__c"></lightning-input-field>
+                <lightning-input-field field-name="Shipping_Instructions__c"></lightning-input-field>
+                <lightning-input-field field-name="Forklift__c"></lightning-input-field>
+                <lightning-input-field field-name="Standard_Packaging__c"></lightning-input-field>
+                <lightning-input-field field-name="Bulk_Packaging__c"></lightning-input-field>
+                <lightning-input-field field-name="General_Notes__c"></lightning-input-field>
+                <lightning-input-field field-name="Historical_Notes__c"></lightning-input-field>
+                <lightning-input-field field-name="LastModifiedById"></lightning-input-field>
+                <lightning-input-field field-name="CreatedById"></lightning-input-field>
+                <lightning-input-field field-name="Division__c" onchange={handleDivisionChange}></lightning-input-field>
+                <template if:true={showIPC}>
+                    <lightning-input-field field-name="Award_Decision_Date__c"></lightning-input-field>
+                </template>
+                <template if:true={showSignScape}>
+                    <lightning-input-field field-name="Bid_Due_Date__c"></lightning-input-field>
+                </template>
+                <lightning-button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Save"></lightning-button>
+            </lightning-record-edit-form>
+        </div>
+    </lightning-card>
+    <lightning-card title="Project Management Milestones">
+        <div class="slds-p-around_medium">
+            <div style="height: 300px;">
+                <lightning-datatable
+                    key-field="id"
+                    data={data}
+                    show-row-number-column
+                    row-number-offset={rowOffset}
+                    suppress-bottom-bar
+                    columns={columns}>
+                </lightning-datatable>
+            </div>
+        </div>
+    </lightning-card>
+</template>

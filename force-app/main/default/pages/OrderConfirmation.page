@@ -1,0 +1,281 @@
+<apex:page renderAs="PDF" standardStylesheets="false"  controller="OrderConfirmationController" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"></link>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style type="text/css">
+            @page {
+                margin-top:20px;
+                margin-bottom:150px;
+                size: 8.5in 11in;
+                margin-left: 0.3in;
+                margin-right: 0.3in;
+                size: portrait;
+                
+                @bottom-left {
+                content: element(footer);
+                }
+            }
+            div.header {
+                padding:20px;
+                position: header;
+                right:45px;
+            }
+            #middleHeader{
+                float:right;
+                width: 40%;
+            }
+        </style>
+    </head>
+    <body>
+        <apex:styleSheet value="{!URLFOR($Resource.bootstrapMin)}" />
+        <div class="header" style="font-family: Helvetica;">
+            <div id="middleHeader">
+                <apex:image url="{!$Resource.Inpro_Logo_With_Address}" width="250" height="150"/>
+            </div>
+        </div>
+        <div style="font-family: Helvetica;">
+            <table style="border-collapse:collapse;"  width="99%">    
+                <colgroup>
+                    <col span="1" style="width: 100%;text-align:left;font-family: Helvetica;"/>
+                </colgroup>                
+                <tr>    
+                    <td><b>Customer #: </b>{!orderConfirmationWrapper.customerNumber}</td>          
+                </tr>
+                <tr>    
+                    <td><b>Reference: </b>{!orderConfirmationWrapper.reference}</td>          
+                </tr>         
+                <tr>    
+                    <td><b>Quote Name: </b>{!orderConfirmationWrapper.quoteName}</td>          
+                </tr>                
+            </table>
+
+            <h2 style="color:rgb(255, 0, 0); text-align:left;">Order Confirmation ({!orderConfirmationWrapper.orderNumber})<br/>Ship Date:&nbsp; <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                <apex:param value="{!orderConfirmationWrapper.shipDate}" /> 
+                </apex:outputText></h2>
+            <table width="99%" class="table table-striped table-bordered" style="font-family: Helvetica;">    
+                <colgroup>
+                    <col span="1" style="width: 50%;text-align:left;font-family: Helvetica;"/>   
+                    <col span="1" style="width: 50%;text-align:left;font-family: Helvetica;"/>                   
+                </colgroup>
+                    <tr style="background: #dbebff;">    
+                        <td><b>Sold To:</b></td>  
+                        <td><b>Ship To:</b></td>                                
+                    </tr>                 
+                    <tr>
+                        <td style="text-align:left">{!orderConfirmationWrapper.companyName}</td>    
+                        <td style="text-align:left">{!orderConfirmationWrapper.companyName}</td>                    
+                    </tr> 
+                    <tr>
+                        <td style="text-align:left">{!orderConfirmationWrapper.companyAddress1}</td>    
+                        <td style="text-align:left">{!orderConfirmationWrapper.shipToAddress1}</td>                    
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{!orderConfirmationWrapper.companyAddress2}</td>    
+                        <td style="text-align:left">{!orderConfirmationWrapper.shipToAddress2}</td>                    
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{!orderConfirmationWrapper.companyAddress3}</td>    
+                        <td style="text-align:left">{!orderConfirmationWrapper.shipToAddress3}</td>                    
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">{!orderConfirmationWrapper.companyAddress4}</td>    
+                        <td style="text-align:left">{!orderConfirmationWrapper.shipToAddress4}</td>                    
+                    </tr>
+                    <tr>
+                        <td style="text-align:left"></td>    
+                        <td style="text-align:left"><b style="color:red;">Shipping Contact: </b>{!orderConfirmationWrapper.shippingContact}</td>                    
+                    </tr>
+            </table><br/>
+            
+            <table width="99%" class="table table-striped table-bordered">    
+                <colgroup>
+                    <col span="1" style="width: 15%;text-align:left;font-family: Helvetica;font-size:8px;"/>
+                    <col span="1" style="width: 25%;text-align:left;font-family: Helvetica;font-size:8px;"/>
+                    <col span="1" style="width: 15%;text-align:left;font-family: Helvetica;font-size:8px;"/>
+                    <col span="1" style="width: 15%;text-align:left;font-family: Helvetica;font-size:8px;"/>
+                    <col span="1" style="width: 15%;text-align:left;font-family: Helvetica;font-size:8px;"/>
+                    <col span="1" style="width: 15%;text-align:left;font-family: Helvetica;font-size:8px;"/>
+                </colgroup>
+                <tr style="background: #dbebff;">    
+                    <th>Ship Date</th>
+                    <th>PO Number</th>
+                    <th>Ship Via</th> 
+                    <th>Order Date</th> 
+                    <th>Sales Rep</th> 
+                    <th>Terms</th>                 
+                </tr>                                
+                <tr>
+                    <td>
+                        <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                        <apex:param value="{!orderConfirmationWrapper.shipDate}" /> 
+                        </apex:outputText>
+                    </td>
+                    <td>{!orderConfirmationWrapper.poNumber}</td>
+                    <td>{!orderConfirmationWrapper.shipVia}</td>
+                    <td>
+                        <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                        <apex:param value="{!orderConfirmationWrapper.orderDate}" /> 
+                        </apex:outputText>
+                    </td>
+                    <td>{!orderConfirmationWrapper.salesRep}</td>
+                    <td>{!orderConfirmationWrapper.terms}</td>                                        
+                </tr>
+            </table><br/>
+            <div style=" {!IF (orderConfirmationWrapper.isLumpSum,'display:none;', 'display:block;')}">
+                <table width="99%" class="table table-striped table-bordered">    
+                    <colgroup>
+                        <col span="1" style="width: 15%;font-family: Helvetica;"/>
+                        <col span="1" style="width: 40%;font-family: Helvetica;"/>
+                        <col span="1" style="width: 10%;font-family: Helvetica;"/>
+                        <col span="1" style="width: 8%;font-family: Helvetica;"/>
+                        <col span="1" style="width: 13%;font-family: Helvetica;"/>
+                    </colgroup>
+                    <tr style="background: #dbebff;">    
+                        <th>Item Number</th>
+                        <th>Description</th> 
+                        <th style="text-align:right;">Unit Price</th> 
+                        <th style="text-align:right;">Quantity</th>
+                        <th style="text-align:right;">Amount</th>                
+                    </tr>
+                    <apex:repeat value="{!orderConfirmationWrapper.orderItems}" var="Item">
+                        <tr>    
+                            <td>{!Item.itemNumber}</td>  
+                            <td>{!Item.description}</td> 
+                            <td style="text-align:right;"><apex:outputText value="{0, number, currency}">
+                                <apex:param value="{!Item.unitPrice}" />
+                            </apex:outputText></td>  
+                            <td style="text-align:right;"><apex:outputText value="{0, number, ###,###}">
+                                <apex:param value="{!Item.quantity}" />
+                            </apex:outputText></td> 
+                            <td style="text-align:right;"><apex:outputText value="{0, number, currency}">
+                                <apex:param value="{!Item.amount}" />
+                            </apex:outputText></td>                          
+                        </tr> 
+                    </apex:repeat>                                
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><b>Material Total:</b></td>
+                        <td style="text-align:right;">
+                            <apex:outputText value="{0, number, currency}">
+                                <apex:param value="{!orderConfirmationWrapper.subTotal}" />
+                            </apex:outputText>
+                        </td>                                        
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><b>Shipping Total:</b></td>
+                        <td style="text-align:right;">
+                            <apex:outputText value="{0, number, currency}">
+                                <apex:param value="{!orderConfirmationWrapper.shippingCost}" />
+                            </apex:outputText>
+                        </td>                                        
+                    </tr> 
+                    <tr style="background: #f0f0f0; height:20px;">
+                        <td colspan="5" style="text-align:center;">
+                            <b></b>
+                        </td>                                                          
+                    </tr>               
+                    <tr style="background: #f0f0f0;">
+                        <td colspan="5" style="text-align:center;">
+                            <b>DO NOT PAY. INVOICE TO FOLLOW</b>
+                        </td>                                                          
+                    </tr>
+                    <tr style="background: #f0f0f0;">
+                        <td colspan="5" style="text-align:center;">
+                            <b>Actual shipping and taxes will be added when invoiced.<br/>If you require any customer service assistance, please contact your sales representative<br/>listed above by email or please call 800-222-5556.</b>
+                        </td>                                                          
+                    </tr>
+                </table>
+            </div>
+            <div style=" {!IF (orderConfirmationWrapper.isLumpSum,'display:block; width:99%;', 'display:none;')}">
+                <table width="99%" class="table table-striped table-bordered">    
+                    <colgroup>
+                        <col span="1" style="width: 25%;font-family: Helvetica;"/>
+                        <col span="1" style="width: 55%;font-family: Helvetica;"/>
+                        <col span="1" style="width: 20%;font-family: Helvetica;"/>
+                    </colgroup>
+                    <tr style="background: #dbebff;">    
+                        <th>Item Number</th>
+                        <th>Description</th>  
+                        <th style="text-align:right;">Quantity</th>
+                    </tr>
+                    <apex:repeat value="{!orderConfirmationWrapper.orderItems}" var="Item">
+                        <tr>    
+                            <td>{!Item.itemNumber}</td>  
+                            <td>{!Item.description}</td>  
+                            <td style="text-align:right;"><apex:outputText value="{0, number, ###,###}">
+                                <apex:param value="{!Item.quantity}" />
+                            </apex:outputText></td>                          
+                        </tr> 
+                    </apex:repeat>                                
+                    <tr>
+                        <td></td>
+                        <td style="text-align:right;"><b>Material Total:</b></td>
+                        <td style="text-align:right;">
+                            <apex:outputText value="{0, number, currency}">
+                                <apex:param value="{!orderConfirmationWrapper.subTotal}" />
+                            </apex:outputText>
+                        </td>                                        
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align:right;"><b>Shipping Total:</b></td>
+                        <td style="text-align:right;">
+                            <apex:outputText value="{0, number, currency}">
+                                <apex:param value="{!orderConfirmationWrapper.shippingCost}" />
+                            </apex:outputText>
+                        </td>                                        
+                    </tr> 
+                    <tr style="background: #f0f0f0; height:20px;">
+                        <td colspan="3" style="text-align:center;">
+                            <b></b>
+                        </td>                                                          
+                    </tr>               
+                    <tr style="background: #f0f0f0;">
+                        <td colspan="3" style="text-align:center;">
+                            <b>DO NOT PAY. INVOICE TO FOLLOW</b>
+                        </td>                                                          
+                    </tr>
+                    <tr style="background: #f0f0f0;">
+                        <td colspan="3" style="text-align:center;">
+                            <b>Actual shipping and taxes will be added when invoiced.<br/>If you require any customer service assistance, please contact your sales representative<br/>listed above by email or please call 800-222-5556.</b>
+                        </td>                                                          
+                    </tr>
+                </table>
+            </div>
+            <!-- <h3 style="color:rgb(19, 123, 226); text-align:center;">Bill of Lading Information</h3>
+            <table width="99%" class="table table-striped table-bordered">    
+                <colgroup>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 25%;text-align:left"/>
+                </colgroup>
+                <tr style="background: #dbebff;">    
+                    <th>Lift Gate</th>
+                    <th>Driver Wait</th>
+                    <th>Loading Dock</th> 
+                    <th>Residential</th> 
+                    <th>Construction Site</th> 
+                    <th>Service Call</th>                 
+                </tr>                                
+                <tr>
+                    <td>{!orderConfirmationWrapper.liftGate}</td>
+                    <td>{!orderConfirmationWrapper.driverWait}</td>
+                    <td>{!orderConfirmationWrapper.loadingDock}</td>
+                    <td>{!orderConfirmationWrapper.residential}</td>
+                    <td>{!orderConfirmationWrapper.constructionSite}</td>
+                    <td>{!orderConfirmationWrapper.serviceCall}</td>                                        
+                </tr>
+            </table> -->
+        </div>       
+    </body>
+</html>
+</apex:page>

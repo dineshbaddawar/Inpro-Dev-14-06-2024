@@ -1,0 +1,890 @@
+<apex:page renderAs="PDF" controller="IPC1001Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+   <apex:form >
+      <apex:repeat value="{!customForm.quoteLines[0]}" var="quoteLine">
+         <title>IPC1001</title>
+         <head>
+            <style type="text/css">
+               @page {
+               size: 8.5in 11in portrait;
+               margin-top: 0.2in;
+               margin-bottom: 0.2in;
+               margin-left: 0.4in;
+               margin-right: 0.3in;
+               background-repeat: no-repeat;
+               background-position: center;
+               @top-center {
+               content: element(header);
+               }
+               @bottom-left {
+               content: element(footer);
+               }
+               }
+               div.header {
+               padding: 10px;
+               position: running(header);
+               }
+            </style>
+         </head>
+         <body style="font-family: sans-serif; font-size: 8pt;">
+            <!--Header-->
+            <div class="header">
+               <table style="width:100%">
+                  <tr>
+                     <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                     <td style="text-align: right;">
+                        Custom Product Order Form
+                        <div style="text-align: right; font-weight:bold;">
+                           3500/3510/3520/3530/3540/ Series Handrail
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+               <hr style="border-width:1px;" />
+               <p style="padding-left: 6pt;text-align: left;">
+                  Please complete the following information based on field verified dimensions.
+                  Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your
+                  order. <br /> Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+               </p>
+            </div>
+            <!--Header Table-->
+            <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+               <tr>
+                  <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                  <td style="width: 20%; border: 1px solid black;"></td>
+                  <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                  <td style="width: 35%; border: 1px solid black;">
+                     <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                  </td>
+               </tr>
+               <tr>
+                  <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                  <td style="width: 20%; border: 1px solid black;">
+                     <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                  </td>
+                  <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                  <td style="width: 35%; border: 1px solid black;">
+                     <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                  </td>
+               </tr>
+               <tr>
+                  <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                  <td style="width: 20%; border: 1px solid black;">
+                     <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                  </td>
+                  <td style="width: 20%; border: 1px solid black;">Account #</td>
+                  <td style="width: 35%; border: 1px solid black;">
+                     <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                  </td>
+               </tr>
+            </table>
+            <br/>
+            <div style="width:100%;">
+               <div style="width:45%;border: 1px solid black; float: left;">
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                     <tr>
+                        <td style="width: 50%; ">Handrail Top - Select One</td>
+                        <td style="width: 5%; "></td>
+                        <td style="width: 10%; ">P/N:</td>
+                        <td style="width: 35%; ">
+                           <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                        </td>
+                     </tr>
+                     <hr/>
+                  </table>
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                     <tr>
+                        <td style="width: 30%; ">Stright Lengths</td>
+                        <td style="width: 5%; "></td>
+                        <td style="width: 20%; "># of 12'pc:</td>
+                        <td style="width: 10%; "></td>
+                        <td style="width: 25%; ">SS Lineal Ft:</td>
+                        <td style="width: 10%; "></td>
+                     </tr>
+                     <hr/>
+                  </table>
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">PVC Round Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">PVC Oval Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">Woodgrain Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">G2 Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">Metal Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; ">(Power Coat Only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">SS Round Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "> &nbsp;LF:__________ </td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">SS Oval Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "> &nbsp;LF:__________ </td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">Wood Maple Top</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                  </table>
+                  <div style="padding:5px;">
+                  <b> Color/Stain &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;________________________ </b><br/>
+                  <b>Color/Stain Number &nbsp;&nbsp;________________________</b>
+              </div>
+                  <hr/>
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                     <tr>
+                        <td style="width: 50%; ">Handrail Bottom - Select One</td>
+                        <td style="width: 50%; "></td>
+                     </tr>
+                     <hr/>
+                  </table>
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                     <tr>
+                        <td style="width: 30%; ">Stright Lengths</td>
+                        <td style="width: 5%; "></td>
+                        <td style="width: 20%; "># of 12'pc:</td>
+                        <td style="width: 10%; "></td>
+                        <td style="width: 25%; ">SS Lineal Ft:</td>
+                        <td style="width: 10%; "></td>
+                     </tr>
+                     <hr/>
+                  </table>
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">PVC Bottom</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">Woodgrin Bottom</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">G2 Bottom</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; "></td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 35%; ">Metal Bottom</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 53%; ">(Power Coat Only)</td>
+                     </tr>
+                  </table>
+                  <div style="padding:5px;">
+                    <b> Color &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ________________________ </b><br/>
+                    <b>Color Number &nbsp;____________________________</b><br/>
+                  </div>
+                  
+                  <!-- <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 5px;">
+                     <tr>
+                        <td style="width: 25%;">Custom:</td>
+                        <td style="width: 40%;">_____________</td>
+                        <td style="width: 10%;">Qty:</td>
+                        <td style="width: 25%;">______</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 25%;">Custom:</td>
+                        <td style="width: 40%;">_____________</td>
+                        <td style="width: 10%;">Qty:</td>
+                        <td style="width: 25%;">______</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 25%;">Custom:</td>
+                        <td style="width: 40%;">_____________</td>
+                        <td style="width: 10%;">Qty:</td>
+                        <td style="width: 25%;">______</td>
+                     </tr>
+                  </table> -->
+               </div>
+
+               <div style="width:45%;border: 1px solid black; float: right;">
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                     <tr>
+                        <td style="width: 50%; "><strong>Return/Corners (Qty.)</strong></td>
+                        <td style="width: 50%; ">
+                           <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                        </td>
+                     </tr>
+                     <hr/>
+                  </table>
+
+                  <table>
+                     <tr>
+                        <td style="width: 20%; ">__________</td>
+                        <td style="width: 45%; ">Left Return</td>
+                        <td style="width: 10%; ">P/N</td>
+                        <td style="width: 25%; ">__________</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 20%; ">__________</td>
+                        <td style="width: 45%; ">Right Return</td>
+                        <td style="width: 10%; ">P/N</td>
+                        <td style="width: 25%; ">__________</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 20%; ">__________</td>
+                        <td style="width: 45%; ">Outside Corner</td>
+                        <td style="width: 10%; ">P/N</td>
+                        <td style="width: 25%; ">__________</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 20%; ">__________</td>
+                        <td style="width: 45%; ">Inside Corner</td>
+                        <td style="width: 10%; ">P/N</td>
+                        <td style="width: 25%; ">__________</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 20%; ">__________</td>
+                        <td style="width: 45%; ">135&#176; Outside Corner</td>
+                        <td style="width: 10%; ">P/N</td>
+                        <td style="width: 25%; ">__________</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 20%; ">__________</td>
+                        <td style="width: 45%; ">135&#176; Inside Corner</td>
+                        <td style="width: 10%; ">P/N</td>
+                        <td style="width: 25%; ">__________</td>
+                     </tr>
+                     <p style="font-size: 8px;">
+                        &nbsp;&nbsp; Note: 135&#176; is not available in full Wrap or Metal.
+                     </p>
+                     <hr/>
+                     <tr>
+                        <td>Return/Corner Top - Select One</td>
+                     </tr>
+                     <hr/>
+                  </table>
+
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 5px;">
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">PVC Round </td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; ">(with PVC Round Top onlt)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">PVC Oval</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; ">(with PVC Oval Top only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">Woodgrain PVC</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; ">(with Full Wrap Top Only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">G2</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; ">(with BioPolyPETG Top only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">Metal</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; ">(with Metal or Wood Top Only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">Maple</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; "> (with Maple Wood Top only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">SS</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; "> (with Metal or Wood Top only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">SS Round</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; ">(with SS Round Top only)</td>
+                     </tr>
+                     <tr>
+                        <td style="width: 2%; "></td>
+                        <td style="width: 28%; ">SS Oval</td>
+                        <td style="padding: 10px;">
+                           <div
+                              style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                        </td>
+                        <td style="width: 60%; ">(with SS Oval Top only)</td>
+                     </tr>
+                  </table>
+
+                  <!-- <br/><br/><b> Color/Stain &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ____________________ </b><br/>
+                     <b>Color/Stain Number &nbsp;_______________________</b> -->
+                    <div style="padding:5px;">
+                        <b> Color/Stain &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;________________________ </b><br/>
+                        <b>Color/Stain Number &nbsp;&nbsp;________________________</b>
+                    </div>
+                  <p style="padding:3px;font-size:10px;">
+                     Note: The Bottom return/corner is aalways the same as the Straight bottom.
+                  </p>
+                  <div style="padding:5px;">
+                    <b> Custom: __________________   Qty:___________</b><br/>
+                    <b> Custom: __________________   Qty:___________</b><br/>
+                    <b> Custom: __________________   Qty:___________</b>
+                </div>
+                <br/>
+                  
+                  <!-- <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 5px;">
+                     <tr>
+                     <td style="width: 25%;">Custom:</td>
+                          <td style="width: 40%;">_____________</td>
+                          <td style="width: 10%;">Qty:</td>
+                          <td style="width: 25%;">______</td>
+                     </tr>
+                     <tr>
+                     <td style="width: 25%;">Custom:</td>
+                          <td style="width: 40%;">_____________</td>
+                          <td style="width: 10%;">Qty:</td>
+                          <td style="width: 25%;">______</td>
+                     </tr>
+                     <tr>
+                     <td style="width: 25%;">Custom:</td>
+                          <td style="width: 40%;">_____________</td>
+                          <td style="width: 10%;">Qty:</td>
+                          <td style="width: 25%;">______</td>
+                     </tr>
+                     
+                     </table> -->
+               </div>
+            </div>
+            <!--                 
+               <br/><br/><br/>
+                     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                       <br/><br/><br/> -->
+            <!-- <div style="width:100%;border: 1px solid black;">
+               <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                   <tr>
+                   	<td style="width: 15%;">Bracket Qty.</td>
+                       <td style="width: 10%;">________</td>
+                       <td style="width: 15%;">Bracket P/N</td>
+                       <td style="width: 10%;">_______</td>
+                       <td style="width: 15%;">Splice Qty.</td>
+                       <td style="width:10%;">______</td>
+                       <td style="width: 15%;">Splice P/N</td>
+                       <td style="width: 5%;">________</td>
+                       <td style="width: 5%;"></td>
+                       
+                       
+                   </tr>
+                   </table>
+                   <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                   <tr>
+                       <td style="width: 30%;">Plastic Bracket Color Name/#</td>
+                       <td style="width: 20%;">________</td>
+                       <td style="width: 25%;">SS Stem Color Name/#</td>
+                       <td style="width: 15%;">_______</td>
+                       <td style="width: 10%;">(Power Coat Only)</td>
+                   </tr>
+               </table>
+               <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                   <tr>
+                       <td style="width: 30%;">Wall Type (check one):</td>
+                       <td style="padding: 10px;">
+               <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+               </td>
+                       <td style="width: 15%;">Concrete</td>
+                       <td style="padding: 10px;">
+               <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+               </td>
+                       <td style="width: 15%;">Drywall</td>
+                       <td style="padding: 10px;">
+               <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+               </td>
+                       <td style="width: 15%;">Wood</td>
+                   </tr>
+               </table>
+               <p>
+                  &nbsp; &nbsp; * &nbsp; &nbsp; &nbsp; REFER TO THE HANDRAIL GUIDE FOR PART NUMBERS.<br/>
+                  &nbsp; &nbsp; * &nbsp; &nbsp; &nbsp; 3500 orders with HR9 top include one HR9TKIT at no charge,and NH-Stain Kit at no charge.
+               </p>
+               
+               </div> -->
+            <!-- Bottom Footer -->
+            <!-- <div  class="footer"> -->
+            <!-- <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+               <tr>
+                   <td style="border: 1px solid black; padding:6px;">
+                       FOR INPRO USE ONLY
+                   </td>
+                   <td style="border: 1px solid black; padding:6px;">
+                       {!customForm.quoteRecord.Inside_Rep__c}
+                   </td>
+                   <td style="border: 1px solid black; padding:6px;">
+                       Customer Order #:
+                   </td>
+               </tr>
+               <tr>
+                   <td style="border: 1px solid black; padding:6px;">
+                   Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                   </td>
+                   <td style="border: 1px solid black; padding:6px;">
+                       Inpro Drawing: N/A
+                   </td>
+                   <td style="border: 1px solid black;padding:6px;">
+                       Inpro #:
+                   </td>
+               </tr>            
+               </table>
+               
+               <table style="width:100%; padding:2px;">
+               <br/>
+               <tr>
+               <td style="width:5%;font-size:  large;">inpro.com</td>
+               <td style="width:70%;font-size: medium;"><strong>800.222.5556 / Fax: 888.715.8407</strong></td>
+               <td style="width:15%; font-size: very small;">IPC.1001/Rev.20</td>
+               </tr>
+               </table>
+               
+               </div>
+                  
+                   Header
+                   <div class="header">
+                       <table style="width:100%">
+                           <tr>
+                               
+                                    <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                               
+                              
+                               <td style="text-align: right;">
+                                   Custom Product Order Form
+                                   <div style="text-align: right; font-weight:bold;">
+                                       3500/3510/3520/3530/3540/ Series Handrail<br/>
+                                   Stainless Steel Top and/or Bottom Rail</div>
+                               </td>
+                           </tr>
+                       </table>
+                       <hr style="border-width:1px;" />
+                       <p style="padding-left: 6pt;text-align: left;">
+                           Please complete the following information based on field verified dimensions.
+                           Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your
+                           order. <br /> Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                       </p>
+                   </div>
+                   
+                   <div style="width:100%;border: 1px solid black;">
+                       
+                
+                       <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                           <tr>
+                               <td style="width: 30%;"> &nbsp; &nbsp; &nbsp; &nbsp;SS Handrail Type </td>
+                               <td style="padding: 10px;">
+                       <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                   </td>
+                               <td style="width: 15%;">900SSR</td>
+                               <td style="padding: 10px;">
+                       <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                   </td>
+                               <td style="width: 15%;">900SSO</td>
+                               <td style="padding: 10px;">
+                       <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                   </td>
+                               <td style="width: 15%;">350050SS</td>
+                               <td style="padding: 10px;">
+                       <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"></div>
+                   </td>
+                               <td style="width: 15%;">350050SSD</td>
+                           </tr>
+                       </table>
+               
+               <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+               <tr style="border: 1px solid #333;">
+                 <th style="border: 1px solid #333;text-align: center;"> Handrail<br/># </th>
+                  <th style="border: 1px solid #333;text-align: center;"> Location of Handrail Section </th>
+                 <th style="border: 1px solid #333;text-align: center;"> Left End Handrail Condition</th>
+                  <th style="border: 1px solid #333;text-align: center;"> Actual Distance Between Left &amp; Right End Conditions
+                       Feet-Inches (Meters)</th>
+                  <th style="border: 1px solid #333;text-align: center;"> Right End Condition </th>
+               </tr>
+               <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+               <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           <tr>
+                  <td style="border: 1px solid #333;text-align: center;">1</td>
+                  <td style="border: 1px solid #333;text-align: center;">2</td>
+                  <td style="border: 1px solid #333;text-align: center;">3</td>
+                  <td style="border: 1px solid #333;text-align: center;">4</td>
+                  <td style="border: 1px solid #333;text-align: center;">5</td>
+               </tr>
+                           
+                           
+               </table> -->
+            <!-- </div>
+               <br/> -->
+            <!-- Bottom Footer -->
+            <!-- <div  class="footer">
+               <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                   <tr>
+                       <td style="border: 1px solid black; padding:6px;">
+                           FOR INPRO USE ONLY
+                       </td>
+                       <td style="border: 1px solid black; padding:6px;">
+                           {!customForm.quoteRecord.Inside_Rep__c}
+                       </td>
+                       <td style="border: 1px solid black; padding:6px;">
+                           Customer Order #:
+                       </td>
+                   </tr>
+                   <tr>
+                       <td style="border: 1px solid black; padding:6px;">
+                       Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                       </td>
+                       <td style="border: 1px solid black; padding:6px;">
+                           Inpro Drawing: N/A
+                       </td>
+                       <td style="border: 1px solid black;padding:6px;">
+                           Inpro #:
+                       </td>
+                   </tr>            
+               </table>
+               
+               <table style="width:100%; padding:2px;">
+                  <br/>
+               <tr>
+               <td style="width:5%;font-size:  large;">inpro.com</td>
+               <td style="width:70%;font-size: medium;"><strong>800.222.5556 / Fax: 888.715.8407</strong></td>
+               <td style="width:15%; font-size: very small;">IPC.1001/Rev.20</td>
+               </tr>
+               </table> -->
+            <!-- <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> -->
+            <!--Header-->
+            <!-- <div class="header">
+               <table style="width:100%">
+                   <tr>
+                       
+                            <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                       
+                      
+                       <td style="text-align: right;">
+                           Custom Product Order Form
+                           <div style="text-align: right; font-weight:bold;">
+                               3500/3510/3520/3530/3540/ Series Handrail<br/>
+                           Stainless Steel Top and/or Bottom Rail</div>
+                       </td>
+                   </tr>
+               </table>
+               <hr style="border-width:1px;" />
+               <p style="padding-left: 6pt;text-align: left;">
+                   Please complete the following information based on field verified dimensions.
+                   Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your
+                   order. <br /> Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+               </p>
+               </div> -->
+            <!-- <p>
+               1.&nbsp;&nbsp;&nbsp;	<b>HANDRAIL # -</b> Identify/label as 1, 2, 3, etc. (Handrail sections will be labeled for field location).<br/>
+               2.&nbsp;&nbsp;&nbsp;	<b>LOCATION: HANDRAIL SECTION -</b> Identify/label as floor, room #, corridor, North, South, East, West, etc.<br/>
+               3.	&nbsp;&nbsp;&nbsp;<b>LEFT OR RIGHT END CONDITION -</b> Choose from the following handrail end conditions: End, IC/lnside Corner, <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IC 135/1nside Corner, OC/Outside Corner, OC 135/0utside Corner 135 0 , or Straight Cut handrail end.<br/>
+               4.	&nbsp;&nbsp;&nbsp;<b>ACTUAL DISTANCE BETWEEN CONDITIONS -</b> Measure distance between left and right handrail end condition <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and enter dimension in feet and inches (meters).
+               
+                   </p> -->
+            <!-- <div>
+               <h2>
+                Image should be insert here.
+                
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                </h2>
+               </div> -->
+            <!-- <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+               <tr style="border: 1px solid #333;">
+                   <th style="border: 1px solid #333;text-align: center;"> Handrail<br/># </th>
+                    <th style="border: 1px solid #333;text-align: center;"> Location of Handrail Section </th>
+                   <th style="border: 1px solid #333;text-align: center;"> Left End Handrail Condition</th>
+                    <th style="border: 1px solid #333;text-align: center;"> Actual Distance Between Left &amp; Right End Conditions
+                         Feet-Inches (Meters)</th>
+                    <th style="border: 1px solid #333;text-align: center;"> Right End Condition </th>
+               </tr>
+               <tr>
+                    <td style="border: 1px solid #333;text-align: center;">1</td>
+                    <td style="border: 1px solid #333;text-align: center;">Room 4 South</td>
+                    <td style="border: 1px solid #333;text-align: center;">Return</td>
+                    <td style="border: 1px solid #333;text-align: center;">10'-6"</td>
+                    <td style="border: 1px solid #333;text-align: center;">IC</td>
+               </tr>
+               <tr>
+                    <td style="border: 1px solid #333;text-align: center;">2</td>
+                    <td style="border: 1px solid #333;text-align: center;">Room 5 West</td>
+                    <td style="border: 1px solid #333;text-align: center;">IC</td>
+                    <td style="border: 1px solid #333;text-align: center;">5' - 8 3/8"</td>
+                    <td style="border: 1px solid #333;text-align: center;">oc</td>
+               </tr>
+                 <tr>
+                    <td style="border: 1px solid #333;text-align: center;">3</td>
+                    <td style="border: 1px solid #333;text-align: center;">Room 5 South</td>
+                    <td style="border: 1px solid #333;text-align: center;">oc</td>
+                    <td style="border: 1px solid #333;text-align: center;">7'-0"</td>
+                    <td style="border: 1px solid #333;text-align: center;">Straight Cut</td>
+               </tr>
+               </table>
+                     </div>
+                     <br/> -->
+            <!-- Bottom Footer -->
+            <!-- <div  class="footer">
+               <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                   <tr>
+                       <td style="border: 1px solid black; padding:6px;">
+                           FOR INPRO USE ONLY
+                       </td>
+                       <td style="border: 1px solid black; padding:6px;">
+                           {!customForm.quoteRecord.Inside_Rep__c}
+                       </td>
+                       <td style="border: 1px solid black; padding:6px;">
+                           Customer Order #:
+                       </td>
+                   </tr>
+                   <tr>
+                       <td style="border: 1px solid black; padding:6px;">
+                       Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                       </td>
+                       <td style="border: 1px solid black; padding:6px;">
+                           Inpro Drawing: N/A
+                       </td>
+                       <td style="border: 1px solid black;padding:6px;">
+                           Inpro #:
+                       </td>
+                   </tr>            
+               </table>
+               
+               <table style="width:100%; padding:2px;">
+                  <br/>
+               <tr>
+               <td style="width:5%;font-size:  large;">inpro.com</td>
+               <td style="width:70%;font-size: medium;"><strong>800.222.5556 / Fax: 888.715.8407</strong></td>
+               <td style="width:15%; font-size: very small;">IPC.1001/Rev.20</td>
+               </tr>
+               </table>
+               
+               
+                
+               
+               </div> -->
+         </body>
+      </apex:repeat>
+   </apex:form>
+</apex:page>

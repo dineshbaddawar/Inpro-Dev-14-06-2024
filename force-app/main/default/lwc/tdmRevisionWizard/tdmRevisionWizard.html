@@ -1,0 +1,156 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                    <div if:true={mainForm}>
+                        <h3 slot="title">
+                            <lightning-icon icon-name="utility:save" alternative-text="Create Revision" size="medium"
+                                title="Create Revision" onclick={createRevision} class="pointer">
+                            </lightning-icon>
+                            &nbsp;<strong>Revision Wizard</strong>
+                        </h3>
+                        <div if:true={containsExperlogixPublishSet}>
+                            <p style="color: red;"><strong>Warning: This document is also an automated form in Salesforce, 
+                                please be sure to submit an IT Request to get that version of the document updated.</strong></p>
+                        </div>
+                        <lightning-combobox name="Type" label="Type:" placeholder="--None--"
+                            options={TypeList} value={Type} onchange={handleInputUpdate} required="true">
+                        </lightning-combobox>                    
+                        <lightning-textarea required="true" value={ChangeDetail} name="ChangeDetail" label="Change Detail:"
+                            onchange={handleInputUpdate}>
+                        </lightning-textarea>                       
+
+                        <!--File Upload Grid-->
+                        <div>
+                            <!-- <div class="slds-m-around_medium">
+                                <lightning-input type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf, .txt"
+                                    label="Attachment" onchange={openfileUpload}></lightning-input>
+                            </div> -->
+                            <lightning-file-upload label="Choose File" name="fileUploader"
+                                        accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf, .txt, .zip, .dwg, .rfa" record-id={trashCanId}
+                                        onuploadfinished={handleUploadFinished}>
+                                    </lightning-file-upload>
+                            <table style="padding:10px;"
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <thead>
+                                    <th></th>
+                                    <th>File</th>
+                                    <th>Suggested Location</th>
+                                    <th>Choose Location</th>
+                                </thead>
+                                <tbody>
+                                    <template for:each={fileList} for:item="file">
+                                        <tr key={file.Id}>
+                                            <td>
+                                                <lightning-button label="Delete" onclick={deleteFile}
+                                                    accesskey={file.Id}>
+                                                </lightning-button>
+                                            </td>
+                                            <td>{file.FileName}</td>
+                                            <td>{file.SuggestedLocations}</td>
+                                            <td>
+                                                <lightning-button label="Choose" onclick={pickLocation}
+                                                    accesskey={file.Id}></lightning-button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <template if:true={fileData}>
+                                <p>{fileData.filename}</p>
+                            </template>                           
+                        </div>
+                        <!--End File Upload Grid-->
+                    </div>
+
+                    <div if:true={chooseLocation}>
+                        <lightning-button style="padding: 10px;" label="Inpro Insider" name="InproInsider"
+                            onclick={handleLocationSelection}></lightning-button>
+                        <lightning-button style="padding: 10px;" label="PDF Portal" name="PDFPortal"
+                            onclick={handleLocationSelection}></lightning-button>
+                        <lightning-button style="padding: 10px;" label="Website" name="Website"
+                            onclick={handleLocationSelection}></lightning-button>
+                        <lightning-button style="padding: 10px;" label="Experlogix" name="Experlogix"
+                            onclick={handleLocationSelection}></lightning-button>
+                            <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                            </lightning-button>
+                    </div>
+
+                    <div if:true={pdfPortalLocation}>
+                        <lightning-combobox style="padding: 10px;" name="PdfPortalCategory" label="Category Name"
+                            placeholder="--None--" options={pdfPortalCategoryList} onchange={handleInputUpdate}
+                            required="true">
+                        </lightning-combobox>
+                        <lightning-button label="Done" onclick={finishPDFPortalSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                        </lightning-button>
+
+                    </div>
+
+                    <div if:true={websiteLocation}>
+                        <lightning-button label="Done" onclick={finishWebsiteSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-input type="text" name="WebsiteFriendlyName" label="Website Friendly Name:"
+                            onchange={handleInputUpdate}>
+                        </lightning-input>
+                        <table>
+                            <tr>
+                                <td style="padding:10px;">
+                                    <h2><strong>Product Categories</strong></h2>
+                                    <!-- <lightning-input type="text" name="searchCategories" label="Search:"
+                                        style="width:200px;" onchange={handleSearchGrids}>
+                                    </lightning-input> -->
+                                    <lightning-datatable data-id="categoryGrid" key-field="Id" data={categoryList} columns={columns}>
+                                    </lightning-datatable>
+                                </td>
+                                <td style="padding:10px;">
+                                    <h2><strong>Product Series</strong></h2>
+                                    <!-- <lightning-input type="text" name="searchSeries" label="Search:"
+                                        style="width:200px;" onchange={handleSearchGrids}>
+                                    </lightning-input> -->
+                                    <lightning-datatable data-id="seriesGrid" key-field="Id" data={seriesList} columns={columns}>
+                                    </lightning-datatable>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Sharepoint File Browser -->
+                    <div if:true={inproInsiderLocation} class="slds-p-around_medium lgc-bg">
+                        <lightning-button label="Done" onclick={finishSharepointSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <div><strong>Current Location:</strong> {sharepointLocation}</div>
+                        <table>
+                            <tr>
+                                <td style="width: 300px;">
+                                    <lightning-input label="Specify URL:" onchange={updateSpecifiedUrl} type="text">
+                                    </lightning-input>
+                                </td>
+                                <td style="padding-top: 20px; padding-left:10px;">
+                                    <lightning-button label="Use Url" onclick={handleSpecifyUrl}></lightning-button>
+                                </td>
+                            </tr>
+                        </table>
+                        <lightning-tree items={items} header="Inpro Insider" onselect={handleOnselect}></lightning-tree>
+                    </div>
+                    <!-- End Sharepoint File Browser -->
+
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

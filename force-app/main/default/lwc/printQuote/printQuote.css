@@ -1,0 +1,39 @@
+.slds-col-space{
+    padding: 10px !important;
+}
+.slds-col-space-thin{
+    padding-top:10px !important;
+}
+
+.full-screen{
+    max-height:100vh;
+    overflow-y:auto;
+}
+
+.column-padding >div >div{
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.helper-text{
+    position:relative;
+    margin-left:5px;
+    top:-.5vh;
+}
+
+.email-input{
+    margin-top:-15px;
+}
+
+.fixed-height{
+    max-height:70vh;
+    overflow-y:auto;
+}
+
+.file-btn{
+    margin:5px;
+}
+
+.slds-wrap-thin{
+    margin-top:-10px;
+}

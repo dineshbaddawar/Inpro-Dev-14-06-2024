@@ -1,0 +1,662 @@
+<apex:page setup="false" sidebar="false" renderAs="pdf"  showHeader="false" standardController="Quote" extensions="IPC1016Controller" applyHtmlTag="false" applyBodyTag="false">  
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    size: 16.5in 11.5in; 
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;mar">
+                 
+                    <table style="width:100%;font-size:11px;">
+                        <tr>
+                            <td style="width:20%;margin-top:-20px;">
+                           
+                            </td>
+                            <td style="width:15%;text-align:right">IPC.1016/REV.8</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </body>
+        </html>
+        
+        
+        <div style="font-size: 20px;">
+            <title>IPC1016</title>
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td style="text-align: center;">
+                        
+                    </td>
+                    <td style="text-align: right;">
+                        <img src="{!$Resource.cf_ipc223_InproLogo}" alt="InproLogo" width="180" height="70"/>
+                    </td>
+                </tr>
+            </table>
+            
+            
+            <p style="text-align:center;font-size:25px;">
+                <b>
+                    Pleated Drapery Order Form
+                </b>
+            </p>
+            
+            <table style="width:100%">
+                <tr>
+                    <td style="width:5%"></td>
+                    <td style="width:7%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
+                    <td style="width:8%;border-bottom: 1px solid #000;">
+                        <div
+                             style=" display: inline-block; width: 95%; border: none;  outline: none;">
+                            
+                        </div>
+                    </td>
+                    <td style="width:8%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote # </td>
+                    <td style="width:7%;border-bottom: 1px solid #000;">
+                        <div
+                             style=" display: inline-block; width: 95%; border: none; outline: none;">
+                            {!customForm.quoteRecord.QuoteNumber} 
+                        </div>
+                    </td>
+                    <td style="width:65%"></td>
+                </tr>
+            </table>                    
+            
+            <br/>
+            <table style="border-collapse: collapse; margin-left: 5%; width: 100%; font-size: 14px;">
+                <tr>
+                    <td style="width: 5%;">Date:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">Customer Account Number:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Account.Customer_Number__c}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 5%;">Contact:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Contact.Name}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">Sales Rep:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 5%;">Phone:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Phone}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">Facility or Project Name:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Opportunity_Name__c}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 5%;">Ship to:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.ShippingCity}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">E-Mail:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Email}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.ShippingState}, {!customForm.quoteRecord.ShippingPostalCode}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;"></td>
+                    <td style="width: 45%; display: inline-block;">
+                       &nbsp;
+
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="width:100%">
+                <tr>
+                    <td style="width:10%">
+                    </td>
+                    <td style="width:90%">
+                        <img src="{!$Resource.cf_ipc1016_topTreatments}" alt="PinchPleat_1"  />
+                    </td>
+                    
+                </tr>
+                
+            </table>
+
+            
+            <span style="font-size:14px;"><b>VALANCES ARE CUSTOM MADE ARE NON-CANCELABLE / NON-RETURNABLE.</b></span>
+            <table style="font-size:10px; border-collapse: collapse;"> 
+                <tr>
+                    <td    style=" border: 1px solid; text-align: center;font-weight:bold;"> Room Location </td>
+                    <td    style=" border: 1px solid; text-align: center;font-weight:bold;"> Valance Style </td>
+                    <td    style=" border: 1px solid; text-align: center;"> <b>Box Pleat Panels</b> <br/> (Select Standard,Expanded or Custom) </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;">  Qty. </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Inside or Outside Mount </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Supplier </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;">  Fabric Pattern</td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Color </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Width </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Vertical Repeat </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Railroaded or Vertically Seamed </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;">Lining  </td>
+                    <td   style=" border: 1px solid; text-align: center;"><b>Width*</b>  (Finished width of valance board) </td>
+                    <td   style=" border: 1px solid; text-align: center;"><b>Length</b>  (if not using standard noted above) </td>
+                    <td   style=" border: 1px solid; text-align: center;"><b>Short Point</b>  (if not using standard noted above) </td>
+                   <td   style=" border: 1px solid; text-align: center;"><b>Return Size</b>  (1.5", 3.5", 5.5", 7.25" or 11.25") </td>
+                    <td style="border: 1px solid; text-align: center;"><b>Optional Return Kick Pleat</b> (Box Pleat + Sheffield only) </td>   
+                </tr>
+                   
+                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                    <tr>
+                        <td style=" border: 1px solid; text-align: center;">{!quoteLine.RoomLocation}</td>
+                        <td style="border: 1px solid;"></td>
+                        <td style="border: 1px solid;"></td>
+
+                         <td style=" border: 1px solid; text-align: center;"><apex:outputText value="{!FLOOR(quoteLine.Quantity)}"></apex:outputText></td>
+                        <td style="border: 1px solid;"></td>
+
+                       <td style=" border: 1px solid; text-align: center;">{!quoteLine.vendor}</td>
+                       <td style=" border: 1px solid; text-align: center;">{!quoteLine.Pattern}</td>
+                       <td style=" border: 1px solid; text-align: center;">{!quoteLine.Color}</td>
+                        <td style="border: 1px solid;text-align: center;">
+                            <apex:outputText value="{0,number,#.0000}">
+                            <apex:param value="{!quoteLine.Width}" />
+                        </apex:outputText>
+                        </td>
+                        <td style=" border: 1px solid; text-align: center;"><apex:outputText value="{0,number,#.000}">
+                            <apex:param value="{!quoteLine.FabricVerticalRepeat}" />
+                        </apex:outputText></td>
+                        <td style=" border: 1px solid; text-align: center;">{!quoteLine.SewingType}</td>
+                        <td style="border: 1px solid;"></td>
+                        <td style=" border: 1px solid; text-align: center;"><apex:outputText value="{0,number,#.000}">
+                            <apex:param value="{!quoteLine.FabricWidth}" />
+                        </apex:outputText></td>
+                        <td style="border: 1px solid;"></td>
+                        <td style="border: 1px solid;"></td>
+                        <td style=" border: 1px solid; text-align: center;"><apex:outputText value="{0,number,#.0}">
+                            <apex:param value="{!quoteLine.returnSize}" />
+                            </apex:outputText>
+                            
+                        </td>
+                        <td style="border: 1px solid;"></td>
+                    </tr>
+                </apex:repeat>
+                
+                <tr style="font-weight:bold">
+                    <td style="border: 1px solid;">Notes 1:</td>
+                    <td style="width:8.3%; border: 1px solid;" colspan="16"></td>
+                </tr>
+            </table>
+            
+            <p>
+                *It is recommended to deduct 1/4" from your inside mount measurement to ensure the board (and fabric if returns are noted) fits within the inside mount space. Deductions should also be applied when <br/>
+                valances are being butted together for outside mount conditions.                                    
+            </p> 
+            <div style="page-break-after: always"/>
+            
+
+           
+            <ul style="">
+                <span style="font-size:16px;"><u><b>DEFINITIONS:</b></u></span> <br/>
+                <strong>Room Location:</strong> Valances and Drapery will be tagged individually if room location is provided.<br/>
+                <strong>Valance Style:</strong>  Select from standard options shown on form. Custom styles must include drawing and specification/fabrication details inlcluding velcro or affixed.<br/>
+                <strong>Box Pleat Panels:</strong> Select standard or expanded (varies based on width of valance per charts), or enter a custom # of panels in notes section (example - 2 panels).<br/>
+                <strong>Fabric Details:</strong> Based on fabric selected/specified.<br/>
+                <strong>Lining:</strong>  Select from Standard, Self-Lined, 2-pass Blackout or 3-pass Blackout.<br/>
+                <strong>Width:</strong> Enter finished width of valance board. See * note above regarding deductions for inside mount conditions.<br/>
+                <strong>Length:</strong> Enter finished length at end points if not ordering standard length shown on above drawings.<br/>
+                <strong>Short Point</strong> (Sheffield only): Reference drawing notes for difference between short and long points. Enter finished length at short points if not ordering standard shown above.<br/>
+                <strong>Return Size:</strong> Select return size or n/a as applicable. Valances w/o returns use a 1.5" board for mounting.
+            </ul>
+            
+            
+            <div style="page-break-after: always"/>
+
+
+              
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%">
+                        <img width="1300px;" src="{!$Resource.cf_ipc1016_bottomtable}" alt="PinchPleat_1"  />
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <span><b>Box Pleat Panels can be customized:</b></span> <br/>
+                <span>Select Custom instead of Standard or Expanded</span> <br/>
+                <span>Enter # of panels desired on valance</span><br/>
+                <span>That number of panels will be spaced evenly along the valance face width</span>
+            </div>
+            
+            
+            
+        </div>
+        
+        
+    </apex:outputText>
+    <!--           ******************************************                                    -->
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+        
+        <html>
+            <head>
+                <style>
+                    @page {
+                    
+                    size: 16.5in 11.5in; 
+                    
+                    
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;mar">
+                    
+                        <table style="width:100%;font-size:11px;">
+                            <tr>
+                                <td style="width:20%;margin-top:-20px;">
+                               
+                                </td>
+                                <td style="width:15%;text-align:right">IPC.1016/REV.8</td>
+                            </tr>
+                        </table>
+                   
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </body>
+        </html>
+        
+        
+        <div style="font-size: 20px;">
+            <title>IPC1016</title>
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td style="text-align: center;">
+                        
+                    </td>
+                    <td style="text-align: right;">
+                        <img src="{!$Resource.cf_ipc223_InproLogo}" alt="InproLogo" width="180" height="70"/>
+                    </td>
+                </tr>
+            </table>
+            
+            <p style="text-align:center;font-size:25px;">
+                <b>
+                    Pleated Drapery Order Form
+                </b>
+            </p>
+            
+            <div style="width:35%;margin-left: 5%;">
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:15%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
+                        <td style="width:20%;border-bottom: 1px solid #000;">
+                            <div
+                                 style=" display: inline-block; width: 95%; border: none;  outline: none;">
+                                <!-- Empty div for layout -->
+                            </div>
+                        </td>
+                        <td style="width:15%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote # </td>
+                        <td style="width:20%;border-bottom: 1px solid #000;">
+                            <div
+                                 style=" display: inline-block; width: 95%; border: none; outline: none;">
+                                 {!customForm.quoteRecord.QuoteNumber} 
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br/>
+
+            <table style="border-collapse: collapse; margin-left: 5%; width: 100%; font-size: 14px;">
+                <tr>
+                    <td style="width: 5%;">Date:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">Customer Account Number:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Account.Customer_Number__c}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 5%;">Contact:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Contact.Name}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">Sales Rep:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 5%;">Phone:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Phone}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">Facility or Project Name:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Opportunity_Name__c}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 5%;">Ship to:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.ShippingCity}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;">E-Mail:</td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.Email}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                        {!customForm.quoteRecord.ShippingState}, {!customForm.quoteRecord.ShippingPostalCode}
+                    </td>
+                    <td style="width: 15%;"></td>
+                    <td style="width: 12%;"></td>
+                    <td style="width: 45%; display: inline-block;">
+                       &nbsp;
+
+                    </td>
+                </tr>
+            </table>
+            
+            
+            <table style="width:100%">
+                <tr>
+                    <td style="width:10%">
+                    </td>
+                    <td style="width:90%">
+                        <img src="{!$Resource.cf_ipc1016_topTreatments}" alt="PinchPleat_1"  />
+                    </td>
+                    
+                </tr>
+                
+            </table>
+            
+            
+            <span style="font-size:14px;"><b>VALANCES ARE CUSTOM MADE ARE NON-CANCELABLE / NON-RETURNABLE.</b></span>
+            <table style="font-size:10px; border-collapse: collapse;"> 
+                <tr>
+                    <td    style=" border: 1px solid; text-align: center;font-weight:bold;"> Room Location </td>
+                    <td    style=" border: 1px solid; text-align: center;font-weight:bold;"> Valance Style </td>
+                    <td    style=" border: 1px solid; text-align: center;"> <b>Box Pleat Panels</b> <br/> (Select Standard,Expanded or Custom) </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;">  Qty. </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Inside or Outside Mount </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Supplier </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;">  Fabric Pattern</td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Color </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Width </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Fabric Vertical Repeat </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;"> Railroaded or Vertically Seamed </td>
+                    <td   style=" border: 1px solid; text-align: center;font-weight:bold;">Lining  </td>
+                    <td   style=" border: 1px solid; text-align: center;"><b>Width*</b>  (Finished width of valance board) </td>
+                    <td   style=" border: 1px solid; text-align: center;"><b>Length</b>  (if not using standard noted above) </td>
+                    <td   style=" border: 1px solid; text-align: center;"><b>Short Point</b>  (if not using standard noted above) </td>
+                   <td   style=" border: 1px solid; text-align: center;"><b>Return Size</b>  (1.5", 3.5", 5.5", 7.25" or 11.25") </td>
+                    <td style="border: 1px solid; text-align: center;"><b>Optional Return Kick Pleat</b> (Box Pleat + Sheffield only) </td>   
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                </tr><tr>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                </tr><tr>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                </tr><tr>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                    <td style="border: 1px solid;"></td>
+                </tr>
+                <tr style="font-weight:bold">
+                    <td style="border: 1px solid;">Notes 1:</td>
+                    <td style="width:8.3%; border: 1px solid;" colspan="16"></td>
+                </tr>
+            </table>
+            
+            <p>
+                *It is recommended to deduct 1/4" from your inside mount measurement to ensure the board (and fabric if returns are noted) fits within the inside mount space. Deductions should also be applied when <br/>
+                valances are being butted together for outside mount conditions.                                    
+            </p> 
+            <div style="page-break-after: always"/>
+            
+
+           
+            <ul style="">
+                <span style="font-size:16px;"><u><b>DEFINITIONS:</b></u></span> <br/>
+                <strong>Room Location:</strong> Valances and Drapery will be tagged individually if room location is provided.<br/>
+                <strong>Valance Style:</strong>  Select from standard options shown on form. Custom styles must include drawing and specification/fabrication details inlcluding velcro or affixed.<br/>
+                <strong>Box Pleat Panels:</strong> Select standard or expanded (varies based on width of valance per charts), or enter a custom # of panels in notes section (example - 2 panels).<br/>
+                <strong>Fabric Details:</strong> Based on fabric selected/specified.<br/>
+                <strong>Lining:</strong>  Select from Standard, Self-Lined, 2-pass Blackout or 3-pass Blackout.<br/>
+                <strong>Width:</strong> Enter finished width of valance board. See * note above regarding deductions for inside mount conditions.<br/>
+                <strong>Length:</strong> Enter finished length at end points if not ordering standard length shown on above drawings.<br/>
+                <strong>Short Point</strong> (Sheffield only): Reference drawing notes for difference between short and long points. Enter finished length at short points if not ordering standard shown above.<br/>
+                <strong>Return Size:</strong> Select return size or n/a as applicable. Valances w/o returns use a 1.5" board for mounting.
+            </ul>
+            
+            
+            <div style="page-break-after: always"/>
+
+
+              
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%">
+                        <img width="1300px;" src="{!$Resource.cf_ipc1016_bottomtable}" alt="PinchPleat_1"  />
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <span><b>Box Pleat Panels can be customized:</b></span> <br/>
+                <span>Select Custom instead of Standard or Expanded</span> <br/>
+                <span>Enter # of panels desired on valance</span><br/>
+                <span>That number of panels will be spaced evenly along the valance face width</span>
+            </div>
+
+        </div>
+
+        
+    </apex:outputText>
+</apex:page>

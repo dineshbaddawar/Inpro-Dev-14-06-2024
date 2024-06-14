@@ -1,0 +1,310 @@
+<template>
+  <article class="slds-card" onclick={closeResultBox}>
+    <div class="slds-card__header slds-grid">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__figure">
+          <lightning-icon icon-name="standard:custom" size="small" alternative-text="participants icon">
+          </lightning-icon>
+        </div>
+        <div class="slds-media__body">
+          <h2 class="slds-card__header-title">
+            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Outer Card Header">
+              <span>Participants</span>
+            </a>
+          </h2>
+        </div>
+      </header>
+    </div>
+    <!-- Spinner -->
+    <template if:true={loading}>
+      <div class="spinner">
+        <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+      </div>
+    </template>
+    <template if:false={loading}>
+      <!-- Search Input -->
+      <div class="slds-card__body slds-card__body_inner">
+        <article class="slds-card slds-card_boundary" style="border: 0px;">
+          <div class="slds-grid slds-wrap slds-p-horizontal_xxx-small">
+            <div class="slds-size_1-of-6">
+              <lightning-combobox name="object-type" label="Add new" value={objectType} options={objectTypeOptions}
+                onchange={handleChangeObjectType}></lightning-combobox>
+            </div>
+            <div class="slds-size_3-of-6">
+              <lightning-input type="search" label="&nbsp;" onclick={handleQuery} onchange={handleQuery}
+                placeholder="Search for people..."></lightning-input>
+              <!-- Search Results -->
+              <div class="slds-is-relative">
+                <div class="resultbox slds-hide slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid">
+                  <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                    <template for:each={results} for:item="result">
+                      <li role="presentation" class="slds-listbox__item" key={result.id} onmousedown={handleResultClick}
+                        data-id={result.id}>
+                        <div
+                          class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                          role="option">
+                          <span class="slds-media__figure slds-listbox__option-icon">
+                            <lightning-icon icon-name={result.iconName} size="small" alternative-text="result icon">
+                            </lightning-icon>
+                          </span>
+                          <span class="slds-media__body">
+                            <!--<span class="slds-listbox__option-text slds-listbox__option-text_entity">{result.firstName}
+                              {result.lastName},
+                              {result.account}</span>-->
+                              <span class="slds-listbox__option-text slds-listbox__option-text_entity">{result.firstName}
+                                {result.lastName}
+                              </span>
+                            <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{result.company}
+                              {result.email}</span>
+                          </span>
+                        </div>
+                      </li>
+                    </template>
+                    <template if:true={noResults}>
+                      <div class="slds-text-body_small slds-p-left_xx-small">
+                        No results found
+                      </div>
+                    </template>  
+                      <!-- Create Lead / Contact -->
+                      <li role="presentation" class="slds-listbox__item" onmousedown={handleCreateClick}>
+                          <div
+                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                            role="option">
+                            <span class="slds-media__figure slds-listbox__option-icon">
+                              <lightning-icon icon-name={createIcon} size="xx-small" alternative-text="create">
+                              </lightning-icon>
+                            </span>
+                            <span class="slds-media__body">
+                              <span class="slds-listbox__option-text slds-listbox__option-text_entity create-message">
+                                {createMessage}
+                              </span>
+                            </span>
+                          </div>
+                      </li>
+                    
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <!-- Participants Datatable -->
+      <div class="slds-card__body slds-card__body_inner">
+        <article class="slds-card slds-card_boundary">
+          <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+              <div class="slds-media__figure">
+                <lightning-icon icon-name="standard:custom" size="small" alternative-text="participants icon">
+                </lightning-icon>
+              </div>
+              <div class="slds-media__body">
+                <h2 class="slds-card__header-title">
+                  <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Card Header">
+                    <span>Registered ({registeredCount})</span>
+                  </a>
+                </h2>
+              </div>
+            </header>
+          </div>
+          <div class="slds-card__body slds-card__body_inner">
+            <template if:true={showDelete}>
+              <lightning-button variant="brand" label="Delete" title="Delete" onclick={handleDeleteButtonClick}
+                class="slds-m-left_x-small"></lightning-button>
+            </template>
+            <div class="slds-card__body slds-card__body_inner">
+              <template if:true={zeroAttendees}>
+                <div class="slds-text-align_center">No Participants Registered</div>
+              </template>
+              <template if:false={zeroAttendees}>
+                <lightning-datatable data={attendees} columns={columns} key-field="Id" sorted-by={sortedBy}
+                  sorted-direction={sortedDirection} onrowaction={handleRowMenuClick} onrowselection={handleRowSelect}
+                  onsort={handleSort}>
+                </lightning-datatable>
+              </template>
+            </div>
+          </div>
+        </article>
+      </div>
+    </template>
+  </article>
+  <!-- Modal -->
+  <div class="attendee-modal slds-hide">
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={closeModal}>
+            <lightning-icon icon-name="utility:close" size="small" variant="inverse"
+              alternative-text="participants icon">
+            </lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+            {modalHeaderText}
+          </h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <div if:true={modalTypeCreate}>
+
+
+            <div if:true={isObjectTypeContact}>
+              <lightning-record-edit-form object-api-name="Contact" onsuccess={handleCreateSuccess}>
+                <lightning-messages>
+                </lightning-messages>
+
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-output-field field-name="OwnerId"></lightning-output-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Phone"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Name"></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="HomePhone"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="AccountId" required="true"></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="MobilePhone"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Title"></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="OtherPhone"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Department" ></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Fax"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="BirthDate" ></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="AssistantName"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="ReportsToId" ></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="AssistantPhone"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="LeadSource" ></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Email"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="AIA_Member_Number__c" ></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Email_Opt_In__c"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="IDCEC_Number__c" ></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="GBCI_Number__c"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Follow_up_with_a_Project__c"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="MailingAddress" ></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="OtherAddress"></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Languages__c" ></lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Level__c" ></lightning-input-field>
+                  </div>
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-size_2-of-2">
+                    <lightning-input-field field-name="Description" ></lightning-input-field>
+                  </div>
+                </div>
+
+                <div class="slds-align_absolute-center">
+                  <lightning-button class="slds-m-top_small" type="submit" label="Create new"></lightning-button>
+                </div>
+                
+              </lightning-record-edit-form>
+            </div>
+
+            <div if:false={isObjectTypeContact}>  
+              <lightning-record-form object-api-name={objectType} onsuccess={handleCreateSuccess} layout-type="Full"
+              columns="2" oncancel={closeModal}>
+              </lightning-record-form>
+            </div>
+
+          </div>
+          <div if:true={modalTypeView}>
+            <lightning-record-form record-id={modalRecordId} object-api-name="Event_Attendee__c" layout-type="Full"
+              columns="2" onsubmit={handleSave} oncancel={closeModal} onerror={handleModalError}>
+            </lightning-record-form>
+          </div>
+          <div if:true={modalTypeEdit}>
+            <lightning-record-form record-id={modalRecordId} object-api-name="Event_Attendee__c" layout-type="Full"
+              columns="2" mode="edit" onsubmit={handleSave} oncancel={closeModal}>
+            </lightning-record-form>
+          </div>
+          <div if:true={modalTypeDelete}>
+            <div class="slds-text-heading_small slds-text-align_center">
+              Are you sure?
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer-delete" if:true={modalTypeDelete}>
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={closeModal}>
+              Cancel
+            </button>
+            <button class="slds-button slds-button_brand" onclick={handleDeleteConfirm}>
+              Confirm
+            </button>
+          </footer>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </div>
+</template>

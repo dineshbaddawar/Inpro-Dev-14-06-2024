@@ -1,0 +1,688 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC291Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    
+                    @top-center {
+                    content: element(header);
+                    }
+                    
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    
+                    div.content {
+                    border-style: dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th,
+                    td {
+                    padding: 2px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            
+            <body>
+                
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%">
+                                    <img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%">IPC.291/Rev.18</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;">
+                                    Custom Product Order Form
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <strong>Radius Handrail or Wall Guard</strong>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+                
+            </body>
+            
+        </html>
+        <div style="">
+            <title>IPC291</title>
+            
+            <p style="padding-left: 6pt;;text-align: left;font-size:14px;margin-top:20px;">
+                Please complete the following information based on field verified dimensions. Use one order form per
+                size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with
+                your order. Allow a minimum of 8 weeks for fabrication of custom radius product from receipt or approved
+                order.
+                <br />
+                Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+            </p>
+            
+            <!--Header Table-->
+            <table style="width:100%; border-collapse: collapse; border: 1px solid black;">
+                <tr>
+                    <td style="width: 30%; border: 1px solid black;">Authorized Signature/Date</td>
+                    <td style="width: 15%; border: 1px solid black;"></td>
+                    <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+				<td style="width: 35%; border: 1px solid black;">  <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" /> </td>
+                </tr>
+                <tr>
+				<td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+				<td style="width: 20%; border: 1px solid black;"><apex:outputField value="{!customForm.quoteRecord.ContactId}" /> </td>
+				<td style="width: 20%; border: 1px solid black;">Project Name</td>
+				<td style="width: 35%; border: 1px solid black;"> <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" /> </td>
+			 </tr>
+                <tr>
+				<td style="width: 25%; border: 1px solid black;">Company Name</td>
+				<td style="width: 20%; border: 1px solid black;"> <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" /></td>
+				<td style="width: 20%; border: 1px solid black;">Account #</td>
+				<td style="width: 35%; border: 1px solid black;"> <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" /> </td>
+			 </tr>
+            </table>
+            
+            <!-- <p>Allow 5-7 weeks for fabrication of stainless steel handrail.</p> -->
+            <b style="font-size:13px;">Please Note – When it is difficult to measure radius, a template of the radius condition is preferred.</b>
+            <table style="width:100%; border-collapse: collapse;">
+                <tr>
+                    <td></td>
+                    <td style="padding: 20px;" rowSpan="10">
+                        <img Style="width:650px;" src="{!$Resource.cf_ipc291_radiushandraillorwallguard2}" alt="HeaderImage" />
+                    </td>
+                </tr>
+            </table>
+            
+            
+            <table style="border-collapse: collapse;border: 1px solid black; width:100%;">
+                <tr style="border: 1px solid black;">
+                    <td colspan="7"
+                        style="padding: 7px;border: 1px solid black;border-bottom:hidden;font-size:13px;">
+                        <b>***** ALL FIELDS MUST BE COMPLETED  *****</b></td>
+                </tr>
+                <tr>
+                    <td style="padding: 7px;border: 1px solid black;border-right:hidden;font-size:13px;">Wall Condition </td>
+                    <td style="padding: 7px;border: 1px solid black;border-right:hidden"></td>
+                    <td style="padding: 7px;border: 1px solid black;border-right:hidden;"></td>
+                    <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                        <div
+                             style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333 !important; cursor: pointer; float: left; margin-right: 1px; background:;">
+                        </div>
+                        <div style="padding-left: 28px; margin-top: 5px;font-size:13px;">Inside Radius (Concave)</div>
+                    </td>
+                    <td style="padding: 7px;border: 1px solid black;border-right:hidden;">or</td>
+                    <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                        <div
+                             style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333 !important; cursor: pointer; float: left; margin-right: 1px; background:;">
+                        </div>
+                        <div style="padding-left: 28px; margin-top: 5px;font-size:13px;">Outside Radius (Convex)</div>
+                    </td>
+                    <td style="padding: 7px;border: 1px solid black;"> </td>
+                </tr>
+                
+                <tr style="border-top:hidden !important;">
+                    <td colspan="6"
+                        style="padding: 7px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:13px;">Radius
+                        ________________ 
+                        <apex:outputText rendered="{!isMetric == true}">
+                            (meters)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            (feet and inches)
+                        </apex:outputText>
+                        
+                    </td>
+                    <td style="padding: 7px;border: 1px solid black;border-top:hidden;"> </td>
+                </tr>
+                <tr style="border-top:hidden !important;">
+                    <td colspan="5"
+                        style="padding: 7px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:13px;">Total
+                        Arc Length ________________ 
+                        <apex:outputText rendered="{!isMetric == true}">
+                            (meters)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            (feet and inches)
+                        </apex:outputText>
+                    </td>
+                    <td colspan="2" style="padding: 7px;border: 1px solid black;border-top:hidden;font-size:12px;">
+                        “Length of Curved Section only - Exclude leg length” </td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td colspan="7" style="padding: 7px;border: 1px solid black;;font-size:13px;"><b></b></td>
+                </tr>
+                <tr style="border-top:hidden !important;">
+                    <td colspan="5"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:12px;padding-bottom:5px;">
+                        _________ 
+                        <apex:outputText rendered="{!isMetric == true}">
+                            No straight legs (finished arc length for a 3.657m piece is 3.048m Max.)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            No straight legs (finished arc length for a 12' piece is 10' Max.)
+                        </apex:outputText>
+                    </td>
+                    <td colspan="2"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                        Number of pieces ________________ </td>
+                </tr>
+                <tr style="border-top:hidden !important;">
+                    <td colspan="5"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:11px;padding-bottom:5px;">
+                        _________ 
+                        <apex:outputText rendered="{!isMetric == true}">
+                            Straight leg on right side (finished arc length for a 12' piece is 9' Max.)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            Straight leg on right side (finished arc length for a 3.657m piece is 2.7432m Max.)
+                        </apex:outputText>
+                        
+                    </td>
+                    <td colspan="2"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                        Number of pieces ________________ </td>
+                </tr>
+                <tr style="border-top:hidden !important;">
+                    <td colspan="5"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:11px;padding-bottom:5px;">
+                        _________ 
+                        <apex:outputText rendered="{!isMetric == true}">
+                            Straight leg on left side (finished arc length for a 3.657m piece is 2.7432m Max.)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            Straight leg on left side (finished arc length for a 12' piece is 9' Max.)
+                        </apex:outputText>
+                        
+                    </td>
+                    <td colspan="2"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                        Number of pieces ________________ </td>
+                </tr>
+                <tr style="border-top:hidden !important;">
+                    <td colspan="5"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:12px;padding-bottom:5px;">
+                        _________ 
+                        <apex:outputText rendered="{!isMetric == true}">
+                            Both legs straight (finished arc length for a 3.657m piece is 2.4384m Max.)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            Both legs straight (finished arc length for a 12' piece is 8' Max.)
+                        </apex:outputText>
+                        
+                    </td>
+                    <td colspan="2"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                        Number of pieces ________________ </td>
+                </tr>
+                <tr style="border-top:hidden !important;">
+                    <td colspan="7"
+                        style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                        <div style="width: 50%; height: 50%; float:left;">
+                            <span >Product  _______________  (IPC Part Number)</span> <br/>
+                            <span> Color Name and Number  _______________</span> <br/>
+                            <span>Number of Total Arc Length  _____________</span>
+                        </div>
+                        <div style="width: 50%; height: 50%; float:right;">
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%;">
+                                <tr style="border: 1px solid black;">
+                                    <td colspan="7" style="padding: 7px;border: 1px solid black;;font-size:13px;">
+                                        <b>TOTAL NUMBER OF PIECES</b>
+                                        <br/>
+                                        <span style="font-size:11px:">(multiply # of pcs by # of total arc length) ______</span>
+                                    </td>
+                                    
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td colspan="7" style="border: 1px solid black;font-size:10px;"><b>
+                        <span> Note: Bending equipment will use 2' per length to grab the handrail or wall guard. Maximum arc length from a 12' piece of rail is 10'. If straight legs <br/>
+                            are required, arc length will be less (see leg style options for actual lengths).
+                        </span>	
+                        </b></td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td colspan="7" style="border: 1px solid black;font-size:10px;">
+                    </td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td colspan="7" style="border: 1px solid black;font-size:10px;">
+                        <span>Not all IPC products can be radiused. Refer to Radius Installations Capabilities Chart for minimum conditions.</span>
+                    </td>
+                </tr>
+                
+            </table>
+            
+            <table
+                   style="margin-top:10px; font-size:12px;border-collapse: collapse; width:100%; border: 1px solid black;">
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;font-weight:bold;">
+                        <b> FOR INPRO USE ONLY </b>
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Customer Order #:
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Inpro Drawing: N/A
+                    </td>
+                    <td style="border: 1px solid black;padding:6px;">
+                        Inpro #:
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <table style="width:100%; border-collapse: collapse;margin-top:50px;">
+                <tr>
+                    <td></td>
+                    <td style="padding: 20px;" rowSpan="10">
+                        <img Style="width:680px;height:800px;" src="{!$Resource.cf_ipc291_page_2_table}" alt="HeaderImage" />
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+        
+    </apex:outputText>
+    
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    
+                    @top-center {
+                    content: element(header);
+                    }
+                    
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    
+                    div.content {
+                    border-style: dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th,
+                    td {
+                    padding: 2px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            
+            <body>
+                
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%">
+                                    <img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%">IPC.291/Rev.18</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;">
+                                    Custom Product Order Form
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <strong>Radius Handrail or Wall Guard</strong>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+                
+            </body>
+            
+        </html>
+        
+        <apex:form >
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                
+                <title>IPC291</title>
+                
+                <p style="padding-left: 6pt;;text-align: left;font-size:14px;margin-top:10px;">
+                    Please complete the following information based on field verified dimensions. Use one order form per
+                    size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with
+                    your order. Allow a minimum of 8 weeks for fabrication of custom radius product from receipt or approved
+                    order.
+                    <br />
+                    Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                </p>
+                
+                <!--Header Table-->
+                <table style="width:100%; border-collapse: collapse; border: 1px solid black;font-size:13px;">
+                    <tr>
+                        <td style="width: 30%; border: 1px solid black;">Authorized Signature/Date</td>
+                        <td style="width: 15%; border: 1px solid black;"></td>
+                        <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                        <td style="width: 35%; border: 1px solid black;">  <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" /> </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                        <td style="width: 20%; border: 1px solid black;"><apex:outputField value="{!customForm.quoteRecord.ContactId}" /> </td>
+                        <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                        <td style="width: 35%; border: 1px solid black;"> <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" /> </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                        <td style="width: 20%; border: 1px solid black;"> <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" /></td>
+                        <td style="width: 20%; border: 1px solid black;">Account #</td>
+                        <td style="width: 35%; border: 1px solid black;"> <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" /> </td>
+                    </tr>
+                </table>
+                
+                <!-- <p>Allow 5-7 weeks for fabrication of stainless steel handrail.</p> -->
+                <b style="font-size:13px;">Please Note – When it is difficult to measure radius, a template of the radius condition is preferred.</b>
+                <table style="width:100%; border-collapse: collapse;">
+                    <tr>
+                        <td></td>
+                        <td style="padding: 20px;" rowSpan="10">
+                            <img Style="width:650px;" src="{!$Resource.cf_ipc291_radiushandraillorwallguard2}" alt="HeaderImage" />
+                        </td>
+                    </tr>
+                </table>
+                
+                
+                <table style="border-collapse: collapse;border: 1px solid black; width:100%;">
+                    <tr style="border: 1px solid black;">
+                        <td colspan="7"
+                            style="padding: 7px;border: 1px solid black;border-bottom:hidden;font-size:13px;">
+                            <b>***** ALL FIELDS MUST BE COMPLETED  *****</b></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;border: 1px solid black;border-right:hidden;font-size:13px;">Wall Condition </td>
+                        <td style="padding: 7px;border: 1px solid black;border-right:hidden"></td>
+                        <td style="padding: 7px;border: 1px solid black;border-right:hidden;"></td>
+                        <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                            <div
+                                 style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333 !important; cursor: pointer; float: left; margin-right: 1px; background:;">
+                            </div>
+                            <div style="padding-left: 28px; margin-top: 5px;font-size:13px;">Inside Radius (Concave)</div>
+                        </td>
+                        <td style="padding: 7px;border: 1px solid black;border-right:hidden;">or</td>
+                        <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                            <div
+                                 style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333 !important; cursor: pointer; float: left; margin-right: 1px; background:;">
+                            </div>
+                            <div style="padding-left: 28px; margin-top: 5px;font-size:13px;">Outside Radius (Convex)</div>
+                        </td>
+                        <td style="padding: 7px;border: 1px solid black;"> </td>
+                    </tr>
+                    
+                    <tr style="border-top:hidden !important;">
+                        <td colspan="6"
+                            style="padding: 7px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:13px;">Radius
+                            ________________ 
+                            <apex:outputText rendered="{!isMetric == true}">
+                                (meters)
+                            </apex:outputText>
+                            <apex:outputText rendered="{!isMetric == false}">
+                                (feet and inches)
+                            </apex:outputText>
+                            
+                        </td>
+                        <td style="padding: 7px;border: 1px solid black;border-top:hidden;"> </td>
+                    </tr>
+                    <tr style="border-top:hidden !important;">
+                        <td colspan="5"
+                            style="padding: 7px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:13px;">Total
+                            Arc Length ________________ 
+                            <apex:outputText rendered="{!isMetric == true}">
+                                (meters)
+                            </apex:outputText>
+                            <apex:outputText rendered="{!isMetric == false}">
+                                (feet and inches)
+                            </apex:outputText>
+                        </td>
+                        <td colspan="2" style="padding: 7px;border: 1px solid black;border-top:hidden;font-size:12px;">
+                            “Length of Curved Section only - Exclude leg length” </td>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <td colspan="7" style="padding: 7px;border: 1px solid black;;font-size:13px;"><b></b></td>
+                    </tr>
+                    <tr style="border-top:hidden !important;">
+                        <td colspan="5"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:12px;padding-bottom:5px;">
+                            _________ 
+                            <apex:outputText rendered="{!isMetric == true}">
+                                No straight legs (finished arc length for a 3.657m piece is 3.048m Max.)
+                            </apex:outputText>
+                            <apex:outputText rendered="{!isMetric == false}">
+                                No straight legs (finished arc length for a 12' piece is 10' Max.)
+                            </apex:outputText>
+                        </td>
+                        <td colspan="2"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                            Number of pieces ________________ </td>
+                    </tr>
+                    <tr style="border-top:hidden !important;">
+                        <td colspan="5"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:11px;padding-bottom:5px;">
+                            _________ 
+                            <apex:outputText rendered="{!isMetric == true}">
+                                Straight leg on right side (finished arc length for a 12' piece is 9' Max.)
+                            </apex:outputText>
+                            <apex:outputText rendered="{!isMetric == false}">
+                                Straight leg on right side (finished arc length for a 3.657m piece is 2.7432m Max.)
+                            </apex:outputText>
+                            
+                        </td>
+                        <td colspan="2"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                            Number of pieces ________________ </td>
+                    </tr>
+                    <tr style="border-top:hidden !important;">
+                        <td colspan="5"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:11px;padding-bottom:5px;">
+                            _________ 
+                            <apex:outputText rendered="{!isMetric == true}">
+                                Straight leg on left side (finished arc length for a 3.657m piece is 2.7432m Max.)
+                            </apex:outputText>
+                            <apex:outputText rendered="{!isMetric == false}">
+                                Straight leg on left side (finished arc length for a 12' piece is 9' Max.)
+                            </apex:outputText>
+                            
+                        </td>
+                        <td colspan="2"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                            Number of pieces ________________ </td>
+                    </tr>
+                    <tr style="border-top:hidden !important;">
+                        <td colspan="5"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;border-right:hidden;font-size:12px;padding-bottom:5px;">
+                            _________ 
+                            <apex:outputText rendered="{!isMetric == true}">
+                                Both legs straight (finished arc length for a 3.657m piece is 2.4384m Max.)
+                            </apex:outputText>
+                            <apex:outputText rendered="{!isMetric == false}">
+                                Both legs straight (finished arc length for a 12' piece is 8' Max.)
+                            </apex:outputText>
+                            
+                        </td>
+                        <td colspan="2"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                            Number of pieces ________________ </td>
+                    </tr>
+                    <tr style="border-top:hidden !important;">
+                        <td colspan="7"
+                            style="padding: 1px;border: 1px solid black;border-top:hidden;font-size:12px;padding-bottom:5px;">
+                            <div style="width: 50%; height: 50%; float:left;font-size:12px;">
+                                <span style="padding:2px;">Product : <b>{!quoteLine.ItemNumber}</b>   &nbsp;&nbsp;&nbsp;(IPC Part Number)</span> <br/>
+                                <span style="padding:2px;"> Color Name and Number :  {!quoteLine.colorName}</span> <br/>
+                                <span style="padding:2px;">Number of Total Arc Length  _____________</span>
+                            </div>
+                            <div style="width: 50%; height: 50%; float:right;">
+                                <table style="border-collapse: collapse;border: 1px solid black; width:100%;">
+                                    <tr style="border: 1px solid black;">
+                                        <td colspan="7" style="padding: 7px;border: 1px solid black;;font-size:13px;">
+                                            <b>TOTAL NUMBER OF PIECES</b>
+                                            <br/>
+                                            <span style="font-size:11px:">(multiply # of pcs by # of total arc length) ______</span>
+                                        </td>
+                                        
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <td colspan="7" style="border: 1px solid black;font-size:10px;"><b>
+                            <span> Note: Bending equipment will use 2' per length to grab the handrail or wall guard. Maximum arc length from a 12' piece of rail is 10'. If straight legs <br/>
+                                are required, arc length will be less (see leg style options for actual lengths).
+                            </span>	
+                            </b></td>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <td colspan="7" style="border: 1px solid black;font-size:10px;">
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <td colspan="7" style="border: 1px solid black;font-size:10px;">
+                            <span>Not all IPC products can be radiused. Refer to Radius Installations Capabilities Chart for minimum conditions.</span>
+                        </td>
+                    </tr>
+                    
+                </table>
+                
+                <table
+                       style="margin-top:20px;margin-bottom:60px;font-size:12px;border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;font-weight:bold;">
+                            <b> FOR INPRO USE ONLY </b>
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Customer Order #:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Inpro Drawing: N/A
+                        </td>
+                        <td style="border: 1px solid black;padding:6px;">
+                            Inpro #:
+                        </td>
+                    </tr>
+                </table>
+            </apex:repeat>
+        </apex:form>
+
+        <div>
+            <table style="width:100%; border-collapse: collapse;margin-top:20px;">
+                <tr>
+                    <td></td>
+                    <td style="padding: 20px;" rowSpan="10">
+                        <img Style="width:680px;height:800px;" src="{!$Resource.cf_ipc291_page_2_table}" alt="HeaderImage" />
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+        
+    </apex:outputText>
+    
+</apex:page>

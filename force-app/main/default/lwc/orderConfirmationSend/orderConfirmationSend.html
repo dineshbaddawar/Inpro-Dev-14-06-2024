@@ -1,0 +1,251 @@
+<template>
+    <div>
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                Send Order Confirmation
+            </h2>
+        </header>
+        <template if:true={screenOneOpen}>
+            <div style="padding-left:10px;">
+                <br/>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <b>Choose an option below and click Next. </b>
+                        Selecting Send through Salesforce will take you to the email editor page on Next.
+                    </div>
+                </div>          
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-input name="li_sendThroughSalesforce" checked={sendThroughSalesforce} type="checkbox"
+                            label="Send through Salesforce" onchange={handleInput}>
+                        </lightning-input>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-input name="li_sendThroughOutlook" checked={sendThroughOutlook} type="checkbox"
+                            label="View Order PDF and Send through Outlook" onchange={handleInput}>
+                        </lightning-input>
+                    </div>
+                </div>  
+                <br/><br/>        
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-button variant="brand-outline" title="Preview Document"
+                            class="slds-m-left_x-small" onclick={openOrderConfirmation} label="Preview Document">
+                        </lightning-button>
+                        <!-- <lightning-button variant="brand-outline" title="Print Order Edit"
+                            class="slds-m-left_x-small" onclick={printOrderEdit} label="Print Order Edit">
+                        </lightning-button> -->
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </template>
+        <template if:true={screenTwoOpen}>
+            <div style="padding:10px;">
+                <div class="slds-grid slds-wrap slds-wrap-thin">
+                    <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                        <table style="padding-left:10px;padding-bottom:0px;">
+                            <tr>
+                                <td style="width:50px;">
+                                    <label>
+                                        To
+                                        <lightning-helptext tabindex="-1" class="helper-text"
+                                            content="Separate multiple email addresses with commas.">
+                                        </lightning-helptext>
+                                    </label>
+                                </td>
+                                <td>
+                                    <c-lookup data-id="toContact" name="toContact"
+                                        onsearch={handleContactSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                        placeholder="Search Contacts..."
+                                        onselectionchange={handleLookupSelectionChange}
+                                        selection={selectedToContact}>
+                                    </c-lookup>
+                                </td>
+                                <td>
+                                    <c-lookup value="selectedToUser" name="toUser" onsearch={handleUserSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                        placeholder="Search Inpro Users..."
+                                        onselectionchange={handleLookupSelectionChange}
+                                        selection={selectedToUser}>
+                                    </c-lookup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="2">
+                                    <lightning-input class="email-input"
+                                        placeholder="Type emails, separated by commas..." type="email"
+                                        name="toAddress" value={toAddress} onchange={handleInput} multiple>
+                                    </lightning-input>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                        <table>
+                            <tr>
+                                <td style="width:50px;">
+                                    <label>
+                                        CC
+                                        <lightning-helptext tabindex="-1" class="helper-text"
+                                            content="Separate multiple email addresses with commas.">
+                                        </lightning-helptext>
+                                    </label>
+                                </td>
+                                <td>
+                                    <c-lookup name="ccContact" onsearch={handleContactSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                        placeholder="Search Contacts..."
+                                        onselectionchange={handleLookupSelectionChange}
+                                        selection={selectedCCContact}>
+                                    </c-lookup>
+                                </td>
+                                <td>
+                                    <c-lookup value="selectedToUser" name="ccUser" onsearch={handleUserSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                        placeholder="Search Inpro Users..."
+                                        onselectionchange={handleLookupSelectionChange}
+                                        selection={selectedCCUser}>
+                                    </c-lookup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="2">
+                                    <lightning-input class="email-input"
+                                        placeholder="Type emails, separated by commas..." type="email"
+                                        name="ccAddress" value={ccAddress} onchange={handleInput} multiple>
+                                    </lightning-input>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                        <table>
+                            <tr>
+                                <td style="width:50px;">
+                                    <label>
+                                        BCC
+                                        <lightning-helptext tabindex="-1" class="helper-text"
+                                            content="Separate multiple email addresses with commas.">
+                                        </lightning-helptext>
+                                    </label>
+                                </td>
+                                <td>
+                                    <c-lookup name="bccContact" onsearch={handleContactSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                        placeholder="Search Contacts..."
+                                        onselectionchange={handleLookupSelectionChange}
+                                        selection={selectedBCCContact}>
+                                    </c-lookup>
+                                </td>
+                                <td>
+                                    <c-lookup value="selectedToUser" name="bccUser" onsearch={handleUserSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                        placeholder="Search Inpro Users..."
+                                        onselectionchange={handleLookupSelectionChange}
+                                        selection={selectedBCCUser}>
+                                    </c-lookup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="2">
+                                    <lightning-input class="email-input"
+                                        placeholder="Type emails, separated by commas..." type="email"
+                                        name="bccAddress" value={bccAddress} onchange={handleInput} multiple>
+                                    </lightning-input>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-wrap-thin">
+                    <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                        <lightning-input type="text" name="emailSubject" label="Subject" value={emailSubject}
+                            onchange={handleInput}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-wrap-thin">
+                    <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                        <lightning-input-rich-text label="Body" name="emailBody" value={emailBody}
+                            class="lightningInputRichText" placeholder="Type something interesting"
+                            formats={allowedFormats} onchange={handleInput}></lightning-input-rich-text>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-wrap-thin">
+                    <div class="slds-col slds-size_6-of-12 slds-col-space-thin">
+                        <lightning-combobox
+                            name="selectedEmailTemplate"
+                            label="User Email Templates"
+                            value={selectedEmailTemplate}
+                            placeholder="Select an Email Template..."
+                            options={emailTemplateList}
+                            onchange={handleInput}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-col-space-thin" style="margin-top:22px;">
+                        <lightning-button variant="brand-outline" title="Manage Templates"
+                        class="slds-m-left_x-small" onclick={handleManageSignatures} label="Manage Templates"></lightning-button>
+                        <lightning-button variant="brand-outline" title="Refresh List"
+                        class="slds-m-left_x-small" onclick={handleRefreshSignatures} label="Refresh List"></lightning-button>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-wrap-thin">
+                    <!-- <div class="slds-col slds-size_4-of-12 slds-col-space-thin">
+                        <lightning-file-upload name="fileUploader" record-id={recordId}
+                            onuploadfinished={handleUploadFinished} multiple></lightning-file-upload>
+                    </div> -->
+                    <div class="slds-col slds-size_8-of-12 slds-col-space-thin">
+                        <lightning-input type="text" name="pdfName" label="PDF Name" value={pdfName}
+                            onchange={handleInput}></lightning-input>
+                    </div>
+                    
+                </div>
+                
+                    <lightning-file-upload label="Attach Additional Files" name="fileUploader"
+                                        accept={acceptedFormats} record-id={recordId} multiple="true"
+                                        onuploadfinished={handleUploadFinished}>
+                                    </lightning-file-upload>
+                    <label><b>File Names: {additionalFileNames}</b></label>
+                <!-- <div class="slds-grid slds-wrap slds-wrap-thin" style="margin-top:10px;">
+                    <div class="slds-col slds-size_8-of-12 slds-col-space-thin" style="display:contents;">
+                        <template for:each={uploadedFiles} for:item="file">
+                            <lightning-button accesskey={file.Id} key={file.Id} variant="brand-outline"
+                                title="Click to Remove Attachment" class="slds-m-left_x-small file-btn"
+                                onclick={handleRemoveFile} label={file.RemoveName}>Click to Remove
+                            </lightning-button>
+                        </template>
+                    </div>
+                </div> -->
+            </div>
+        </template>
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+            <template if:true={loaded}>
+                <lightning-button style="float: left; padding:10px;" variant="brand" title="Cancel"
+                    class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+                </lightning-button>
+                <template if:true={screenOneOpen}>
+                    <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                        class="slds-m-left_x-small" onclick={moveToScreenTwo} label="Next">
+                    </lightning-button>
+                </template> 
+                <template if:true={screenTwoOpen}>
+                    <lightning-button style="float: right; padding:10px;" variant="brand" title="Finish"
+                        class="slds-m-left_x-small" onclick={handleFinish} label="Finish">
+                    </lightning-button>
+                    <lightning-button style="float: right; padding:10px;" variant="brand-outline" title="Previous"
+                        class="slds-m-left_x-small" onclick={moveToScreenOne} label="Previous">
+                    </lightning-button>
+                </template>            
+            </template>
+        </footer>
+    </div>
+</template>

@@ -1,0 +1,89 @@
+.slds-table-header > th{
+    border-bottom:2px solid black;
+}
+.btn-header > button{
+    white-space: nowrap;
+    text-align: center;
+}
+
+.sticky-row{
+    position: relative;
+}
+
+.sticky-column{
+    background: white;
+    width: 60px;
+    position: sticky;
+    top: auto;
+    left: 0;
+    z-index: 15 !important;
+    border-right: 2px solid gray;
+}
+
+.sticky-header > th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.sticky-table{
+    text-align: left;
+    position: relative;
+    max-height:55vh;
+}
+
+.resize-table {
+    min-width: 100vw;
+    width: auto;
+    -webkit-box-flex: 1;
+            flex: 1;
+    display: grid;
+    border-collapse: collapse;
+  }
+
+.resize-table > thead{
+  display: contents;
+}
+.resize-table > tbody{
+  display: contents;
+}
+.resize-table > tbody > tr {
+  display: contents;
+}
+ 
+.resize-table > tbody > th{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resize-table > tbody > tr > td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+ 
+.resize-table > th:last-child {
+  border: 0;
+}
+  
+.resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0;
+    width: 10px;
+    cursor: col-resize;
+  }
+   
+  .resize-handle:hover,
+  .header--being-resized .resize-handle {
+    opacity: 0.5;
+  }
+   
+  th:hover .resize-handle {
+    opacity: 0.3;
+  }

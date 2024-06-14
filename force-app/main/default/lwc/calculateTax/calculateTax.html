@@ -1,0 +1,18 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Calculate Tax</strong>
+        </h3>        
+        <h1 style="padding: 10px;">This will calculate and write the tax information to the quote.</h1>
+        <lightning-button variant="brand-outline" title="Calculate Tax" class="slds-m-left_x-small"
+            onclick={handleCalculateTaxClick}  label="Calculate Tax">
+        </lightning-button>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+        <lightning-button style="float: left;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+    </template>
+</template>

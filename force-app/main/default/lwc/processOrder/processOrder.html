@@ -1,0 +1,122 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:true={CreditHold}>
+                <p><strong>The account associated to this quote is currently on credit
+                        hold. Please reach out to finance.
+                    </strong></p>
+            </div>
+            <div if:true={AccountIsDeniedParty}>
+                <p style="color:red;"><strong>The account associated to this order request is currently labeled as a denied party. Please reach out to finance so they can review the blocked status.
+                    </strong></p>
+                    <br/>                   
+            </div>
+            <div if:false={CreditHold}>
+                <template if:true={loaded}>
+                    <div if:false={showError}>
+                        <div if:false={orderProcessed}>
+                            <h3 slot="title">
+                                <lightning-icon if:true={submitButtonEnabled} icon-name="utility:save" alternative-text="Save" size="medium"
+                                    title="Save" onclick={handleProcessOrderClick} class="pointer"></lightning-icon>
+                                &nbsp;Process Order
+                            </h3>
+
+                            <!--Freight Options Grid-->
+                            <div class="slds-box slds-theme_default" style="margin: 5px;">
+                                <lightning-combobox style="width: 300px; padding:5px" name="LocationComboBox"
+                                    label="Location" placeholder="Select Location" options={locationList}
+                                    onchange={handleLocationComboBoxOnchange}>
+                                </lightning-combobox>
+                                <!-- Define table structure -->
+                                <table
+                                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="" scope="col">
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="ItemNumber">Item #</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Color">Color</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Description1">Description 1</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Description2">Description 2</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Price">Price</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Qty">Qty</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Total">Total</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Loop through groups -->
+                                    <template for:each={alternateList} for:item="alternate">
+                                        <!-- Loop through alternates -->
+                                        <tbody key={alternate.AlternateId}>
+                                            <tr style="background-color: cornflowerblue;">
+                                                <td>
+                                                    <lightning-input type="checkbox" checked={alternate.Selected}
+                                                        onclick={handleAlternateSelected} name={alternate.AlternateId}
+                                                        accesskey={alternate.AlternateId}>
+                                                    </lightning-input>
+                                                </td>
+                                                <td colspan="7">&nbsp;{alternate.AlternateName}</td>
+                                            </tr>
+                                            <!-- Loop through Options -->
+                                            <template for:each={alternate.QuoteProducts} for:item="option">
+                                                <tr key={option.Id}>
+                                                    <td if:true={allowQuoteProductSelection}>
+                                                        <lightning-input type="checkbox" checked={option.Selected}
+                                                            onclick={handleOptionSelected} name={option.AlternateId}
+                                                            accesskey={option.Id}> </lightning-input>
+                                                    </td>
+                                                    <td>{option.ItemNumber}</td>
+                                                    <td>{option.Color}</td>
+                                                    <td>{option.Description1}</td>
+                                                    <td>{option.Description2}</td>
+                                                    <td>{option.UnitPrice}</td>
+                                                    <td>{option.Quantity}</td>
+                                                    <td>{option.Total}</td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </template>
+                                </table>
+                                <lightning-input style="padding:25px; float:right;" type="checkbox"
+                                    name="MetricDescriptions" label="Use Metric Descriptions"
+                                    onchange={handleMetricDescriptionsCheckboxUpdate}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div if:true={orderProcessed}>
+                            <h3>Order Moved To Staging:</h3>
+                            <a href={orderLink}>{orderNumber}</a>
+                            {errorMessage}
+                        </div>
+                    </div>
+                    <div if:true={showError}>
+                        <template if:true={showErrorButton}>
+                            <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}> </lightning-button>
+                        </template>
+                        <p class="errorText">{errorMessage}</p>
+                        
+                    </div>
+                </template>
+            </div>
+            <lightning-button style="float: left; padding:10px;" variant="brand" title="Cancel"
+                class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+            </lightning-button>
+            <template if:false={loaded}>
+                <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+            </template>
+        </div>
+    </lightning-card>
+</template>

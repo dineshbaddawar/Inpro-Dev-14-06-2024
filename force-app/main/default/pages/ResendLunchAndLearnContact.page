@@ -1,0 +1,40 @@
+<apex:page standardController="Contact" extensions="ResendLunchAndLearnContact" showHeader="false" sidebar="false"
+ applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" action="{!doResendLandL}">
+	<!--<flow:interview name="ResendLandL" interview="{!resendFlow}" finishLocation="{!recordPage}">
+		<apex:param name="ContactId" value="{!Contact.Id}"/>
+	</flow:interview>-->
+	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+      <title>Lunch and Learn - Check Certificates and Resend Email</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <apex:slds />
+    </head>
+    <body>
+      <div class="slds-scope">
+	      	<article class="slds-card slds-grid slds-wrap slds-col slds-size_1-of-2 slds-align_absolute-center">
+	      		<div class="slds-card__header slds-col slds-size_1-of-1">
+	      			<span class="slds-text-heading_medium">Lunch and Learn - Check Certificates and Resend Email</span>
+	      		</div>
+	      		<div class="slds-card__body slds-card__body_inner slds-col slds-size_1-of-1 slds-grid slds-wrap">
+	      			<apex:form >
+
+	      				<div class="slds-col slds-size_1-of-1">
+	      					<span class="{!'slds-icon_container slds-icon_container_circle slds-icon-action-' + successFail}" title="Result">
+			      				<svg aria-hidden="true" class="slds-icon slds-icon_small">
+			      					<use xmlns:xlink="http://www3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/action-sprite/svg/symbols.svg#'+successFail)}" />
+			      				</svg>
+			      			</span>
+				        	<apex:outputText value="{!outputMessage}" />
+				        </div>
+				        <div class="slds-col slds-size_1-of-1" style="padding-top: 1%">
+				        	<apex:commandButton action="{!getRecordPage}" value="Back to Record" styleClass="slds-button slds-button--brand"/>
+				        </div>
+			        </apex:form>
+		    	</div>
+		    </article>
+      </div>
+    </body>
+  </html>
+</apex:page>

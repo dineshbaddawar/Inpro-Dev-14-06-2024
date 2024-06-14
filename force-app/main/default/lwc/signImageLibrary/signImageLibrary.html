@@ -1,0 +1,163 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                    <div if:false={copyImage}>
+                        <h3 style="padding:5px;" slot="title">
+                            &nbsp;Sign Image Library
+                        </h3>
+                        <div style="padding:10px;">
+                            <a if:true={renderedSign} download='sign.png' href={imageData}>Save Image</a>
+                            <lightning-button style="padding: 5px;" label="Copy To Current"
+                                onclick={handleCopyToCurrent}>
+                            </lightning-button>
+                            <lightning-button style="padding: 5px;" label="Delete Image" onclick={handleDeletemage}>
+                            </lightning-button>
+                            <lightning-button style="padding:5px;" label="Cancel" onclick={handleCancel} >
+                            </lightning-button>
+                        </div>
+                        <lightning-combobox style="width: 200px; padding: 10px;" name="imageSourceComboBox"
+                            label="View Images From" placeholder="View Images From" options={imageSourceOptionList}
+                            onchange={handleImageSourceComboBoxOnchange} value={selectedImageSourceOption}>
+                        </lightning-combobox>
+                        <table style="overflow-x: scroll;"
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                        <!-- <div class="slds-truncate">
+                                                    <lightning-input type="checkbox"
+                                                        onchange={handleCheckAllChecked}>
+                                                    </lightning-input>
+                                                </div> -->
+                                    </th>
+                                    <th>
+                                    </th>
+                                    <th>
+                                        Quote
+                                    </th>
+                                    <th>
+                                        Alternate
+                                    </th>
+                                    <th>
+                                        Product
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Is Custom
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={SignImages} for:item="sign">
+                                    <tr accesskey={sign.ImageId} key={sign.ImageId}>
+                                        <td>
+                                            <lightning-input type="radio" accesskey={sign.ImageId} name="signRadio"
+                                                onchange={handleOptionChecked} checked={sign.Selected}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <template if:true={sign.ImageLoaded}>
+                                                <img src={sign.FileData} />
+                                            </template>
+                                            <template if:false={sign.ImageLoaded}>
+                                                Image loading...
+                                            </template>
+                                            
+                                        </td>
+                                        <td>
+                                            {sign.QuoteName}
+                                        </td>
+                                        <td>
+                                            {sign.AltName}
+                                        </td>
+                                        <td>
+                                            {sign.ItemNumber}
+                                        </td>
+                                        <td>
+                                            {sign.Qty}
+                                        </td>
+                                        <td>
+                                            {sign.IsCustom}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding:5px;" if:true={copyImage}>
+                        <h1><strong>Select the Product to Associate the Custom Image To:</strong></h1>
+                        <table style="overflow-x: scroll;"
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                    </th>
+                                    <th>
+                                        ItemNumber
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Description 2
+                                    </th>
+                                    <th>
+                                        Note
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={quoteProducts} for:item="product">
+                                    <tr accesskey={product.Id} key={product.Id}>
+                                        <td>
+                                            <lightning-input type="radio" accesskey={product.Id} name="productRadio"
+                                                onchange={handleProductChecked} checked={product.Selected}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            {product.Item_Number__c}
+                                        </td>
+                                        <td>
+                                            {product.Quantity}
+                                        </td>
+                                        <td>
+                                            {product.Description}
+                                        </td>
+                                        <td>
+                                            {product.Description_2__c}
+                                        </td>
+                                        <td>
+                                            {product.Note__c}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <div style="padding: 10px;">
+                            <lightning-button style="padding:5px;" label="Cancel" onclick={handleCopyCancel}>
+                            </lightning-button>
+                            <lightning-button style="padding:5px;" label="Finish" onclick={handleCopyFinish}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <template if:false={loaded}>
+                <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+            </template>
+
+            <div if:true={showError} style="padding: 10px;">
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

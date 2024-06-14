@@ -1,0 +1,450 @@
+<template>
+    <header class="slds-modal__header" style="height:70px;">
+        <h2 class="slds-text-heading_medium slds-hyphenate">
+            Request Order
+        </h2>
+    </header>
+    <div class="slds-p-around_medium qcHolder full-screen">
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <div if:true={AccountInactive}>
+                    <p><strong>The account associated to this quote ({AccountName}) is inactive.</strong></p>
+                </div>
+                <div if:false={AccountInactive}>
+                    <div if:true={CreditHold}>
+                        <p><strong>The account associated to this quote ({AccountName}) is currently on credit
+                                hold. This request will be sent to finance for approval after it's created.
+                            </strong></p>
+                        <lightning-textarea type="text" name="NotesToFinance" label="Notes To Finance:"
+                            value={FinanceNote} onchange={handleInputUpdate}>
+                        </lightning-textarea>
+                        <lightning-button style="float: left; padding:10px;" variant="brand" title="Ok"
+                            class="slds-m-left_x-small" onclick={closeCreditHoldPopUp} label="Ok">
+                        </lightning-button>
+                    </div>
+                    <div if:false={CreditHold}>
+                        <div if:true={headerScreenActive}>
+                            <template if:true={loaded}>
+                                <div if:true={hasCustomParts}
+                                    style="font-size:18px; color:red; padding: 15px; font-weight:bold;">
+                                    This quote contains custom products without custom part numbers, to request custom part
+                                    numbers, please close this
+                                    order request dialog, and submit a request from the Request Quote Action dialog.
+                                    <br>
+                                    <lightning-button style="padding: 10px;" label="Continue Anyway"
+                                        onclick={handleContinueAnyway}>
+                                    </lightning-button>
+                                </div>
+                                <div if:true={accountBillingAddressINTL}
+                                    style="font-size:18px; color:white; background-color:red; padding: 15px; font-weight:bold; text-align:center;">
+                                    SELECTED ACCOUNT HAS AN INTERNATIONAL BILLING ADDRESS   
+                                </div>
+                                <div if:false={hasCustomParts}>
+                                    <div style="padding: 10px;" if:false={orderRequested}>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <label>{QuoteName}</label>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <label>Market Segment: <strong>{MarketSegment}</strong></label>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-combobox name="Bidder" label="Bidder" placeholder="Please Select"
+                                                    required="true" options={accountList} value={accountId}
+                                                    onchange={handleInputUpdate}>
+                                                </lightning-combobox>          
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="RepNumber" label="Rep #"
+                                                    value={NetSuiteId} required="true" onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <c-lookup name="contactLookup" onsearch={handleContactSearch}
+                                                    scrollafternitems=10 label="Contact" placeholder="Search Contacts"
+                                                    required="true" onselectionchange={handleContactLookupSelectionChange}
+                                                    secondary-search-term={accountId} selection={selectedContact}>
+                                                </c-lookup>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-combobox class="sales-rep-combo" name="SalesRepSelect"
+                                                    label="Select Sales Rep" options={salesRepNumbers}
+                                                    onchange={handleInputUpdate}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <c-lookup name="contractLookup" onsearch={handleContractSearch}
+                                                    scrollafternitems=10 label="Contract" placeholder="Search Contracts"
+                                                    onselectionchange={handleLookupSelectionChange}
+                                                    secondary-search-term={accountId} selection={selectedContract}>
+                                                </c-lookup>
+                                                <label style="color:red"><strong>{contractMessage}</strong></label>
+                                                <div if:true={needsContractNotExecutedApproval}>
+                                                    <label style="color:red"><strong>The selected contract isn't executed and an approval is needed. Specify your notes below.</strong></label>
+                                                    <div>
+                                                        <lightning-textarea onchange={handleInputUpdate} value={contractNotExecutedNotes} name="contractNotExecutedNotes" label="Contract Not Executed Notes:" placeholder="Enter notes to the approver here..." ></lightning-textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="NationalAccount"
+                                                    label="National Account / GPO Job Number"
+                                                    value={endUserParentCustomerNumber} onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="PO" label="PO #"  field-level-help="If a Contract is selected, the PO number will auto-fill. If there is no Contract, the PO number can be entered here."
+                                                    onchange={handleInputUpdate} required="true" value={poNumber}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="InstallerEmail" label="Installer Email"
+                                                    onchange={handleInputUpdate} value={installerEmail}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="checkbox" name="SameDayOrder" label="Same Day Order"
+                                                    onchange={handleInputUpdate} checked={sameDayOrder}>
+                                                </lightning-input>
+                                                <lightning-input type="checkbox" name="NoChargeOrder"
+                                                    label="No Charge Order" checked={NoChargeOrder}
+                                                    onchange={handleInputUpdate} style="padding-top:10px;">
+                                                </lightning-input>
+                                                <lightning-input type="checkbox" checked="checked" name="InvoiceDetail"
+                                                    label="Don't Send Invoice in Detail" onchange={handleInputUpdate}
+                                                    style="padding-top:10px;">
+                                                </lightning-input>
+                                                <lightning-input type="checkbox" checked={orderIsTaxable} name="Taxable"
+                                                    label="Taxable" onchange={handleInputUpdate}
+                                                    style="padding-top:10px;">
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-textarea type="text" name="OrderInformation"
+                                                    label="Order Information" onchange={handleInputUpdate}
+                                                    value={orderInformation}>
+                                                </lightning-textarea>
+                                            </div>
+                                        </div>
+                                        <template if:true={NoChargeOrder}>
+                                            <div class="slds-grid slds-wrap reveal-grid">
+                                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                    <lightning-input type="text" name="OriginalOrderNumber"
+                                                        label="Original Order #:" onchange={handleInputUpdate}
+                                                        value={originalOrderNumber}>
+                                                    </lightning-input>
+                                                </div>
+                                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                    <lightning-input type="text" name="OriginalInvoiceNumber"
+                                                        label="Original Invoice #:" onchange={handleInputUpdate} onfocusout={handleOnFocusOut}
+                                                        value={originialInvoiceNumber}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap reveal-grid">
+                                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                    <lightning-combobox name="ReasonCategory" label="Reason Category"
+                                                        placeholder="Please Select" options={rcaCategoryList}
+                                                        onchange={handleInputUpdate} value={rcaCategory}>
+                                                    </lightning-combobox>
+                                                </div>
+                                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                    <lightning-combobox name="ReasonCode" label="Reason Code"
+                                                        placeholder="Please Select" options={rcaReasonList}
+                                                        onchange={handleInputUpdate} value={rcaReason}>
+                                                    </lightning-combobox>
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap reveal-grid">
+                                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                                    <lightning-textarea type="text" name="Explanation" label="Explanation"
+                                                        value={explanation} onchange={handleInputUpdate}>
+                                                    </lightning-textarea>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="number" name="OrderAmount" label="Order Amount" disabled="true" minimum-significant-digits="2"
+                                                    value={selectedTotal} required="true" onchange={handleInputUpdate} field-level-help="This is sourced from the alternates selected in the previous screen."> 
+                                                </lightning-input>
+                                                <div if:true={isLargeManualOrderTotal}>
+                                                    <label style="color:red"><strong>NOTE: A PO or signed quote is needed for manually entered order totals over $2,500. </strong></label>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12" style="margin-top:25px;">
+                                                <label>Contract Payment Terms: <strong>{contractPaymentTerms}</strong></label><br/><br/>
+                                                <label>Account Payment Terms: <strong>{PaymentTerms}</strong></label><br/>
+                                                <label>Account Available Credit: <strong>${availableCredit}</strong></label>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_12-of-12">
+                                                <h2><strong>Shipping Information</strong></h2>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="shipToName" label="Ship To Name"
+                                                    required="true" value={shipToName} onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="shipToContactName"
+                                                    label="Ship To Contact Name" value={shipToContactName}
+                                                    onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" style="padding-right:10px;"
+                                                    name="shipToContactPhoneNumber" label="Ship To Contact Phone Number"
+                                                    value={shipToContactPhoneNumber} onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="shipToAddress1" label="Ship To Address 1"
+                                                    value={shipToAddress1} onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" style="padding-right:10px;"
+                                                    name="shipToAddress2" label="Ship To Address 2" value={shipToAddress2}
+                                                    onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="shipToCity" label="Ship To Address City"
+                                                    value={shipToCity} onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" style="padding-right:10px;" name="shipToState"
+                                                    label="Ship To Address State" value={shipToState}
+                                                    onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" name="shipToZip" label="Ship To Address Zip"
+                                                    value={shipToZip} onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                                <lightning-input type="text" style="padding-right:10px;"
+                                                    name="shipToCountry" label="Ship To Address Country"
+                                                    value={shipToCountry} onchange={handleInputUpdate}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-col-space slds-size_12-of-12">
+                                                <lightning-input type="text" style="padding-right:10px;"
+                                                    name="ShippingInstructions" label="Shipping Instructions"
+                                                    onchange={handleInputUpdate} value={shippingInstructions}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding: 10px;" if:true={orderRequested}>
+                                        <strong> Order Requested Successfully.</strong>
+                                        <br />
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div if:true={alternateScreenActive} class="slds-col slds-col-space slds-size_12-of-12">
+                            <b>Alternates</b>
+                            <lightning-datatable 
+                                name="alternates" 
+                                key-field="Id" 
+                                data={alternateList}
+                                columns={alternateColumns} 
+                                onrowselection={handleDataTableInput}
+                                selected-rows={selectedAlternates}>
+                            </lightning-datatable>
+                            <lightning-input type="number" name="Total" label="Total" disabled="true"
+                                value={selectedTotalIncludingTax}>
+                            </lightning-input>  
+                            <lightning-input type="number" name="TotalExcludingTax" label="Total (Excluding Tax)" disabled="true"
+                                value={selectedTotalExcludingTax}>
+                            </lightning-input>
+                            <lightning-input type="number" name="ManualOrderTotal" label="Order Total Override"
+                                value={manualOrderTotal} onchange={handleInputUpdate} step="any">
+                            </lightning-input>
+                            <div if:true={isLargeManualOrderTotal}>
+                                <label style="color:red"><strong>NOTE: A PO or signed quote is needed for manually entered order totals over $2,500. </strong></label>
+                            </div>
+                            <div if:true={isBulkPackageAlternateSelected}>
+                                <lightning-combobox name="BulkPackageOption" label="Bulk Package Option" placeholder="Please Select"
+                                    options={bulkPackageActions} value={selectedBulkPackageAction}
+                                    onchange={handleInputUpdate}>
+                                </lightning-combobox>     
+                                <label style="color:red"><strong>One or more of the alternates selected are eligable for bulk packaging. Please select whether or not this order should be bulk packaged above. </strong></label>
+                                <br/><br/>
+                            </div>                                                                          
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            <div if:true={buildingOwnerNeeded}>
+                <div class="slds-col slds-size_12-of-12" style="padding-bottom:10px;">
+                    <b>The project does not currently have a building owner or building owner parent and this order amount is over $1,000. 
+                        You must specify one or both values below before the order can be entered.</b>                            
+                </div>
+                <c-lookup name="buildingOwnerLookup" onsearch={handleBuildingOwnerSearch}
+                    scrollafternitems=10 label="Building Owner" placeholder="Search Building Owners"
+                    onselectionchange={handleBuildingOwnerLookupSelectionChange}
+                    secondary-search-term={accountId} selection={selectedBuildingOwner}>
+                </c-lookup>
+                <c-lookup name="buildingOwnerParentLookup" onsearch={handlebuildingOwnerParentSearch}
+                    scrollafternitems=10 label="Building Owner Parent" placeholder="Search Building Owner Parents"
+                    onselectionchange={handlebuildingOwnerParentLookupSelectionChange}
+                    secondary-search-term={accountId} selection={selectedbuildingOwnerParent}>
+                </c-lookup><br/>
+                <div style="background-color:red;padding:10px; border-radius:10px;">
+                    <b><i>If you would like to move forward with this Order Request without a Building Owner or a Building Owner Parent, acknowledging that this may affect pricing, please check this box.</i></b><br/>
+                    <lightning-input type="checkbox" name="BypassBuildingOwnerLogic" label="Bypass Building Owner Logic"
+                        onchange={handleInputUpdate} checked={bypassBuildingOwner}>
+                    </lightning-input>
+                </div>
+            </div>
+            <div if:true={showAddressValidationPane} class="slds-p-around_medium slds-is-relative column-padding">           
+                <div class="slds-grid slds-wrap">
+                    <template if:false={enableProposed}>
+                        <div class="slds-col slds-size_12-of-12" style="padding-bottom:10px;">
+                            <b>Address validation service was unable to find an address based off of original value. 
+                                Please double-check address and update it below, or click Use Original if address is otherwise known to be valid.</b>                            
+                        </div>                                            
+                    </template>
+                    <div class="slds-col slds-size_12-of-12" style="padding-bottom:10px;">
+                        <br/><label style="color:red"><strong>Detail: {addressValidationDetail}</strong></label>
+                    </div> 
+                    <div class="slds-col slds-size_12-of-12">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <tr>
+                                <td>Address Field</td>
+                                <td>Original Value</td>
+                                <td>Proposed Value</td>
+                            </tr>
+                            <tr>
+                                <td>Address 1</td>
+                                <td><lightning-input type="text" name="aLine1" value={shipToAddress1} onchange={handleInputUpdate}> </lightning-input></td>
+                                <td>{proposedAddress1}</td>
+                            </tr>
+                            <tr>
+                                <td>Address 2</td>
+                                <td><lightning-input type="text" name="aLine2" value={shipToAddress2} onchange={handleInputUpdate}> </lightning-input></td>
+                                <td>{proposedAddress2}</td>
+                            </tr>
+                            <tr>
+                                <td>City</td>
+                                <td><lightning-input type="text" name="aCity" value={shipToCity} onchange={handleInputUpdate}> </lightning-input></td>
+                                <td>{proposedCity}</td>
+                            </tr>
+                            <tr>
+                                <td>State / Province</td>
+                                <td><lightning-input type="text" name="aState" value={shipToState} onchange={handleInputUpdate}> </lightning-input></td>
+                                <td>{proposedState}</td>
+                            </tr>
+                            <tr>
+                                <td>Zip Code</td>
+                                <td><lightning-input type="text" name="aZip" value={shipToZip} onchange={handleInputUpdate}> </lightning-input></td>
+                                <td>{proposedZip}</td>
+                            </tr>                       
+                        </table>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12">                       
+                        <lightning-button style="float: left; padding-right:10px; padding-top:10px;" variant="brand"
+                            title="Run Validation" class="slds-m-left_x-small" onclick={handleRerun} label="Run Validation">
+                        </lightning-button>
+                        <template if:true={enableProposed}>
+                            <lightning-button style="float: left; padding:10px;" variant="brand"
+                                title="Use Proposed" class="slds-m-left_x-small" onclick={handleProposed} label="Use Proposed">
+                            </lightning-button>
+                        </template>
+                        <template if:false={enableProposed}>
+                            <lightning-button style="float: left; padding:10px;" variant="brand"
+                                title="Use Proposed" class="slds-m-left_x-small" disabled="disabled" label="Use Proposed">
+                            </lightning-button>
+                        </template>                  
+                        <lightning-button style="float: left; padding:10px;" variant="brand"
+                            title="Use Original" class="slds-m-left_x-small" onclick={handleOriginal} label="Use Original">
+                        </lightning-button>                      
+                    </div>
+                </div>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                <br /><br />
+                <div style="padding:5px;">{errorMessage}</div>
+                <!-- <template for:each={errorMessage} for:item="line">
+                    <div key={line} style="padding:5px;">{line}</div>
+                </template> -->
+                <br /><br />
+                <div if:true={showContractApprovalButton}>
+                    <lightning-textarea label="Notes to Approver" name="ta_contractSubmittalNotes"
+                        onchange={handleInputUpdate} value={contractSubmittalNotes}></lightning-textarea>
+                </div>
+            </div>            
+            <template if:false={loaded}>
+                <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+            </template>
+        </div>       
+    </div>
+    <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+        <div if:false={AccountInactive}>
+            <div if:false={creditHoldScreenOpen}>                
+                <lightning-button if:true={headerScreenActive} style="float: right; padding:10px;" variant="brand" title="Create Order Request" class="slds-m-left_x-small"
+                    onclick={requestOrder} label="Create Order Request">
+                </lightning-button>                
+                <lightning-button if:true={alternateScreenActive} style="float: right; padding:10px;" variant="brand" title="Next" class="slds-m-left_x-small"
+                    onclick={nextClick} label="Next">
+                </lightning-button>
+                <lightning-button if:true={headerScreenActive} style="float: right; padding:10px;" variant="brand-outline" title="Previous" class="slds-m-left_x-small"
+                    onclick={previousClick} label="Previous">
+                </lightning-button>
+                <lightning-button if:true={showAddressValidationPane} style="float: right; padding:10px;" variant="brand-outline" title="Previous" class="slds-m-left_x-small"
+                    onclick={previousClick} label="Previous">
+                </lightning-button>
+                <lightning-button if:true={buildingOwnerNeeded} style="float: right; padding:10px;" variant="brand" title="Next" class="slds-m-left_x-small"
+                    onclick={finishBuildingOwnerScreen} label="Next">
+                </lightning-button>
+                <lightning-button if:true={buildingOwnerNeeded} style="float: right; padding:10px;" variant="brand-outline" title="Previous" class="slds-m-left_x-small"
+                    onclick={moveToHeaderScreen} label="Previous">
+                </lightning-button>
+            </div>
+        </div>
+        <lightning-button style="float: left; padding:10px;" variant="brand" title="Cancel" class="slds-m-left_x-small"
+            onclick={closeQuickAction} label="Cancel">
+        </lightning-button>
+        <div if:true={showContractApprovalButton}>
+            <lightning-button style="float: left; padding:10px;" variant="brand" title="Initiate Contract Approval"
+                class="slds-m-left_x-small" onclick={initiateContractApprovalProcess}
+                label="Initiate Contract Approval">
+            </lightning-button>
+        </div>
+    </footer>
+</template>

@@ -1,0 +1,511 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <lightning-tabset>
+                <lightning-tab label="Multiple Item View">
+                    <template if:false={itemDetailScreen}>
+                        <lightning-input name="input_mivItemNumber" style="padding-left: 10px; padding-right: 10px;" label="Item Number" onchange={handleFormMIVItemChange}></lightning-input><br/>
+                        <lightning-input name="input_mivDescription" style="padding-left: 10px; padding-right: 10px;" label="Item Description" onchange={handleFormMIVDescriptionChange}></lightning-input><br/>
+                        <lightning-button variant="brand-outline" title="Search" class="slds-m-left_x-small" onclick={handleMIVSearchClick}  label="Search"></lightning-button>
+                        <br/>
+                        <div class="slds-box slds-theme_default" style="margin: 5px;">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <td><lightning-button variant="base" data-id="ItemNumber" data-key="ItemNumber" onclick={handleSort} label="Item #" icon-position="right" icon-name="utility:chevronup"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="Location" onclick={handleSort} label="Loc" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="ItemDesc1" onclick={handleSort} label="Description" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="QtyAvailable" onclick={handleSort} label="Qty Available" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="QtyOnHand" onclick={handleSort} label="Qty On Hand" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="QtyAllocated" onclick={handleSort} label="Qty Allocated" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="OnOrderQty" onclick={handleSort} label="Qty on Order" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="QtyInTransit" onclick={handleSort} label="In Transit" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="SoldPTD" onclick={handleSort} label="Sold PTD" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="SoldYTD" onclick={handleSort} label="Sold YTD" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="SoldPY" onclick={handleSort} label="Sold PY" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="UsagePTD" onclick={handleSort} label="Usage PTD" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="UsageYTD" onclick={handleSort} label="Usage YTD" icon-name="" icon-position="right"></lightning-button></td>
+                                        <td><lightning-button variant="base" data-id="UsagePY" onclick={handleSort} label="Usage PY" icon-name="" icon-position="right"></lightning-button></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={mivItemSearchList} for:item="item">
+                                        <tr key={item.ItemNumber}>
+                                            <td>
+                                                <lightning-button accesskey={item.ItemKey}
+                                                onclick={handleMIVDetailsClick}  label="Details">
+                                                </lightning-button>
+                                            </td>
+                                            <td>{item.ItemNumber}</td>
+                                            <td>{item.Location}</td>
+                                            <td>{item.ItemDesc1}</td>
+                                            <td>{item.QtyAvailable}</td>
+                                            <td>{item.QtyOnHand}</td>
+                                            <td>{item.QtyAllocated}</td>
+                                            <td>{item.OnOrderQty}</td>
+                                            <td>{item.QtyInTransit}</td>
+                                            <td>{item.SoldPTD}</td>
+                                            <td>{item.SoldYTD}</td>
+                                            <td>{item.SoldPY}</td>
+                                            <td>{item.UsagePTD}</td>
+                                            <td>{item.UsageYTD}</td>
+                                            <td>{item.UsagePY}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:true={itemDetailScreen}>
+                        <lightning-button variant="brand-outline" title="Return to Search" class="slds-m-left_x-small" onclick={returnToSearch}  label="Return to Search"></lightning-button>
+                        <div class="slds-box slds-theme_default" style="margin: 5px;">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="DueDate">Item Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="DueDate">Due Date</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ShipDate">Ship Date</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Order">Order</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="LineItem">Line Item</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Description">Description</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QtyPurchasedorMFG">Qty Purchased or MFG</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QtyAllocated">Qty Allocated</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="RunningTotal">Running Total</div>
+                                        </th>                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="font-weight: bold;">WO Start</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>                                           
+                                    </tr>
+                                    <template for:each={mivItemDetailSearchList} for:item="itemDetail">
+                                        <tr class={itemDetail.BackgroundColor} key={itemDetail.OrderNumber}>
+                                            <td>{itemDetail.ItemNumber}</td>
+                                            <td>{itemDetail.DueDate}</td>
+                                            <td>{itemDetail.ShipDate}</td>
+                                            <td>{itemDetail.OrderNumber}</td>
+                                            <td>{itemDetail.LineItem}</td>
+                                            <td>{itemDetail.Desc1}</td>
+                                            <td>{itemDetail.QtyPurchased}</td>
+                                            <td>{itemDetail.QtyAllocated}</td>
+                                            <td>{itemDetail.RunningTotal}</td>                                           
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </lightning-tab>
+                <lightning-tab label="Feature Options">                   
+                    <template if:false={foItemDetailScreen}>
+                        <lightning-input name="input_foItemNumber" style="padding-left: 10px; padding-right: 10px;" label="Item Number" onchange={handleFormFOItemChange}></lightning-input><br/>
+                        <lightning-button variant="brand-outline" title="Search" class="slds-m-left_x-small" onclick={handleFOSearchClick}  label="Search"></lightning-button>
+                        <br/>
+                        <div class="slds-box slds-theme_default" style="margin: 5px;">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="" scope="col"></th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ItemNumber">Item Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ItemDescription">Item Description</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureDescription">Feature Description</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureNumber">Feature Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureMinimum">Feature Minimum</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={foItemSearchList} for:item="feature">
+                                        <tr key={feature.FeatureInternalID}>
+                                            <td>
+                                                <lightning-button accesskey={feature.FeatureInternalID}
+                                                onclick={handleFeatureOptionsClick}  label="Options">
+                                                </lightning-button>
+                                            </td>
+                                            <td>{feature.ItemNumber}</td>
+                                            <td>{feature.ItemDescription}</td>
+                                            <td>{feature.FeatureDescription}</td>
+                                            <td>{feature.FeatureNumber}</td>
+                                            <td>{feature.FeatureMinimum}</td>                                           
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:true={foItemDetailScreen}>
+                        <lightning-button variant="brand-outline" title="Return to Search" class="slds-m-left_x-small" onclick={returnToFOSearch}  label="Return to Search"></lightning-button>
+                        <div class="slds-box slds-theme_default" style="margin: 5px;">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ParentItemNumber">Parent Item Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ItemNumber">Option Item</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ComponentDescription">Option Description</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureNumber">Feature Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureDescription">Feature Description</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QtyPerPar">Qty Per Par</div>
+                                        </th>                                                                          
+                                    </tr>
+                                </thead>
+                                <tbody>                                    
+                                    <template for:each={foItemDetailSearchList} for:item="featureOption">
+                                        <tr key={featureOption.ItemNumber}>
+                                            <td>{featureOption.ParentItemNumber}</td>
+                                            <td>{featureOption.ItemNumber}</td>
+                                            <td>{featureOption.ComponentDescription}</td>
+                                            <td>{featureOption.FeatureNumber}</td>
+                                            <td>{featureOption.FeatureDescription}</td>
+                                            <td>{featureOption.QtyPerPar}</td>                                          
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </lightning-tab>
+                <lightning-tab label="Bill of Materials">
+                    <lightning-input name="input_bomItemNumber" style="padding-left: 10px; padding-right: 10px;" label="Item Number" onchange={handleFormBOMItemChange}></lightning-input><br/>
+                    <lightning-button variant="brand-outline" title="Search" class="slds-m-left_x-small" onclick={handleBOMSearchClick}  label="Search"></lightning-button>
+                    <div class="slds-box slds-theme_default" style="margin: 5px;">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col"></th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="ParentItem">Parent Item</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="ComponentItem">Component Item</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="ComponentDescription">Component Description</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Location">Location</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="UOM">UOM</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="QtyPerPar">Qty Per Par</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={bomItemDetailSearchList} for:item="billOfMaterial">
+                                    <tr key={billOfMaterial.CompItemNumber}>
+                                        <td>
+                                            <lightning-button if:true={billOfMaterial.HasSubLevelItems} accesskey={billOfMaterial.CompItemNumber}
+                                            onclick={handleBOMSearchFromGridClick}  label="BOM">
+                                            </lightning-button>
+                                        </td>
+                                        <td>{billOfMaterial.ItemNumber}</td>
+                                        <td>{billOfMaterial.CompItemNumber}</td>
+                                        <td>{billOfMaterial.Desc1}</td>
+                                        <td>{billOfMaterial.Location}</td>  
+                                        <td>{billOfMaterial.UOM}</td> 
+                                        <td>{billOfMaterial.QtyPerPart}</td>                                   
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-tab>
+                <template if:true={showTabFour}>
+                    <lightning-tab label="Feature Configurator">
+                        
+                    </lightning-tab>
+                </template>
+                <!-- <template if:true={showTabFive}> -->
+                    <lightning-tab label="Item Master" if:true={hasItemMasterPrivs}>
+                    <lightning-input name="input_imItemNumber" style="padding-left: 10px; padding-right: 10px;" label="Item Number" onchange={handleFormIMItemChange}></lightning-input><br/>
+                    <lightning-button variant="brand-outline" title="Search" class="slds-m-left_x-small" style="padding-bottom: 10px;" onclick={handleIMCostSearchClick}  label="Search"></lightning-button>
+                    <br/><br/>
+                    <table style="border-collapse: collapse; border-spacing: 0; padding: 10px; width: 50%; border: 1px solid #ddd;">
+                        <tr>
+                            <td colspan="2" style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imDescription" label="Description" value={imDescription}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imActiveObsolete" label="Active/Obsolete" value={imActiveObsolete}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imControlled" label="Controlled" value={imControlled}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imStocked" label="Stocked" value={imStocked}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imItemWeight" label="Item Weight" value={imItemWeight}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imUnitOfMeasure" label="Unit Of Measure" value={imUnitOfMeasure}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imPrimaryLocation" label="Primary Location" value={imPrimaryLocation}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imPurchasedManufactured" label="Purchased/Mfg" value={imPurchasedManufactured}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imProductCategory" label="Product Category" value={imProductCategory}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imMaterialCostType" label="Material Cost Type" value={imMaterialCostType}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imBuyerPlanner" label="Buyer/Planner" value={imBuyerPlanner}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imEndItemCode" label="End Item Code" value={imEndItemCode}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imMfgMethod" label="Mfg Method" value={imMfgMethod}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imInspectionQtyPct" label="Inspection Qty/Pct" value={imInspectionQtyPct}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imStockLocation1" label="Stock Location 1" value={imStockLocation1}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imInspectionCode" label="Inspection Code" value={imInspectionCode}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imStockLocation2" label="Stock Location 2" value={imStockLocation2}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" name="imDrawingNumber" label="Drawing Number" value={imDrawingNumber}>
+                                </lightning-input>
+                            </td>
+                            <td style="padding-left: 10px; padding-bottom: 10px;">
+                                <lightning-input disabled="true" type="text" style="padding-right:10px;" name="imDrawingRev" label="Drawing Rev" value={imDrawingRev}>
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        </table>
+                        <br/>
+                        <h2 style="padding-left: 10px;"><strong>Item Cost Information</strong></h2>
+                    <div class="slds-box slds-theme_default" style="margin: 5px;">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Location">Location</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="ItemCost">Item Cost</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="StockLocation1">Stock Location 1</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="StockLocation2">Stock Location 2</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={imCostSearchList} for:item="itemCost">
+                                    <tr key={itemCost.Location}>
+                                        <td>{itemCost.Location}</td>
+                                        <td>{itemCost.ItemCost}</td>
+                                        <td>{itemCost.StockLocation1}</td>
+                                        <td>{itemCost.StockLocation2}</td>                                    
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    </lightning-tab>
+                    <lightning-tab label="Feature Configurator">
+                        <template if:true={displayFCError}>
+                            <div style="text-align: center; color:red; background-color:black; font-size:20px; padding:10px;"><h2><b>{fcError}</b></h2>
+                            <lightning-button variant="brand-outline" title="X" class="slds-m-left_x-small" onclick={closeFCErrorMessage}  label="X"></lightning-button>
+                            </div>
+                        </template>
+                        <div>
+                            <lightning-input name="input_featureItemNumber" style="padding-left: 10px; padding-right: 10px;" label="Feature Item Number" onchange={handleFeatureItemNumberChange}></lightning-input><br/>
+                            <lightning-combobox style=" padding-left: 10px; padding-right: 10px;"
+                                name="input_featureLocation"
+                                label="Location"
+                                value={pleaseSelectOption}
+                                placeholder="Please Select"
+                                options={featureCostLocations}
+                                onchange={handleFeatureLocationChange}>
+                            </lightning-combobox>
+                            <lightning-input name="input_featureQuantity" style="padding-left: 10px; padding-right: 10px;" label="Quantity" onchange={handleFeatureQuantityChange}></lightning-input><br/>
+                            <lightning-input name="input_featureUnitCost" style="padding-left: 10px; padding-right: 10px;" label="Unit Cost" disabled="true" value={fcUnitCost}></lightning-input><br/>
+                            <lightning-input name="input_featureExtCost" style="padding-left: 10px; padding-right: 10px;" label="Ext Cost" disabled="true" value={fcExtCost}></lightning-input><br/>
+                            <lightning-button variant="brand-outline" title="Populate Feature Options" class="slds-m-left_x-small" onclick={handlePopulateFeatureOptions}  label="Populate Feature Options"></lightning-button>
+                            <lightning-button variant="brand-outline" title="Calculate Cost" class="slds-m-left_x-small" onclick={handleCalculateCost}  label="Calculate Cost"></lightning-button>                   
+                            <br/><br/>
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" style="padding: 10px;">
+                                <thead>
+                                    <tr>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate"></div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ParentItemNumber">Parent Item Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureNumber">Feature Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureRequired">Feature Required</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureDescription">Feature Description</div>
+                                        </th>                    
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureMin">Feature Min</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="FeatureMax">Feature Max</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="OptionItem">Option Item</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="OptionDescription">Option Description</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QtyPerPar">Qty Per Par</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="StandardCost">Standard Cost</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={featureCostItems} for:item="featureitem">
+                                        <tr class={featureitem.BackgroundColor} key={featureitem.LineID}>
+                                            <td>
+                                                <lightning-input type="checkbox" accesskey={featureitem.LineID}
+                                                onchange={handleFeatureItemChecked} checked={featureitem.Selected}>
+                                                </lightning-input>
+                                            </td>
+                                            <td>{featureitem.ParentItemNumber}</td>
+                                            <td>{featureitem.FeatureNumber}</td>
+                                            <td class={featureitem.FeatureRequired}>{featureitem.FeatureRequired}</td>
+                                            <td>{featureitem.FeatureDescription}</td> 
+                                            <td>{featureitem.FeatureMin}</td>    
+                                            <td>{featureitem.FeatureMax}</td>                                           
+                                            <td>{featureitem.ItemNumber}</td>  
+                                            <td>{featureitem.ComponentDescription}</td>  
+                                            <td>
+                                                <lightning-input name="QtyPerPar"
+                                                    accesskey={featureitem.LineID} onchange={handleGridInputChange}
+                                                    type="text" value={featureitem.QtyPerPar}>
+                                                </lightning-input>
+                                                
+                                            </td>  
+                                            <td>{featureitem.StandardCost}</td>                               
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning-tab>
+                <!-- </template> -->
+            </lightning-tabset>
+        </div>
+        <template if:true={isModal}>
+            <lightning-button style="float: left;padding:10px;" variant="brand" title="Cancel"
+                class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+            </lightning-button>
+        </template>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+    </lightning-card>
+</template>

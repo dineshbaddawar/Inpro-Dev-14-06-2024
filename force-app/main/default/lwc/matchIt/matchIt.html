@@ -1,0 +1,427 @@
+<template>
+    <template if:false={loaded}>
+        <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+    </template>
+    <div class="slds-m-around_medium">
+        <div class="slds-grid slds-wrap">
+            <template if:true={debugAccounts}>
+                <div class="slds-col slds-size_12-of-12" style="margin-bottom:20px;">
+                    <lightning-button class="lightningBtn" variant="destructive"
+                                        name="Debug End"
+                                        label="Debug End"
+                                        title="Debug End"
+                                        onclick={handleDebugCancel}></lightning-button>
+                </div>
+                <template for:each={debugResults} for:item="debug">
+                    <div key={debug.id} class="slds-col slds-size_4-of-12">
+                       
+                        <c-table key-field="Id" records={debug.input} columns={debugColumns} page-size="all"></c-table>
+                    </div>
+                    <div key={debug.id} class="slds-col slds-size_8-of-12">
+                        <c-table key-field="Id" records={debug.results} columns={accountColumns} page-size="all"></c-table>
+                    </div>
+                </template>
+            </template>
+            <template if:false={debugAccounts}>
+                <div class="slds-col slds-size_12-of-12" style="background:white;display:flex;padding:15px;">
+                    <lightning-button style="margin-top:20px;"
+                            variant="brand-outline" name="Load Previous Results" class="slds-m-left_x-small" onclick={handleLoadResults} label="Load Previous Results">
+                    </lightning-button>
+                    <lightning-file-upload name="fileUploader" style="margin-right:10px;" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                    <lightning-input style="width: 300px;" label="Search"
+                        id="searchFiles" title="Search" name="Search" onchange={handleSearch}
+                        value={searchValue} type="text">
+                    </lightning-input>
+                    <lightning-button-icon icon-name="utility:back" 
+                        onclick={handlePageChange} name="Back" alternative-text="Back" title="Back" style="margin-top:22px;margin-left:20px;">
+                    </lightning-button-icon>
+                    <lightning-combobox
+                        name="pageCurrent"
+                        value={pageCurrent}
+                        label="Page"
+                        options={pageLibrary}
+                        onchange={handlePageChange}
+                        placeholder={pageCurrent}
+                        style="width:100px;">
+                    </lightning-combobox>
+                    <lightning-button-icon icon-name="utility:forward" 
+                        onclick={handlePageChange} name="Next" alternative-text="Next" title="Next" style="margin-top:22px;">
+                    </lightning-button-icon>
+                    <p style="margin-right:10px;margin-left:20px;"><b style="color:rgb(1, 118, 211);">Page Size: </b></p>
+                    <lightning-button style="margin-top:22px;margin-left:-70px;"
+                        variant={pageSizeStyle10} name="10" class="slds-m-left_x-small" onclick={handlePageSizeChange} label="10">
+                    </lightning-button>
+                    <lightning-button style="margin-top:22px;"
+                        variant={pageSizeStyle25} name="25" class="slds-m-left_x-small" onclick={handlePageSizeChange} label="25">
+                    </lightning-button>
+                    <lightning-button style="margin-top:22px;"
+                        variant={pageSizeStyle50} name="50" class="slds-m-left_x-small" onclick={handlePageSizeChange} label="50">
+                    </lightning-button>
+                    <lightning-button style="margin-top:22px;"
+                        variant={pageSizeStyle100} name="100" class="slds-m-left_x-small" onclick={handlePageSizeChange} label="100">
+                    </lightning-button>
+                    <p style="margin-right:10px;margin-left:20px;"><b style="color:rgb(1, 118, 211);">Min Score:</b></p>
+                    <lightning-button style="margin-top:22px;margin-left:-75px;"
+                        variant={minScoreStyle0} name="0" class="slds-m-left_x-small" onclick={handleMinScoreChange} label="> 0">
+                    </lightning-button>
+                    <lightning-button style="margin-top:22px;"
+                        variant={minScoreStyle50} name="50" class="slds-m-left_x-small" onclick={handleMinScoreChange} label="> 50">
+                    </lightning-button>
+                    <lightning-button style="margin-top:22px;"
+                        variant={minScoreStyle70} name="70" class="slds-m-left_x-small" onclick={handleMinScoreChange} label="> 70">
+                    </lightning-button>
+                    <lightning-button style="margin-top:22px;"
+                        variant={minScoreStyle90} name="90" class="slds-m-left_x-small" onclick={handleMinScoreChange} label="> 90">
+                    </lightning-button>
+                    <template if:true={hasChanges}>
+                        <lightning-button style="margin-top:22px;margin-left:10px;" variant="brand" onclick={handleSave} label="Save"></lightning-button>
+                    </template>
+                    <template if:true={previousResultSelected}>
+                        <lightning-button-icon variant="brand" style="margin-top:22px;margin-left:10px;"  value={currentResult} icon-name="action:download" class="lightningBtn" alternative-text="Download" onclick={handleDownloadCSV}>
+                        </lightning-button-icon>
+                    </template>
+                </div>
+                <div class="slds-col slds-size_12-of-12 sticky-table" style="overflow-x:scroll;">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                        <template if:true={hasErrors}>
+                            <tr>
+                                <th colspan="19" style="font-size:16px;font-weight:bold;color:red;">
+                                    There were errors on the upload.
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>#</th>
+                                <th colspan="5">Input Data</th>
+                                <th colspan="13">Error Message</th>
+                            </tr>
+                            <template for:each={errors} for:item="error">
+                                <tr key={error.index}>
+                                    <td>{error.index}</td>
+                                    <td colspan="5">{error.params}</td>
+                                    <td colspan="13">{error.message}</td>
+                                </tr>
+                            </template>
+                        </template>
+                        <tr>
+                            <th colspan="22" style="font-size:16px;font-weight:bold;color:rgb(1, 118, 211);">
+                                <template if:false={renameIsActive}>
+                                    {loadedResultName}
+                                </template>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="9" style="border-right:2px solid gray;">Input</th>
+                            <th colspan="13">Match</th>
+                        </tr>
+                        <tr class="slds-table-header sticky-header">
+                            <th class="sticky-column"><lightning-button variant="base" data-key="RowId" data-id="RowId" onclick={handleSort} label="#" icon-position="right"></lightning-button></th>
+                            <th>Actions</th>
+                            <th style="width:25em;"><lightning-button variant="base" data-key="Name" data-id="Name" onclick={handleSort} label="Name" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="Address" data-id="Address" onclick={handleSort} label="Address" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="City" data-id="City" onclick={handleSort} label="City" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="Zip" data-id="Zip" onclick={handleSort} label="Zip" icon-position="right"></lightning-button></th>
+                            <th style="min-width:130px;"><lightning-button variant="base" data-key="MembershipId" data-id="MembershipId" onclick={handleSort} label="Membership Id" icon-position="right"></lightning-button></th>
+                            <th style="min-width:130px;"><lightning-button variant="base" data-key="StartDate" data-id="StartDate" onclick={handleSort} label="Start Date" icon-position="right"></lightning-button></th>
+                        
+                            <th style="min-width:130px;border-right:2px solid gray;"><lightning-button variant="base" data-key="ParentAccount" data-id="ParentAccount" onclick={handleSort} label="Parent Account" icon-position="right"></lightning-button></th>
+                            
+                            <th style="min-width:130px;"><lightning-button variant="base" data-key="MatchScore" data-id="MatchScore" onclick={handleSort} label="Match Score" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="MatchedName" data-id="MatchedName" onclick={handleSort} label="Account Name" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="MatchedAddress" data-id="MatchedAddress" onclick={handleSort} label="Address" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="MatchedCity" data-id="MatchedCity" onclick={handleSort} label="City" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="MatchedZip" data-id="MatchedZip" onclick={handleSort} label="Zip" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="MatchedPhone" data-id="MatchedPhone" onclick={handleSort} label="Phone" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="MatchedParentAccount" data-id="MatchedParentAccount" onclick={handleSort} label="Parent Account" icon-position="right"></lightning-button></th>
+                            <th style="min-width:140px;"><lightning-button variant="base" data-key="AccountNumber" data-id="AccountNumber" onclick={handleSort} label="Account Number" icon-position="right"></lightning-button></th>
+                            <th style="min-width:130px;"><lightning-button variant="base" data-key="MatchedGPOName" data-id="MatchedGPOName" onclick={handleSort} label="GPO Name(s)" icon-position="right"></lightning-button></th>
+                            <th style="min-width:130px;"><lightning-button variant="base" data-key="MatchedMembershipId" data-id="MatchedMembershipId" onclick={handleSort} label="Membership Id" icon-position="right"></lightning-button></th>
+                            <th><lightning-button variant="base" data-key="MatchedDivisions" data-id="MatchedDivisions" onclick={handleSort} label="GPO Divisions" icon-position="right"></lightning-button></th>
+                            <th style="min-width:130px;"><lightning-button variant="base" data-key="MatchedGPOStatus" data-id="MatchedGPOStatus" onclick={handleSort} label="GPO Status" icon-position="right"></lightning-button></th>
+                        </tr>
+                        <template for:each={pagedRecords} for:item="item">
+                            <tr accesskey={item.RowId} key={item.RowId} class={item.Class}>
+                                <template if:false={item.HasError}>
+                                    <td class="sticky-column">{item.RowId}</td>
+                                    <td style="display:flex;">
+                                        <template if:false={item.HasStrike}>
+                                            <lightning-button-icon variant="border-filled" icon-name="utility:strikethrough" 
+                                                onclick={handleInput} accesskey={item.RowId} name="Add Strike">
+                                            </lightning-button-icon>
+                                        </template>
+                                        <template if:true={item.HasStrike}>
+                                            <lightning-button-icon variant="border-filled" icon-name="utility:undo" 
+                                                onclick={handleInput} accesskey={item.RowId} name="Remove Strike">
+                                            </lightning-button-icon>
+                                            
+                                        </template>
+                                        <template if:false={item.HasNote}>
+                                            <lightning-button-icon variant="border-filled" icon-name="action:new_note" 
+                                                onclick={handleInput} accesskey={item.RowId} name="Add Note" style="margin-left:20px;">
+                                            </lightning-button-icon>
+                                        </template>
+                                        <template if:true={item.HasNote}>
+                                            <lightning-button-icon variant="border-filled" icon-name="utility:hide" 
+                                                onclick={handleInput} accesskey={item.RowId} name="Hide Note" style="margin-left:20px;">
+                                            </lightning-button-icon>
+                                            <lightning-input class="note" value={item.Note} name="Note" accesskey={item.RowId} max-length="300" onchange={handleInput}></lightning-input></td>
+                                        </template>
+                                    </td>
+                                    <td style="min-width:25em;white-space:inherit;">{item.Name}</td>
+                                    <td>{item.Address}</td>
+                                    <td>{item.City}</td>
+                                    <td>{item.Zip}</td>
+                                    <td>{item.MembershipId}</td>
+                                    <td>{item.StartDate}</td>
+                                    <td style="border-right:2px solid gray;">{item.ParentAccount}</td>
+                                    <td>{item.MatchScore}</td>
+                                    <td><a href={item.AccountLink} target="_blank">{item.MatchedName}</a></td>
+                                    <td>{item.MatchedAddress}</td>
+                                    <td>{item.MatchedCity}</td>
+                                    <td>{item.MatchedZip}</td>
+                                    <td>{item.MatchedPhone}</td>
+                                    <td><a href={item.ParentAccountLink} target="_blank">{item.MatchedParentAccount}</a></td>
+                                    <td>{item.AccountNumber}</td>
+                                    <td style="white-space:inherit;">{item.MatchedGPOName}</td>
+                                    <td>{item.MatchedMembershipId}</td>
+                                    <td>{item.MatchedDivisions}</td>
+                                    <td>{item.MatchedGPOStatus}</td>
+                                </template>
+                                <template if:true={item.HasError}>
+                                    <td class="sticky-column">{item.RowId}</td>
+                                    <td colspan="6">{item.params}</td>
+                                    <td colspan="12">{item.message}</td>
+                                </template>
+                                
+                            </tr>
+                        </template>
+                    </table>
+                </div>
+            </template>
+        </div>
+    </div>
+    <template if:true={uploadIsActive}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-07" aria-modal="true" aria-describedby="modal-content-id-7" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-07" class="slds-text-heading_medium slds-hyphenate">Upload</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-7">
+                        <p style="margin-bottom:10px;">Please confirm the column indexes in your upload. "-1" means the column is not present or found and won't be searched against.</p>
+                        <p style="margin-bottom:10px;"><b>Remove any extra commas in the Name and Parent Account columns before upload to avoid matching errors.</b></p>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>Zip</th>
+                                <th>Membership Id</th>
+                                <th>Start Date</th>
+                                <th>Parent Account</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning-input type="number" name="Name" value={nameIndex} onchange={handleInput}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="number" name="Address" value={addressIndex} onchange={handleInput}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="number" name="City" value={cityIndex} onchange={handleInput}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="number" name="Zip" value={zipIndex} onchange={handleInput}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="number" name="Membership Id" value={membershipIndex} onchange={handleInput}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="number" name="Start Date" value={startDateIndex} onchange={handleInput}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="number" name="Parent Account" value={parentAccountIndex} onchange={handleInput}></lightning-input>
+                                </td>
+                            </tr>
+                            </table>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                            <tr>
+                                <td colspan={tempColumnsLength}>
+                                    <b>Columns will be read in the order below.</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <template for:each={tempColumns} for:item="column">
+                                    <td key={column.Id}>
+                                        {column.Name}
+                                    </td>
+                                </template>
+                            </tr>
+                        </table>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <template if:true={enableDebug}>
+                            <lightning-button class="lightningBtn" variant="destructive" style="margin-left:10px;margin-right:10px;"
+                                          name="Debug Results"
+                                          label="Debug Results"
+                                          title="Debug Results"
+                                          onclick={handleUploadConfirmDebug}></lightning-button>
+                        </template>
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleUploadCancel} style="margin-left:10px;margin-right:10px;"></lightning-button>
+                        <lightning-button class="lightningBtn" variant="brand"
+                                          name="Confirm"
+                                          label="Confirm"
+                                          title="Confirm"
+                                          onclick={handleUploadConfirm} style="margin-left:10px;margin-right:10px;"></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={deleteIsActive}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Confirm Delete</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                        <p>{deleteText}</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleDeleteCancel}></lightning-button>
+                        <lightning-button class="lightningBtn" variant="brand"
+                                          name="Confirm"
+                                          label="Confirm"
+                                          title="Confirm"
+                                          onclick={handleDeleteConfirm}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={saveIsActive}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">Confirm Save</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <p>{saveText}</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleSaveCancel}
+                                          style="margin-left:10px;margin-right:10px;"></lightning-button>
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="continueNoSave"
+                                          label="Discard Changes"
+                                          title="Discard Changes"
+                                          onclick={handleNoSaveConfirm}
+                                          style="margin-left:10px;margin-right:10px;"></lightning-button>
+                        <lightning-button class="lightningBtn" variant="brand"
+                                          name="Save"
+                                          label="Save"
+                                          title="Save"
+                                          onclick={handleSaveConfirm}
+                                          style="margin-left:10px;margin-right:10px;"></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={loadResultsIsActive}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-05" aria-modal="true" aria-describedby="modal-content-id-5" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width: 60rem !important;min-width:60rem !important;">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-05" class="slds-text-heading_medium slds-hyphenate">Previous Results</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-5">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th><lightning-button onclick={handleDeleteAll} label="Delete All"></lightning-button></th>
+                            </tr>
+                            <template for:each={resultsLibrary} for:item="result">
+                                <tr key={result.value}>
+                                    <td><lightning-button-icon key={result.File_Id__c} value={result.File_Id__c} variant="brand" icon-name="utility:edit" onclick={handleRename}></lightning-button-icon></td>
+                                    <td>{result.Upload_Name__c}</td>
+                                    <td>{result.CreatedDate}</td>
+                                    <td>
+                                        <lightning-button value={result.File_Id__c} onclick={handleResultsChange} label="Load"></lightning-button>
+                                        <lightning-button-icon style="margin-top:22px;margin-left:10px;" value={result.File_Id__c} icon-name="action:delete" class="lightningBtn" alternative-text="Delete" onclick={handleDelete}>
+                                        </lightning-button-icon>
+                                        <lightning-button-icon variant="brand" style="margin-top:22px;margin-left:10px;"  value={result.File_Id__c} icon-name="action:download" class="lightningBtn" alternative-text="Download" onclick={handleDownloadCSV}>
+                                        </lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </template>
+                        </table>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleLoadCancel}
+                                          style="margin-left:10px;margin-right:10px;"></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={renameIsActive}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-06" aria-modal="true" aria-describedby="modal-content-id-6" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-06" class="slds-text-heading_medium slds-hyphenate">Rename Result</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+                        <lightning-input value={currentResultName} onchange={handleInput} name="currentResultName" max-length="300" ></lightning-input>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleRenameCancel}
+                                          style="margin-left:10px;margin-right:10px;"></lightning-button>
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="Save"
+                                          label="Save"
+                                          title="Save"
+                                          onclick={handleRenameSave}
+                                          style="margin-left:10px;margin-right:10px;"></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

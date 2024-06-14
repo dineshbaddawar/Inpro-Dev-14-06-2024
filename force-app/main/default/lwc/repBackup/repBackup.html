@@ -1,0 +1,524 @@
+<template>
+    <template if:true={isDashboard}>
+        <div class="slds-grid slds-wrap dashboard">
+            <div class="slds-p-around_medium column-padding full-screen">
+                <template if:false={loaded}>
+                    <h1><b>Loading....</b></h1>
+                </template>
+                <template if:true={isBackup}>
+                    <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                        <h1><b>You Have Upcoming Backups From Others:</b></h1>
+                    </div>
+                    <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                        <lightning-datatable
+                            name="backupTable"
+                            key-field="Id"
+                            data={backupData}
+                            columns={backupColumns}
+                            hide-checkbox-column="true">
+                        </lightning-datatable>
+                    </div>
+                </template>
+                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                    <h1><b>Your Upcoming UTO Backups:</b></h1>
+                </div>
+                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                    <lightning-datatable
+                        name="utoTable"
+                        key-field="Id"
+                        data={latestUtoData}
+                        columns={utoColumns}
+                        hide-checkbox-column="true">
+                    </lightning-datatable>
+                </div>
+                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                    <template if:false={isViewModal}>
+                        <template if:false={isEditModal}>
+                            <lightning-button style="float: right; padding:10px;" variant="brand" title="Save"
+                                class="slds-m-left_x-small" onclick={handleOpenModal} label="Manage UTO Backups">
+                            </lightning-button>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={isViewModal}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width:75rem !important;" >
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Manage UTO Backups {managerText}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" style="height:70vh;" id="modal-content-id-1">
+                        <template if:false={loaded}>
+                            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                        </template>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12" style="margin-left:-8px;">
+                                <lightning-button variant="brand" title="Add UTO Backups" 
+                                    class="slds-m-left_x-small" onclick={handleFind} label="Add UTO Backups" icon-name="utility:add" icon-position="left">
+                                </lightning-button>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-button  variant="brand" title="Edit UTO Backups" 
+                                    class="slds-m-left_x-small" onclick={handleEditStart} label="Edit UTO Backups" icon-name="utility:edit" icon-position="left">
+                                </lightning-button>
+                            </div>
+                            <template if:true={isManager}>
+                                <template if:false={isManagerView}>
+                                    <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                        <h1><b>Team Members:</b></h1>
+                                    </div>
+                                    <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                        <lightning-datatable
+                                            name="userManagerTable"
+                                            key-field="Id"
+                                            data={managerUsers}
+                                            columns={userManagerColumns}
+                                            hide-checkbox-column="true"
+                                            onrowaction={handleRowAction}>
+                                        </lightning-datatable>
+                                    </div>
+                                </template>
+                            </template>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                    <h1><b>Your UTO + Backups:</b></h1>
+                                </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <lightning-datatable
+                                        name="utoTable"
+                                        key-field="Id"
+                                        data={utoData}
+                                        columns={utoColumns}
+                                        hide-checkbox-column="true">
+                                    </lightning-datatable>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <template if:true={isManagerView}>
+                            <lightning-button variant="brand-outline" title="Close" 
+                                class="slds-m-left_x-small" onclick={handleManagerClose} label="Close Manager View" icon-name="utility:close" icon-position="left">
+                            </lightning-button>
+                        </template>
+                        <template if:false={isManagerView}>
+                            <lightning-button variant="brand-outline" title="Close" 
+                                class="slds-m-left_x-small" onclick={handleClose} label="Close" icon-name="utility:close" icon-position="left">
+                            </lightning-button>
+                        </template>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={isEditModal}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width:75rem !important;" >
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Edit UTO Backups {managerText}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" style="height:70vh;" id="modal-content-id-2">
+                        <template if:false={loaded}>
+                            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                        </template>
+                        <div class="slds-grid slds-wrap">
+                            <template if:true={isSelectionActive}>
+                                <div class="slds-col slds-col-space-thin slds-size_4-of-12" style="margin-left:-8px;">
+                                    <lightning-button variant="brand" title="Clear Selection" 
+                                        class="slds-m-left_x-small" onclick={handleClearSelection} label="Clear Selection" icon-name="utility:clear" icon-position="left">
+                                    </lightning-button>
+                                </div>
+                                <div class="slds-col slds-col-space-thin slds-size_4-of-12" style="margin-left:-8px;">
+                                    <lightning-button variant="brand" title="Edit Selected" 
+                                        class="slds-m-left_x-small" onclick={handleEditFind} label="Edit Selected" icon-name="utility:edit" icon-position="left">
+                                    </lightning-button>
+                                </div>
+                                <div class="slds-col slds-col-space-thin slds-size_4-of-12">
+                                    <lightning-button  variant="brand" title="Delete Selected" 
+                                        class="slds-m-left_x-small" onclick={handleDelete} label="Delete Selected" icon-name="utility:delete" icon-position="left">
+                                    </lightning-button>
+                                </div>
+                            </template>
+                            <template if:false={isSelectionActive}>
+                                <div class="slds-col slds-col-space-thin slds-size_4-of-12" style="margin-left:-8px;">
+                                    <lightning-button variant="brand" title="Clear Selection" 
+                                        class="slds-m-left_x-small" disabled="disabled" label="Clear Selection" icon-name="utility:clear" icon-position="left">
+                                    </lightning-button>
+                                </div>
+                                <div class="slds-col slds-col-space-thin slds-size_4-of-12" >
+                                    <lightning-button variant="brand" title="Edit Selected" 
+                                        class="slds-m-left_x-small" disabled="disabled" label="Edit Selected" icon-name="utility:edit" icon-position="left">
+                                    </lightning-button>
+                                </div>
+                                <div class="slds-col slds-col-space-thin slds-size_4-of-12">
+                                    <lightning-button  variant="brand" title="Delete Selected" 
+                                        class="slds-m-left_x-small" disabled="disabled" label="Delete Selected" icon-name="utility:delete" icon-position="left">
+                                    </lightning-button>
+                                </div>
+                            </template>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <lightning-datatable
+                                        name="utoTable"
+                                        key-field="Id"
+                                        data={utoData}
+                                        columns={editColumns}
+                                        onrowselection={handleSelect}
+                                        selected-rows={selectedUtoRows}
+                                        onrowaction={handleRowAction}>
+                                </lightning-datatable>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand-outline" title="Close" 
+                            class="slds-m-left_x-small" onclick={handleCloseEdit} label="Close" icon-name="utility:back" icon-position="left">
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={isEditSingle}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width:75rem !important;" >
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Edit UTO Backup {managerText}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" style="height:70vh;" id="modal-content-id-3">
+                        <template if:false={loaded}>
+                            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                        </template>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <c-lookup value="selectedUser" name="user" onsearch={handleUserSearch}
+                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                    placeholder="Search Inpro Users..."
+                                    disabled="disabled"
+                                    selection={selectedBackupUser}>
+                                </c-lookup>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <lightning-input 
+                                    name="userSearch"
+                                    label="Filter Name"
+                                    value={searchValue}
+                                    onchange={handleInput}
+                                    type="text">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <lightning-button variant="brand" title="Update UTO Backup" 
+                                    class="slds-m-left_x-small" onclick={handleUpdate} label="Update UTO Backup" icon-name="utility:save" icon-position="left">
+                                </lightning-button>
+                                <lightning-button variant="brand" title="Open UKG" 
+                                    class="slds-m-left_x-small" onclick={handleGoToUKG} label="Open UKG" icon-name="action:web_link" icon-position="left">
+                                </lightning-button>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <b>Current:</b> {currentBackup}
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <b>Date:</b> {currentDate}
+                            </div>
+                            <template if:true={isMarkedBackup}>
+                                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                    <h1><b>Warning! You're listed as a backup for the following:</b></h1>
+                                </div>
+                                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                    <lightning-datatable
+                                            name="markedBackupTable"
+                                            key-field="Id"
+                                            data={markedBackupData}
+                                            columns={backupColumns}
+                                            hide-checkbox-column="true">
+                                        </lightning-datatable>
+                                </div>
+                            </template>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <h1><b>Available:</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <h1><b>Unavailable:</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-datatable
+                                        name="userTable"
+                                        key-field="Id"
+                                        data={filteredAvailableUsers}
+                                        columns={userColumns}
+                                        hide-checkbox-column="true"
+                                        onrowaction={handleRowAction}>
+                                    </lightning-datatable>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-datatable
+                                    name="utoList3"
+                                    key-field="Id"
+                                    data={filteredUnavailableUtoList}
+                                    columns={uunavailableColumns}
+                                    hide-checkbox-column="true">
+                                </lightning-datatable>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand-outline" title="Close" 
+                            class="slds-m-left_x-small" onclick={handleCloseEditSingle} label="Close" icon-name="utility:back" icon-position="left">
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={isFind}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-04" aria-modal="true" aria-describedby="modal-content-id-4" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width:75rem !important;" >
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">Add UTO Backups {managerText}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" style="height:70vh;" id="modal-content-id-4">
+                        <template if:false={loaded}>
+                            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                        </template>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <c-lookup value="selectedUser" name="user" onsearch={handleUserSearch}
+                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                    placeholder="Select From Below..." disabled="disabled"
+                                    onselectionchange={handleLookupSelectionChange}
+                                    selection={selectedBackupUser}>
+                                </c-lookup>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-input 
+                                    name="startDate"
+                                    label="Start Date"
+                                    value={startDate}
+                                    onchange={handleInput}
+                                    type="date">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-input 
+                                    name="endDate"
+                                    label="End Date"
+                                    value={endDate}
+                                    onchange={handleInput}
+                                    type="date">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <lightning-input 
+                                    name="userSearch"
+                                    label="Filter Name"
+                                    value={searchValue}
+                                    onchange={handleInput}
+                                    type="text">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12" style="margin-left:-8px;">
+                                <lightning-button variant="brand" title="Add UTO Backup" 
+                                    class="slds-m-left_x-small" onclick={handleAdd} label="Add UTO Backup" icon-name="utility:save" icon-position="left">
+                                </lightning-button>
+                                <lightning-button variant="brand" title="Open UKG" 
+                                    class="slds-m-left_x-small" onclick={handleGoToUKG} label="Open UKG" icon-name="action:web_link" icon-position="left">
+                                </lightning-button>
+                            </div>
+                            <template if:true={isMarkedBackup}>
+                                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                    <h1><b>Warning! You're listed as a backup for the following:</b></h1>
+                                </div>
+                                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                    <lightning-datatable
+                                            name="markedBackupTable"
+                                            key-field="Id"
+                                            data={markedBackupData}
+                                            columns={backupColumns}
+                                            hide-checkbox-column="true">
+                                        </lightning-datatable>
+                                </div>
+                            </template>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <h1><b>Available:</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <h1><b>Unavailable:</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-datatable
+                                    name="userTable"
+                                    key-field="Id"
+                                    data={filteredAvailableUsers}
+                                    columns={userColumns}
+                                    hide-checkbox-column="true"
+                                    onrowaction={handleRowAction}>
+                                </lightning-datatable>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-datatable
+                                    name="utoList3"
+                                    key-field="Id"
+                                    data={filteredUnavailableUtoList}
+                                    columns={uunavailableColumns}
+                                    hide-checkbox-column="true">
+                                </lightning-datatable>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand-outline" title="Close" 
+                            class="slds-m-left_x-small" onclick={handleFindClose} label="Close" icon-name="utility:back" icon-position="left">
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={isEditFind}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-05" aria-modal="true" aria-describedby="modal-content-id-5" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width:75rem !important;" >
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-05" class="slds-text-heading_medium slds-hyphenate">Edit UTO Backups {managerText}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" style="height:70vh;" id="modal-content-id-5">
+                        <template if:false={loaded}>
+                            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                        </template>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <c-lookup value="selectedUser" name="user" onsearch={handleUserSearch}
+                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                    placeholder="Select From Below..." disabled="disabled"
+                                    onselectionchange={handleLookupSelectionChange}
+                                    selection={selectedBackupUser}>
+                                </c-lookup>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <lightning-input 
+                                    name="userSearch"
+                                    label="Filter Name"
+                                    value={searchValue}
+                                    onchange={handleInput}
+                                    type="text">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12" style="margin-left:-8px;">
+                                <lightning-button variant="brand" title="Update UTO Backups" 
+                                    class="slds-m-left_x-small" onclick={handleUpdate} label="Update UTO Backups" icon-name="utility:save" icon-position="left">
+                                </lightning-button>
+                                <lightning-button variant="brand" title="Open UKG" 
+                                    class="slds-m-left_x-small" onclick={handleGoToUKG} label="Open UKG" icon-name="action:web_link" icon-position="left">
+                                </lightning-button>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <h1><b>Chosen Dates:</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12" style="max-height:200px;overflow-y:scroll;overflow-x:hidden;">
+                                <lightning-datatable
+                                        name="filteredUtoTable"
+                                        key-field="Id"
+                                        data={filteredUtoData}
+                                        columns={utoColumns}
+                                        hide-checkbox-column="true">
+                                </lightning-datatable>
+                            </div>
+                            <template if:true={isMarkedBackup}>
+                                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                    <h1><b>Warning! You're listed as a backup for the following:</b></h1>
+                                </div>
+                                <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                    <lightning-datatable
+                                            name="markedBackupTable"
+                                            key-field="Id"
+                                            data={markedBackupData}
+                                            columns={backupColumns}
+                                            hide-checkbox-column="true">
+                                        </lightning-datatable>
+                                </div>
+                            </template>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <h1><b>Available:</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <h1><b>Unavailable:</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-datatable
+                                    name="userTable"
+                                    key-field="Id"
+                                    data={filteredAvailableUsers}
+                                    columns={userColumns}
+                                    hide-checkbox-column="true"
+                                    onrowaction={handleRowAction}>
+                                </lightning-datatable>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_6-of-12">
+                                <lightning-datatable
+                                    name="utoList3"
+                                    key-field="Id"
+                                    data={filteredUnavailableUtoList}
+                                    columns={uunavailableColumns}
+                                    hide-checkbox-column="true">
+                                </lightning-datatable>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand-outline" title="Close" 
+                            class="slds-m-left_x-small" onclick={handleEditFindClose} label="Close" icon-name="utility:back" icon-position="left">
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={isDeleteConfirm}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-06" aria-modal="true" aria-describedby="modal-content-id-6" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width:75rem !important;" >
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-06" class="slds-text-heading_medium slds-hyphenate">Delete UTO Backups {managerText}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" style="height:70vh;" id="modal-content-id-6">
+                        <template if:false={loaded}>
+                            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                        </template>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <h1><b>Are you sure you want to delete the following?</b></h1>
+                            </div>
+                            <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <lightning-datatable
+                                        name="filteredUtoTable"
+                                        key-field="Id"
+                                        data={filteredUtoData}
+                                        columns={utoColumns}
+                                        hide-checkbox-column="true">
+                                </lightning-datatable>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand" title="Delete" 
+                                class="slds-m-left_x-small" onclick={handleDeleteConfirm} style="float:left;" label="Delete">
+                            </lightning-button>
+                        <lightning-button variant="brand-outline" title="Close" 
+                            class="slds-m-left_x-small" onclick={handleDeleteClose} label="Cancel" icon-name="utility:back" icon-position="left">
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

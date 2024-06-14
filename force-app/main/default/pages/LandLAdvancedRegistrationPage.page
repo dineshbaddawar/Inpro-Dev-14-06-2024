@@ -1,0 +1,24 @@
+<apex:page standardController="LunchAndLearnEvent__c" >
+    <apex:includeLightning />
+    <style>
+        html, body {
+        margin: 0;
+        padding: 0;
+        }
+        #lightningComponent {width: 100%;}
+    </style>
+    <div id="content">
+        <div id="lightningComponent" />
+    </div>
+    <script>
+    var recordId = '{!LunchAndLearnEvent__c.Id}';
+    var myUserContext = "{!$User.UITheme}";
+    $Lightning.use("c:LandLAdvancedRegistrationApp", function() {
+        $Lightning.createComponent("c:LandLAdvancedRegistration",
+                                   {recordId: recordId,
+                                    userTheme: UITheme.getUITheme()},
+                                   "lightningComponent"
+                                  );
+    });
+    </script>
+</apex:page>

@@ -1,0 +1,30 @@
+.THIS .leadAssigned {
+    color: black !important
+}
+.THIS .unselected {
+    text-align: center;
+}
+.THIS .successful {
+    text-align: center;
+    color: green;
+}
+.THIS .cannot {
+    text-align: center;
+    color: red;
+}
+@media (min-width: 768px) {
+    .THIS .alignRight {
+        display: flex;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
+    }
+    
+}
+.THIS .itemLabel {
+    font-size: 11px
+}
+
+.THIS .accountName {
+    font-size: 16px
+}

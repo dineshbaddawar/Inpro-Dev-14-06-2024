@@ -1,0 +1,175 @@
+<apex:page renderAs="PDF" standardStylesheets="false"  controller="AccountSummaryLetterController" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"></link>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style type="text/css">
+            @page {
+                margin-top:20px;
+                margin-bottom:150px;
+                size: 8.5in 11in;
+                margin-left: 0.3in;
+                margin-right: 0.3in;
+                size: portrait;
+                
+                @bottom-left {
+                content: element(footer);
+                }
+            }
+            div.header {
+                padding:20px;
+                position: header;
+            }
+            #middleHeader{
+                float:right;
+                width: 40%;
+            }
+            
+            div.footer {
+                display: block;
+                padding: 2px;
+                position: running(footer);
+            }
+        </style>
+    </head>
+    <body>
+        <apex:styleSheet value="{!URLFOR($Resource.bootstrapMin)}" />
+        <div class="header">
+            <div id="middleHeader">
+                <apex:image url="{!$Resource.Inpro_Logo}" width="250" height="100"/>
+            </div>
+        </div>
+        <div>
+            <table style="border-collapse:collapse;"  width="99%">    
+                <colgroup>
+                    <col span="1" style="width: 100%;text-align:left"/>
+                </colgroup>
+                <tr>    
+                    <td><b>Date: </b>{!accountSummaryWrapper.currentDate}</td>                
+                </tr> 
+                <tr>    
+                    <td><b>Customer Name: </b>{!accountSummaryWrapper.customerName}</td>          
+                </tr>
+                <tr>    
+                    <td><b>Customer Number: </b>{!accountSummaryWrapper.customerNumber}</td>               
+                </tr>
+                <tr>    
+                    <td><b>PO Number: </b>{!accountSummaryWrapper.poNumber}</td>                   
+                </tr>
+                <tr>    
+                    <td><b>Project: </b>{!accountSummaryWrapper.contractName}</td>               
+                </tr>
+            </table>
+
+            <h2 style="color:rgb(3, 115, 200)">Contract Totals</h2>
+            <table width="40%" class="table table-striped table-bordered">    
+                <colgroup>
+                    <col span="1" style="width: 20%;text-align:left"/>   
+                    <col span="1" style="width: 20%;text-align:left"/>                   
+                </colgroup>
+                    <tr>    
+                        <td>Total Contract: </td>  
+                        <td><apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!accountSummaryWrapper.totalContractAmount}" />
+                        </apex:outputText></td>                                
+                    </tr>                 
+                    <tr>
+                        <td style="text-align:left">Total Billed: </td>    
+                        <td><apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!accountSummaryWrapper.totalBilled}" />
+                        </apex:outputText></td>                    
+                    </tr> 
+                    <tr style="background: #f2f2f2;">
+                        <td style="text-align:left"><b>Contract Balance: </b></td> 
+                        <td><b><apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!accountSummaryWrapper.contractBalance}" />
+                        </apex:outputText></b></td>                       
+                    </tr>
+            </table>
+            
+            <h2 style="color:rgb(3, 115, 200)">Contract Versions</h2>
+            <table width="99%" class="table table-striped table-bordered">    
+                <colgroup>
+                    <col span="1" style="width: 75%;text-align:left"/>
+                    <col span="1" style="width: 25%;text-align:left"/>
+                </colgroup>
+                <tr style="background: #dbebff;">    
+                    <th>Name</th>
+                    <th align="right">Amount</th>                
+                </tr>                
+                <apex:repeat value="{!accountSummaryWrapper.contractVersions}" var="AccountSummaryCV">
+                    <tr>    
+                        <td>{!AccountSummaryCV.name}</td>
+                        <td align="right"><apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!AccountSummaryCV.total}" />
+                        </apex:outputText></td>     
+                    </tr> 
+                </apex:repeat>
+                <tr style="background: #f2f2f2 !important;">
+                    <td></td>
+                    <td align="right"><b><apex:outputText value="{0, number, currency}">
+                        <apex:param value="{!accountSummaryWrapper.totalContractAmount}" />
+                    </apex:outputText></b></td>                        
+                </tr>
+            </table>
+
+            <h2 style="color:rgb(3, 115, 200)">Transaction History</h2>
+            <table width="99%" class="table table-striped table-bordered">    
+                <colgroup>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 10%;text-align:left"/>
+                    <col span="1" style="width: 10%;text-align:left"/>
+                    <col span="1" style="width: 20%;text-align:left"/>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                    <col span="1" style="width: 15%;text-align:left"/>
+                </colgroup>
+                <tr style="background: #dbebff;">    
+                    <th>Invoice Date</th>
+                    <th>Invoice #</th>
+                    <th>Order #</th> 
+                    <th>Division</th> 
+                    <th>Amount</th> 
+                    <th>Paid</th> 
+                    <th>Due</th>                 
+                </tr> 
+                <apex:repeat value="{!accountSummaryWrapper.contractInvoices}" var="ContractInvoice">
+                    <tr>    
+                        <td>{!ContractInvoice.invoiceDateString}</td>
+                        <td>{!ContractInvoice.invoiceNumber}</td>  
+                        <td>{!ContractInvoice.orderNumber}</td>  
+                        <td>{!ContractInvoice.division}</td>  
+                        <td><apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!ContractInvoice.amount}" />
+                        </apex:outputText></td>  
+                        <td><apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!ContractInvoice.paid}" />
+                        </apex:outputText></td>  
+                        <td><apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!ContractInvoice.balanceDue}" />
+                        </apex:outputText></td>     
+                    </tr> 
+                </apex:repeat>
+                <tr style="background: #f2f2f2;">
+                    <td><b>Totals</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b><apex:outputText value="{0, number, currency}">
+                        <apex:param value="{!accountSummaryWrapper.totalTransactionAmount}" />
+                    </apex:outputText></b></td>
+                    <td><b><apex:outputText value="{0, number, currency}">
+                        <apex:param value="{!accountSummaryWrapper.totalPaidAmount}" />
+                    </apex:outputText></b></td>
+                    <td><b><apex:outputText value="{0, number, currency}">
+                        <apex:param value="{!accountSummaryWrapper.totalDueAmount}" />
+                    </apex:outputText></b></td>                   
+                </tr> 
+            </table>
+        </div>
+        <div class="footer">
+            <apex:image url="{!$Resource.QuotePricingFooter}" width="750" height="75"/>
+        </div>
+    </body>
+</html>
+</apex:page>

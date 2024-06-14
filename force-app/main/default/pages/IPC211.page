@@ -1,0 +1,901 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC211Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    size: 16.5in 13.5in; 
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:100%;text-align:right;font-size:20px" >IPC.211/REV.9</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:25%;text-align:left">
+                                    <img style="width:200px;text-align:left" src="{!$Resource.cf_ipc211_ClickezeLogo}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: center;font-size:13px;width:20% ">
+                                    S80 W18766 Apollo Drive<br/>
+                                    Muskego, WI 53150<br/>
+                                    PH: 800-222-5556   Fax: 888-715-8407<br/>
+                                </td>
+                                <td style="width:25%;text-align:right" ><img style="width:100px;" src="{!$Resource.cf_ipc211_InproLogo}" alt="Inpro" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </body>
+        </html>
+        <apex:form >
+            <div>
+                <title>IPC211</title>
+                <p style="text-align:center;font-size:25px;padding-top:70px">
+                    <b>
+                        Made to Measure Drapery Rod Measurement Form
+                    </b>
+                </p>
+                <table style="border-collapse: collapse; margin-left: 5%; width: 40%;">
+                    <tr>
+                        <td style="font-size: 20px; width: 15%;">
+                            <div style="width: 10px; height: 10px; border: 1px solid #333; cursor: pointer; background:"></div>
+                            <div style="padding-left: 20px; margin-top: -12px;">Order</div>
+                        </td>
+                        <td style="width: 10%; padding-right: -20px;">
+                            <div style="border-bottom: 1px solid #333; width: 80px; display: inline-block; background:">
+                                
+                            </div>
+                        </td>
+                        <td style="font-size: 20px; width: 15%;">
+                            <div style="width: 10px; height: 10px; border: 1px solid #333; cursor: pointer; background:"></div>
+                            <div style="padding-left: 20px; margin-top: -13px;">Quote #:</div>
+                        </td>
+                        <td style="width: 5%;font-size: 20px;">
+                            <div >
+                                {!customForm.quoteRecord.QuoteNumber}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table style="border-collapse: collapse; margin-left: 5%; width: 100%;">
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Date
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block;">
+                                {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                            </div>
+                        </td>
+                        <td style="width:5%;"></td>
+                        <td style="font-size: 20px; width: 30%;">
+                            Customer Account Number:
+                        </td>
+                        <td style="width:15%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 190px; display: inline-block;margin-left:-140px; background:">
+                                &nbsp; {!customForm.quoteRecord.Account.Customer_Number__c}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Contact:
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.Contact.Name}
+                            </div>
+                        </td>
+                        
+                        <td style="width:5%;">
+                            
+                        </td>
+                        
+                        <td style="font-size: 20px; width: 30%;">
+                            Sales Rep:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Phone:
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.Phone}
+                            </div>
+                        </td> 
+                        <td style="width:5%;"></td>
+                        <td style="font-size: 20px; width: 30%;">
+                            Facility or Project Name:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Opportunity_Name__c}
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Ship to:
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.ShippingStreet}
+                            </div>
+                        </td>
+                        
+                        <td style="width:5%;">
+                            
+                        </td>
+                        
+                        <td style="font-size: 20px; width: 30%;">
+                            Fax:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Fax}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.ShippingCity} {!customForm.quoteRecord.ShippingState}, {!customForm.quoteRecord.ShippingPostalCode}
+                            </div>
+                        </td>
+                        
+                        <td style="width:5%;">
+                            
+                        </td>
+                        
+                        <td style="font-size: 20px; width: 30%;">
+                            E-Mail:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Email}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br/><br/>
+                <table style="font-size:20px"> 
+                    <tr>
+                        <td style="width:60%">
+                            &#x2022; If you have existing hardware being replaced, check the controls and curtain fullness <br/>
+                            &#x2022; Bolt-On Baton/Wand, drapery will require a stiffener. <br/>
+                            &#x2022; Baton/Wand clipped to the master carrier, stiffeners are not required. <br/>
+                            &#x2022; Brackets included <br/>
+                            &#x2022; Ripplefold Fullness - 120%, 100%, 80%, 60% Only <br/>
+                            &#x2022; Available MTM Rod Colors: White, Anodized, Bronze, Black.   <br/>
+                        </td>
+                        <td style="padding-left:30px">
+                            <img style="width:200px;text-align:left" src="{!$Resource.cf_ipc211_IPC211}" alt="HeaderImage" />
+                        </td>
+                        
+                    </tr>
+                </table>
+                <table style="font-size: 15px; border-collapse: collapse;"> 
+                    <tr style="font-weight:bold">
+                        <td style="width:8.3%; border: 1px solid;">
+                            Room Location
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Qty
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Rod Style
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Rod Color
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Drapery Style Pinch 
+                            Pleat, Ripplefold 
+                            (Overlap is Standard)
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Ripplefold 
+                            Fullness
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Rod Width
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Bolt-on Baton (Through Fabric 
+                            w/adapter and Stiffener), Clip-on 
+                            Baton (Hidden w/harness snap)
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Draw - 
+                            2 Way, One Way Left, 
+                            One Way Right, Center 
+                            Stack
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Installation - Wall Mount or 
+                            Ceiling Mount
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Return Size
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Baton Length 
+                            (Standard 36" 
+                            Fiberglass - White) 
+                            94003 Only
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%;height:20px;border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%;height:20px;border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%;height:20px;border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%;height:20px;border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%;height:20px;border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%;height:20px;border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%;height:20px;border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                    
+                </table>
+                <p style="font-size: 20px;font-weight:bold"> ALL CUSTOM ORDERS ARE NON-CANCELABLE AND PRODUCTS ARE NON-RETURNABLE</p>
+            </div>
+        </apex:form>
+    </apex:outputText>
+
+
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    size: 16.5in 13.5in; 
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        
+                    </div>
+                </div>
+            </body>
+        </html>
+        <apex:form >
+            <div>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:25%;text-align:left">
+                            <img style="width:200px;text-align:left" src="{!$Resource.cf_ipc211_ClickezeLogo}" alt="HeaderImage" />
+                        </td>
+                        <td style="text-align: center;font-size:13;width:20% ">
+                            S80 W18766 Apollo Drive<br/>
+                            Muskego, WI 53150<br/>
+                            PH: 800-222-5556   Fax: 888-715-8407<br/>
+                        </td>
+                        <td style="width:25%;text-align:right" ><img style="width:100px;" src="{!$Resource.cf_ipc211_InproLogo}" alt="Inpro" /></td>
+                    </tr>
+                </table>
+                <title>IPC211</title>
+                <p style="text-align:center;font-size:25px;padding-top:70px">
+                    <b>
+                        Made to Measure Drapery Rod Measurement Form
+                    </b>
+                </p>
+                <table style="border-collapse: collapse; margin-left: 5%; width: 40%;">
+                    <tr>
+                        <td style="font-size: 20px; width: 15%;">
+                            <div style="width: 10px; height: 10px; border: 1px solid #333; cursor: pointer; background:"></div>
+                            <div style="padding-left: 20px; margin-top: -12px;">Order</div>
+                        </td>
+                        <td style="width: 10%; padding-right: -20px;">
+                            <div style="border-bottom: 1px solid #333; width: 80px; display: inline-block; background:">
+                                
+                            </div>
+                        </td>
+                        <td style="font-size: 20px; width: 15%;">
+                            <div style="width: 10px; height: 10px; border: 1px solid #333; cursor: pointer; background:"></div>
+                            <div style="padding-left: 20px; margin-top: -13px;">Quote #:</div>
+                        </td>
+                        <td style="width: 5%;font-size: 20px;">
+                            <div >
+                                {!customForm.quoteRecord.QuoteNumber}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table style="border-collapse: collapse; margin-left: 5%; width: 100%;">
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Date
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block;">
+                                {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                            </div>
+                        </td>
+                        <td style="width:5%;"></td>
+                        <td style="font-size: 20px; width: 30%;">
+                            Customer Account Number:
+                        </td>
+                        <td style="width:15%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 190px; display: inline-block;margin-left:-140px; background:">
+                                &nbsp; {!customForm.quoteRecord.Account.Customer_Number__c}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Contact:
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.Contact.Name}
+                            </div>
+                        </td>
+                        
+                        <td style="width:5%;">
+                            
+                        </td>
+                        
+                        <td style="font-size: 20px; width: 30%;">
+                            Sales Rep:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Phone:
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.Phone}
+                            </div>
+                        </td> 
+                        <td style="width:5%;"></td>
+                        <td style="font-size: 20px; width: 30%;">
+                            Facility or Project Name:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Opportunity_Name__c}
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            Ship to:
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.ShippingStreet}
+                            </div>
+                        </td>
+                        
+                        <td style="width:5%;">
+                            
+                        </td>
+                        
+                        <td style="font-size: 20px; width: 30%;">
+                            Fax:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Fax}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; width: 5%;">
+                            
+                        </td>
+                        <td style="width:30%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 230px; display: inline-block; background:">
+                                {!customForm.quoteRecord.ShippingCity} {!customForm.quoteRecord.ShippingState}, {!customForm.quoteRecord.ShippingPostalCode}
+                            </div>
+                        </td>
+                        
+                        <td style="width:5%;">
+                            
+                        </td>
+                        
+                        <td style="font-size: 20px; width: 30%;">
+                            E-Mail:
+                        </td>
+                        <td style="width:20%;font-size: 20px;">
+                            <div style="border-bottom: 1px solid #333; width: 200px; display: inline-block;margin-left:-150px; background:">
+                                {!customForm.quoteRecord.Email}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br/><br/>
+                <table style="font-size:20px"> 
+                    <tr>
+                        <td style="width:60%">
+                            &#x2022; If you have existing hardware being replaced, check the controls and curtain fullness <br/>
+                            &#x2022; Bolt-On Baton/Wand, drapery will require a stiffener. <br/>
+                            &#x2022; Baton/Wand clipped to the master carrier, stiffeners are not required. <br/>
+                            &#x2022; Brackets included <br/>
+                            &#x2022; Ripplefold Fullness - 120%, 100%, 80%, 60% Only <br/>
+                            &#x2022; Available MTM Rod Colors: White, Anodized, Bronze, Black.   <br/>
+                        </td>
+                        <td style="padding-left:30px">
+                            <img style="width:200px;text-align:left" src="{!$Resource.cf_ipc211_IPC211}" alt="HeaderImage" />
+                        </td>
+                        
+                    </tr>
+                </table>
+                <table style="font-size: 15px; border-collapse: collapse;"> 
+                    <tr style="font-weight:bold">
+                        <td style="width:8.3%; border: 1px solid;">
+                            Room Location
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Qty
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Rod Style
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Rod Color
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Drapery Style Pinch 
+                            Pleat, Ripplefold 
+                            (Overlap is Standard)
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Ripplefold 
+                            Fullness
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Rod Width
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Bolt-on Baton (Through Fabric 
+                            w/adapter and Stiffener), Clip-on 
+                            Baton (Hidden w/harness snap)
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Draw - 
+                            2 Way, One Way Left, 
+                            One Way Right, Center 
+                            Stack
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Installation - Wall Mount or 
+                            Ceiling Mount
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Return Size
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;">
+                            Baton Length 
+                            (Standard 36" 
+                            Fiberglass - White) 
+                            94003 Only
+                        </td>
+                    </tr>
+                    <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                        <tr>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Room_Location__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!Text(quoteLine.quoteLineItem.Quantity)} 
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Rod_Style__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Rod_Color__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Style__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Ripple_Fold_Fullness__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!Text(quoteLine.quoteLineItem.Width__c)} 
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Operator__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Draw_Type__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Installation__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Return__c}
+                            </td>
+                            <td style="width:8.3%; border: 1px solid;">
+                                {!quoteLine.quoteLineItem.Baston_Length__c}
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                    <tr>
+                        <td style="width:8.3%; border: 1px solid;font-weight:bold">
+                            Notes:
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;" colspan="11"></td>
+                    </tr>
+                    <tr>
+                        <td style="width:8.3%; border: 1px solid; font-weight:bold" colspan="12">
+                            Customer Signature
+                        </td>
+                    </tr>
+                </table>
+                <p style="font-size: 20px;font-weight:bold"> ALL CUSTOM ORDERS ARE NON-CANCELABLE AND PRODUCTS ARE NON-RETURNABLE</p>
+
+
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:100%;text-align:right;font-size:20px" >IPC.211/REV.9</td>
+                    </tr>
+                </table>
+            </div>
+        </apex:form>
+    </apex:outputText>
+</apex:page>

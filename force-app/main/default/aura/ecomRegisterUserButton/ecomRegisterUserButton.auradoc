@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ecomRegisterUser" ref="ecomRegisteruser" label="Label">
+		Ecom Register User
+	</aura:example>
+</aura:documentation>

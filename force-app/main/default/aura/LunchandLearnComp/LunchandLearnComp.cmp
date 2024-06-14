@@ -1,0 +1,364 @@
+<aura:component controller="LunchandLearnCampaign" implements="force:hasRecordId,force:lightningQuickAction">
+  <ltng:require styles="/resource/slds/assets/styles/salesforce-lightning-design-system.css"
+    afterScriptsLoaded="{!c.doInit}" />
+  <aura:attribute name="Namelist" type="List" />
+  <aura:attribute name="AccountId" type="string" access="public" />
+  <aura:attribute name="location" type="string" access="public" />
+  <aura:attribute name="EventId" type="string" access="public" />
+  <aura:attribute name="CampaignName" type="string" access="public" />
+  <aura:attribute name="CampaignId" type="string" access="public" />
+  <aura:attribute name="inputDate" type="Date" />
+  <aura:attribute name="inputTime" type="Time" />
+  <aura:attribute name="OldEvt" type="LunchAndLearnEvent__c" />
+  <aura:attribute name="isOpen" type="boolean" default="false" />
+  <aura:attribute name="errorMsg" type="boolean" default="false" />
+  <aura:attribute name="errorMessage" type="string" />
+  <aura:attribute name="startFrom" type="string" />
+  <aura:attribute name="CampaignIdFromUrl" type="string" />
+
+  <aura:attribute Name="selItem" type="account" access="public"
+    description="This attribute can be used by parent component to read selected record" />
+  <aura:attribute Name="server_result" type="object[]" access="private" />
+  <aura:attribute name="lookupIcon" type="String" access="public" default="standard:account" />
+  <aura:attribute name="limit" type="Integer" access="public" default="5"
+    description="Total number of record to be returned" />
+  <aura:attribute name="placeholder" type="String" access="public" default="Search your account for the event" />
+  <aura:attribute name="last_SearchText" type="String" access="private" />
+  <aura:attribute name="last_ServerResult" type="object[]" access="private" />
+
+  <div class="divmargin">
+    <div class="heading">Lunch and Learn Event</div>
+    <br /><br /><br />
+
+    <div class="slds-form-element__control">
+      <lightning:layout>
+        <lightning:layoutItem size="12" class="divmargin" smallDeviceSize="12" mediumDeviceSize="10"
+          largeDeviceSize="10" padding="around-x-small">
+          <div class="divmargin">
+            <aura:if isTrue="{!v.errorMsg}">
+              <div>
+                <div class="slds-notify_container slds-is-relative mediaWidth">
+                  <div class="slds-notify slds-notify_toast slds-theme_error mediaWidth" role="alert">
+                    <span class="slds-assistive-text">info</span>
+                    <span
+                      class="slds-icon_container slds-icon-utility-warning slds-m-right_small slds-no-flex slds-align-top"
+                      title="Description of icon when needed">
+                      <lightning:icon iconName="utility:info" size="medium" alternativeText="info" variant="inverse" />
+                    </span>
+                    <div class="slds-notify__content">
+                      <h2 class="slds-text-heading_small medialbl">
+                        {!v.errorMessage}
+                      </h2>
+                    </div>
+                    <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse"
+                      title="Close" onclick="{!c.closeToast}">
+                      <lightning:icon iconName="utility:close" size="medium" alternativeText="warning"
+                        variant="inverse" />
+                      <span class="slds-assistive-text">Close</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </aura:if>
+          </div>
+        </lightning:layoutItem>
+      </lightning:layout>
+       
+        <aura:if isTrue="{!v.startFrom != 'Account' }">
+            <lightning:layout>
+                <lightning:layoutItem size="12" class="divmargin" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="4"
+                                      padding="around-x-small">
+                    <label>Select Where Your Event is Being Conducted</label>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <br/>
+        </aura:if>
+        
+      <lightning:layout>
+        <lightning:layoutItem size="12" class="locationMargin" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="4"
+          padding="around-x-small">
+          <aura:if isTrue="{!v.startFrom != 'Account' }">
+            <label>Account (if in a specifier’s office)</label>
+            <div class="slds-combobox_container slds-has-inline-listbox">
+              <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                aria-expanded="true" aria-haspopup="listbox" role="combobox" style="width: 40% important;">
+                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+                  <div>
+                    <aura:if isTrue="{! empty(v.selItem) }">
+                      <input type="text" class="slds-input slds-combobox__input" id="combobox-unique-id"
+                        aria-activedescendant="listbox-option-unique-id-01" aria-autocomplete="list"
+                        aria-controls="listbox-unique-id" autocomplete="off" role="combobox"
+                        placeholder="{!v.placeholder}" onkeyup="{!c.serverCall}" />
+                      <aura:set attribute="else">
+                        <span class="slds-pill slds-pill_link fullWidth">
+                          <a href="javascript:void(0);" class="slds-pill__action slds-p-left_x-small" title="{#v.selItem.text}"
+                          >
+                            <lightning:icon
+                              iconName="{#v.lookupIcon}"
+                              size="x-small"
+                            />
+                            <span class="slds-pill__label slds-p-left_x-small"
+                              >{#v.selItem.text}</span
+                            >
+                          </a>
+                          <button
+                            onclick="{!c.clearSelection}"
+                            class="slds-button slds-button_icon slds-button_icon slds-pill__remove"
+                            title="Remove"
+                          >
+                            <lightning:icon
+                              iconName="utility:close"
+                              size="small"
+                              alternativeText="Press delete or backspace to remove"
+                            />
+                            <span class="slds-assistive-text">Remove</span>
+                          </button>
+                        </span>
+                      </aura:set>
+                    </aura:if>
+                  </div>
+                </div>
+                <aura:if
+                  isTrue="{! greaterthanorequal(v.server_result.length,1) }"
+                >
+                  <div id="listbox-unique-id" role="listbox">
+                    <ul
+                      class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid"
+                      role="presentation"
+                      style="
+                        display: block;
+                        min-width: auto;
+                        max-width: 100%;
+                        width: 100%;
+                      "
+                    >
+                      <aura:iteration
+                        items="{!v.server_result}"
+                        var="item"
+                        indexVar="i"
+                      >
+                        <li
+                          role="presentation"
+                          class="slds-listbox__item"
+                          data-selectedIndex="{#i}"
+                          onclick="{!c.itemSelected}"
+                        >
+                          <span
+                            id="{#'listbox-option-unique-id-'+i+1}"
+                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                            role="option"
+                          >
+                            <span class="slds-media__figure optionIcon">
+                              <span class="slds-icon_container">
+                                <lightning:icon
+                                  iconName="{#v.lookupIcon}"
+                                  size="small"
+                                />
+                                <span class="slds-assistive-text">
+                                  <!-- Removed to clear bug - THG - ATS 06/11/20 -->
+                                  <!-- {#v.objectName} -->
+                                </span>
+                              </span>
+                            </span>
+                            <span class="slds-media__body singleRow">
+                                <span
+                                      class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity"
+                                      >{#item.text}</span
+                                    >
+                                <span
+                                      class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity"
+                                      >{#item.address}</span
+                                    >
+                            </span>
+                          </span>
+                        </li>
+                      </aura:iteration>
+                    </ul>
+                  </div>
+                </aura:if>
+              </div>
+            </div>
+            <br />
+          </aura:if>
+        </lightning:layoutItem>
+      </lightning:layout>
+      
+        <aura:if isTrue="{!v.startFrom != 'Account' }">
+            <lightning:layout>
+                <lightning:layoutItem size="12" class="divmargin" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="4"
+                                      padding="around-x-small">
+                    <label>Or</label>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <br/>
+        </aura:if>
+        
+      <lightning:layoutItem
+        size="12"
+        class="locationMargin"
+        smallDeviceSize="12"
+        mediumDeviceSize="8"
+        largeDeviceSize="4"
+        padding="around-x-small"
+      >
+        <aura:if isTrue="{!v.startFrom != 'Account' }">
+          <div class="row">
+            <label>Other Location (AIA chapter, trade show, etc.)</label>
+            <lightning:input
+              aura:id="location"
+              type="string"
+              name="location"
+              value="{!v.location}"
+            />
+            <br />
+          </div>
+        </aura:if>
+      </lightning:layoutItem>
+      <div class="divmargin">
+        <lightning:layoutItem
+          size="12"
+          class="divmargin"
+          smallDeviceSize="12"
+          mediumDeviceSize="8"
+          largeDeviceSize="4"
+          padding="around-x-small"
+        >
+          <table class="slds-table slds-table_bordered customLbl">
+            <label>Select a Course</label>
+            <br /><br />
+            <aura:iteration items="{!v.Namelist}" var="obj">
+              <tr>
+                <td>
+                  <span class="slds-radio">
+                    <input
+                      type="radio"
+                      id="{!obj.Id}"
+                      value="{!obj.Name}"
+                      name="rb"
+                      checked="{!obj.checked}"
+                      onchange="{!c.onGroup}"
+                    />
+                    <label class="slds-radio__label tblLabel" for="{!obj.Id}">
+                      <span class="slds-radio_faux"></span>
+                      <span class="slds-form-element__label"
+                        >{!' '+obj.Name}</span
+                      >
+                    </label>
+                  </span>
+                </td>
+              </tr>
+            </aura:iteration>
+          </table>
+        </lightning:layoutItem>
+      </div>
+    </div>
+    <lightning:layoutItem
+      size="12"
+      class="divmargin"
+      smallDeviceSize="12"
+      mediumDeviceSize="8"
+      largeDeviceSize="4"
+      padding="around-x-small"
+    >
+    <br />
+      <div class="row">
+          <label>Event date</label>
+          <lightning:input
+            aura:id="intime"
+            type="date"
+            name="inputDate"
+            value="{!v.inputDate}"
+          />
+        </div>
+        <br />
+        <div class="row">
+        <label>Event time</label>
+        <lightning:input
+          aura:id="intime"
+          type="time"
+          name="inputTime"
+          value="{!v.inputTime}"
+        />
+      </div>
+    </lightning:layoutItem>
+    <lightning:layoutItem
+      size="12"
+      class="divmargin"
+      smallDeviceSize="12"
+      mediumDeviceSize="8"
+      largeDeviceSize="4"
+      padding="around-x-small"
+    >
+      <br />
+      <lightning:button
+        class="slds-button slds-button_brand"
+        label="Create"
+        onclick="{!c.AccountDetails}"
+      />
+      <lightning:button type="button" label="Cancel" onclick="{!c.cancelW}" />
+    </lightning:layoutItem>
+
+    <div>
+      <!--Use aura:if tag to display Model Box, on the bese of conditions. [isOpen boolean attribute] -->
+      <aura:if isTrue="{!v.isOpen}">
+        <!--###### MODAL BOX Start From Here ######-->
+        <div
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="header"
+          class="slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+            <div class="slds-modal__header">
+              <button
+                class="slds-button slds-modal__close slds-button--icon-inverse"
+                title="Close"
+                onclick="{!c.closeModel}"
+              >
+                X
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2 id="header" class="slds-text-heading--medium">
+                Lunch and Learn
+              </h2>
+            </div>
+            <!--###### MODAL BOX BODY Part Start From Here ######-->
+            <div class="slds-modal__content slds-p-around--medium">
+              <p>
+                <b
+                  >This course was previously scheduled for this account or
+                  location within the last 3 years (the AIA limit for
+                  repeating). Are you sure you want to schedule this? <br /> <br />
+                  <a target="_blank" href="{!'/'+v.OldEvt.Id}">Click here</a> to
+                  review the most recent event, scheduled/conducted on
+                  <ui:outputDate
+                    value="{!v.OldEvt.StartDateTime__c}"
+                    format="MM/dd/yyyy"
+                  ></ui:outputDate>
+                </b>
+              </p>
+            </div>
+            <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+            <div class="slds-modal__footer">
+              <button
+                class="slds-button slds-button--neutral"
+                onclick="{!c.closeModel}"
+              >
+                Cancel
+              </button>
+              <button
+                class="slds-button slds-button--brand"
+                onclick="{!c.ConfirmedContinue}"
+              >
+                Confirmed - Continue
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        <!--###### MODAL BOX Part END Here ######-->
+      </aura:if>
+    </div>
+  </div>
+</aura:component>

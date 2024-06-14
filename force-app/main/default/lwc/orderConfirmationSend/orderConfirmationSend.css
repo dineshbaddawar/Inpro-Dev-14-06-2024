@@ -1,0 +1,12 @@
+.slds-col-space{
+    padding: 10px !important;
+}
+.slds-col-space-thin{
+    padding-top:10px !important;
+}
+.slds-wrap-thin{
+    margin-top:-10px;
+}
+.email-input{
+    margin-top:-15px;
+}

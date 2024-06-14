@@ -1,0 +1,77 @@
+<aura:component controller="LandLAdvancedRegistrationController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="landlEventRecord" type="LunchAndLearnEvent__c"/>
+    <aura:attribute name="attendees" type="List" default="[]" />
+    <aura:attribute name="loading" type="boolean" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <article class="slds-card slds-grid slds-wrap slds-col slds-size_1-of-1 slds-align_absolute-center">
+        
+        <div aura:id="spinnerDiv">
+            <aura:if isTrue="{!v.loading}">
+                <lightning:spinner variant="brand" size="large" alternativeText="Loading..."/>
+            </aura:if>
+        </div>
+        
+        <div class="slds-card__header slds-col slds-size_1-of-1 slds-grid slds-wrap headerBorder">
+            <div class="slds-col slds-size_1-of-1 slds-text-heading_medium" style="padding-bottom: 1%">{!$Label.c.L_L_Take_Attendance_Page_Header}</div>
+            <div class="slds-col slds-size_1-of-1 slds-text-heading_small" style="padding-bottom: 1%">{!v.landlEventRecord.Course_Name__r.Name} - {!v.landlEventRecord.Start_Formatted__c}</div>
+        </div>
+        
+        
+        <div class="slds-card__body slds-card__body_inner slds-col slds-size_1-of-1 slds-grid slds-wrap">                
+            <div class="slds-col slds-size_1-of-1">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.L_L_First_Name}">{!$Label.c.L_L_First_Name}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.L_L_Last_Name}">{!$Label.c.L_L_Last_Name}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.L_L_Email}">{!$Label.c.L_L_Email}</div>
+                            </th>
+                            <th scope="col">
+                               <div class="slds-truncate" title="{!$Label.c.L_L_In_Attendance}">{!$Label.c.L_L_In_Attendance}</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration  items="{!v.attendees}" var="attendee">
+                            <tr>
+                                <td data-label="{!attendee.firstName}">
+                                    <ui:outputText value="{!attendee.firstName}" />
+                                </td>
+                                <td data-label="{!attendee.lastName}">
+                                    <ui:outputText value="{!attendee.lastName}" />
+                                </td>
+                                <td data-label="{!attendee.email}">
+                                    <ui:outputText value="{!attendee.email}"/>
+                                </td>
+                                <td data-label="{!attendee.eventAttendeeId+'Attended'}">
+                                    <input type="checkbox" 
+                                           checked="{!attendee.Attended}" 
+                                           data-id="{!attendee.eventAttendeeId}" 
+                                           onclick="{!c.markAttended}"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        
+        <footer class="slds-card__footer slds-col slds-size_1-of-1 slds-grid slds-wrap footerShade">
+            <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                <lightning:button label="{!$Label.c.L_L_Back}" title="Back"
+                                  iconName="action:back" onclick="{!c.goBackToRecord}"/>
+            </div>
+        </footer>
+        
+        
+    </article>
+    
+</aura:component>

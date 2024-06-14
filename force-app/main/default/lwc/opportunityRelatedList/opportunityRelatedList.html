@@ -1,0 +1,53 @@
+<template>
+    <div class="slds-page-header slds-page-header_record-home">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title" style="padding-bottom:10px;">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="standard:opportunity" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                          <a href="#" class="slds-card__header-link slds-truncate" title="Accounts">
+                            <span if:false={hasMore}>Opportunities ({OpportunityCount})</span>
+                            <span if:true={hasMore}>Opportunities ({OpportunityCount}+)</span>
+                          </a>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <template if:true={hasData}>
+            <div class="slds-grid slds-page-header__row slds-page-header__row_gutters">
+                <div class="slds-page-header__col-details-override">
+                    <lightning-datatable key-field="OpportunityId"
+                                    data={data}
+                                    columns={columns}
+                                    hide-checkbox-column="true"
+                                    sorted-by={sortBy}
+                                    sorted-direction={sortDirection}
+                                    onsort={doSorting}>
+                    </lightning-datatable>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_align-center">
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-button variant="base"
+                        title="View All (Direct)" class="slds-m-left_x-small slds-align_absolute-center" onclick={handleOpen} value="1" label="View All (Direct)">
+                    </lightning-button>
+                </div>
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-button variant="base"
+                        title="View All (Building Owner)" class="slds-m-left_x-small slds-align_absolute-center" onclick={handleOpen} value="2" label="View All (Building Owner)">
+                    </lightning-button>
+                </div>
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-button variant="base"
+                        title="View All (Original Bidder)" class="slds-m-left_x-small slds-align_absolute-center" onclick={handleOpen} value="3" label="View All (Original Bidder)">
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+        
+    </div>
+</template>

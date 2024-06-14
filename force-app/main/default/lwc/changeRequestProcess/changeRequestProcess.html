@@ -1,0 +1,32 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <div style="padding:10px;">
+            <h3 slot="title">       
+                <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Process Change Request</strong>
+            </h3><br/> 
+            <lightning-datatable if:false={isEstimator}
+                data-id='approvalStepTable'
+                key-field="Id"
+                data={approvalStepData}
+                onrowselection={handleDataSelection}
+                suppress-bottom-bar
+                selected-rows={approvalStepSelectedRows}
+                columns={approvalStepColumns}>
+            </lightning-datatable><br/>
+            <lightning-textarea name="ta_Notes" label="Please enter your approval/rejection notes below." onchange={handleNotesOnChange}></lightning-textarea>
+            <h1 style="padding: 10px;">Choose from the action list below.</h1>
+            <lightning-button variant="brand" title="Approve Change Request" class="slds-m-left_x-small"
+                onclick={handleApproveClick}  label="Commit Approved Changes">
+            </lightning-button>
+            <lightning-button variant="brand" title="Reject Change Request" class="slds-m-left_x-small"
+                onclick={handleRejectClick}  label="Reject">
+            </lightning-button> 
+            <lightning-button style="float: right; padding-bottom: 10px;" variant="brand-outline" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+            </lightning-button>       
+        </div>
+    </template>
+</template>

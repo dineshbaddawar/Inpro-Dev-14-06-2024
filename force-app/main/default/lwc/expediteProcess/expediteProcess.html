@@ -1,0 +1,39 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:60%; margin-bottom:60%;" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Process Expedite</strong>
+        </h3> 
+        <lightning-textarea name="ta_Notes" label="Please enter your approval/rejection notes below." onchange={handleNotesOnChange}></lightning-textarea>
+        <template if:true={hasRoutingOptions}>
+            <lightning-combobox style="padding-right: 10px;"
+                                name="lcb_routingOptions"
+                                label="Route To"
+                                value={pleaseSelectOption}
+                                placeholder=""
+                                options={expediteRoutingOptions}
+                                onchange={handleRoutingOptionChange}>
+            </lightning-combobox>
+        </template>
+        <h1 style="padding: 10px;">Choose from the action list below.</h1>
+        <div style="display:flex;" if:false={processButtonPressed}>                    
+            <lightning-button variant="brand-outline" title="Approve Expedite Step" class="slds-m-left_x-small"
+                onclick={handleApproveExpediteClick}  label="Approve Expedite Step">
+            </lightning-button>
+            <lightning-button variant="brand-outline" title="Reject Expedite Step" class="slds-m-left_x-small"
+                onclick={handleRejectExpediteClick}  label="Reject Expedite Step">
+            </lightning-button>
+            <lightning-button variant="brand-outline" title="Acknowledge Expedite Step" class="slds-m-left_x-small"
+                onclick={handleAcknowledgeExpediteClick}  label="Acknowledge Expedite Step">
+            </lightning-button>   
+        </div>
+        <div style="padding-top:30px;">
+            <lightning-button style="float: left;" variant="brand" title="Cancel"
+                class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+            </lightning-button>
+        </div>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+    </template>
+</template>

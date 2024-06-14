@@ -1,0 +1,84 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" applyBodyTag="false" showHeader="false" sidebar="false" renderAs="pdf" >
+    <html>
+        <head>
+            <style>
+                @page {
+                
+                size:  A1;
+                
+                @top-center {
+                content: element(header);
+                }
+                @bottom-left {
+                content: element(footer);
+                }
+                }
+                
+                div.header {
+                padding: 10px;
+                position: running(header);
+                }
+                div.footer {
+                display: block;
+                position: running(footer);
+                }
+                .pagenumber:before {
+                content: counter(page);
+                }
+                .pagecount:before {
+                content: counter(pages);
+                }
+                div.content {
+                border-style:dotted;
+                float: left;
+                width: 100%;
+                }
+                table {
+                border-collapse: collapse;
+                width: 100%;
+                }
+                
+                th, td {
+                padding: 8px;
+                text-align: left;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="footer" style="margin-left: auto; margin-right: auto;">
+                 <div style="page-break-after: auto;font-size:10px">
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                            <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                            <td style="width:15%" >IPC.080/Rev.14</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="header">
+                <div>
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                            </td>
+                            <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                Custom Product Order Form
+                                <br/>
+                                <div style="text-align: right; font-weight:bold;">
+                                    Flat Sheet
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                </div>
+            </div>
+        </body>
+        <div>
+            
+        </div>
+    </html>
+</apex:page>

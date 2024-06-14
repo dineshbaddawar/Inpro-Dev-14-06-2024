@@ -1,0 +1,36 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title" style="padding: 10px;">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Change Order Request Status</strong>
+        </h3>          
+        <label style="padding: 10px;">Choose from the action list below.</label><br/>
+        <div if:true={orderRequestIsProcessed}>
+            <label style="color:red;padding-left:10px;">Order Requests That Are Marked Complete Cannot Be Canceled.</label><br/>
+        </div> 
+        <div if:false={orderRequestIsApproved}>
+            <label style="color:red;padding-left:10px;">Only Approved Order Requests Can Be Marked Complete.</label><br/>   
+        </div>
+        <div style="padding-left:10px; padding-right:10px;">
+            <lightning-textarea name="ta_newOrderRequestComments" label="Order Request Comments" value={newOrderRequestComments} onchange={handleInputChange}></lightning-textarea>   
+        </div>
+        <br/>
+        <div>
+            <label style="padding-left:10px;"><b>Any button clicked below will update the Order Request. Comments will be appended if new comments are entered above.</b></label><br/>
+        </div> <br/>  
+        <lightning-button if:true={orderRequestIsApproved} variant="brand-outline" title="Mark Order Request Completed" class="slds-m-left_x-small"
+            onclick={markOrderRequestCompleted}  label="Mark Order Request Completed">
+        </lightning-button>
+        <lightning-button if:false={orderRequestIsProcessed} variant="brand-outline" title="Cancel Order Request" class="slds-m-left_x-small"
+            onclick={cancelOrderRequest}  label="Cancel Order Request">
+        </lightning-button> 
+        <lightning-button variant="brand-outline" title="Update Comments Only" class="slds-m-left_x-small"
+            onclick={updateOnlyComments}  label="Update Comments Only">
+        </lightning-button>        
+        <lightning-button style="float: right;padding-bottom:10px;padding-right:10px;" variant="brand" title="Exit Application"
+        class="slds-m-left_x-small" onclick={handleCancel} label="Exit Application">
+    </lightning-button>
+    </template>
+</template>

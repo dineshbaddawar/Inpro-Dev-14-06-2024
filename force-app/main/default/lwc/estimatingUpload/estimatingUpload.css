@@ -1,0 +1,47 @@
+.pointer{
+    cursor:pointer;
+}
+
+.box {
+    position: relative;
+    margin-left: 20px;
+    float:left;
+  }
+  .box:before{
+    position: absolute;
+    left: -20px;
+    content: "";
+    height:20px;
+    width:20px;
+    margin-bottom:15px;
+    border:1px solid black;
+  }
+  .box.red:before{
+    background-color:salmon;
+  }
+  .box.tan:before{
+    background-color:bisque;
+  }
+  .box.green:before{
+    background-color:lightgreen;
+  }
+
+.salmon{
+    background-color:salmon;    
+  }
+  .salmon:hover{
+    background-color:salmon;
+  }
+  .bisque{
+    background-color:bisque;
+  }
+.bisque:hover{
+  background-color:bisque;
+}
+  .lightgreen{
+    background-color:lightgreen;
+  }
+  .lightgreen:hover{
+    background-color:lightgreen;
+
+  }

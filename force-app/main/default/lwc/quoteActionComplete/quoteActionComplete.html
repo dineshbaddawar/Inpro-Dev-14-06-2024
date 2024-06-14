@@ -1,0 +1,33 @@
+<template>
+    <div class="qcHolder">
+        <template if:true={loaded}>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate"><lightning-formatted-text  class="slds-text-heading_large" value={titleText}></lightning-formatted-text></h2>
+            </header>
+            <div class="slds-p-around_medium slds-is-relative">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12">
+                        <lightning-formatted-text class="slds-text-heading_small" value={inputText}></lightning-formatted-text>
+                        
+                    </div>
+                    <template if:true={isApprover}>
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-textarea name="notes" label="Notes" value={notes} onchange={handleInput} message-when-value-missing="Please enter notes..."></lightning-textarea>
+                        </div>
+                    </template>
+                </div>
+                
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12">
+                        
+                        <lightning-button style="float: right; padding:10px" variant={buttonVariant} class="slds-m-left_x-small" onclick={handleSubmit} label={buttonText}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+    </div>
+</template>

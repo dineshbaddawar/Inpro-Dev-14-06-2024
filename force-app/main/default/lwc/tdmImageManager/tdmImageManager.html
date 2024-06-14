@@ -1,0 +1,9 @@
+<template>
+    <div>        
+        <img style="padding: 100px;" src={imageData} />
+    </div>
+    <div class="slds-m-around_medium">
+        <lightning-input type="file" accept=".png, .jpg, .jpeg, .gif"
+            label="Attachment" onchange={openfileUpload}></lightning-input>
+    </div>
+</template>

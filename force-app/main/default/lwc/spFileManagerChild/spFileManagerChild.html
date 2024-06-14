@@ -1,0 +1,118 @@
+<template>
+  <lightning-card title={friendlyObjectApiName} icon-name="standard:file">
+    <template if:false={loaded}>
+      <lightning-spinner  alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={deleteIsActive}>
+      <div class="slds-container_small">
+          <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+              <div class="slds-modal__container">
+                  <header class="slds-modal__header">
+                      <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Confirm Delete</h2>
+                  </header>
+                  <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                      <lightning-card label={deleteText} name={deleteText} title={deleteText}></lightning-card>
+                  </div>
+                  <footer class="slds-modal__footer">
+                      <lightning-button class="lightningBtn"
+                                        variant="neutral"
+                                        name="cancel"
+                                        label="Cancel"
+                                        title="Cancel"
+                                        onclick={handleDeleteCancel}></lightning-button>
+                                        
+                      <template if:true={deleteSingleIsActive}>
+                        <lightning-button class="lightningBtn" variant="brand"
+                                        name="Confirm"
+                                        label="Confirm"
+                                        title="Confirm"
+                                        onclick={handleDelete}></lightning-button>
+                      </template>
+                      <template if:true={deleteManyIsActive}>
+                        <lightning-button class="lightningBtn" variant="brand"
+                                        name="Confirm"
+                                        label="Confirm"
+                                        title="Confirm"
+                                        onclick={handleDeleteFiles}></lightning-button>
+                      </template>
+                  </footer>
+              </div>
+          </section>
+          <div class="slds-backdrop slds-backdrop_open"></div>
+      </div>
+    </template>
+    <div class="slds-m-around_small" style="display:flex;">
+      <template if:true={actionsEnabled}>
+        <lightning-file-upload name="fileUploader" style="margin-top:-20px;" record-id={recordId} onuploadfinished={handleUploadFinished} multiple></lightning-file-upload>
+        <template if:true={selectionIsActive}>
+          <lightning-button label="Delete Selected" style="margin-left:10px;" onclick={handleDeleteMany}></lightning-button>
+        </template>
+        <template if:false={selectionIsActive}>
+          <lightning-button label="Delete Selected" disabled="disabled" style="margin-left:10px;"></lightning-button>
+        </template>
+    </template>
+    </div>
+    <div class="slds-m-around_medium">
+      <table id="spFiles" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+        <tr>
+          <td></td>
+          <td><lightning-button variant="base" data-id="Type" onclick={handleSort} label="Type" icon-name="" icon-position="right"></lightning-button></td>
+          <td><lightning-button variant="base" data-key="Name" data-id="Name" onclick={handleSort} label="Name" icon-name="utility:chevronup" icon-position="right"></lightning-button></td>
+          <td><lightning-button variant="base" data-id="ModifiedOn" onclick={handleSort} label="Uploaded On" icon-name="" icon-position="right"></lightning-button></td>
+          <td><lightning-button variant="base" data-id="ModifiedBy" onclick={handleSort} label="Uploaded By" icon-name="" icon-position="right"></lightning-button></td>
+          <td>Action</td>
+        </tr>
+        <template for:each={fileList} for:item="file">
+          <tr accesskey={file.Id} key={file.Id}>
+            <td>
+              <lightning-input type="checkbox" accesskey={file.Id} onchange={handleOptionChecked} checked={file.Selected}>
+              </lightning-input>
+            </td>
+            <td> <lightning-icon icon-name={file.DisplayType} alternative-text="Type" title="Type"></lightning-icon>
+            </td>
+            <td style="text-overflow:ellipsis;overflow:hidden;max-width:400px;">{file.Name}</td>
+            <td>{file.CreatedOn}</td>
+            <td>{file.CreatedBy}</td>
+            <td>
+              <lightning-button-icon variant="brand" icon-name="utility:download" class="lightningBtn" alternative-text="Download" accesskey={file.Id} onclick={handleDownload}>
+              </lightning-button-icon>
+              <template if:true={file.IsInternal}>
+                <div class="openInternalBtn">
+                  <button title="Open (Internal Access Only)" accesskey={file.Id} onclick={handleOpen} type="button" class="slds-button slds-button_icon slds-button_icon-warning">
+                    <svg focusable="false" data-key="open" aria-hidden="true" viewBox="0 0 52 52" class="slds-button__icon">
+                      <g><path d="M8 35v-.6.6z"></path><g><path d="M46 2H6C3.8 2 2 3.8 2 6v36c0 2.2 1.8 4 4 4h12c.6 0 1-.4 1-1v-4c0-.6-.4-1-1-1H9.5c-.8 0-1.5-.7-1.5-1.5v-25c0-.8.7-1.5 1.5-1.5h33c.8 0 1.5.7 1.5 1.5v25c0 .8-.7 1.5-1.5 1.5H34c-.6 0-1 .4-1 1v4c0 .6.4 1 1 1h12c2.2 0 4-1.8 4-4V6c0-2.2-1.8-4-4-4z"></path><path d="M37.5 34.6l2.1-2.1c.6-.6.6-1.5 0-2.1L27 17.8c-.6-.6-1.5-.6-2.1 0L12.4 30.3c-.6.6-.6 1.5 0 2.1l2.1 2.1c.6.6 1.5.6 2.1 0l4.6-4.6c.6-.6 1.8-.2 1.8.7v17.9c0 .8.6 1.5 1.4 1.5h3c.8 0 1.6-.7 1.6-1.5V30.6c0-.9 1-1.3 1.7-.7l4.6 4.7c.6.5 1.6.5 2.2 0z"></path></g></g>
+                    </svg>
+                    <span class="slds-assistive-text">Open (Internal Access Only)</span>
+                  </button>
+                </div>
+              </template>
+              <template if:false={file.IsInternal}>
+                <lightning-button-icon icon-name="utility:open" class="lightningBtn" alternative-text="Open" accesskey={file.Id} onclick={handleOpen}>
+                </lightning-button-icon>
+              </template>
+              <div class="deleteBtn">
+                <template if:true={actionsEnabled}>
+                  <button title="Delete" type="button" class="slds-button slds-button_icon slds-button_icon-destructive" accesskey={file.Id} onclick={handleDeleteSingle}>
+                    <div accesskey={file.Id} onclick={handleDeleteSingle}>
+                      <svg accesskey={file.Id} onclick={handleDeleteSingle} focusable="false" data-key="delete" aria-hidden="true" viewBox="0 0 52 52" class="slds-button__icon"><g><g><path d="M45.5 10H33V6c0-2.2-1.8-4-4-4h-6c-2.2 0-4 1.8-4 4v4H6.5c-.8 0-1.5.7-1.5 1.5v3c0 .8.7 1.5 1.5 1.5h39c.8 0 1.5-.7 1.5-1.5v-3c0-.8-.7-1.5-1.5-1.5zM23 7c0-.6.4-1 1-1h4c.6 0 1 .4 1 1v3h-6V7zM41.5 20h-31c-.8 0-1.5.7-1.5 1.5V45c0 2.8 2.2 5 5 5h24c2.8 0 5-2.2 5-5V21.5c0-.8-.7-1.5-1.5-1.5zM23 42c0 .6-.4 1-1 1h-2c-.6 0-1-.4-1-1V28c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v14zm10 0c0 .6-.4 1-1 1h-2c-.6 0-1-.4-1-1V28c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v14z"></path></g></g>
+                      </svg>
+                    </div><span class="slds-assistive-text">Delete</span>
+                  </button>
+                </template>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </table>
+      <template if:true={fileListEmpty}>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+          <tr>
+            <template if:true={loaded}><td>Files not found.</td></template>
+            <template if:false={loaded}><td>Loading...</td></template>
+          </tr>
+        </table>
+      </template>
+    </div>
+    </lightning-card>
+    
+</template>

@@ -1,0 +1,108 @@
+<template>
+    <lightning-card>
+        <div class="slds-m-around_medium">
+            <div if:false={loaded}>
+                <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+            </div>
+            <div if:true={loaded}>
+                <lightning-button style="float:right" label="Refresh" onclick={refresh}></lightning-button>
+                <ul style="padding-bottom:5px">
+                    <li><strong>Order Request:</strong><a target="_blank" style="padding:5px;"
+                            href={orderRequestIdUrl}>{orderRequestName}</a></li>
+                    <li><strong>Quote:</strong><a target="_blank" style="padding:5px;" href={quoteIdUrl}>{quoteName}</a>
+                    </li>
+                    <li><strong>Opportunity:</strong><a target="_blank" style="padding:5px;"
+                            href={opportunityIdUrl}>{opportunityName}</a>
+                    </li>
+                </ul>
+                <!-- <lightning-button label="Apply ERP Pricing" onclick={applyPricing}></lightning-button> -->
+                <br>
+                <table id="ediItems" style="padding-top: 10px;"
+                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                    <tr>
+                        <td class="slds-is-resizable"  >
+                            <lightning-button variant="base" data-id="Line" onclick={handleSort} label="Line"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-key="Item" data-id="Item" onclick={handleSort}
+                                label="Item" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="Description" onclick={handleSort}
+                                label="Description" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="Unit Price" onclick={handleSort}
+                                label="Unit Price" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="Quantity" onclick={handleSort} label="Quantity"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="ERP Price" onclick={handleSort} label="ERP Price"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="Adjusted Price" onclick={handleSort}
+                                label="Adjusted Price" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="ERP Item" onclick={handleSort} label="ERP Item"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="Response" onclick={handleSort} label="Response"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td class="slds-is-resizable">
+                            <lightning-button variant="base" data-id="ShipDate" onclick={handleSort} label="Ship Date"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                    </tr>
+                    <template for:each={itemList} for:item="item">
+                        <tr accesskey={item.Id} key={item.Id}>
+                            <td style="min-width:50px;">
+                                {item.Line_Number__c}
+                            </td>
+                            <td style="min-width:50px;">
+                                {item.Name}
+                            </td>
+                            <td>
+                                {item.Notes__c}                                
+                            </td>
+                            <td style="min-width:50px;">
+                                {item.Unit_Price__c}
+                            </td>
+                            <td style="min-width:50px;">
+                                {item.Quantity__c}
+                            </td>
+                            <td class="slds-cell-wrap">
+                                {item.Inpro_Unit_Price__c}
+                            </td>
+                            <td style="max-width:100px;">
+                                <lightning-input style="width: auto;" accesskey={item.Id} onchange={handleItemUpdate} name="AdjustedPrice"
+                                    value={item.AdjustedPrice}></lightning-input>
+                            </td>
+                            <td style="min-width:50px;">
+                                <lightning-textarea style="width: auto;" accesskey={item.Id} onchange={handleItemUpdate} name="Name"
+                                    value={item.Name}></lightning-textarea>
+                            </td>
+                            <td style="min-width:50px;">
+                                <lightning-textarea style="width: auto;" accesskey={item.Id} onchange={handleItemUpdate} name="Response__c"
+                                    value={item.Response__c}></lightning-textarea>
+                            </td>
+                            <td style="min-width:100px;">
+                                <lightning-input  style="width: auto;" accesskey={item.Id} type="date" onchange={handleItemUpdate}
+                                    name="Ship_Date__c" value={item.Ship_Date__c}></lightning-input>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+                <br>
+                <lightning-button onclick={saveChanges} label="Save Changes"></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

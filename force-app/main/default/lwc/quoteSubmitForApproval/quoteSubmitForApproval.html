@@ -1,0 +1,36 @@
+<template>
+    <div>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+        <template if:true={loaded}>
+            <header class="slds-modal__header">
+                <h3 slot="title">       
+                    <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Submit For Approval</strong>
+                </h3> 
+            </header>
+            <div class="slds-p-around_medium slds-is-relative">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-textarea name="ta_Notes" label="Please enter your notes for the approvers below." onchange={handleNotesOnChange}></lightning-textarea>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{error}</h2>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-button style="float: right;padding-top:10px;" variant="brand-outline" title="Submit For Approval" class="slds-m-left_x-small"
+                            onclick={handleSubmitForApprovalClick}  label="Submit For Approval">
+                        </lightning-button>
+                        <lightning-button style="float: left;padding-top:10px;" variant="brand" title="Cancel"
+                            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+                        </lightning-button>
+                    </div>
+                </div>
+            </footer>
+        </template>
+    </div>
+</template>

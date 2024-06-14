@@ -1,0 +1,595 @@
+<apex:page renderAs="PDF" controller="IPC188Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+       
+                <title>IPC188</title>
+                <head>
+                    <style type="text/css" media="print">
+                        @page {
+                        size: 9.3in 13in portrait;
+                        margin-top: 0.07in;
+                        margin-bottom: 0.07in;
+                        } 
+                    </style>
+                </head>
+                
+                <body style="font-family: sans-serif; font-size: 11px;">
+                    
+                    <!--Header-->
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px; ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        U-Shape Fabricate with Returns <br/>
+                                        From Sheet Material
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                        <p style="padding-left: 8pt;;text-align: left;">
+                            Please complete the following information based on field verified dimensions.  Use one order form per size. 
+                            Orders for custom products cannot be cancelled or returned.  Please sign and return to proceed with your order.  
+                            Fax to  at 888-715-8407 for quotation.  Sales contact:  800-222-5556.
+                        </p>
+                    </div>
+                    <!--Header Table-->
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                            <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                            <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                               
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                            <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                                
+                            </td>
+                        </tr>
+                        
+                    </table>
+                    
+                    <!-- Material Table -->
+                    <div style="width:100%;">
+                        <tr>
+                            <td style="white-space: nowrap;font-weight: normal;"><strong><label>Material Thickness:</label></strong></td>
+                            <td style="width:30%; white-space: nowrap;">
+                                <div style="text-align:center; display: inline-block; width:140px; border: none; border-bottom: 1px solid #000000; outline: none;">
+                                    <span style="word-break: break-all;"></span>
+                                </div>
+                            </td>
+                            <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:250px">
+                                <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer; background:"></div>
+                                <div style="padding-left:25px;margin-top:-20px"></div>
+                            </td>
+                        </tr>
+                    </div>
+                    
+                    <!-- Color To Dimension D Table -->
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="width:13%;"><b>Color Name:</b></td>
+                            <td style="width:20%;">
+                                
+                            </td>
+                            <td style="width:10%;"><b>Color #:</b></td>
+                            <td style="width:10%;">
+                                
+                            </td>
+                            <td style="padding-left:80px;" colSpan="2" rowSpan="5">
+                                <img style="width:100%;" src="{!$Resource.cf_ipc188_HorizontalUFabricationwithReturns}" alt="Inpro" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension A:</b><br/><small>  (Left Return)</small></td>
+                            <td >
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;" colSpan="2">
+                                Min. <sup>1/4"</sup> if height is ≤ 48" (6.4 mm if ≤ 1219.2mm)<br/>
+                                Min. <sup>3/8"</sup> if height is > 48" (9.5 mm if ≤ 1219.2mm)<br/>
+                                Max. 2" (50.8mm)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension B:</b><br/><small>  (Left Wing)</small> </td>
+                            <td >
+                               _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 1" (25.4mm)<br/>
+                                Max. 2" <sup>5/8"</sup>(66.7mm)
+                            </td>
+                            
+                            
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension C:</b><br/><small>  (Throat-Inside Dim.)</small></td>
+                            <td >
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 1" (25.4mm)<br/>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension D:</b><br/><small>  (Right Wing)</small></td>
+                            <td >
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 1" (25.4mm)<br/>
+                                Max. 2" <sup>5/8"</sup>(66.7mm)
+                            </td>
+                            
+                        </tr>
+                    </table>
+                    
+                    <!-- Dimension E Table -->
+                    <div style="width:100%;">    
+                        <tr> 
+                            <td style="width:12%"><strong>Dimension E:   </strong> <small>(Height)</small></td>
+                            <td>
+                                <div style="text-align:center; width:140px;outline: none;">
+                                    <span style="word-break: break-all;">
+                                        ____________________
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 48" (1219.2mm)-Horizontal Grain<br/>
+                                Max. 96" (2438.4mm)-Vertical Grain
+                            </td>
+                            <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:180px">
+                                <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer;background:"></div>
+                                <div style=" padding-left:25px;margin-top: -18px;">Vertical Grain</div>
+                            </td>
+                        </tr>
+                    </div>
+                    
+                    
+                    <!--Dimension To Quantity Table -->
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="width:12%"><b>Dimension F:</b>  <small>(Right Return)</small></td>
+                            <td style="margin-right:20px;">
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. <sup>1/4"</sup> if height is ≤ 48" (6.4 mm if ≤ 1219.2mm)<br/>
+                                Min. <sup>3/8"</sup> if height is > 48" (9.5 mm if ≤ 1219.2mm)<br/>
+                                Max. 2" (50.8mm)
+                            </td>
+                            <td style="width:40%;"  rowSpan="4">
+                                <img style="width:80%;float:right;" src="{!$Resource.cf_ipc188_VerticalUFabricationwithReturns}" alt="Inpro" />
+                            </td>
+                        </tr>
+                        <tr style="padding-top:30px;">
+                            <td >
+                                <div style="display:inline;width:30%">
+                                    <div><b> Beveled Edges(Side "E" only):</b></div>
+                                    
+                                    
+                                </div>
+                            </td>
+                            <td >
+                                <div style="display:inline-block;">
+                                    <div
+                                         style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                                    </div>
+                                    <div style="padding-left:25px;margin-top:-15px">
+                                        No
+                                    </div>
+                                    
+                                </div>
+                            </td>
+                            <td><div
+                                     style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer;background:">
+                                </div>
+                                <div style="padding-left:25px;margin-top:-15px">
+                                    Yes  
+                                </div></td>
+                            
+                            
+                        </tr>
+                        <tr>
+                            <td Style="padding-top:30px" colSpan="3">
+                                Note: Minimum height/width for beveled edge is 4".<br/>
+                                Note: 90 degree bends only (+/- 3 degrees).
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="margin-top:-50px;" colSpan="2"><b>Qty of P/N: &nbsp;&nbsp;&nbsp; </b></td>
+                            <!-- <td colSpan="2">
+                                
+                            </td> -->
+                        </tr>
+                    </table>
+                    
+                    <!--Notes Table -->
+                    <div style="width:100%">
+                        <tr>
+                            <td>
+                                NOTES:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               &nbsp;  • U-shape Fabricate is not available for kickplates due to tolerances and its impact on how it fits the door.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               &nbsp; • Peel and stick adhesive option is not available.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                              &nbsp;  • All measurements to be measured as an Inside Dimension.  All dimensions +/- .060'' (+/- 1.5mm)
+                            </td>
+                        </tr>
+                    </div> 
+    
+                    <br/><br/>
+                    
+                    <!-- Bottom Footer -->
+                    <div class="footer">
+                        <div style="page-break-after: auto;">
+                            <table style="padding-top:35px; border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        <b>FOR INPRO USE ONLY</b>
+                                    </td>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        
+                                    </td>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        Customer Order #:
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                                    </td>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        Inpro Drawing: N/A
+                                    </td>
+                                    <td style="border: 1px solid black;padding:6px;">
+                                        Inpro #:
+                                    </td>
+                                </tr>            
+                            </table>
+                            
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                    <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                    <td style="width:15%" > IPC.188/Rev.9</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </body>
+    </apex:outputText>
+
+    <apex:outputText rendered="{!BlankForm == false}">
+        <apex:form >
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                <title>IPC188</title>
+                <head>
+                    <style type="text/css" media="print">
+                        @page {
+                        size: 9.3in 13in portrait;
+                        margin-top: 0.07in;
+                        margin-bottom: 0.07in;
+                        } 
+                    </style>
+                </head>
+                
+                <body style="font-family: sans-serif; font-size: 11px;">
+                    
+                    <!--Header-->
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px; ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        U-Shape Fabricate with Returns <br/>
+                                        From Sheet Material
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                        <p style="padding-left: 8pt;;text-align: left;">
+                            Please complete the following information based on field verified dimensions.  Use one order form per size. 
+                            Orders for custom products cannot be cancelled or returned.  Please sign and return to proceed with your order.  
+                            Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation.  Sales contact:  800-222-5556.
+                        </p>
+                    </div>
+                    
+                    <!--Header Table-->
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                            <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                            <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                            <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                            </td>
+                        </tr>
+                        
+                    </table>
+                    
+                    <!-- Material Table -->
+                    <div style="width:100%;">
+                        <tr>
+                            <td style="white-space: nowrap;font-weight: normal;"><strong><label>Material Thickness:</label></strong></td>
+                            <td style="width:30%; white-space: nowrap;">
+                                <div style="text-align:center; display: inline-block; width:140px; border: none; border-bottom: 1px solid #000000; outline: none;">
+                                    <span style="word-break: break-all;">{!quoteLine.materailThickness}</span>
+                                </div>
+                            </td>
+                            <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:250px">
+                                <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer; background:"></div>
+                                <div style="padding-left:25px;margin-top:-20px">Horizontal Grain</div>
+                            </td>
+                        </tr>
+                    </div>
+                    
+                    <!-- Color To Dimension D Table -->
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="width:13%;"><b>Color Name:</b></td>
+                            <td style="width:20%;">
+                                {!quoteLine.colorName}
+                            </td>
+                            <td style="width:10%;"><b>Color #:</b></td>
+                            <td style="width:10%;">
+                                {!quoteLine.colorNumber}
+                            </td>
+                            <td style="padding-left:80px;" colSpan="2" rowSpan="5">
+                                <img style="width:100%;" src="{!$Resource.cf_ipc188_HorizontalUFabricationwithReturns}" alt="Inpro" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension A:</b><br/><small>  (Left Return)</small></td>
+                            <td >
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;" colSpan="2">
+                                Min. <sup>1/4"</sup> if height is ≤ 48" (6.4 mm if ≤ 1219.2mm)<br/>
+                                Min. <sup>3/8"</sup> if height is > 48" (9.5 mm if ≤ 1219.2mm)<br/>
+                                Max. 2" (50.8mm)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension B:</b><br/><small>  (Left Wing)</small> </td>
+                            <td >
+                               _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 1" (25.4mm)<br/>
+                                Max. 2" <sup>5/8"</sup>(66.7mm)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension C:</b><br/><small>  (Throat-Inside Dim.)</small></td>
+                            <td >
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 1" (25.4mm)<br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ><b>Dimension D:</b><br/><small>  (Right Wing)</small></td>
+                            <td >
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 1" (25.4mm)<br/>
+                                Max. 2" <sup>5/8"</sup>(66.7mm)
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Dimension E Table -->
+                    <div style="width:100%;">    
+                        <tr> 
+                            <td style="width:12%"><strong>Dimension E:   </strong> <small>(Height)</small></td>
+                            <td>
+                                <div style="text-align:center; width:140px;outline: none;">
+                                    <span style="word-break: break-all;">
+                                        ____________________
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. 48" (1219.2mm)-Horizontal Grain<br/>
+                                Max. 96" (2438.4mm)-Vertical Grain
+                            </td>
+                            <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:180px">
+                                <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer;background:"></div>
+                                <div style=" padding-left:25px;margin-top: -18px;">Vertical Grain</div>
+                            </td>
+                        </tr>
+                    </div>
+                    
+                    <!--Dimension To Quantity Table -->
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="width:12%"><b>Dimension F:</b>  <small>(Right Return)</small></td>
+                            <td style="margin-right:20px;">
+                                _________________________
+                            </td>
+                            <td style="font-size:8px;">
+                                Min. <sup>1/4"</sup> if height is ≤ 48" (6.4 mm if ≤ 1219.2mm)<br/>
+                                Min. <sup>3/8"</sup> if height is > 48" (9.5 mm if ≤ 1219.2mm)<br/>
+                                Max. 2" (50.8mm)
+                            </td>
+                            <td style="width:40%;"  rowSpan="4">
+                                <img style="width:80%;float:right;" src="{!$Resource.cf_ipc188_VerticalUFabricationwithReturns}" alt="Inpro" />
+                            </td>
+                        </tr>
+                        <tr style="padding-top:30px;">
+                            <td >
+                                <div style="display:inline;width:30%">
+                                    <div><b> Beveled Edges(Side "E" only):</b></div>
+                                    
+                                </div>
+                            </td>
+                            <td >
+                                <div style="display:inline-block;">
+                                    <div
+                                         style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                                    </div>
+                                    <div style="padding-left:25px;margin-top:-15px">
+                                        No
+                                    </div>
+                                </div>
+                            </td>
+                            <td><div
+                                     style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer;background:">
+                                </div>
+                                <div style="padding-left:25px;margin-top:-15px">
+                                    Yes  
+                                </div></td>
+                        </tr>
+                        <tr>
+                            <td Style="padding-top:30px" colSpan="3">
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    Note: Minimum height/width for beveled edge is 10.16cm<br/>
+                                </apex:outputText>
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    Note: Minimum height/width for beveled edge is 4".<br/>
+                                </apex:outputText>
+                                Note: 90 degree bends only (+/- 3 degrees).
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="margin-top:-50px;" colSpan="2"><b>Qty of P/N: &nbsp;&nbsp;&nbsp;{!Text(quoteLine.quoteLineItem.Quantity)} </b></td>
+                           
+                        </tr>
+                    </table>
+                    
+                    
+                    <div style="width:100%">
+                        <tr>
+                            <td>
+                                NOTES:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;   •  &nbsp;U-shape Fabricate is not available for kickplates due to tolerances and its impact on how it fits the door.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;  •  &nbsp;Peel and stick adhesive option is not available.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp; •  &nbsp;All measurements to be measured as an Inside Dimension.  All dimensions +/- .060'' (+/- 1.5mm)
+                            </td>
+                        </tr>
+                    </div> 
+    
+                    <br/>
+                    
+                    <!-- Bottom Footer -->
+                    <div class="footer">
+                        <div style="page-break-after: auto;">
+                            <table style="padding-top:35px; border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        <b>FOR INPRO USE ONLY</b>
+                                    </td>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        {!customForm.quoteRecord.Inside_Rep__c}
+                                    </td>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        Customer Order #:
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                                    </td>
+                                    <td style="border: 1px solid black; padding:6px;">
+                                        Inpro Drawing: N/A
+                                    </td>
+                                    <td style="border: 1px solid black;padding:6px;">
+                                        Inpro #:
+                                    </td>
+                                </tr>            
+                            </table>
+                            
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                    <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                    <td style="width:15%" > IPC.188/Rev.9</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </body>
+                
+            </apex:repeat>
+        </apex:form>
+    </apex:outputText>
+</apex:page>

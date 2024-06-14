@@ -1,0 +1,21 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <!--  this tag sets modal width -->
+    <aura:html tag="style">        
+        .cuf-content{
+            padding:0 !important;
+        }
+        .slds-p-around--medium{
+            padding:0 !important;
+        }
+        .slds-modal__container{
+            height: 600px;
+        }
+        .slds-modal__content{
+           
+            height:unset !important;
+            max-height:unset !important;
+            overflow: initial;
+        }
+    </aura:html>  
+    <c:estimatingNoTakeoff  recordId="{!v.recordId}" onclose="{!c.closeQA}"></c:estimatingNoTakeoff>
+</aura:component>

@@ -1,0 +1,187 @@
+<template>
+    <div class="qcHolder">
+        <template if:true={loaded}>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">
+                    <template if:true={isAltView}>Quote Alternate Sequencer</template>
+                    <template if:true={isQuoteProductView}>Quote Line Item Sequencer</template>
+                </h2>
+            </header>
+            <div class="slds-p-around_medium slds-is-relative">
+                <template if:true={isGroupView}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-button style="float: left; padding:10px;" variant="brand-outline" title="Exit Groups"
+                                class="slds-m-left_x-small" onclick={handleExitGroups} label="Exit Groups">
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <tr>
+                                    <td>Group #</td>
+                                    <td>Group Name</td>
+                                    <td>Alternates in Group</td>
+                                    <td></td>
+                                </tr>
+                                <template for:each={Groups} for:item="Group">
+                                    <tr accesskey={Group.Name} key={Group.Name}>
+                                        <td>
+                                            <lightning-input class={Group.BackGround} type="number" style="max-width:80px;"
+                                                value={Group.Group_Sequence_Number__c} accesskey={Group.Name} onchange={handleInput}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>{Group.Name}</td>
+                                        <td>{Group.Alternates}</td>
+                                        <td>
+                                            <lightning-button-icon icon-name="utility:arrowdown"
+                                                alternative-text="Move Down" accesskey={Group.Name} onclick={handleMoveDown}>
+                                            </lightning-button-icon>
+                                            <lightning-button-icon icon-name="utility:arrowup" alternative-text="Move Up"
+                                                accesskey={Group.Name} onclick={handleMoveUp}>
+                                            </lightning-button-icon>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </table>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={isAltView}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <template if:true={hasGroups}>
+                                <lightning-button style="float: left; padding:10px;" variant="brand-outline" title="View Groups"
+                                    class="slds-m-left_x-small" onclick={handleViewGroups} label="View Groups">
+                                </lightning-button>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <tr>
+                                    <td>Group #</td>
+                                    <td>Alt #</td>
+                                    <td>Alternate</td>
+                                    <td>Freight Group Name</td>
+                                    <td>Total Amount</td>
+                                    <td>Freight</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <template for:each={Alternates} for:item="Alt">
+                                    <tr accesskey={Alt.Id} key={Alt.Id}>
+                                        <td>{Alt.Group_Sequence_Number__c}</td>
+                                        <td>
+                                            <lightning-input class={Alt.BackGround} type="number" style="max-width:80px;"
+                                                value={Alt.Sequence_Number__c} accesskey={Alt.Id} onchange={handleInput}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>{Alt.Name__c}</td>
+                                        <td>{Alt.Freight_Group_Name__c}</td>
+                                        <td>{Alt.Total_List_Price__c}</td>
+                                        <td>{Alt.Freight_Amount__c}</td>
+                                        <td>
+                                            <lightning-button-icon icon-name="utility:arrowdown"
+                                                alternative-text="Move Down" accesskey={Alt.Id} onclick={handleMoveDown}>
+                                            </lightning-button-icon>
+                                            <lightning-button-icon icon-name="utility:arrowup" alternative-text="Move Up"
+                                                accesskey={Alt.Id} onclick={handleMoveUp}>
+                                            </lightning-button-icon>
+                                        </td>
+                                        <td>
+                                            <lightning-button variant="brand-outline" title="View Products"
+                                                class="slds-m-left_x-small" accesskey={Alt.Id} onclick={handleViewProducts}
+                                                label="View Products">
+                                            </lightning-button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </table>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={isQuoteProductView}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-button style="float: left; padding:10px" variant="brand-outline"
+                                title="Return to Alternates" class="slds-m-left_x-small" onclick={handleViewAlternates}
+                                label="Return to Alternates">
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <tr>
+                                    <td>Seq</td>
+                                    <td>Item #</td>
+                                    <td>Color</td>
+                                    <td>Description 1</td>
+                                    <td>Description 2</td>
+                                    <td>Note</td>
+                                    <td>Price</td>
+                                    <td>Qty</td>
+                                    <td>Total</td>
+                                    <td></td>
+                                </tr>
+                                <template for:each={QuoteProducts} for:item="QLI">
+    
+                                    <tr accesskey={QLI.Id} key={QLI.Id}>
+                                        <td>
+                                            <lightning-input class={QLI.BackGround} type="number" style="max-width:80px;"
+                                                value={QLI.Sequence_Number__c} accesskey={QLI.Id} onchange={handleInput}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>{QLI.Item_Number__c}</td>
+                                        <td>{QLI.Color__c}</td>
+                                        <td>{QLI.Description}</td>
+                                        <td>{QLI.Description_2__c}</td>
+                                        <td>{QLI.Note__c}</td>
+                                        <td>{QLI.Base_Price__c}</td>
+                                        <td>{QLI.Quantity}</td>
+                                        <td>{QLI.TotalPrice}</td>
+                                        <td>
+                                            <lightning-button-icon icon-name="utility:arrowdown"
+                                                alternative-text="Move Down" accesskey={QLI.Id} onclick={handleMoveDown}>
+                                            </lightning-button-icon>
+                                            <lightning-button-icon icon-name="utility:arrowup" alternative-text="Move Up"
+                                                accesskey={QLI.Id} onclick={handleMoveUp}>
+                                            </lightning-button-icon>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </table>
+                        </div>
+                    </div>
+                </template>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_4-of-12">
+                        <lightning-button style="float: left; padding:10px;" variant="brand-outline" title="Update View"
+                            class="slds-m-left_x-small" onclick={handleUpdateView} label="Update View">
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_4-of-12">
+                        
+                        <template if:true={hasUnsavedChanges}>
+                            <template if:true={isFirstSequencing}>
+                                <p style="color:red; padding:12px;font-size:16px;font-weight:bold;">
+                                    You have unsaved changes. Quote has not been sequenced yet.
+                                </p>
+                            </template>
+                            <template if:false={isFirstSequencing}>
+                                <p style="color:red; padding:12px;font-size:16px;font-weight:bold;">
+                                    You have unsaved changes.
+                                </p>
+                            </template>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_4-of-12">
+                        <lightning-button style="float: right; padding:10px;" variant="brand-outline" title="Save"
+                            class="slds-m-left_x-small" onclick={handleSave} label="Save">
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,137 @@
+<template>
+    <div class="qcHolder">
+        <template if:true={loaded}>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">Request Quote Action</h2>
+            </header>
+            <div class="slds-p-around_medium slds-is-relative">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12">
+                        <lightning-formatted-text class="slds-text-heading_small" value={quoteName}></lightning-formatted-text>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12">
+                        <lightning-combobox name="action"
+                                            label="Request Action:"
+                                            value={selectedAction}
+                                            placeholder="Select Action"
+                                            options={actionTypes}
+                                            required="true"
+                                            onchange={handleUpdateInput}></lightning-combobox>
+                    </div>
+                </div>
+                <!-- Default Text -->
+                <template if:true={isDefaultAction}>
+                    <div class="slds-col slds-size_12-of-12">
+                        <lightning-formatted-text class="slds-text-heading_small" style="padding-top:15px;" value="Select a value in the dropdown to load the form."></lightning-formatted-text>
+                    </div>
+                </template>
+                <!-- Custom Part Number Request -->
+                <template if:true={isCustomPartNumberRequest}>
+                    <!--<div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-input type="text" 
+                                             name="orderNumber"
+                                             label="Order Number (Required for Order Change Requested Only)" 
+                                             onchange={handleUpdateInput}></lightning-input>
+                        </div>
+                    </div>-->
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-textarea type="textarea" 
+                                             name="comments"
+                                             label="Comments" 
+                                             onchange={handleUpdateInput}></lightning-textarea>
+                        </div>
+                    </div>
+                    <!-- <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <c-lookup name="managerUsers" onsearch={handleUserSearch} secondary-search-term={secondarySearchTerm}
+                                        scrollafternitems=10 label="Approving Manager:" placeholder="Search Users"
+                                        onselectionchange={handleLookupSelectionChange}>
+                            </c-lookup>
+                        </div>
+                    </div> -->
+                    <!--<div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-combobox name="route"
+                                                label="Manager Pricing Routing (Quote Request Manager Pricing Only)"
+                                                value={selectedRoute}
+                                                placeholder="Select Route"
+                                                options={routeTypes}
+                                                onchange={handleUpdateInput}></lightning-combobox>
+                        </div>
+                    </div>-->
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <c-lookup name="normalUsers" onsearch={handleUserSearch} secondary-search-term={secondarySearchTerm}
+                                        scrollafternitems=10 label="Assign To:" placeholder="Search Users"
+                                        onselectionchange={handleLookupSelectionChange} required="true">
+                            </c-lookup>
+                        </div>
+                    </div>
+                </template>
+                <!-- Sign Schedule Change Request -->
+                <template if:true={isSignScheduleChangeRequest}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-input type="text" 
+                                             name="orderNumber"
+                                             label="Order Number" 
+                                             onchange={handleUpdateInput}
+                                             required="true"></lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-textarea type="textarea" 
+                                             name="comments"
+                                             label="Comments" 
+                                             onchange={handleUpdateInput}></lightning-textarea>
+                        </div>
+                    </div>
+                </template>
+                <!-- Illustration Change Request -->
+                <template if:true={isIllustrationChangeRequest}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-input type="text" 
+                                             name="orderNumber"
+                                             label="Order Number" 
+                                             onchange={handleUpdateInput}
+                                             required="true"></lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <lightning-datatable
+                                key-field="Id"
+                                data={data}
+                                columns={columns}>
+                        </lightning-datatable>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-textarea type="textarea" 
+                                             name="comments"
+                                             label="Comments" 
+                                             onchange={handleUpdateInput}></lightning-textarea>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isDefaultAction}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <lightning-button style="float: right; padding:10px" variant="brand-outline"
+                                title="Submit" class="slds-m-left_x-small" onclick={handleSubmit} label="Submit">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+    </div>
+</template>

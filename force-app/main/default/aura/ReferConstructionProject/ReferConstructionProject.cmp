@@ -1,0 +1,412 @@
+<aura:component controller="ConstructionProjectReferralController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler name="ClickAccountResult" action="{!c.addAcct}" event="c:AccountSearchResultSelected"/>
+    
+    <!--<aura:attribute name="currentOpp" type="Opportunity" default="{ 'sObjectType' : 'Opportunity' }" />-->
+    <aura:attribute name="currentOpp" type="Construction_Project__c" default="{ 'sObjectType' : 'Construction_Project__c' }" />
+    <aura:attribute name="accountList" type="List" default="[]" />
+    <aura:attribute name="userTheme" type="String" default=""/>
+    <aura:attribute name="accountName" type="String" default="" />
+    <aura:attribute name="manuallyAdded" type="List" default="[]" />
+    <aura:attribute name="acctSearchResults" type="List" default="[]" /> 
+    <aura:attribute name="geoCallout" type="Boolean" default="false" />
+    
+    <aura:attribute name="loading" type="Boolean" default="false" />
+    
+    <aura:attribute name="selectedSubLineItems" type="List" />
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="currentStep" type="string" default="1"/>
+    
+    <aura:attribute name="selectedRecordTypes" type="List" />
+    <aura:attribute name="recordTypeData" type="Object"/>
+    <aura:attribute name="recordTypeColumns" type="List"/>
+    
+    <aura:attribute name="selectedAccountTypes" type="List" />
+    <aura:attribute name="accountTypeData" type="Object"/>
+    <aura:attribute name="accountTypeColumns" type="List"/>
+    
+    <aura:if isTrue = "{!empty(v.data)}">
+        <div class="slds-grid slds-wrap">
+            <article class="slds-card slds-align_absolute-center">
+                <div class="modal-header slds-docked-form-header slds-modal__header ">
+                    <b><h4 class="title slds-text-heading--medium" >No Specified Products</h4></b>
+                    <p></p>
+                </div>
+            </article>
+        </div>
+         <aura:set attribute="else">
+            <aura:if isTrue = "{!equals(v.currentStep, '1')}">
+                <div class="slds-grid slds-wrap">
+                    <article class="slds-card">
+                        <div class="modal-header slds-docked-form-header slds-modal__header ">
+                            <b><h4 class="title slds-text-heading--medium" >Please Select Specified Products</h4></b>
+                            <p></p>
+                        </div>
+                        <lightning:datatable
+                                             keyField="id"
+                                             data="{! v.data }"
+                                             columns="{! v.columns }"
+                                             onrowselection="{! c.updateSelectedText }" />
+                    </article>
+                </div>
+            </aura:if>
+        </aura:set>
+     </aura:if>
+    
+    <aura:if isTrue = "{!equals(v.currentStep, '2')}">
+        <div class="slds-grid slds-wrap">
+            <article class="slds-card">
+                <div class="modal-header slds-docked-form-header slds-modal__header ">
+                    <b><h4 class="title slds-text-heading--medium" >Please Select Account Record Type</h4></b>
+                    <p></p>
+                </div>
+                <lightning:datatable
+                                     keyField="id"
+                                     data="{! v.recordTypeData }"
+                                     columns="{! v.recordTypeColumns }"
+                                     onrowselection="{!c.updateSelectedRecordTypes }"
+                                     maxRowSelection="1"/>
+            </article>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue = "{!equals(v.currentStep, '3')}">
+        <div class="slds-grid slds-wrap">
+            <article class="slds-card">
+                <div class="modal-header slds-docked-form-header slds-modal__header ">
+                    <b><h4 class="title slds-text-heading--medium" >Please Select Account Type</h4></b>
+                    <p></p>
+                </div>
+                <lightning:datatable
+                                     keyField="id"
+                                     data="{! v.accountTypeData }"
+                                     columns="{! v.accountTypeColumns }"
+                                     onrowselection="{!c.updateSelectedAccountTypes }"
+                                     />
+            </article>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue = "{!equals(v.currentStep, '4')}">
+        <div class="slds-grid slds-wrap">
+          <!--  <div class="{!if(v.userTheme=='Theme4d','slds-col slds-size_1-of-1','slds-col slds-size_1-of-1 slds-large-size_2-of-4')}">-->
+            <div class="slds-col slds-size_1-of-1">
+                
+                <article class="slds-card">
+                    <div aura:id="spinnerDiv">
+                        <aura:if isTrue="{!v.loading}">
+                            <lightning:spinner variant="brand" size="large" alternativeText="Loading Opportunity..."/>
+                        </aura:if>
+                    </div>
+                    
+                    
+                   
+                    
+                    <!-- Header -->
+                    <div class="slds-card__header slds-grid slds-wrap slds-border_bottom" style="background-color: #f4f6f9" >
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate slds-size_1-of-1">
+                            <div class="slds-media__figure slds-align-top">
+                                <span class="slds-icon_container" title="">
+                                    <lightning:icon iconName="standard:opportunity" size="large" alternativeText="Opportunity Record"/>
+                                </span>
+                            </div>
+                            <div class="slds-media__body slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <h2 class="slds-page-header__title">
+                                        <a onclick="{!c.goToOpp}" class="slds-card__header-link" title="{!v.currentOpp.Name}">
+                                            <span>{!v.currentOpp.Name}</span>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-small-size_6-of-12 slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_4-of-12 slds-truncate" title="Account">
+                                        <b>Account:</b>
+                                    </div>
+                                    <div class="slds-col slds-size_8-of-12 slds-truncate" title="{!v.currentOpp.Account.Name}">
+                                        {!v.currentOpp.Architect_Firm__r.Name}
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-small-size_6-of-12 slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_4-of-12 slds-truncate" title="Address:">
+                                        <b>Address: </b>
+                                    </div>
+                                    <div class="slds-col slds-size_8-of-12 slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-truncate" title="{!v.currentOpp.Street_Address__c}">
+                                            {!v.currentOpp.Street_Address__c}
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-truncate" title="{!v.currentOpp.City__c + ', ' + v.currentOpp.State_old__c + ' ' + v.currentOpp.ZIP_or_Postal_Code__c}">
+                                            {!v.currentOpp.City__c}, {!v.currentOpp.State_old__c}&nbsp;{!v.currentOpp.ZIP_or_Postal_Code__c}
+                                        </div>
+                                        <!--<div class="slds-col slds-size_1-of-1 slds-truncate">
+                                        {!v.currentOpp.Account.BillingCountry}
+                                    </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-6" style="padding-top: 1%; padding-bottom: 1%">
+                            <lightning:button variant="base" label="Back to Construction Project" onclick="{!c.goToOpp}"
+                                              iconName="utility:back" iconPosition="left"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-6 alignRight" style="padding-top: 1%; padding-bottom: 1%">
+                            <lightning:button variant="brand" label="Refer Selected Projects" onclick="{!c.assignOpp}"
+                                              iconName="utility:new" iconPosition="left"/>
+                        </div>
+                    </div>
+                    <br/>
+                    
+                    <!-- Selected Products -->
+                     <div class="modal-header slds-docked-form-header slds-modal__header " style="text-align:left;">
+                        <b><h5 class="title slds-text-heading--medium" >Selected Products</h5></b>
+                        <p></p>
+                    </div>
+                    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout" style="background-color: rgb(244, 246, 249);">
+                        <thead>
+                            <tr class="slds-text-heading--label">
+                                <th scope="col"><div class="slds-truncate" title="Product Family">Product Family</div></th>
+                                <th scope="col" ><div class="slds-truncate" title="Our Specified Product">Our Specified Product</div></th>
+                                <th scope="col" ><div class="slds-truncate" title="Specification Status">Specification Status</div></th>
+                               </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.selectedSubLineItems}" var ="x">
+                                <tr>
+                                    <td><div class="slds-truncate" title="">{!x.Product_FamilyG__c}</div></td>
+                                    <td><div class="slds-truncate" title="">{!x.Our_Specified_Product__c}</div></td>
+                                    <td><div class="slds-truncate" title="">{!x.Specification_Status__c}</div></td>
+                                 </tr>
+                            </aura:iteration>                            
+                        </tbody>
+                    </table>
+                    <br/>
+                    
+                    <div class="slds-card__body slds-card__body_inner slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-border_bottom">
+                            <h2 class="slds-text-heading_medium">Search for Contractor</h2>
+                        </div>
+                        <!-- Search for Contractor -->
+                        <div class="slds-col slds-size_1-of-1" style="padding-top: 1%">
+                            <div class="slds-combobox_container">
+                                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox" aura:id="searchResults">
+                                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                        <ui:inputText class="slds-input slds-combobox__input" aura:id="accountSearch"
+                                                      value="{!v.accountName}"
+                                                      placeholder="Enter a Contractor Name"
+                                                      keyup="{!c.searchAccounts}"
+                                                      updateOn="keyup"/>
+                                        <span class="slds-icon_container slds-input__icon slds-input__icon_right">
+                                            <lightning:icon iconName="utility:search" size="x-small" title="Enter search critera"/>
+                                        </span>
+                                    </div>
+                                    <aura:if isTrue="{!!empty(v.acctSearchResults)}">
+                                        <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                <aura:iteration items="{!v.acctSearchResults}" var="acctResult">
+                                                    <li role="presentation" class="slds-listbox__item">
+                                                        <c:AccountSearchResult AccountId="{!acctResult.acct.Id}" 
+                                                                               Name="{!acctResult.acct.Name}"
+                                                                               City="{!acctResult.city}"
+                                                                               StateName="{!acctResult.stateName}"
+                                                                               Distance="{!acctResult.distance}" />
+                                                    </li>
+                                                </aura:iteration>
+                                            </ul>
+                                        </div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!and(empty(v.acctSearchResults), greaterthan(v.accountName.length,1))}">
+                                        <div class="slds-col" style="padding-top: 1%">
+                                            <lightning:icon iconName="utility:ban" variant="error" size="small"/>
+                                            No matching records found due to one of the following:
+                                            <ul class="slds-list_dotted">
+                                                <li>There are no records that match your search terms for account name</li>
+                                                <li>Records do not fit the filter criteria for valid contractor accounts</li>
+                                            </ul>
+                                        </div>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Available Contractors -->
+                        <div class="slds-col slds-size_1-of-1 slds-border_bottom" style="padding-top: 1%">
+                            <h2 class="slds-text-heading_medium">Available Contractors</h2>
+                        </div>
+                        <aura:if isTrue="{!v.currentOpp.Project_Location__Latitude__s==null||v.currentOpp.Project_Location__Latitude__s==0}" >
+                            <div class="slds-col slds-size_1-of-1 slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-12 slds-align-middle">
+                                    <lightning:icon iconName="utility:warning" variant="warning" size="medium"/>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12">
+                                    The project address doesn't appear to be valid. <br/>Search for contractors by name, but geographic distance cannot be provided.
+                                </div>
+                            </div>
+                        </aura:if>
+                        <!-- Account List -->
+                        <div class="slds-col slds-size_1-of-1">
+                            <ul class="slds-card__body_inner slds-grid slds-wrap slds-grid_pull-padded">
+                                <aura:iteration items="{!v.accountList}" var="account" >
+                                    <li class="slds-p-horizontal_small slds-size_1-of-1 slds-grid slds-wrap slds-border_bottom" style="padding-bottom: 1%">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-order_2 slds-small-size_5-of-6">
+                                            <article class="slds-tile slds-media slds-card__tile slds-hint-parent">
+                                                <div class="slds-media__figure">
+                                                    <span class="slds-icon_container slds-icon-standard-contact" title="">
+                                                        <lightning:icon iconName="standard:account" size="medium" alternativeText="Account Record"/>
+                                                    </span>
+                                                </div>
+                                                <div class="slds-media__body">
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <h3 class="slds-tile__title slds-truncate accountName slds-grid slds-wrap" title="{!account.acct.Name}">
+                                                            <div class="slds-col slds-size_1-of-1">
+                                                                
+                                                                <aura:if isTrue="{!account.preferred}">
+                                                                    <a onclick="{!c.goToAccount}" data-attriVal="{!account.acct.Id}" style="color:green;">
+                                                                        <span>{!account.acct.Name}</span>
+                                                                    </a>
+                                                                    <aura:set attribute="else">
+                                                                        <a onclick="{!c.goToAccount}" data-attriVal="{!account.acct.Id}">
+                                                                            <span>{!account.acct.Name}</span>
+                                                                        </a>
+                                                                    </aura:set>
+                                                                </aura:if> 
+                                                                
+                                                                
+                                                            </div>
+                                                            <aura:if isTrue="{!account.acct.AccountContactRelations == null}">
+                                                                <div class="slds-col slds-size_1-of-1">
+                                                                    <span class="cannot" style="font-size: 10px">Missing contractor leads recipient email</span>
+                                                                </div>
+                                                            </aura:if>
+                                                            <aura:if isTrue="{!account.acct.Contractor_Leads_Recipient__r.IsEmailBounced==true||account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced==true}">
+                                                                <div class="slds-col slds-size_1o-fo1">
+                                                                    <span class="cannot" style="font-size: 10px">Contractor leads recipient email(s) is bounced. Please confirm and then reload.</span>
+                                                                </div>
+                                                            </aura:if>
+                                                        </h3>
+                                                    </div>
+                                                    <div class="slds-tile__detail">
+                                                        <dl class="slds-list_horizontal slds-wrap">
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate itemLabel" title="Type">Type:</dt>
+                                                            <dd class="slds-item_detail slds-truncate" title="{!account.acct.Contractor_Type__c}">{!account.acct.Type}</dd>
+                                                            <!--<dt class="slds-item_label slds-text-color_weak slds-truncate itemLabel" title="Status">Status:</dt>
+                                                        <dd class="slds-item_detail slds-truncate" title="{!account.acct.Account_Status__c}">{!account.acct.Account_Status__c}</dd>-->
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate itemLabel" title="Distance">Distance:</dt>
+                                                            <dd class="slds-item_detail slds-truncate" title="{!account.distance + 'mi'}">
+                                                                {!account.distance != null ? account.distance + ' mi' : 'unknown'}
+                                                                <!-- <b>{!account.distance} mi</b> -->
+                                                            </dd>
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate itemLabel" title="Address">Address:</dt>
+                                                            <dd class="slds-item_detail slds-truncate slds-grid slds-wrap slds-truncate" title="Account Billing Address">
+                                                                <div class="slds-col slds-size_1-of-1 slds-truncate" title="{!account.street}">
+                                                                    {!account.street}
+                                                                </div>
+                                                                <div class="slds-col slds-size_1-of-1 slds-truncate" title="{!account.city + ', ' + account.stateName + ' ' + account.postalCode}">
+                                                                    {!account.city}, {!account.stateName}&nbsp;{!account.postalCode}
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-order_1 slds-small-size_1-of-6 slds-align-middle slds-grid slds-wrap" style="padding-top: 1%">
+                                            <!--<aura:if isTrue="{!account.acct.AccountContactRelations!=null&amp;&amp;account.acct.Contractor_Leads_Recipient__r.IsEmailBounced!=true&amp;&amp;account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced!=true}">
+                                                <div class="slds-col slds-size_1-of-12 slds-small-size_1-of-1 slds-grid slds-grid_align-center">
+                                                    <ui:inputCheckbox label="" name="{!account.acct.Id}"
+                                                                      aura:id="{!account.acct.Id}"
+                                                                      value="{!account.toAssign}"/>
+                                                </div>
+                                                <div class="slds-col slds-size_11-of-12 slds-small-size_1-of-1">
+                                                    <span class="unselected">Refer Proj</span>
+                                                </div>
+                                                <aura:if isTrue="{!account.assigned==true&amp;&amp;account.acct.AccountContactRelations!=null&amp;&amp;account.acct.Contractor_Leads_Recipient__r.IsEmailBounced!=true&amp;&amp;account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced!=true}">
+                                                    <span class="successful">Last Referred on</span>
+                                                    <span class="successful">{!account.lastReferalDate}</span>
+                                                </aura:if>
+                                            </aura:if> 
+                                            <aura:if isTrue="{!account.acct.AccountContactRelations==null||account.acct.Contractor_Leads_Recipient__r.IsEmailBounced==true||account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced==true}">-->
+                                            <aura:if isTrue="{!account.assigned==false&amp;&amp;account.acct.AccountContactRelations!=null&amp;&amp;account.acct.Contractor_Leads_Recipient__r.IsEmailBounced!=true&amp;&amp;account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced!=true}">	
+                                                <div class="slds-col slds-size_1-of-12 slds-small-size_1-of-1 slds-grid slds-grid_align-center">	
+                                                    <!--<lightning:button variant="brand" label="Assign Lead" name="{!account.acct.Id}"	
+                                                              aura:id="{!account.acct.Id}"	
+                                                              onclick="{!c.assignLead}"	
+                                                              iconName="utility:add" iconPosition="left"/>-->	
+                                                    <!--<lightning:input type="checkbox" label=""	
+                                                                 name="{!account.acct.Id}"	
+                                                                 aura:id="{!account.acct.Id}"	
+                                                                 value="{!account.toAssign}"	
+                                                                 checked="{!account.toAssign}"	
+                                                                 />-->	
+                                                    <ui:inputCheckbox label="" name="{!account.acct.Id}"	
+                                                                      aura:id="{!account.acct.Id}"	
+                                                                      value="{!account.toAssign}"/>	
+                                                </div>	
+                                                <div class="slds-col slds-size_11-of-12 slds-small-size_1-of-1">	
+                                                    <span class="unselected">Refer Proj</span>	
+                                                </div>	
+                                            </aura:if>	
+                                            <aura:if isTrue="{!account.assigned==true||account.acct.AccountContactRelations==null||account.acct.Contractor_Leads_Recipient__r.IsEmailBounced==true||account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced==true}">
+                                                <div class="slds-col slds-size_1-of-12 slds-small-size_1-of-1 slds-grid slds-grid_align-center">
+                                                    <!--<lightning:button variant="success" label="Assigned" 
+                                                              iconName="utility:check" iconPosition="left"
+                                                              disabled="true" class="leadAssigned"/>-->
+                                                    <lightning:input type="checkbox" label=""
+                                                                     class="successful"
+                                                                     name="{!account.acct.Id}"
+                                                                     aura:id="{!account.acct.Id}"
+                                                                     checked="{!account.assigned}"
+                                                                     disabled="true"
+                                                                     />
+                                                </div>
+                                                <div class="slds-col slds-size_11-of-12 slds-small-size_1-of-1">
+                                                    <aura:if isTrue="{!account.acct.AccountContactRelations!=null&amp;&amp;account.acct.Contractor_Leads_Recipient__r.IsEmailBounced!=true&amp;&amp;account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced!=true}">
+                                                        <span class="successful">(Referred)</span>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!account.acct.AccountContactRelations == null||account.acct.Contractor_Leads_Recipient__r.IsEmailBounced==true||account.acct.Contractor_Leads_Recipient_2__r.IsEmailBounced==true}">
+                                                        <span class="cannot">Cannot Refer</span>
+                                                    </aura:if>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </li>
+                                </aura:iteration>
+                            </ul>
+                        </div>
+                    </div>
+                    <footer class="slds-card__footer slds-border_top" style="background-color: #f4f6f9" ></footer>
+                </article>
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue = "{!empty(v.data)}">
+        <aura:set attribute="else">
+            <div class="slds-m-top_medium">
+                <div class=" slds-modal__footer customFooter" style="height:55px;">
+                    <div style="float:left;">
+                        <lightning:button label="Cancel"  onclick="{!c.cancel}" />
+                    </div>
+                    <div style="float:right;">
+                        <aura:if isTrue="{!lessthan(v.currentStep,2)}">
+                            <lightning:button variant="brand" label="Previous" disabled="true" />
+                            <aura:set attribute="else">
+                                <lightning:button variant="brand" label="Previous" onclick="{!c.goToPrevious}" />
+                            </aura:set>
+                        </aura:if>
+                        <aura:if isTrue="{!equals(v.currentStep,'3')}">
+                            <lightning:button variant="brand" label="Next" name="Next"  onclick="{!c.submit}" disabled="{!empty(v.selectedRecordTypes)}"/>
+                        </aura:if>
+                        <aura:if isTrue="{!equals(v.currentStep,'2')}">
+                            <lightning:button variant="brand" label="Next" name="Next"  onclick="{!c.chooseAccountType}" disabled="{!empty(v.selectedRecordTypes)}"/>
+                        </aura:if>
+                        <aura:if isTrue="{!equals(v.currentStep,'1')}">
+                            <lightning:button  variant="brand" onclick="{!c.next}" name="Next" label="Next" disabled="{!empty(v.selectedSubLineItems)}" />
+                        </aura:if>
+                    </div> 
+                </div>          
+            </div>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

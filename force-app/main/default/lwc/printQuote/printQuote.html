@@ -1,0 +1,681 @@
+<template>
+    <div>
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                Print Quote
+            </h2>
+        </header>
+        <template if:true={showPricingWarning}>
+            <div>
+                <div class="slds-col slds-col-space slds-size_12-of-12">
+                    <p>
+                        **
+                        <b style="color: rgb(208, 5,5);">The account numbers associated to this quote have recently changed, this may affect pricing.
+                        </b>
+                        <br />
+                        <b>By clicking "I Accept" you've reviewed/re-saved pricing in Experlogix as necessary to accomodate potential new pricing, based on the new account numbers.</b>
+                        <span style="color: rgb(208, 5, 5);">**</span>
+                    </p>
+                    <lightning-button style="padding:5px;" label="I Accept" onclick={handlePricingUpdated}>
+                    </lightning-button>
+                </div>                
+            </div>
+        </template>
+        <template if:false={showPricingWarning}>
+            <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">
+                <div>
+                    <template if:false={loaded}>
+                        <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                    </template>
+                    <template if:true={screenOne}>
+                        <div class="slds-grid slds-wrap">
+                            <template if:false={isFreightCalculated}>
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <p>
+                                        **
+                                        <b style="color: rgb(208, 5,5);">Freight has not been calculated for this Quote.
+                                        </b>
+                                        Please exit this process and run the freight calculation prior to print.
+                                        <span style="color: rgb(208, 5, 5);">**</span>
+                                    </p>
+                                </div>
+                            </template>
+                            <template if:true={isCAD}>
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <p>
+                                        **
+                                        <b style="color: rgb(208, 5,5);">Opportunity Building Owner Parent is Inpro Building Products Inc. Quote PDF will convert from USD $ to CAD $.
+                                        </b>
+                                        <span style="color: rgb(208, 5, 5);">**</span>
+                                    </p>
+                                </div>
+                            </template>
+                            <div class="slds-col slds-col-space slds-size_12-of-12">
+                                <p>
+                                    <b>Please note: </b>
+                                    If the Recipient selected below is Internal, you will have the ability to preview
+                                    the Quote and download it for sharing internally.
+                                    No option to email the Quote will be presented in this process unless the Recipient
+                                    is a Customer.
+                                </p>
+                            </div>
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <lightning-combobox name="documentType" label="Document Type"
+                                    value={selectedDocumentType} required="true" options={documentTypeList}
+                                    onchange={handleInput}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <template if:true={isInternalQuoteStatus}>
+                                    <b>Internal Use Only until quote is approved.</b>
+                                </template>
+                                <template if:false={isInternalQuoteStatus}>
+                                    <lightning-radio-group name="recipient" label="Recipient" required="true"
+                                        options={recipientOptions} value={selectedRecipient} onchange={handleInput}
+                                        type="radio"></lightning-radio-group>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-col-space slds-size_12-of-12">
+                                <b>Alternates</b>
+                                <lightning-datatable 
+                                    name="alternates" 
+                                    key-field="Id" 
+                                    data={alternateList}
+                                    columns={alternateColumns} 
+                                    onrowselection={handleDataTableInput}
+                                    selected-rows={selectedAlternates}>
+                                </lightning-datatable>
+                            </div>
+                        </div>
+                        <template if:true={isShowingContact}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-combobox name="contact" label="Contact" placeholder="--None--"
+                                        value={selectedContact} options={contactList} onchange={handleInput}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isShowingHideQtys}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input name="isHideQtys" checked={isHideQtys} type="checkbox"
+                                        label="Hide Qtys" onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isShowingSubmittalVersion}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input name="isSubmittalVersion" checked={isSubmittalVersion}
+                                        type="checkbox" label="Submittal Version" onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <lightning-combobox name="material" label="Material" value={selectedMaterial}
+                                    required="true" options={materialList} onchange={handleInput}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <template if:true={isProForma}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input name="poNumber" type="text" label="PO Number" value={poNumber}
+                                        onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input name="shipToName" type="text" label="Ship To Name"
+                                        value={shipToName} onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-combobox name="addressCountry" label="Country" value={addressCountry}
+                                        placeholder="--None--" options={countryList} onchange={handleInput}
+                                        dropdown-alignment="bottom-left" required="true">
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-textarea name="addressStreet" label="Street" value={addressStreet}
+                                        onchange={handleInput}>
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_4-of-12">
+                                    <lightning-input type="text" name="addressCity" label="City" value={addressCity}
+                                        onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_2-of-12">
+                                    <lightning-combobox name="addressState" label="State/Province" value={addressState}
+                                        placeholder="--None--" options={stateList} onchange={handleInput}
+                                        dropdown-alignment="bottom-left">
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input type="text" name="addressZip" label="Zip/Postal Code"
+                                        value={addressZip} onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isProFormaOrWT}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-combobox name="selectedPayment" label="Payment Terms"
+                                        value={selectedPayment} options={paymentList} onchange={handleInput}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isShowingPrintSummary}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-input name="isPrintSummary" checked={isPrintSummary} type="checkbox"
+                                        label="Print Add/Deduct Summary" onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-input name="isPrintDetails" checked={isPrintDetails} type="checkbox"
+                                        label="Print Add/Deduct Details" onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isAnyProForma}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input type="text" name="jobReference" label="Job Reference"
+                                        value={jobReference} onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input type="currency" name="proFormaFreight" label="Pro Forma Freight"
+                                        value={proFormaFreight} onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isProFormaOrLOC}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-combobox name="selectedCreditType" label="Credit Type"
+                                        value={selectedCreditType} options={creditTypeList} onchange={handleInput}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isAnyProForma}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-combobox name="selectedShippingTerms" label="Shipping Terms"
+                                        value={selectedShippingTerms} options={shippingTermsList}
+                                        onchange={handleInput}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <lightning-input name="printGrandTotal" checked={printGrandTotal} type="checkbox"
+                                    label="Print Grand Total" onchange={handleInput}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <template if:false={isBidFormat}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_6-of-12">
+                                    <lightning-input name="isTaxable" checked={isTaxable} type="checkbox"
+                                        label="Taxable" onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </template>
+
+                        <template if:true={isShowingContact}>
+                            <div class="slds-col slds-col-space slds-size_12-of-12">
+                                <b>Tax Certificates</b>
+                                <lightning-datatable key-field="Id" data={taxCertList} columns={taxCertColumns}
+                                    hide-checkbox-column="true">
+                                </lightning-datatable>
+                            </div>
+                        </template>
+
+                        <template if:true={isShowingParagraphs}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-textarea type="text" name="introductionParagraph" label="Introduction"
+                                        value={introductionParagraph} onchange={handleInput}>
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-textarea type="text" name="endingParagraph" label="Ending Paragraph"
+                                        value={endingParagraph} onchange={handleInput}>
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={screenTwoStop}>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_12-of-12">
+                                <p>The opportunity related to this quote is currently in an estimating audit status and
+                                    cannot be printed.</p>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={screenTwoBidder}>
+                        <div class="slds-col slds-col-space slds-size_12-of-12">
+                            <b style="color: rgb(208, 5,5);">* </b><b>Select Recipient Bidders.</b>
+                            <lightning-datatable name="bidders" key-field="Id" data={bidderList}
+                                columns={quoteBidderColumns} onrowselection={handleDataTableInput}
+                                selected-rows={selectedBidders}>
+                            </lightning-datatable>
+                        </div>
+                    </template>
+                    <template if:true={screenTwoContact}>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <p><b>Confirm Contact information</b></p>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <lightning-input type="text" name="contactName" label="Contact Name" value={contactName}
+                                    onchange={handleInput}> </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <lightning-input type="text" name="contactEmail" label="Email" value={contactEmail}
+                                    onchange={handleInput}> </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <lightning-input type="text" name="contactPhone" label="Phone" value={contactPhone}
+                                    onchange={handleInput}> </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_6-of-12">
+                                <lightning-input type="text" name="contactFax" label="Fax" value={contactFax}
+                                    onchange={handleInput}> </lightning-input>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={screenThreePrint}>
+                        <template if:true={isForCustomer}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <b>Alternates Subtotal for Opportunity Amount</b>
+                                    <template if:true={isTaxable}>
+                                        <lightning-datatable name="alternatePricingList" key-field="Id"
+                                            data={alternatePricingList} columns={alternateColumnsTax}
+                                            onrowselection={handleDataTableInput}
+                                            selected-rows={selectedPricingAlternates}>
+                                        </lightning-datatable>
+                                    </template>
+                                    <template if:false={isTaxable}>
+                                        <lightning-datatable name="alternatePricingList" key-field="Id"
+                                            data={alternatePricingList} columns={alternateColumnsNoTax}
+                                            onrowselection={handleDataTableInput}
+                                            selected-rows={selectedPricingAlternates}>
+                                        </lightning-datatable>
+                                    </template>
+                                </div>
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-input type="number" formatter="currency" step="0.01"
+                                        name="opportunityAmount" value={opportunityAmountForPricing}
+                                        onchange={handleInput} label="Opportunity Amount (changes update opportunity)">
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <b>Choose an option below and click Next. </b>
+                                    Selecting Send through Salesforce will take you to the email editor page on Next.
+                                    Selecting Customer PDF will allow you to print the document for Outlook.
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-input name="isPreviewOnly" checked={isPreviewOnly} type="checkbox"
+                                        label="Send through Salesforce" onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-input name="isPrintOnly" checked={isPrintOnly} type="checkbox"
+                                        label="View Customer PDF and Send through Outlook" onchange={handleInput}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <template if:true={isPreviewOnly}>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                                        <lightning-button variant="brand-outline" title="Preview Document"
+                                            class="slds-m-left_x-small" onclick={handlePrint} label="Preview Document">
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <template if:false={isForCustomer}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-button variant="brand-outline" title="Preview Document"
+                                        class="slds-m-left_x-small" onclick={handlePrint} label="Preview Document">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={screenFourEmail}>
+                        <template if:true={isShowingDocWarning}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_12-of-12">
+                                    <b style="color: rgb(208, 5,5);">
+                                        There are custom forms related to the items on this quote.
+                                        Make sure to attach the following document(s): {docNames}
+                                    </b>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="slds-grid slds-wrap slds-wrap-thin">
+                            <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                                <table>
+                                    <tr>
+                                        <td style="width:50px;">
+                                            <label>
+                                                To
+                                                <lightning-helptext tabindex="-1" class="helper-text"
+                                                    content="Separate multiple email addresses with commas.">
+                                                </lightning-helptext>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <c-lookup data-id="toContact" name="toContact"
+                                                onsearch={handleContactSearch}
+                                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                placeholder="Search Contacts..."
+                                                onselectionchange={handleLookupSelectionChange}
+                                                selection={selectedToContact}>
+                                            </c-lookup>
+                                        </td>
+                                        <td>
+                                            <c-lookup value="selectedToUser" name="toUser" onsearch={handleUserSearch}
+                                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                placeholder="Search Inpro Users..."
+                                                onselectionchange={handleLookupSelectionChange}
+                                                selection={selectedToUser}>
+                                            </c-lookup>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <lightning-input class="email-input"
+                                                placeholder="Type emails, separated by commas..." type="email"
+                                                name="toAddress" value={toAddress} onchange={handleInput} multiple>
+                                            </lightning-input>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                                <table>
+                                    <tr>
+                                        <td style="width:50px;">
+                                            <label>
+                                                CC
+                                                <lightning-helptext tabindex="-1" class="helper-text"
+                                                    content="Separate multiple email addresses with commas.">
+                                                </lightning-helptext>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <c-lookup name="ccContact" onsearch={handleContactSearch}
+                                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                placeholder="Search Contacts..."
+                                                onselectionchange={handleLookupSelectionChange}
+                                                selection={selectedCCContact}>
+                                            </c-lookup>
+                                        </td>
+                                        <td>
+                                            <c-lookup value="selectedToUser" name="ccUser" onsearch={handleUserSearch}
+                                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                placeholder="Search Inpro Users..."
+                                                onselectionchange={handleLookupSelectionChange}
+                                                selection={selectedCCUser}>
+                                            </c-lookup>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <lightning-input class="email-input"
+                                                placeholder="Type emails, separated by commas..." type="email"
+                                                name="ccAddress" value={ccAddress} onchange={handleInput} multiple>
+                                            </lightning-input>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                                <table>
+                                    <tr>
+                                        <td style="width:50px;">
+                                            <label>
+                                                BCC
+                                                <lightning-helptext tabindex="-1" class="helper-text"
+                                                    content="Separate multiple email addresses with commas.">
+                                                </lightning-helptext>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <c-lookup name="bccContact" onsearch={handleContactSearch}
+                                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                placeholder="Search Contacts..."
+                                                onselectionchange={handleLookupSelectionChange}
+                                                selection={selectedBCCContact}>
+                                            </c-lookup>
+                                        </td>
+                                        <td>
+                                            <c-lookup value="selectedToUser" name="bccUser" onsearch={handleUserSearch}
+                                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                placeholder="Search Inpro Users..."
+                                                onselectionchange={handleLookupSelectionChange}
+                                                selection={selectedBCCUser}>
+                                            </c-lookup>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <lightning-input class="email-input"
+                                                placeholder="Type emails, separated by commas..." type="email"
+                                                name="bccAddress" value={bccAddress} onchange={handleInput} multiple>
+                                            </lightning-input>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-wrap-thin">
+                            <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                                <lightning-input type="text" name="emailSubject" label="Subject" value={emailSubject}
+                                    onchange={handleInput}></lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-wrap-thin">
+                            <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                                <lightning-input-rich-text label="Body" name="emailBody" value={emailBody}
+                                    class="lightningInputRichText" placeholder="Type something interesting"
+                                    formats={allowedFormats} onchange={handleInput}></lightning-input-rich-text>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-wrap-thin">
+                            <div class="slds-col slds-size_6-of-12 slds-col-space-thin">
+                                <lightning-combobox
+                                    name="selectedEmailTemplate"
+                                    label="User Email Templates"
+                                    value={selectedEmailTemplate}
+                                    placeholder="Select an Email Template..."
+                                    options={emailTemplateList}
+                                    onchange={handleInput}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12 slds-col-space-thin" style="margin-top:22px;">
+                                <lightning-button variant="brand-outline" title="Manage Templates"
+                                class="slds-m-left_x-small" onclick={handleManageSignatures} label="Manage Templates"></lightning-button>
+                                <lightning-button variant="brand-outline" title="Refresh List"
+                                class="slds-m-left_x-small" onclick={handleRefreshSignatures} label="Refresh List"></lightning-button>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-wrap-thin">
+                            <div class="slds-col slds-size_4-of-12 slds-col-space-thin">
+                                <lightning-file-upload name="fileUploader" record-id={recordId}
+                                    onuploadfinished={handleUploadFinished} multiple></lightning-file-upload>
+                            </div>
+                            <div class="slds-col slds-size_8-of-12 slds-col-space-thin">
+                                <lightning-input type="text" name="pdfName" label="PDF Name" value={pdfName}
+                                    onchange={handleInput}></lightning-input>
+                                <!--<lightning-button variant="brand-outline" title="Generate PDF"
+                                            class="slds-m-left_x-small file-btn" onclick={handleGeneratePDF} label="Generate PDF"></lightning-button>-->
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-wrap-thin" style="margin-top:10px;">
+                            <div class="slds-col slds-size_8-of-12 slds-col-space-thin" style="display:contents;">
+                                <template for:each={uploadedFiles} for:item="file">
+                                    <lightning-button accesskey={file.Id} key={file.Id} variant="brand-outline"
+                                        title="Click to Remove Attachment" class="slds-m-left_x-small file-btn"
+                                        onclick={handleRemoveFile} label={file.RemoveName}>Click to Remove
+                                    </lightning-button>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={screenFourSignature}>
+                        <div class="slds-grid slds-wrap slds-wrap-thin">
+                            <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                                <lightning-input type="text" name="emailSignatureName" label="Template Name"
+                                    value={emailSignatureName} onchange={handleInput}></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12 slds-col-space-thin">
+                                <lightning-input-rich-text label="Body" name="emailSignatureHtmlValue"
+                                    value={emailSignatureHtmlValue} class="lightningInputRichText"
+                                    placeholder="Type something interesting" formats={allowedFormats}
+                                    onchange={handleInput}></lightning-input-rich-text>
+                            </div>
+                        </div>
+
+                    </template>
+                    <template if:true={screenFiveDone}>
+                        <template if:true={isPrintOnly}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <template if:true={isLockingQuoteOnFinish}>
+                                        <p><b>Please note: clicking Print will update the Quote and Opportunity.</b></p>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <lightning-button variant="brand" title="Print Document" class="slds-m-left_x-small"
+                                        onclick={handlePrint} label="Print Document">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={isPrintOnly}>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-col-space slds-size_12-of-12">
+                                    <template if:true={isLockingQuoteOnFinish}>
+                                        <p><b>Please note: clicking Finish will send email and update the Quote and
+                                                Opportunity.</b></p>
+                                    </template>
+                                    <template if:false={isLockingQuoteOnFinish}>
+                                        <p>No changes will be saved to the Quote.</p>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+            <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+                <template if:true={loaded}>
+                    <lightning-button style="float: left; padding:10px;" variant="brand" title="Cancel"
+                        class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+                    </lightning-button>
+                    <template if:true={screenFourSignature}>
+                        <lightning-button style="float: right; padding:10px;" variant="brand-outline" title="Cancel"
+                            class="slds-m-left_x-small" onclick={handleCancelSignature} label="Cancel">
+                        </lightning-button>
+                        <lightning-button style="float: right; padding:10px;" variant="brand" title="Add"
+                            class="slds-m-left_x-small" onclick={handleAddSignature} label="Add">
+                        </lightning-button>
+                    </template>
+                    <template if:false={screenFourSignature}>
+                        <template if:true={screenFiveDone}>
+                            <template if:false={isPrintOnly}>
+                                <lightning-button style="float: right; padding:10px;" variant="brand" title="Finish"
+                                    class="slds-m-left_x-small" onclick={handleFinish} label="Finish">
+                                </lightning-button>
+                            </template>
+                        </template>
+                        <template if:false={screenFiveDone}>
+                            <template if:true={screenThreePrint}>
+                                <template if:true={hasPreviewPrintSelected}>
+                                    <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                                        class="slds-m-left_x-small" onclick={handleNext} label="Next">
+                                    </lightning-button>
+                                </template>
+                                <template if:false={hasPreviewPrintSelected}>
+                                    <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                                        class="slds-m-left_x-small" onclick={handleNext} label="Next" disabled="disabled">
+                                    </lightning-button>
+                                </template>
+                            </template>
+                            <template if:false={screenThreePrint}>
+                                <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                                    class="slds-m-left_x-small" onclick={handleNext} label="Next">
+                                </lightning-button>
+                            </template>
+                        </template>
+
+                        <template if:true={showPrevious}>
+                            <lightning-button style="float: right; padding:10px;" variant="brand-outline" title="Previous"
+                                class="slds-m-left_x-small" onclick={handlePrevious} label="Previous">
+                            </lightning-button>
+                        </template>
+                    </template>
+                </template>
+            </footer>
+        </template>
+    </div>
+</template>

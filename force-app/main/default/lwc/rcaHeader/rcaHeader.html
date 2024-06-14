@@ -1,0 +1,54 @@
+<template>
+    <lightning-card>
+        <div class="slds-box slds-theme_default" style="margin: 5px;">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                <thead>
+                    <tr>                        
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="ItemNumber">Item Number</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="QuantityToRCA">Quantity To RCA</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="UnitPrice">Unit Price</div>
+                        </th>                      
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="UnitWeight">Unit Weight</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="ExtendedWeight">Extended Weight</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="SoldPrice">Sold Price</div>
+                        </th>                       
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Total">Total</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <template for:each={existingProductList} for:item="product">
+                    <tr accesskey={product.Id} onclick={handleProductRowClick} key={product.Id}>
+                        <td>{product.Name}</td>
+                        <td>
+                            <lightning-input name="Quantity" accesskey={product.Id}
+                                onchange={handleGridInputChange} type="text"
+                                value={product.quantityToRCA}> </lightning-input>
+                        </td>
+                        <td>
+                            <lightning-input name="Unit Price" accesskey={product.Id}
+                                onchange={handleGridInputChange} type="text"
+                                value={product.unitPrice}> </lightning-input>
+                        </td>                       
+                        <td>{product.unitWeight}</td> 
+                        <td>{product.extendedWeight}</td> 
+                        <td>{product.soldPrice}</td> 
+                        <td>{product.total}</td> 
+                    </tr>                    
+                </template>
+            </tbody>
+            </table>
+        </div>
+    </lightning-card>
+</template>

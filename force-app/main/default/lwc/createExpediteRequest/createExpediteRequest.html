@@ -1,0 +1,233 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={displayFCError}>
+        <div style="text-align: center; color:red; background-color:black; font-size:20px; padding:10px;"><h2><b>{fcerror}</b></h2>
+        <lightning-button variant="brand-outline" title="X" class="slds-m-left_x-small" onclick={closeFCErrorMessage}  label="X"></lightning-button>
+        </div>
+    </template>
+    <template if:true={loaded}>
+        <lightning-tabset>
+            <lightning-tab label="Header Information">
+                <div style="max-width:800px; width:800px; margin:0 auto; box-shadow: 0 0 10px 3px black; padding: 10px;">
+                <h1 slot="title">       
+                    <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Expedite Request</strong>
+                </h1><br/>
+                   
+                <h2><b>Search Options</b></h2>              
+                <table>
+                    <tr>
+                        <td style="width:80%;">
+                            <lightning-input name="li_orderNumber" label="Order Number" onchange={handleInputOnChange} value={orderNumber}></lightning-input>                        
+                        </td>
+                        <td style="width:20%; vertical-align: bottom;">
+                            <lightning-button variant="brand-outline" title="RetrieveOrder" class="slds-m-left_x-small"
+                            onclick={getOrder}  label="Retrieve Order">
+                            </lightning-button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:80%;">
+                            <c-lookup name="quoteLookup" onsearch={handleQuoteSearch} scrollafternitems=10
+                                label="Quote" placeholder="Search Quotes"
+                                onselectionchange={handleQuoteLookupSelectionChange} selection={selectedQuote}>
+                            </c-lookup>                                                  
+                            <!-- <lightning-input name="li_quoteNumber" label="Quote Number" onchange={handleInputOnChange} value={quoteNumber}></lightning-input> -->
+                        </td>
+                        <td style="width:20%; vertical-align: bottom;">
+                            <lightning-button variant="brand-outline" title="RetrieveQuote" class="slds-m-left_x-small" style="display:none;"
+                            onclick={getQuote}  label="Retrieve Quote">
+                            </lightning-button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:80%;">
+                            <lightning-input name="li_customerNumber" label="Customer Number" onchange={handleInputOnChange} value={customerNumber}></lightning-input>                            
+                        </td>
+                        <td style="width:20%; vertical-align: bottom;">
+                            <lightning-button variant="brand-outline" title="RetrieveCustomer" class="slds-m-left_x-small"
+                            onclick={getAccount}  label="Retrieve Customer">
+                            </lightning-button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:80%;">
+                            <lightning-input name="li_customerName" label="Customer Name" value={customerName} disabled="true"></lightning-input>                            
+                        </td>
+                        <td style="width:20%; vertical-align: bottom;"></td>
+                    </tr>                                            
+                </table>
+                <br/>
+                <lightning-button variant="brand-outline" title="OrderDetail" class="slds-m-left_x-small"
+                            onclick={getOrderDetail}  label="Order Detail"></lightning-button>  
+                <br/>
+                <br/>
+                <h2><b>Expedite Information</b></h2>
+                <table>
+                    <tr>
+                        <td>
+                            <lightning-input name="li_orderEntryDate" label="Order Entry Date" onchange={handleInputOnChange} value={orderEntryDate} disabled="true" style="padding-right: 10px;" type="date" ></lightning-input>
+                        </td>
+                        <td>
+                            <lightning-input name="li_proposedDate" label="Proposed Date" onchange={handleInputOnChange} type="date" style="padding-right: 10px;"></lightning-input>                                  
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td>
+                            <lightning-input name="li_currentShipDate" label="Current Ship Date" onchange={handleInputOnChange} value={currentShipDate} disabled="true" type="date" style="padding-right: 10px;"></lightning-input> 
+                        </td>
+                        <td>
+                            <lightning-input name="li_currentMOT" label="Current MOT" onchange={handleInputOnChange} value={currentMOT} disabled="true" style="padding-right: 10px;" ></lightning-input>                                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>    
+                            <lightning-input name="li_chargingAnExpediteFee" label="Charging an Expedite Fee?" onchange={handleInputOnChange} type="checkbox" style="padding-right: 10px;" checked={chargingExpediteFee}></lightning-input>                                                      
+                        </td>
+                        <td>
+                            <lightning-input name="li_areWeChangingMOT" label="Are We Changing the MOT?" onchange={handleInputOnChange} type="checkbox" style="padding-right: 10px;" checked={changingMOT}></lightning-input>     
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>   
+                            <lightning-input name="li_expediteFeeAmount" label="Expedite Fee Amount" onchange={handleInputOnChange} disabled="true" value={expediteFeeAmount} style="padding-right: 10px;"></lightning-input>
+                        </td>
+                        <td>
+                            <lightning-combobox style="padding-right: 10px;"
+                                name="lcb_newMOT"
+                                label="New MOT"
+                                value={pleaseSelectOption}
+                                placeholder=""
+                                options={motList}
+                                onchange={handleInputOnChange}>
+                            </lightning-combobox>   
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <lightning-input name="li_expediteEntireOrder" label="Expedite Entire Order?" onchange={handleInputOnChange} type="checkbox" style="padding-right: 10px;" checked={expeditingEntireOrder}></lightning-input>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <lightning-input name="li_selectItemsWONeededQty" label="Select Items W/O Needed Qty" onchange={handleInputOnChange} type="checkbox" style="padding-right: 10px;" checked={selectItemsWONeededQty}></lightning-input>                                                
+                        </td>
+                        <td></td>
+                    </tr>                   
+                    <tr>
+                        <td>
+                            <lightning-input name="li_isProductCurrentlyInStock" label="Is Product Currently In Stock" onchange={handleInputOnChange} type="checkbox" style="padding-right: 10px;"></lightning-input>                                                         
+                       </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <br/>
+                <lightning-combobox
+                    name="lcb_expeditePartNumber"
+                    label="Expedite Part Number"
+                    value={pleaseSelectOption}
+                    placeholder=""
+                    options={expediteItemList}
+                    onchange={handleInputOnChange}>
+                </lightning-combobox>  
+                <lightning-combobox
+                    name="approvingManager"
+                    label="Approving Manager"
+                    value={pleaseSelectOption}
+                    placeholder=""
+                    options={managerList}
+                    onchange={handleInputOnChange}>
+                </lightning-combobox>            
+                <!-- <c-lookup name="approvingManager" onsearch={handleManagerSearch} scrollafternitems=10
+                    label="Approving Manager" placeholder="Search Managers"
+                    onselectionchange={handleLookupSelectionChange}>
+                </c-lookup>                                                    -->
+                <br/>
+                <h2><b>Reason For Expedite</b></h2>
+                <lightning-combobox
+                    name="lcb_expediteReason"
+                    label="Expedite Reason"
+                    value={pleaseSelectOption}
+                    placeholder=""
+                    options={expediteReasonOptions}
+                    onchange={handleInputOnChange}>
+                </lightning-combobox>
+                <lightning-textarea name="ta_expediteReasonNotes" onchange={handleInputOnChange}></lightning-textarea>                      
+                <br/>       
+                <lightning-button variant="brand-outline" title="Create Expedite Request" class="slds-m-left_x-small"
+                    onclick={createRequest}  label="Create Expedite Request">
+                </lightning-button>
+            </div>
+            </lightning-tab>
+            <lightning-tab label="Items">
+                <br/>
+                <br/>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                    <thead>
+                        <tr>
+                            <th class="" scope="col">
+                                <div class="slds-truncate">
+                                    <lightning-input type="checkbox"
+                                        onchange={handleCheckAllChecked}>
+                                    </lightning-input>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="ItemNumber">Item Number</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Description">Description</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Quantity">Quantity</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="QuantityOnHand">Quantity on Hand</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="BackorderQuantity">Quantity Backordered</div>
+                            </th> 
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="QuantityAvailable">Quantity Available</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Allocations">Allocations</div>
+                            </th>                  
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={orderItems} for:item="item">
+                            <tr key={item.ItemNumber} accesskey={item.ItemNumber}>
+                                <td>
+                                    <lightning-input type="checkbox" accesskey={item.LineUniqueKey}
+                                        onchange={handleItemChecked} checked={item.Selected}>
+                                    </lightning-input>
+                                </td>
+                                <td>{item.ItemNumber}</td>
+                                <td>{item.Description}</td>
+                                <td><lightning-input name="Quantity" accesskey={item.LineUniqueKey}
+                                        onchange={handleQuantityChanged} type="text"
+                                        value={item.Quantity}>
+                                    </lightning-input>
+                                </td>
+                                <td>{item.QuantityOnHand}</td>                                
+                                <td>{item.BackorderQuantity}</td>
+                                <td>{item.QuantityAvailable}</td>
+                                <td><lightning-button variant="brand-outline" title="Allocations" class="slds-m-left_x-small" accesskey={item.ItemNumber}
+                                    onclick={findAllocations}  label="Allocations">
+                                </lightning-button></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>   
+            </lightning-tab>           
+        </lightning-tabset>
+    </template>
+    <template if:true={displayFCError}>
+        <div style="text-align: center; color:red; background-color:black; font-size:20px; padding:10px;"><h2><b>{fcerror}</b></h2>
+        <lightning-button variant="brand-outline" title="X" class="slds-m-left_x-small" onclick={closeFCErrorMessage}  label="X"></lightning-button>
+        </div>
+    </template>
+</template>

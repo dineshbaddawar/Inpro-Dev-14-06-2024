@@ -1,0 +1,126 @@
+<template>
+    <div>
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                Update Shipping Address
+            </h2>
+        </header>
+        <div class="slds-p-around_medium column-padding fixed-height ">
+            <div class="full-screen">
+                <template if:false={loaded}>
+                    <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <h4>Shipping Address:</h4>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-input
+                            name="shippingStreet"
+                            type="text"
+                            label="Street Address"
+                            value={shippingStreet}
+                            onchange={handleInput}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-input
+                            name="shippingCity"
+                            type="text"
+                            label="City"
+                            value={shippingCity}
+                            onchange={handleInput}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-combobox name="shippingState" label="State/Province" value={shippingState}
+                            placeholder="--None--" options={shippingStateList} onchange={handleInput}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-input
+                            name="shippingZip"
+                            type="text"
+                            label="Postal Code"
+                            value={shippingZip}
+                            onchange={handleInput}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-combobox name="shippingCountry" label="Country" value={shippingCountry}
+                            placeholder="--None--" options={countryList} onchange={handleInput}
+                            dropdown-alignment="bottom-left" required="true">
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-input type="text" name="accountPhone" label="Phone" value={accountPhone} onchange={handleInput}> </lightning-input>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <b>Select checkboxes below to sync address and/or phone info to the account's contacts.</b>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Sync Address?" style="display:flex;">
+                                        <lightning-input type="checkbox"
+                                            onchange={handleOptionChecked} name="syncAddressToAll" checked={syncAddressToAll}>
+                                        </lightning-input>
+                                        Sync Address?</div></th>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Sync Phone?" style="display:flex;">
+                                        <lightning-input type="checkbox"
+                                            onchange={handleOptionChecked} name="syncPhoneToAll" checked={syncPhoneToAll}>
+                                        </lightning-input>
+                                        Sync Phone?</div></th>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Name">Name</div></th>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Title">Title</div></th>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Address">Address</div></th>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Phone">Phone</div></th>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Mobile">Mobile</div></th>
+                                    <th class="" scope="col"><div class="slds-truncate" title="Inactive?">Inactive?</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={contactList} for:item="item">
+                                    <tr key={item.Id}>
+                                        <td>
+                                            <lightning-input type="checkbox" accesskey={item.Id} 
+                                                onchange={handleOptionChecked} name="SyncAddress" checked={item.SyncAddress}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-input type="checkbox" accesskey={item.Id} 
+                                                onchange={handleOptionChecked} name="SyncPhone" checked={item.SyncPhone}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>{item.Name}</td>
+                                        <td>{item.Title}</td>
+                                        <td>{item.MailingStreet} {item.MailingCity} {item.MailingState} {item.MailingPostalCode}</td>
+                                        <td>{item.Phone}</td>
+                                        <td>{item.MobilePhone}</td>
+                                        <td>
+                                            <lightning-input type="checkbox" accesskey={item.Id} 
+                                                onchange={handleOptionChecked} name="Inactive" checked={item.Inactive_Contact__c}>
+                                            </lightning-input>
+                                        </td>                   
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+            <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                    class="slds-m-left_x-small" onclick={handleSave} label="Save">
+                </lightning-button>
+        </footer>
+    </div>
+</template>

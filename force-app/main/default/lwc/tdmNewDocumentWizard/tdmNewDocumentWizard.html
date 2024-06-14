@@ -1,0 +1,213 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <div if:false={showSuccess}>
+                    <template if:true={loaded}>
+                        <div if:true={mainForm}>
+                            <h3 slot="title">
+                                <lightning-icon icon-name="utility:save" alternative-text="Create Document"
+                                    size="medium" title="Create Document" onclick={createTechDocument} class="pointer">
+                                </lightning-icon>
+                                &nbsp;<strong>Technical Document Wizard</strong>
+                            </h3>
+                            <lightning-combobox name="DocumentControl" label="Document Control" placeholder="--None--"
+                                options={documentControlList} value={DocumentControl} onchange={handleInputUpdate}
+                                required="true">
+                            </lightning-combobox>
+                            <lightning-input required="true" type="text" value={PublishedName} name="PublishedName"
+                                label="Published Name:" onchange={handleInputUpdate}>
+                            </lightning-input>
+
+                            <c-lookup if:true={lookupsLoaded} data-id="docOwnerLookup" name="docOwnerLookup"
+                                onsearch={handleEmployeeSearch} scrollafternitems=10 label="Document Owner: *"
+                                placeholder="Search Employees" onselectionchange={handleLookupSelectionChange}
+                                selection={docOwnerLookup}>
+                            </c-lookup>
+                            <c-lookup if:false={lookupsLoaded} data-id="docOwnerLookup" name="docOwnerLookup"
+                                onsearch={handleEmployeeSearch} scrollafternitems=10 label="Document Owner: *"
+                                placeholder="Search Employees" onselectionchange={handleLookupSelectionChange}>
+                            </c-lookup>
+
+                            <c-lookup if:true={lookupsLoaded} data-id="docRequestorLookup" name="docRequestorLookup"
+                                onsearch={handleUserSearch} scrollafternitems=10 label="Requestor: *"
+                                placeholder="Search Users" onselectionchange={handleLookupSelectionChange}
+                                selection={docRequestorLookup}>
+                            </c-lookup>
+                            <c-lookup if:false={lookupsLoaded} data-id="docRequestorLookup" name="docRequestorLookup"
+                                onsearch={handleUserSearch} scrollafternitems=10 label="Requestor: *"
+                                placeholder="Search Users" onselectionchange={handleLookupSelectionChange}>
+                            </c-lookup>
+
+                            <lightning-combobox name="DocumentType" label="Document Type" placeholder="--None--"
+                                options={documentTypeList} value={DocumentType} onchange={handleInputUpdate}
+                                required="true">
+                            </lightning-combobox>
+                            <lightning-combobox name="Division" value={Division} label="Division" placeholder="--None--"
+                                options={divisionList} onchange={handleInputUpdate} required="true">
+                            </lightning-combobox>
+                            <c-lookup  data-id="languageLookup" name="languageLookup"
+                                onsearch={handleLanguageSearch} scrollafternitems=10 label="Language: *"
+                                placeholder="Search Language" onselectionchange={handleLookupSelectionChange}
+                                selection={languageLookup}>
+                            </c-lookup>
+                            
+                            <lightning-combobox name="MarketSegment" value={MarketSegment} label="Market Segment"
+                                placeholder="--None--" options={marketSegmentList} onchange={handleInputUpdate}>
+                            </lightning-combobox>
+                            <c-lookup if:true={lookupsLoaded} data-id="campaignLookup" name="campaignLookup"
+                                onsearch={handleCampaignSearch} scrollafternitems=10 label="Campaign: *"
+                                placeholder="Search Campaigns" onselectionchange={handleLookupSelectionChange}
+                                selection={campaignLookup}>
+                            </c-lookup>
+                            <c-lookup if:false={lookupsLoaded} data-id="campaignLookup" name="campaignLookup"
+                                onsearch={handleCampaignSearch} scrollafternitems=10 label="Campaign: "
+                                placeholder="Search Campaigns" onselectionchange={handleLookupSelectionChange}>
+                            </c-lookup>
+                            <lightning-input type="text" value={Description} name="Description" label="Description: "
+                                onchange={handleInputUpdate}>
+                            </lightning-input>
+                            <lightning-dual-listbox value={Regions} style="padding-top:20px;" name="Region"
+                                label="Region:" source-label="Available" selected-label="Selected"
+                                field-level-help="Select your region(s)" options={regionList}
+                                onchange={handleInputUpdate} size={regionCount}>
+                            </lightning-dual-listbox>                            
+                            <!-- <lightning-input type="text" name="SampleItemNo" label="Sample Item No: "
+                        onchange={handleInputUpdate}>
+                    </lightning-input> -->
+
+                            <!--File Upload Grid-->
+                            <!-- <div if:false={Controlled}>
+                                <div class="slds-m-around_medium">
+                                    <lightning-input type="file"
+                                        accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf, .txt" label="Attachment"
+                                        onchange={openfileUpload}></lightning-input>
+                                </div>
+                                <table style="padding:10px; table-layout:fixed; width:100%;"
+                                    class="slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                    <thead>
+                                        <th style="padding: 5px;"></th>
+                                        <th style="padding: 5px;">File</th>
+                                        <th style="padding: 5px;">Suggested Location</th>
+                                        <th style="padding: 5px;">Choose Location</th>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={fileList} for:item="file">
+                                            <tr key={file.Id}>
+                                                <td style="padding: 5px;">
+                                                    <lightning-button label="Delete" onclick={deleteFile}
+                                                        accesskey={file.Id}>
+                                                    </lightning-button>
+                                                </td>
+                                                <td style="padding: 5px;">{file.FileName}</td>
+                                                <td style="word-break: break-all; max-width:1000px; padding:5px;">{file.SuggestedLocations}</td>
+                                                <td style="padding: 5px;">
+                                                    <lightning-button label="Choose" onclick={pickLocation}
+                                                        accesskey={file.Id}></lightning-button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>                                
+                            </div> -->
+                            <!--End File Upload Grid-->
+                        </div>
+
+                        <div if:true={chooseLocation}>
+                            <lightning-button style="padding: 10px;" label="Inpro Insider" name="InproInsider"
+                                onclick={handleLocationSelection}></lightning-button>
+                            <lightning-button style="padding: 10px;" label="PDF Portal" name="PDFPortal"
+                                onclick={handleLocationSelection}></lightning-button>
+                            <lightning-button style="padding: 10px;" label="Website" name="Website"
+                                onclick={handleLocationSelection}></lightning-button>
+                            <lightning-button style="padding: 10px;" label="Experlogix" name="Experlogix"
+                                onclick={handleLocationSelection}></lightning-button>
+                            <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                            </lightning-button>
+                        </div>
+
+                        <div if:true={pdfPortalLocation}>
+                            <lightning-combobox style="padding: 10px;" name="PdfPortalCategory" label="Category Name"
+                                placeholder="--None--" options={pdfPortalCategoryList} onchange={handleInputUpdate}
+                                required="true">
+                            </lightning-combobox>
+                            <lightning-button label="Done" onclick={finishPDFPortalSelection} style="padding: 10px;">
+                            </lightning-button>
+                            <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                            </lightning-button>
+
+                        </div>
+
+                        <div if:true={websiteLocation}>
+                            <lightning-button label="Done" onclick={finishWebsiteSelection} style="padding: 10px;">
+                            </lightning-button>
+                            <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                            </lightning-button>
+                            <lightning-input type="text" name="WebsiteFriendlyName" label="Website Friendly Name:"
+                                onchange={handleInputUpdate}>
+                            </lightning-input>
+                            <table>
+                                <tr>
+                                    <td style="padding:10px; Height:300px;">
+                                        <h2><strong>Product Categories</strong></h2>
+                                        <!-- <lightning-input type="text" name="searchCategories" label="Search:"
+                                        style="width:200px;" onchange={handleSearchGrids}>
+                                    </lightning-input> -->
+                                        <lightning-datatable data-id="categoryGrid" key-field="Id" data={categoryList}
+                                            columns={columns}>
+                                        </lightning-datatable>
+                                    </td>
+                                    <td style="padding:10px;">
+                                        <h2><strong>Product Series</strong></h2>
+                                        <!-- <lightning-input type="text" name="searchSeries" label="Search:"
+                                        style="width:200px;" onchange={handleSearchGrids}>
+                                    </lightning-input> -->
+                                        <lightning-datatable data-id="seriesGrid" key-field="Id" data={seriesList}
+                                            columns={columns}>
+                                        </lightning-datatable>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Sharepoint File Browser -->
+                        <div if:true={inproInsiderLocation} class="slds-p-around_medium lgc-bg">
+                            <lightning-button label="Done" onclick={finishSharepointSelection} style="padding: 10px;">
+                            </lightning-button>
+                            <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                            </lightning-button>
+                            <div><strong>Current Location:</strong> {sharepointLocation}</div>
+                            <table>
+                                <tr>
+                                    <td style="width: 300px;">
+                                        <lightning-input label="Specify URL:" onchange={updateSpecifiedUrl} type="text">
+                                        </lightning-input>
+                                    </td>
+                                    <td style="padding-top: 20px; padding-left:10px;">
+                                        <lightning-button label="Use Url" onclick={handleSpecifyUrl}></lightning-button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <lightning-tree items={items} header="Inpro Insider" onselect={handleOnselect}>
+                            </lightning-tree>
+                        </div>
+                        <!-- End Sharepoint File Browser -->
+
+                    </template>
+                    <template if:false={loaded}>
+                        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....
+                        </lightning-spinner>
+                    </template>
+                </div>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+            <div if:true={showSuccess}>
+                {successMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

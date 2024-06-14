@@ -1,0 +1,348 @@
+<template>
+    <div if:false={addressConfirmationScreenOpen}>
+        <header class="slds-modal__header" style="height:70px;">
+            <h2 slot="title" style="float:left;">
+                <lightning-icon style="padding: 5px;" icon-name="utility:save" alternative-text="Save"
+                    size="Medium" title="Save" onclick={saveFreight} class="pointer"></lightning-icon>
+                    &nbsp;<strong>Freight Quote</strong>
+            </h2>
+        </header>
+        <div class="slds-p-around_medium qcHolder full-screen">
+            <template if:true={loaded}>
+                <div if:false={showError}>
+                    <!-- <div style="margin:5px; color: red;"><strong>Attention:</strong> Please do not select Dayton as a carrier for orders shipping after 4/29.</div> -->
+                    <!--Freight Options Grid-->
+                    <template if:true={hasTerrZipWarning}>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_12-of-12">
+                                <h3 class="warning-message">{terrZipMessage}</h3>
+                            </div>
+                        </div>
+                    </template>
+                    
+                    <div if:false={groupAlternates} class="slds-box slds-theme_default" style="margin: 5px;">
+                        <lightning-button style="float:right;" variant="brand-outline" title="GroupAlternates"
+                            class="slds-m-left_x-small" onclick={handleGroupAlternatesClick}
+                            name="groupAlternatesButton" label="Group Alternates">
+                        </lightning-button>
+                        <!-- Define table structure -->
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="GroupName">Group Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Carrier">Carrier</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="TransitTime">Transit Time</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="TransitDesc">Transit Desc</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Charge">Charge</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="TotalCharge">Total Charge</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <!-- Loop through groups -->
+                            <template for:each={fQuoteList} for:item="group">
+                                <tr key={group.GroupName}>
+                                    <td></td>
+                                    <td colspan="6">&nbsp;{group.GroupLabel}</td>
+                                </tr>
+                                <!-- Loop through alternates -->
+                                <template for:each={group.Alternates} for:item="alternate">
+                                    <tbody key={alternate.AlternateId}>
+                                        <tr style="background-color: cornflowerblue;">
+                                            <td>
+                                                <lightning-icon style="padding: 5px;float:left;background:cornflowerblue;border-radius:25px;" icon-name="utility:refresh" alternative-text="Refresh" variant='inverse'
+                                                    size="x-small" title="Refresh" onclick={refreshGroup} accesskey={alternate.AlternateId} class="pointer"></lightning-icon>
+                                                <lightning-icon style="padding: 5px;float:right;background:cornflowerblue;border-radius:25px;" icon-name="utility:delete" alternative-text="Delete" variant='inverse'
+                                                    size="x-small" title="Refresh" onclick={removeFreight} accesskey={alternate.AlternateId} class="pointer"></lightning-icon>
+                                            </td>
+                                            <td colspan="6">
+                                                <template if:true={alternate.IsSameNameSplit}>
+                                                    <div style="display:flex;">
+                                                        <div style="padding:5px;">&nbsp;{alternate.AlternateLabel}</div>
+                                                        <template if:true={alternate.HasManualFreightQuote}>
+                                                            <div style="background-color:white;border-radius:5px;margin-left:25px;padding:5px;">
+                                                                <b>MFQ Link: </b>&nbsp;<a onclick={handleOpenMFQ} name={alternate.ManualFreightQuoteURL}>{alternate.ManualFreightQuoteNumber}</a>
+                                                            </div>
+                                                        </template>
+                                                        <div style="background-color:white;border-radius:5px;margin-left:25px;padding:5px;">
+                                                            Notice: Multiple alternates with the same name have freight. Removing freight from one will remove from all.
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template if:false={alternate.IsSameNameSplit}>
+                                                    <template if:true={alternate.HasManualFreightQuote}>
+                                                        <div style="display:flex;">
+                                                            <div style="padding:5px;">&nbsp;{alternate.AlternateLabel}</div>
+                                                            <div style="background-color:white;border-radius:5px;margin-left:25px;padding:5px;">
+                                                                <b>MFQ Link: </b>&nbsp;<a onclick={handleOpenMFQ} name={alternate.ManualFreightQuoteURL}>{alternate.ManualFreightQuoteNumber}</a>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                    <template if:false={alternate.HasManualFreightQuote}>
+                                                        &nbsp;{alternate.AlternateLabel}
+                                                    </template>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                        <!-- Loop through Options -->
+                                        <template for:each={alternate.FreightOptions} for:item="option">
+                                            <tr key={option.CarrierCode}>
+                                                <td><input type="radio" checked={option.Selected}
+                                                        onclick={handleOptionSelected} name={option.AlternateId}
+                                                        accesskey={option.OptionId}></td>
+                                                <td></td>
+                                                <td>{option.CarrierDetail}</td>
+                                                <td>{option.TimeInTransit}</td>
+                                                <td>{option.TimeInTransitDesc}</td>
+                                                <td>{option.Charge}</td>
+                                                <td>{option.TotalCharge}</td>
+                                            </tr>
+                                            <!-- This is the detail section of the freight quote options, only show if it's selected and it's classified as freight -->
+                                            <template if:true={option.ShowFreightOptions}>
+                                                <tr key={option.CarrierCode}>
+                                                    <td colspan="7">
+                                                        <!-- Only show if it's Manual Freight Quote -->
+                                                        <div if:true={option.IsMFQ}>
+                                                            <p><strong>Manual Quote</strong></p>
+                                                            <lightning-input onchange={handleNotesToTrafficOnchange}
+                                                                name={option.AlternateId} accesskey={option.OptionId}
+                                                                type="text" label="Notes to Traffic"
+                                                                value={option.TrafficNotes}>
+                                                            </lightning-input>
+                                                            <lightning-input onchange={handleManualQuoteIDOnchange}
+                                                                name={option.AlternateId} accesskey={option.OptionId}
+                                                                type="text" label="Manual Quote ID"
+                                                                value={option.ManualFreightQuoteID}>
+                                                            </lightning-input>
+                                                            <lightning-button variant="brand-outline"
+                                                                title="Request Manual Quote" class="slds-m-left_x-small"
+                                                                onclick={handleRequestManualQuoteOnClick}
+                                                                name={option.AlternateId} accesskey={option.OptionId}
+                                                                label="Request Manual Quote">
+                                                            </lightning-button>
+                                                            <lightning-input type="checkbox" accesskey={option.OptionId}
+                                                                name={option.AlternateId} label="Rush Request"
+                                                                onchange={handleRushRequestChecked} value="Rush Request"
+                                                                checked={option.RushRequested}></lightning-input>
+                                                            <lightning-input onchange={handleInternationalNotesOnchange}
+                                                                name={option.AlternateId} accesskey={option.OptionId}
+                                                                type="text" label="International Notes"
+                                                                value={option.ShippingDescription}>
+                                                            </lightning-input>
+                                                            <table
+                                                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="" scope="col">
+                                                                        </th>
+                                                                        <th class="" scope="col">
+                                                                            <div class="slds-truncate" title="ID">ID
+                                                                            </div>
+                                                                        </th>
+                                                                        <th class="" scope="col">
+                                                                            <div class="slds-truncate" title="Carrier">
+                                                                                Carrier
+                                                                            </div>
+                                                                        </th>
+                                                                        <th class="" scope="col">
+                                                                            <div class="slds-truncate" title="Amount">
+                                                                                Amount
+                                                                            </div>
+                                                                        </th>
+                                                                        <th class="" scope="col">
+                                                                            <div class="slds-truncate"
+                                                                                title="Updated On">
+                                                                                Updated On
+                                                                            </div>
+                                                                        </th>
+                                                                        <th class="" scope="col">
+                                                                            <div class="slds-truncate"
+                                                                                title="Updated By">
+                                                                                Updated By
+                                                                            </div>
+                                                                        </th>
+                                                                        <th class="" scope="col">
+                                                                            <div class="slds-truncate"
+                                                                                title="Alternate Number">
+                                                                                Alternate Number</div>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <template for:each={option.ManualFreightQuotes}
+                                                                        for:item="MFQ">
+                                                                        <tr key={MFQ.ID}>
+                                                                            <td>
+                                                                                <lightning-button
+                                                                                    variant="brand-outline"
+                                                                                    title="Cancel"
+                                                                                    class="slds-m-left_x-small"
+                                                                                    onclick={handleCancelManualQuoteOnClick}
+                                                                                    name={option.OptionId}
+                                                                                    accesskey={MFQ.ID}
+                                                                                    label="Cancel Manual Quote">
+                                                                                </lightning-button>
+                                                                            </td>
+                                                                            <td>{MFQ.ID}</td>
+                                                                            <td>{MFQ.Carrier}</td>
+                                                                            <td>{MFQ.Amount}</td>
+                                                                            <td>{MFQ.UpdatedOn}</td>
+                                                                            <td>{MFQ.UpdatedBy}</td>
+                                                                            <td>{MFQ.AltNo}</td>
+                                                                        </tr>
+                                                                    </template>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!-- Only show if lift gate is an option -->
+                                                        <div if:true={option.HasLiftGate}>
+                                                            <label><strong>Lift Gate?</strong></label>&nbsp;
+                                                            <lightning-input type="checkbox" accesskey={option.OptionId}
+                                                                name={option.AlternateId} label={option.LiftGateChrg}
+                                                                onchange={handleLiftGateChecked}
+                                                                value={option.LiftGateChrg} checked={option.LiftGate}>
+                                                            </lightning-input>
+                                                        </div>
+                                                        <!-- Only Show for negotiated freight -->
+                                                        <div if:true={option.IsNegotiatedFreight}>
+                                                            <lightning-combobox name={option.AlternateId}
+                                                                label="Carrier" value={option.CarrierCode}
+                                                                placeholder="Select Freight"
+                                                                options={negotiatedFreightOptions}
+                                                                onchange={handleNegotiatedComboBoxOnchange}
+                                                                accesskey={option.OptionId}></lightning-combobox>
+                                                            <lightning-input onchange={handleNegotiatedCostOnchange}
+                                                                name={option.AlternateId} accesskey={option.OptionId}
+                                                                type="text" label="Cost" value={option.TotalCharge}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                    </tbody>
+                                </template>
+                            </template>
+                        </table>
+                    </div>
+
+                    <!--Alternate Groups Grid-->
+                    <div if:true={groupAlternates} class="slds-box slds-theme_default" style="margin: 5px;">
+                        <lightning-input label="Group Name:" id="groupName" title="GroupName" name="GroupName"
+                            type="text" onchange={handleGroupAlternatesOnChange}></lightning-input>
+                        <lightning-button variant="brand-outline" title="SaveGroup" class="slds-m-left_x-small"
+                            onclick={handleSaveGroupOnClick} name="saveGroupButton" label="Save Group">
+                        </lightning-button>
+                        <lightning-button variant="brand-outline" title="DeleteGroup" class="slds-m-left_x-small"
+                            onclick={handleDeleteGroupOnClick} name="deleteGroupButton" label="Delete Group">
+                        </lightning-button>
+                        <lightning-button variant="brand-outline" title="Back" class="slds-m-left_x-small"
+                            onclick={handleBackOnClick} name="backButton" label="Back">
+                        </lightning-button>
+                        <!-- Define table structure -->
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="GroupName">Group Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="AlternateName">Alternate Name</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <!-- Loop through alternates -->
+                            <template for:each={alternateGroupList} for:item="alternate">
+                                <tbody key={alternate.AlternateId}>
+                                    <tr>
+                                        <td>
+                                            <lightning-input class="slds-p-left_xx-large" type="checkbox"
+                                                onchange={handleGroupCheckBoxOnChange} checked={alternate.Selected}
+                                                access-key={alternate.AlternateId} data-id="checkbox">
+                                            </lightning-input>
+                                        </td>
+                                        <td>{alternate.GroupName}</td>
+                                        <td>
+                                            <template if:true={alternate.HasManualFreightQuote}>
+                                                <div style="display:flex;">
+                                                    <div style="padding:5px;">&nbsp;{alternate.AlternateLabel}</div>
+                                                    <div style="background-color:white;border-radius:5px;margin-left:25px;padding:5px;">
+                                                        <b>MFQ Link: </b>&nbsp;<a onclick={handleOpenMFQ} name={alternate.ManualFreightQuoteURL}>{alternate.ManualFreightQuoteNumber}</a>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <template if:false={alternate.HasManualFreightQuote}>
+                                                &nbsp;{alternate.AlternateLabel}
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </template>
+                        </table>
+                    </div>
+                </div>
+                <div if:true={showError}>
+                    <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                    </lightning-button>
+                    {errorMessage}
+                </div>
+            </template>
+            <template if:false={loaded}>
+                <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+            </template>
+        </div>
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+            <lightning-button style="float: left; padding:10px;" variant="brand" title="Cancel"
+                class="slds-m-left_x-small" onclick={closeQuickAction} label="Cancel">
+            </lightning-button>
+        </footer>
+    </div>
+    <div if:true={addressConfirmationScreenOpen}>
+        <h2 style="padding:10px;"><b>Warning: The shipping city/state returned by address validation does not match what's on the quote for the given zip code.</b></h2>
+            <table>
+                <tr>
+                    <td>
+                        <lightning-input name="li_originalCity" label="Original City" value={originalCity} disabled="true" style="padding:10px;"></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input name="li_originalState" label="Original State" value={originalState} disabled="true" style="padding:10px;"></lightning-input>                                  
+                    </td>
+                </tr>  
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>                  
+                <tr>
+                    <td>
+                        <lightning-input name="li_retrievedCity" label="Retrieved City" value={retrievedCity} disabled="true" style="padding:10px;"></lightning-input> 
+                    </td>
+                    <td>
+                        <lightning-input name="li_retrievedState" label="Retrieved State" value={retrievedState} disabled="true" style="padding:10px;"></lightning-input>                                            
+                    </td>
+                </tr>
+            </table>
+            <h2 style="padding:10px; color:red;"><b>Using the 'Retrieved Address' will update the city/state values on the quote's shipping address.</b></h2>           
+            <lightning-button variant="brand-outline" title="Use Original Address" class="slds-m-left_x-small"
+                onclick={runFreightOriginalAddress}  label="Use Original Address">
+            </lightning-button>
+            <lightning-button variant="brand-outline" title="Use Retrieved Address" class="slds-m-left_x-small"
+                onclick={runFreightRetrievedAddress}  label="Use Retrieved Address">
+            </lightning-button>
+            <br/>
+            <br/>
+    </div>
+</template>

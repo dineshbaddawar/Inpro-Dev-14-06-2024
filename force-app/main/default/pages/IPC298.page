@@ -1,0 +1,489 @@
+<apex:page renderAs="PDF" standardController="Quote" extensions="IPC298Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <apex:outputText rendered="{!BlankForm == false}">
+<html>
+    <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+    <head>
+      <style>
+        @page {
+          margin-top: 2.2cm;
+          margin-bottom: 2.2cm;
+          margin-left: 1cm;
+          margin-right: 1cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+          border-bottom: 1px solid black;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+          
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <table style="width:100%">
+          <tr>
+            <td>
+              <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+            </td>
+            <td style="text-align: right;">
+                <strong> Product Order Form <br/>
+                Aluminum Cement-On <br/>
+                Corner Guard</strong>
+             
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <div style="width:100%;">
+          <table style="width:100%;">
+            <tr>
+              <td style="width:15%">
+                <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+              </td>
+              <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+              <td style="width:15%">IPC.298/Rev.5</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <apex:form style="font-family: sans-serif; font-size: 9.5pt;">
+       
+        <p style="padding-left: 6pt; text-align: left;">
+            Please complete the following information based on field verified dimensions. Use one order form per size. Orders for 
+            custom products cannot be cancelled or returned. Please sign and return to proceed with your order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-
+            715-8407 for quotation. Sales contact: 800-222-5556.
+            </p>
+
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+            <td style="width: 20%; border: 1px solid black;"></td>
+            <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+            <td style="width: 20%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+            </td>
+            <td style="width: 20%; border: 1px solid black;">Project Name</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Company Name</td>
+            <td style="width: 20%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+            </td>
+            <td style="width: 20%; border: 1px solid black;">Account #</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+            </td>
+          </tr>
+        </table>
+<br/>
+        <table style="width:60%;" >
+            <tr>
+                <td style="width:40%;">Corner Guard Height {!isMetricExperssion} </td>
+                <td style="width:20%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Height}</div>
+                  </td>
+                <td style="width:40%;">{!isMetricHeight}</td>
+            </tr>
+
+        </table >
+        <table style="width:40%;">
+            <tr>
+                <td style="width:50%;">Angle ID (Degrees):</td>
+                <td style="width:40%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.AngleId}</div>
+                  </td>
+                  <td style="width:15%;"></td>
+                
+            </tr>
+
+        </table>
+
+        <table style="width:80%;">
+            <tr>
+                <td style="width:9%;">Wing 1 {!isMetricExperssion}</td>
+                <td style="width:15%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Wing1}</div>
+                  </td>
+                  <td style="width:5%;"></td>
+                  <td style="width:9%;">Wing 2 {!isMetricExperssion}</td>
+                <td style="width:15%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Wing2}</div>
+                  </td>
+                
+            </tr >
+
+        </table >
+        <table style="width:50%;">
+            <tr>
+                <td style="width:5%;">Alloy Type:</td>
+                <td style="width:25%;">Aluminum </td>
+                
+            </tr>
+
+            <tr>
+                <td style="width:5%;">Gauge:</td>
+                <td style="width:20%;">{!isMetricGAuge} </td   >
+                
+            </tr>
+            <tr>
+                <td style="width:5%;">Quantity:</td>
+                <td style="width:20%;">
+                    <div style="width:20%; text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  
+                
+            </tr>
+
+        </table>
+
+        <table style="width:100%;">
+            <tr>
+              <td >  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <img  src="{!$Resource.cf_ipc298_AluminumCG_orderform01}" alt="AluminumCG" width="450" height="270"/>
+              </td>
+            </tr>
+        </table>
+
+        <span>
+            <ul>
+                <li>&nbsp;&nbsp; Corner Radius: 1/8 in.</li>
+                <li>&nbsp;&nbsp; Wing Width: Min = 3/4'', Max = 24''</li>
+                <li>&nbsp;&nbsp; Angle (1/8"R): Min = 80°, Max = 179°, Tolerance = +/- 2°.</li>
+                <li>&nbsp;&nbsp; Dimensional tolerance = +/- 0.032. Angle tolerance = +/- 2°.</li>
+                <li>&nbsp;&nbsp; Clear anodized finish.</li>
+                <li>&nbsp;&nbsp; Adhesive included.</li>
+                <li>&nbsp;&nbsp; For non-standard requirements, provide drawing for pre-approval.</li>
+            </ul>
+        </span>
+
+        <div style="page-break-after: auto;">
+            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;">
+                        <b>FOR INPRO USE ONLY</b>
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Customer Order #:
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Inpro Drawing: N/A
+                    </td>
+                    <td style="border: 1px solid black;padding:6px;">
+                        Inpro #:
+                    </td>
+                </tr>            
+            </table>
+            </div>
+
+
+        </apex:form>
+        </body>
+        </apex:repeat>
+        </html>
+        </apex:outputText>
+
+
+        <apex:outputText rendered="{!BlankForm == true}">
+<html>
+    
+    <head>
+      <style>
+        @page {
+          margin-top: 2.2cm;
+          margin-bottom: 2.2cm;
+          margin-left: 1cm;
+          margin-right: 1cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+          border-bottom: 1px solid black;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+          
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <table style="width:100%">
+          <tr>
+            <td>
+              <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+            </td>
+            <td style="text-align: right;">
+                <strong> Product Order Form <br/>
+                Aluminum Cement-On <br/>
+                Corner Guard</strong>
+             
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <div style="width:100%;">
+          <table style="width:100%;">
+            <tr>
+              <td style="width:15%">
+                <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+              </td>
+              <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+              <td style="width:15%">IPC.298/Rev.5</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <apex:form style="font-family: sans-serif; font-size: 9.5pt;">
+       
+        <p style="padding-left: 6pt; text-align: left;">
+            Please complete the following information based on field verified dimensions. Use one order form per size. Orders for 
+            custom products cannot be cancelled or returned. Please sign and return to proceed with your order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-
+            715-8407 for quotation. Sales contact: 800-222-5556.
+            </p>
+
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+            <td style="width: 20%; border: 1px solid black;"></td>
+            <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+            <td style="width: 20%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+            </td>
+            <td style="width: 20%; border: 1px solid black;">Project Name</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Company Name</td>
+            <td style="width: 20%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+            </td>
+            <td style="width: 20%; border: 1px solid black;">Account #</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+            </td>
+          </tr>
+        </table>
+
+<br/>
+        <table style="width:60%;" >
+            <tr>
+                <td style="width:40%;">Corner Guard Height {!isMetricExperssion} </td>
+                <td style="width:20%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                <td style="width:40%;">{!isMetricHeight} </td>
+            </tr>
+
+        </table >
+        <table style="width:40%;">
+            <tr>
+                <td style="width:50%;">Angle ID (Degrees):</td>
+                <td style="width:40%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:15%;"></td>
+                
+            </tr>
+
+        </table>
+
+        <table style="width:80%;">
+            <tr>
+                <td style="width:9%;">Wing 1 {!isMetricExperssion}</td>
+                <td style="width:15%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:5%;"></td>
+                  <td style="width:9%;">Wing 2 {!isMetricExperssion}</td>
+                <td style="width:15%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                
+            </tr >
+
+        </table >
+        <table style="width:50%;">
+            <tr>
+                <td style="width:5%;">Alloy Type:</td>
+                <td style="width:25%;">Aluminum </td>
+                
+            </tr>
+
+            <tr>
+                <td style="width:5%;">Gauge:</td>
+                <td style="width:20%;">{!isMetricGAuge} </td   >
+                
+            </tr>
+            <tr>
+                <td style="width:5%;">Quantity:</td>
+                <td style="width:20%;">
+                    <div style="width:20%; text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  
+                
+            </tr>
+
+        </table>
+
+        <table style="width:100%;">
+            <tr>
+              <td >  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <img  src="{!$Resource.cf_ipc298_AluminumCG_orderform01}" alt="AluminumCG" width="450" height="270"/>
+              </td>
+            </tr>
+        </table>
+
+        <span>
+            <ul>
+                <li>&nbsp;&nbsp; Corner Radius: 1/8 in.</li>
+                <li>&nbsp;&nbsp; Wing Width: Min = 3/4'', Max = 24''</li>
+                <li>&nbsp;&nbsp; Angle (1/8"R): Min = 80°, Max = 179°, Tolerance = +/- 2°.</li>
+                <li>&nbsp;&nbsp; Dimensional tolerance = +/- 0.032. Angle tolerance = +/- 2°.</li>
+                <li>&nbsp;&nbsp; Clear anodized finish.</li>
+                <li>&nbsp;&nbsp; Adhesive included.</li>
+                <li>&nbsp;&nbsp; For non-standard requirements, provide drawing for pre-approval.</li>
+            </ul>
+        </span>
+
+        <div style="page-break-after: auto;">
+            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+              <tr>
+                <td style="border: 1px solid black; padding:6px;">
+                    <b>FOR INPRO USE ONLY</b>
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    {!customForm.quoteRecord.Inside_Rep__c}
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    Customer Order #:
+                </td>
+            </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Inpro Drawing: N/A
+                    </td>
+                    <td style="border: 1px solid black;padding:6px;">
+                        Inpro #:
+                    </td>
+                </tr>            
+            </table>
+            </div>
+
+
+        </apex:form>
+        </body>
+        
+        </html>
+        </apex:outputText>
+        </apex:page>

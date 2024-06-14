@@ -1,0 +1,25 @@
+<apex:page StandardController="LunchAndLearnEvent__c" showHeader="true" sidebar="true">
+	<apex:includeLightning />
+    <style>
+        html, body {
+        margin: 0;
+        padding: 0;
+        }
+        #lightningComponent {width: 100%;}
+    </style>
+    <div id="lightningComponent" />
+    <script>
+      
+      const recordId = '{!LunchAndLearnEvent__c.Id}';
+      $Lightning.use('c:lunchlearnManageParticipantsApp', function() {
+          $Lightning.createComponent(
+            'c:lunchlearnManageParticipants',
+            { recordId: recordId },
+            'lightningComponent',
+            () => {}
+          )
+      });
+      
+
+    </script>
+</apex:page>

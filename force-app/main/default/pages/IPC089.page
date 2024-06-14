@@ -1,0 +1,1244 @@
+<apex:page setup="false" sidebar="false" renderAs="pdf"  showHeader="false" standardController="Quote" extensions="IPC089Controller" applyHtmlTag="false" applyBodyTag="false">      
+              <title>IPC089</title>
+              <apex:outputText rendered="{!BlankForm == true}">
+                <head>
+                    <style type="text/css">
+                        @page {
+                            size: 8.5in 11in portrait;
+                            margin-top: 0.2in;
+                            margin-bottom: 0.2in;
+                            margin-left: 0.4in;
+                            margin-right: 0.3in;
+                            background-repeat: no-repeat;
+                        background-position: center;
+            
+                        @top-center {
+                        content: element(header);
+                        }
+                        @bottom-left {
+                        content: element(footer);
+                        }
+                        }
+                        
+                        div.header {
+                        padding: 10px;
+                        position: running(header);
+                        }
+                        }
+                    </style>
+                </head>
+            
+                <body style="font-family: sans-serif; font-size: 10pt;">
+            
+                    <!--Header-->
+                    <div class="header">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;">
+                                     Measurement Form
+                                    <div style="text-align: right; font-weight:bold;">
+                                         50SS/51SS/52SS/53SS/56SS Stainless Steel <br />
+                                         Wall Guards
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width:1px;" />
+                        <p style="padding-left: 6pt;;text-align: left;">
+                            Please complete the following information based on field verified dimensions. Use one order form per size. Orders for 
+                            custom products cannot be canceled or returned. Please sign and return to proceed with your order. Fax to 
+                             at 888715-8407 for quotation. Sales contact: 800-222-5556.
+                        </p>
+                    </div>
+                    <!--Header Table-->
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                            <td style="width: 20%; border: 1px solid black;"></td>
+                            <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                            <td style="width: 20%; border: 1px solid black;">
+                               
+            
+                            </td>
+                            <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                            <td style="width: 20%; border: 1px solid black;">
+                               
+                            </td>
+                            <td style="width: 20%; border: 1px solid black;">Account #</td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                
+                            </td>
+                        </tr>
+                    </table>
+            
+                    <br/>
+                    <span>Allow 6-8 weeks for fabrication of wall guard sections.</span> <br/>
+            
+                    <table style="border-collapse: collapse;">
+                      <tr>
+                           <td style="padding: 10px;">Wall Guard Type:</td>
+            
+                           <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">50SS</div>
+                            </td>
+            
+                            <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">51SS</div>
+                            </td>
+            
+                            <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">52SS</div>
+                            </td>
+                            <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block;padding-left:8px;">53SS</div>
+                            </td>
+                            <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">56SSB</div>
+                            </td>
+                       </tr>
+                       <tr>
+                           <td style="padding: 10px;"></td>
+                           <td style="padding: 10px;">
+                               <div
+                                   style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                               </div>
+                               <div style="display: inline-block; float: right;padding-left:8px;">56SSF</div>
+                           </td>
+                           <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">50SSH</div>
+                            </td>
+                            <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">56SSH</div>
+                            </td>
+                            
+                       </tr>
+                       <br/>
+                       <tr>
+                           <td style="padding: 10px;"></td>
+                           <td style="padding: 10px;"></td>
+                           <td style="padding: 10px;">Wall Type:</td>
+                           <td style="padding: 10px;">
+                               <div
+                                   style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                               </div>
+                               <div style="display: inline-block; float: right;padding-left:8px;">Concrete</div>
+                           </td>
+            
+                           <td style="padding: 10px;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">Wood (Wood Stud)</div>
+                            </td>
+                            <td style="padding: 10px;">
+                                <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"> </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;">Drywall (Metal Stud)</div>
+                            </td>
+                            
+                       </tr>
+                    </table>
+            
+                    <br/>
+                    <span>**SEE LAST PAGE FOR MEASUREMENT INSTRUCTIONS</span> <br/>
+                   
+                    <hr style="border-width:1px;" />
+                    <br/>
+                    <b> <span  style="padding-bottom:160px;"> FOR INPRO USE ONLY:</span></b> <br/><br/>
+            
+                    <table>
+                      <tr>
+                           <td colspan="2">Quantity of stainless steel wall guard:
+                              <apex:outputText rendered="{!isMetric == false}">
+                                  (linear feet, 12” min.):
+                              </apex:outputText>
+                              <apex:outputText rendered="{!isMetric == true}">
+                                  (linear feet, 40.64cm min.):
+                              </apex:outputText>
+                               
+                               </td>
+                           <td > ______________________</td>
+                      </tr>
+                      <tr style="padding-top:10px;">
+                           <td> Quantity of aluminum brackets: </td>
+                           <td>____________________________ </td>
+                           <td>____________________________ </td>
+                      </tr>
+                      <tr>
+                           <td> Quantity of right end returns:</td>
+                           <td colspan="2">________________________________ </td>
+                      </tr>
+                      <tr>
+                           <td>   Quantity of left end returns: </td>
+                           <td colspan="2">   ________________________________ </td>
+                      </tr>
+                      <tr>
+                           <td>  Quantity of outside corner returns: </td>
+                           <td colspan="2">  ________________________________ </td>
+                      </tr>
+                      <tr>
+                           <td>   Quantity of inside corner returns: </td>
+                           <td colspan="2">    ________________________________  </td>
+                      </tr>
+                      <tr>
+                           <td>    Quantity of splices: </td>
+                           <td colspan="2">   ________________________________ </td>
+                      </tr>
+                      <br/>
+                      <tr>
+                           <td style="padding-left:50px;">  Custom 1:  </td>
+                           <td colspan="2">  ________________________________  </td>
+                      </tr>
+                      <br/>
+                      <tr>
+                           <td style="padding-left:50px;">  Custom 2:  </td>
+                           <td colspan="2"> ________________________________ </td>
+                      </tr>
+                      <br/>
+                      <tr >
+                           <td style="padding-left:50px;">  Custom 3: </td>
+                           <td colspan="2">   ________________________________ </td>
+                      </tr>
+                    </table>
+                    <br/>
+                    <span style="font-size:10px;">NOTE: Total quantities are taken from the attached measurement form.</span>  <br/>
+                  
+                    <table>
+                      <tr>
+                           <td>Inpro Product Manager Signature Required:</td>
+                           <td colspan="2">________________________________</td>
+                      </tr>
+                    </table>
+                    <br/><br/>
+                    <div  class="footer">
+                      <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                          <tr>
+                              <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                              <td style="border: 1px solid black; padding:6px;">  </td>
+                              <td style="border: 1px solid black; padding:6px;">  Customer Order #:</td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid black; padding:6px;">  Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of </td>
+                              <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                              <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                          </tr>            
+                      </table>
+              
+                      <br/>
+                      <table style="width:100%; padding:2px;">
+                          <tr>
+                              <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                              <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                              <td style="width:15%" >IPC.089/Rev.17</td>
+                          </tr>
+                      </table>
+                  </div>
+                    <br/>
+                    <div class="header">
+                      <table style="width:100%">
+                          <tr>
+                              <td>
+                                  <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                              </td>
+                              <td style="text-align: right;">
+                                   Measurement Form
+                                  <div style="text-align: right; font-weight:bold;">
+                                       50SS/51SS/52SS/53SS/56SS Stainless Steel <br />
+                                       Wall Guards
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                      <hr style="border-width:1px;" />
+                  </div>
+                    
+                    <p>
+                      Note: See <b>Measurement Instructions</b> for details on completing this form. Measurements from this form will be used 
+                         by Inpro to calculate the final order quantities.
+                    </p>
+  
+                    <table style="border-collapse: collapse;border: 1px solid black; width:100%;font-size:8px">
+                      <tr style="border: 1px solid black;">
+                           <td style="padding: 7px;border: 1px solid black;border-right:hidden;">Wall Guard Type:</td>
+            
+                           <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;">
+                                </div>
+                                <div style=" float: right;padding-left:8px;margin-top:4px !important">50SS</div>
+                            </td>
+                            <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">51SS</div>
+                          </td>
+            
+                            <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">52SS</div>
+                            </td>
+            
+                            <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">53SS</div>
+                            </td>
+                            <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">56SSB</div>
+                            </td>
+                            <td style="padding: 7px;border: 1px solid black; border-right:hidden;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">56SSF</div>
+                            </td>
+                          <td style="padding: 7px;border: 1px solid black; border-right:hidden;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">50SSH</div>
+                            </td>
+                          <td style="padding: 7px;border: 1px solid black; border-right:hidden;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">56SSH</div>
+                            </td>
+                          
+                          <td style="padding: 7px;border: 1px solid black;">
+                                <div
+                                    style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                </div>
+                                <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">350050SSD</div>
+                            </td>
+                      </tr>
+                    </table>
+  
+                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                      <thead>
+                          <tr>
+                              <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Wall Guard #</th>
+                              <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Location of Wall Guard Section</th>
+                              <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Left End Condition</th>
+                              <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Actual Distance Between Left &amp; Right End Condition, Feet-Inches (Meters)</th>
+                              <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Right End Condition</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr> <tr>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                              <td style="border: 1px solid #000; padding: 10px;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <br/> <br/> <br/> <br/>
+                  <br/>
+                  <div  class="footer">
+                      <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                          <tr>
+                              <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                              <td style="border: 1px solid black; padding:6px;">  </td>
+                              <td style="border: 1px solid black; padding:6px;">  Customer Order #:</td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid black; padding:6px;">  Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of </td>
+                              <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                              <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                          </tr>            
+                      </table>
+              
+                      <br/>
+                      <table style="width:100%; padding:2px;">
+                          <tr>
+                              <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                              <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                              <td style="width:15%" >IPC.089/Rev.17</td>
+                          </tr>
+                      </table>
+                  </div>
+                    <br/>
+                    <br/> <br/> <br/> 
+                    <div class="header">
+                      <table style="width:100%">
+                          <tr>
+                              <td>
+                                  <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                              </td>
+                              <td style="text-align: right;">
+                                   Measurement Form
+                                  <div style="text-align: right; font-weight:bold;">
+                                       50SS/51SS/52SS/53SS/56SS Stainless Steel <br />
+                                       Wall Guards
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                      <hr style="border-width:1px;" />
+                    </div>
+            
+                    <span><b>1. Wall Guard#:</b> Identify/ label as 1,2,3, etc. (Wall Guard sections will be labeled for field location).</span> <br/>
+                    <span><b>2. Location: Wall Guard Section:</b> Identify/ label as floor, room#, corridor, North, South, East, West, etc,</span> <br/>
+                    <span><b>3. Actual Distance Between Left &amp; Right End Condition, Feet-Inches (Meters):</b> Measure distance between left and </span>
+                    <span>right end condition and enter dimension in feet and inches (Meters).</span>
+                    <br/>
+                    <br/>
+            
+                    <table style="width:100%">
+                      <tr>
+                          <td>
+                              <img src="{!$Resource.ID089_MeasurementInformation}" alt="HeaderImage" />
+                          </td>
+                      </tr>
+                  </table>
+                 
+            
+                  <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                    <tr style="border: 1px solid #333;">
+                         <th style="border: 1px solid #333;text-align: center;"> Wall  Guard # </th>
+                         <th style="border: 1px solid #333;text-align: center;"> Location of Wall  Guard Section </th>
+                         <th style="border: 1px solid #333;text-align: center;"> Wall  Guard # </th>
+                         <th style="border: 1px solid #333;text-align: center;"> Actual Distance Between Left &amp; Right End Condition,  Feet-Inches (Meters)</th>
+                         <th style="border: 1px solid #333;text-align: center;"> Right End Condition </th>
+                    </tr>
+                    <tr>
+                         <td style="border: 1px solid #333;text-align: center;">1</td>
+                         <td style="border: 1px solid #333;text-align: center;">Room 4 South</td>
+                         <td style="border: 1px solid #333;text-align: center;">End</td>
+                         <td style="border: 1px solid #333;text-align: center;">10’-6”</td>
+                         <td style="border: 1px solid #333;text-align: center;">IC</td>
+                    </tr>
+                    <tr>
+                         <td style="border: 1px solid #333;text-align: center;">2</td>
+                         <td style="border: 1px solid #333;text-align: center;">Room 5 West</td>
+                         <td style="border: 1px solid #333;text-align: center;">IC</td>
+                         <td style="border: 1px solid #333;text-align: center;">5’-9”</td>
+                         <td style="border: 1px solid #333;text-align: center;">OC</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #333;text-align: center;">3</td>
+                        <td style="border: 1px solid #333;text-align: center;">Room 5 South</td>
+                        <td style="border: 1px solid #333;text-align: center;">OC</td>
+                        <td style="border: 1px solid #333;text-align: center;">14’-9”</td>
+                        <td style="border: 1px solid #333;text-align: center;">Straight</td>
+                   </tr>
+                  </table>
+                  <br/>
+  
+                    <!-- Bottom Footer -->
+                <div  class="footer">
+                    <table style="width:100%; padding:2px;">
+                        <tr>
+                            <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                            <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                            <td style="width:15%" >IPC.089/Rev.17</td>
+                        </tr>
+                    </table>
+                </div>
+                </body>
+              </apex:outputText>
+
+              <apex:outputText rendered="{!BlankForm == false}">
+              <head>
+                  <style type="text/css">
+                      @page {
+                          size: 8.5in 11in portrait;
+                          margin-top: 0.2in;
+                          margin-bottom: 0.2in;
+                          margin-left: 0.4in;
+                          margin-right: 0.3in;
+                          background-repeat: no-repeat;
+                      background-position: center;
+          
+                      @top-center {
+                      content: element(header);
+                      }
+                      @bottom-left {
+                      content: element(footer);
+                      }
+                      }
+                      
+                      div.header {
+                      padding: 10px;
+                      position: running(header);
+                      }
+                      }
+                  </style>
+              </head>
+          
+              <body style="font-family: sans-serif; font-size: 10pt;">
+          
+                  <!--Header-->
+                  <div class="header">
+                      <table style="width:100%">
+                          <tr>
+                              <td>
+                                  <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                              </td>
+                              <td style="text-align: right;">
+                                   Measurement Form
+                                  <div style="text-align: right; font-weight:bold;">
+                                       50SS/51SS/52SS/53SS/56SS Stainless Steel <br />
+                                       Wall Guards
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                      <hr style="border-width:1px;" />
+                      <p style="padding-left: 6pt;;text-align: left;">
+                          Please complete the following information based on field verified dimensions. Use one order form per size. Orders for 
+                          custom products cannot be canceled or returned. Please sign and return to proceed with your order. Fax to 
+                          {!customForm.quoteRecord.Inside_Rep__c} at 888715-8407 for quotation. Sales contact: 800-222-5556.
+                      </p>
+                  </div>
+                  <!--Header Table-->
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                      <tr>
+                          <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                          <td style="width: 20%; border: 1px solid black;"></td>
+                          <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                          <td style="width: 35%; border: 1px solid black;">
+                              <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                          <td style="width: 20%; border: 1px solid black;">
+                              <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+          
+                          </td>
+                          <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                          <td style="width: 35%; border: 1px solid black;">
+                              <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                          <td style="width: 20%; border: 1px solid black;">
+                              <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                          </td>
+                          <td style="width: 20%; border: 1px solid black;">Account #</td>
+                          <td style="width: 35%; border: 1px solid black;">
+                              <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                          </td>
+                      </tr>
+                  </table>
+          
+                  <br/>
+                  <span>Allow 6-8 weeks for fabrication of wall guard sections.</span> <br/>
+          
+                  <table style="border-collapse: collapse;">
+                    <tr>
+                         <td style="padding: 10px;">Wall Guard Type:</td>
+          
+                         <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">50SS</div>
+                          </td>
+          
+                          <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">51SS</div>
+                          </td>
+          
+                          <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">52SS</div>
+                          </td>
+                          <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block;padding-left:8px;">53SS</div>
+                          </td>
+                          <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">56SSB</div>
+                          </td>
+                     </tr>
+                     <tr>
+                         <td style="padding: 10px;"></td>
+                         <td style="padding: 10px;">
+                             <div
+                                 style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             </div>
+                             <div style="display: inline-block; float: right;padding-left:8px;">56SSF</div>
+                         </td>
+                         <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">50SSH</div>
+                          </td>
+                          <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">56SSH</div>
+                          </td>
+                          
+                     </tr>
+                     <br/>
+                     <tr>
+                         <td style="padding: 10px;"></td>
+                         <td style="padding: 10px;"></td>
+                         <td style="padding: 10px;">Wall Type:</td>
+                         <td style="padding: 10px;">
+                             <div
+                                 style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             </div>
+                             <div style="display: inline-block; float: right;padding-left:8px;">Concrete</div>
+                         </td>
+          
+                         <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">Wood (Wood Stud)</div>
+                          </td>
+                          <td style="padding: 10px;">
+                              <div style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"> </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;">Drywall (Metal Stud)</div>
+                          </td>
+                          
+                     </tr>
+                  </table>
+          
+                  <br/>
+                  <span>**SEE LAST PAGE FOR MEASUREMENT INSTRUCTIONS</span> <br/>
+                 
+                  <hr style="border-width:1px;" />
+                  <br/>
+                  <b> <span  style="padding-bottom:160px;"> FOR INPRO USE ONLY:</span></b> <br/><br/>
+          
+                  <table>
+                    <tr>
+                         <td colspan="2">Quantity of stainless steel wall guard:
+                            <apex:outputText rendered="{!isMetric == false}">
+                                (linear feet, 12” min.):
+                            </apex:outputText>
+                            <apex:outputText rendered="{!isMetric == true}">
+                                (linear feet, 40.64cm min.):
+                            </apex:outputText>
+                             
+                             </td>
+                         <td > ______________________</td>
+                    </tr>
+                    <tr style="padding-top:10px;">
+                         <td> Quantity of aluminum brackets: </td>
+                         <td>____________________________ </td>
+                         <td>____________________________ </td>
+                    </tr>
+                    <tr>
+                         <td> Quantity of right end returns:</td>
+                         <td colspan="2">________________________________ </td>
+                    </tr>
+                    <tr>
+                         <td>   Quantity of left end returns: </td>
+                         <td colspan="2">   ________________________________ </td>
+                    </tr>
+                    <tr>
+                         <td>  Quantity of outside corner returns: </td>
+                         <td colspan="2">  ________________________________ </td>
+                    </tr>
+                    <tr>
+                         <td>   Quantity of inside corner returns: </td>
+                         <td colspan="2">    ________________________________  </td>
+                    </tr>
+                    <tr>
+                         <td>    Quantity of splices: </td>
+                         <td colspan="2">   ________________________________ </td>
+                    </tr>
+                    <br/>
+                    <tr>
+                         <td style="padding-left:50px;">  Custom 1:  </td>
+                         <td colspan="2">  ________________________________  </td>
+                    </tr>
+                    <br/>
+                    <tr>
+                         <td style="padding-left:50px;">  Custom 2:  </td>
+                         <td colspan="2"> ________________________________ </td>
+                    </tr>
+                    <br/>
+                    <tr >
+                         <td style="padding-left:50px;">  Custom 3: </td>
+                         <td colspan="2">   ________________________________ </td>
+                    </tr>
+                  </table>
+                  <br/>
+                  <span style="font-size:10px;">NOTE: Total quantities are taken from the attached measurement form.</span>  <br/>
+                
+                  <table>
+                    <tr>
+                         <td>Inpro Product Manager Signature Required:</td>
+                         <td colspan="2">________________________________</td>
+                    </tr>
+                  </table>
+                  <br/><br/>
+                  <div  class="footer">
+                    <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                            <td style="border: 1px solid black; padding:6px;"> {!customForm.quoteRecord.Inside_Rep__c} </td>
+                            <td style="border: 1px solid black; padding:6px;">  Customer Order #:</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">  Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of </td>
+                            <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                            <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                        </tr>            
+                    </table>
+            
+                    <br/>
+                    <table style="width:100%; padding:2px;">
+                        <tr>
+                            <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                            <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                            <td style="width:15%" >IPC.089/Rev.17</td>
+                        </tr>
+                    </table>
+                </div>
+                  <br/>
+                  <div class="header">
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                            </td>
+                            <td style="text-align: right;">
+                                 Measurement Form
+                                <div style="text-align: right; font-weight:bold;">
+                                     50SS/51SS/52SS/53SS/56SS Stainless Steel <br />
+                                     Wall Guards
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr style="border-width:1px;" />
+                </div>
+                  
+                  <p>
+                    Note: See <b>Measurement Instructions</b> for details on completing this form. Measurements from this form will be used 
+                       by Inpro to calculate the final order quantities.
+                  </p>
+
+                  <table style="border-collapse: collapse;border: 1px solid black; width:100%;font-size:8px">
+                    <tr style="border: 1px solid black;">
+                         <td style="padding: 7px;border: 1px solid black;border-right:hidden;">Wall Guard Type:</td>
+          
+                         <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;">
+                              </div>
+                              <div style=" float: right;padding-left:8px;margin-top:4px !important">50SS</div>
+                          </td>
+                          <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                            <div
+                                style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                            </div>
+                            <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">51SS</div>
+                        </td>
+          
+                          <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">52SS</div>
+                          </td>
+          
+                          <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">53SS</div>
+                          </td>
+                          <td style="padding: 7px;border: 1px solid black;border-right:hidden">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">56SSB</div>
+                          </td>
+                          <td style="padding: 7px;border: 1px solid black; border-right:hidden;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">56SSF</div>
+                          </td>
+                        <td style="padding: 7px;border: 1px solid black; border-right:hidden;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">50SSH</div>
+                          </td>
+                        <td style="padding: 7px;border: 1px solid black; border-right:hidden;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">56SSH</div>
+                          </td>
+                        
+                        <td style="padding: 7px;border: 1px solid black;">
+                              <div
+                                  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:8px;margin-top:4px !important">350050SSD</div>
+                          </td>
+                    </tr>
+                  </table>
+
+                  <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Wall Guard #</th>
+                            <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Location of Wall Guard Section</th>
+                            <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Left End Condition</th>
+                            <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Actual Distance Between Left &amp; Right End Condition, Feet-Inches (Meters)</th>
+                            <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Right End Condition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr> <tr>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 10px;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/> <br/> <br/> <br/>
+                <br/>
+                <div  class="footer">
+                    <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                            <td style="border: 1px solid black; padding:6px;"> {!customForm.quoteRecord.Inside_Rep__c} </td>
+                            <td style="border: 1px solid black; padding:6px;">  Customer Order #:</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">  Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of </td>
+                            <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                            <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                        </tr>            
+                    </table>
+            
+                    <br/>
+                    <table style="width:100%; padding:2px;">
+                        <tr>
+                            <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                            <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                            <td style="width:15%" >IPC.089/Rev.17</td>
+                        </tr>
+                    </table>
+                </div>
+                  <br/>
+                  <br/> <br/> <br/> 
+                  <div class="header">
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                            </td>
+                            <td style="text-align: right;">
+                                 Measurement Form
+                                <div style="text-align: right; font-weight:bold;">
+                                     50SS/51SS/52SS/53SS/56SS Stainless Steel <br />
+                                     Wall Guards
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr style="border-width:1px;" />
+                  </div>
+          
+                  <span><b>1. Wall Guard#:</b> Identify/ label as 1,2,3, etc. (Wall Guard sections will be labeled for field location).</span> <br/>
+                  <span><b>2. Location: Wall Guard Section:</b> Identify/ label as floor, room#, corridor, North, South, East, West, etc,</span> <br/>
+                  <span><b>3. Actual Distance Between Left &amp; Right End Condition, Feet-Inches (Meters):</b> Measure distance between left and </span>
+                  <span>right end condition and enter dimension in feet and inches (Meters).</span>
+                  <br/>
+                  <br/>
+          
+                  <table style="width:100%">
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.ID089_MeasurementInformation}" alt="HeaderImage" />
+                        </td>
+                    </tr>
+                </table>
+               
+          
+                <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                  <tr style="border: 1px solid #333;">
+                       <th style="border: 1px solid #333;text-align: center;"> Wall  Guard # </th>
+                       <th style="border: 1px solid #333;text-align: center;"> Location of Wall  Guard Section </th>
+                       <th style="border: 1px solid #333;text-align: center;"> Wall  Guard # </th>
+                       <th style="border: 1px solid #333;text-align: center;"> Actual Distance Between Left &amp; Right End Condition,  Feet-Inches (Meters)</th>
+                       <th style="border: 1px solid #333;text-align: center;"> Right End Condition </th>
+                  </tr>
+                  <tr>
+                       <td style="border: 1px solid #333;text-align: center;">1</td>
+                       <td style="border: 1px solid #333;text-align: center;">Room 4 South</td>
+                       <td style="border: 1px solid #333;text-align: center;">End</td>
+                       <td style="border: 1px solid #333;text-align: center;">10’-6”</td>
+                       <td style="border: 1px solid #333;text-align: center;">IC</td>
+                  </tr>
+                  <tr>
+                       <td style="border: 1px solid #333;text-align: center;">2</td>
+                       <td style="border: 1px solid #333;text-align: center;">Room 5 West</td>
+                       <td style="border: 1px solid #333;text-align: center;">IC</td>
+                       <td style="border: 1px solid #333;text-align: center;">5’-9”</td>
+                       <td style="border: 1px solid #333;text-align: center;">OC</td>
+                  </tr>
+                  <tr>
+                      <td style="border: 1px solid #333;text-align: center;">3</td>
+                      <td style="border: 1px solid #333;text-align: center;">Room 5 South</td>
+                      <td style="border: 1px solid #333;text-align: center;">OC</td>
+                      <td style="border: 1px solid #333;text-align: center;">14’-9”</td>
+                      <td style="border: 1px solid #333;text-align: center;">Straight</td>
+                 </tr>
+                </table>
+                <br/>
+
+                  <!-- Bottom Footer -->
+              <div  class="footer">
+                  <table style="width:100%; padding:2px;">
+                      <tr>
+                          <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                          <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                          <td style="width:15%" >IPC.089/Rev.17</td>
+                      </tr>
+                  </table>
+              </div>
+              </body>
+            </apex:outputText>
+</apex:page>

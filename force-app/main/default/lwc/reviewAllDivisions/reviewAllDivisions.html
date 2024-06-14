@@ -1,0 +1,53 @@
+<template>
+    <lightning-card>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon data-id='iconObject' icon-name="standard:account"></lightning-icon>&nbsp;<strong>Review All Divisions</strong>
+        </h3>
+
+        <lightning-accordion allow-multiple-sections-open="true" active-section-name={activeSections}>
+            <lightning-accordion-section name="Divisions" label="Divisions">
+                <lightning-datatable
+                    data-id='divisionTable'
+                    key-field="Name"
+                    data={divisionData}
+                    onrowselection={handleDivisionDataSelection}
+                    suppress-bottom-bar
+                    selected-rows={divisionSelectedRows}
+                    onkeyup={handleKeyUp}
+                    onfocusout={handleOnFocusOut}
+                    columns={divisionColumns}>
+                </lightning-datatable> 
+            </lightning-accordion-section>
+            <lightning-accordion-section if:true={clickezeSelected} name="DivSections" label="Div Sections">                
+                <lightning-datatable
+                    data-id='divSectionTable'
+                    key-field="Name"
+                    data={divSectionData}
+                    selected-rows={divSectionSelectedRows}
+                    onrowselection={handleDivSectionDataSelection}
+                    oncellchange={handleInlineEdit}
+                    suppress-bottom-bar
+                    onkeyup={handleKeyUp}
+                    columns={divSectionColumns}>
+                </lightning-datatable>    
+            </lightning-accordion-section>
+        </lightning-accordion>  
+        <h3 if:false={canSubmit} style="color:red; padding:10px;">Please either click off the datatable or press 'Tab'. This will allow you to submit the review(s).</h3>           
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 50px;">
+            <lightning-button if:true={canSubmit} style="float: left;" variant="brand" title="Submit"
+            class="slds-m-left_x-small" onclick={handleSubmit} label="Submit">
+        </lightning-button>
+        <lightning-button style="float: left;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+        </footer>       
+    </template>
+</lightning-card>
+<template if:false={loaded}>
+    <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+</template>
+</template>

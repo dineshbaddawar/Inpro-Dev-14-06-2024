@@ -1,0 +1,62 @@
+.pointer{
+    cursor:pointer;
+}
+
+.box {
+    position: relative;
+    margin-left: 20px;
+    float:left;
+  }
+  .box:before{
+    position: absolute;
+    left: -20px;
+    content: "";
+    height:20px;
+    width:20px;
+    margin-bottom:15px;
+    border:1px solid black;
+  }
+  .box.red:before{
+    background-color:salmon;
+  }
+  .box.tan:before{
+    background-color:bisque;
+  }
+  .box.lighttan:before{
+    background-color:bisque;
+  }
+  .box.blue:before{
+    background-color:lightskyblue;
+  }
+
+  
+  .tan{
+    background-color:bisque;    
+  }
+  .salmon{
+    background-color:salmon;    
+  }
+  .salmon:hover{
+    background-color:salmon;
+  }
+  .bisque{
+    background-color:bisque;
+  }
+.bisque:hover{
+  background-color:bisque;
+}
+.tan:hover{
+  background-color:bisque;
+}
+  .skyblue{
+    background-color:lightskyblue;
+  }
+  .skyblue:hover{
+    background-color:lightskyblue;
+
+  }
+  .qcHolder
+{
+    min-height: 500px;
+    min-width: 500px;
+}

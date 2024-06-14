@@ -1,0 +1,642 @@
+<template>
+    <template if:false={loaded}>
+        <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+    </template>
+    <div class="slds-m-around_medium">
+        <div class="slds-grid slds-wrap">
+            <!--<div class="slds-col slds-size_12-of-12" style="background:white;display:flex;padding:15px;">
+                <template if:false={emptyStart}>
+                    <c-lookup name="opportunity" onsearch={handleOpportunitySearch}
+                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Opportunity"
+                        placeholder="Search Opportunities..." onselectionchange={handleLookupSelectionChange}
+                        style="width:100%;" selection={opportunitySelection}>
+                    </c-lookup>
+                </template>
+                <template if:true={emptyStart}>
+                    <c-lookup name="opportunity" onsearch={handleOpportunitySearch}
+                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Opportunity"
+                        placeholder="Search Opportunities..." onselectionchange={handleLookupSelectionChange}
+                        style="width:100%;">
+                    </c-lookup>
+                </template>
+            </div>-->
+            <div class="slds-col slds-size_12-of-12" style="background:white;display:flex;padding:15px;">
+                <lightning-button variant="brand" label="Quote (1)" name="Quote 1" onclick={handleQuoteOpen}></lightning-button> 
+                <lightning-badge style="margin-left:10px;" label={firstQuote.DisplayName}></lightning-badge>
+            </div>
+            <div class="slds-col slds-size_12-of-12" style="background:white;display:flex;padding:15px;">
+                <lightning-button  variant="brand" label="Quote (2)" name="Quote 2" onclick={handleQuoteOpen}></lightning-button>
+                <lightning-badge style="margin-left:10px;" label={secondQuote.DisplayName}></lightning-badge>
+            </div>
+            <div class="slds-col slds-size_12-of-12" style="background:white;display:flex;padding:15px;">
+                <template for:each={options}  for:item="option">
+                    <lightning-input name={option.label} checked={option.value}  type="checkbox-button"
+                        label={option.label} onchange={handleInput} key={option.label} style="margin-right:10px;">
+                    </lightning-input>
+                    <p style="font-size:14px;margin-top:5px;margin-right:20px;color:rgb(1, 118, 211)" key={option.label}>{option.label}</p>
+                </template>
+            </div>
+            <div class="slds-col slds-size_12-of-12" style="background:white;display:flex;padding:15px;">
+                <template for:each={actions}  for:item="action">
+                    <button class="slds-button slds-button_brand slds-button_stretch action-btn" name={action.label} label={action.label} onclick={action.onclick} 
+                            key={action.value} disabled={action.disabled} style="margin-right:10px;">{action.label}</button>
+                </template>
+            </div>
+            <template if:true={comparisonLoaded}>
+                <template for:each={comparison.matchedAlts} for:item="alt">
+                    <template if:true={alt.visible}>
+                        <div key={alt.key} class="slds-col slds-size_12-of-12" style="background:white;display:flex;padding:15px;">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <tr>
+                                    <template if:true={isHideActive}><th class="table-hide-column"></th></template>
+                                    <th colspan={totalColumns} class="table-alt-header">{alt.key}</th>
+                                </tr>
+                                <template if:true={showAltTotal}>
+                                    <tr>
+                                        <template if:true={isHideActive}><th class="table-hide-column"></th></template>
+                                        <th class="table-freight-header"><b>Alt Total:</b></th>
+                                        <th colspan={halfColumns} class="table-freight-header">
+                                            <u style="font-weight:bold;color:rgb(1, 118, 211)">{alt.totalOne}</u>
+                                        </th>
+                                        <th class="table-divider"></th>
+                                        <template if:true={isHideActive}><th class="table-hide-column"></th></template>
+                                        <th class="table-freight-header"><b>Alt Total:</b></th>
+                                        <th colspan={halfColumns} class="table-freight-header">
+                                            <div style="display:inline-flex;">
+                                                <u style="font-weight:bold;color:rgb(1, 118, 211)">{alt.totalTwo}</u> &nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                            <template if:true={showMath}>
+                                                <div class={alt.totalClass} style="display:inline-flex;">
+                                                    {alt.totalChange}
+                                                </div>
+                                            </template>
+                                        </th>
+                                    </tr>
+                                </template>
+                                <tr>
+                                    <template if:true={isHideActive}><th class="table-hide-column"></th></template>
+                                    <th><b>Freight:</b></th>
+                                    <th colspan={halfColumns} class="table-freight-header">
+                                        <div style="display:inline-flex;">
+                                            <u style="font-weight:bold;color:rgb(1, 118, 211)">{alt.freightOne}</u> &nbsp;&nbsp;&nbsp;&nbsp; {alt.freightOneName}
+                                        </div>
+                                    </th>
+                                    <th class="table-divider"></th>
+                                    <template if:true={isHideActive}><th class="table-hide-column"></th></template>
+                                    <th><b>Freight:</b></th>
+                                    <th colspan={halfColumns} class="table-freight-header">
+                                        <div style="display:inline-flex;">
+                                            <u style="font-weight:bold;color:rgb(1, 118, 211)">{alt.freightTwo}</u> &nbsp;&nbsp;&nbsp;&nbsp; {alt.freightTwoName}  &nbsp;&nbsp;&nbsp;&nbsp;
+                                        </div>
+                                        <template if:true={showMath}>
+                                            <div class={alt.freightClass} style="display:inline-flex;">
+                                                {alt.freightChange}
+                                            </div>
+                                        </template>
+                                    </th>
+                                </tr>
+                                <tr class="slds-table-header">
+                                    <template if:true={isHideActive}><th class="table-hide-column"><i>Hide</i></th></template>
+                                    <th class="table-header-text">Item Name</th>
+                                    <template if:true={showColor}><th class="table-header-text2">Color</th></template>
+                                    <template if:true={showUnitPrice}><th class="table-header-number">Price</th></template>
+                                    <th class="table-header-number">Qty</th>
+                                    <template if:true={showDescOne}><th class="table-header-text">Desc. One</th></template>
+                                    <template if:true={showDescTwo}><th class="table-header-text">Desc. Two</th></template>
+                                    <template if:true={showNotes}><th class="table-header-text">Note</th></template>
+                                    <th class="table-divider"></th>
+                                    <template if:true={isHideActive}><th class="table-hide-column"><i>Swap</i></th></template>
+                                    <th class="table-header-text">Item Name</th>
+                                    <template if:true={showColor}><th class="table-header-text2">Color</th></template>
+                                    <template if:true={showUnitPrice}><th class="table-header-number">Price</th></template>
+                                    <th class="table-header-number">Qty</th>
+                                    <template if:true={showDescOne}><th class="table-header-text">Desc. One</th></template>
+                                    <template if:true={showDescTwo}><th class="table-header-text">Desc. Two</th></template>
+                                    <template if:true={showNotes}><th class="table-header-text">Note</th></template>
+                                </tr>
+                                <template for:each={alt.value} for:item="row">
+                                    <template if:true={row.visible}>
+                                        <tr key={row.key}>
+                                            <template if:true={isHideActive}>
+                                                <template if:true={row.isHidden}>
+                                                    <td class="table-hide-column change-red">
+                                                        <lightning-button-icon key={row.key} accesskey={row.key} variant="border-inverse" icon-name="utility:undo" onclick={handleHide}></lightning-button-icon>
+                                                    </td>
+                                                </template>
+                                                <template if:false={row.isHidden}>
+                                                    <td class="table-hide-column">
+                                                        <lightning-button-icon key={row.key} accesskey={row.key} variant="brand" aria-describedby="help" aria-disabled="true" icon-name="utility:delete" onclick={handleHide}></lightning-button-icon>
+                                                    </td>
+                                                </template>
+                                            </template>
+                                            <td class={row.first.cssClass.Item_Number__c}>{row.first.item.Item_Number__c}</td>
+                                            <template if:true={showColor}><td class={row.first.cssClass.Color__c}>{row.first.item.Color__c}</td></template>
+                                            <template if:true={showUnitPrice}><td class={row.first.cssClass.UnitPrice}>{row.first.UnitPriceFormat}</td></template>
+                                            <td class={row.first.cssClass.Quantity}>{row.first.item.Quantity}</td>
+                                            <template if:true={showDescOne}><td class={row.first.cssClass.Description}>{row.first.item.Description}</td></template>
+                                            <template if:true={showDescTwo}><td class={row.first.cssClass.Description_2__c}>{row.first.item.Description_2__c}</td></template>
+                                            <template if:true={showNotes}><td class={row.first.cssClass.Note__c}>{row.first.item.Note__c}</td></template>
+                                            <td class="table-divider"></td>
+                                            <template if:true={isHideActive}>
+                                                <td class="table-hide-column">
+                                                    <template if:true={row.switchTrigger}>
+                                                        <lightning-button-icon accesskey={row.key} variant="brand" aria-describedby="help2" aria-disabled="true" icon-name="utility:move" onclick={handleSwitch}></lightning-button-icon>
+                                                    </template>
+                                                    <template if:false={row.switchTrigger}>
+                                                        <lightning-button-icon accesskey={row.key} variant="border-filled" aria-describedby="help2" aria-disabled="true" icon-name="utility:replace" onclick={handleSwitch}></lightning-button-icon>
+                                                    </template>
+                                                    
+                                                </td>
+                                            </template>
+                                            <td class={row.second.cssClass.Item_Number__c}>{row.second.item.Item_Number__c}</td>
+                                            <template if:true={showColor}><td class={row.second.cssClass.Color__c}>{row.second.item.Color__c}</td></template>
+                                            <template if:true={showUnitPrice}>
+                                                <td class={row.second.cssClass.UnitPrice}>
+                                                    <div style="display:inline-flex;">
+                                                        {row.second.UnitPriceFormat}
+                                                    </div>
+                                                    <template if:true={showMath}>
+                                                        <div class={row.second.math.UnitPrice}  style="display:inline-flex;margin-left:5px;">
+                                                            {row.second.change.UnitPrice}
+                                                        </div>
+                                                    </template>
+                                                </td>
+                                            </template>
+                                            <td class={row.second.cssClass.Quantity}>
+                                                <div style="display:inline-flex;">
+                                                    {row.second.item.Quantity}
+                                                </div>
+                                                <template if:true={showMath}>
+                                                    <div class={row.second.math.Quantity} style="display:inline-flex;margin-left:5px;">
+                                                        {row.second.change.Quantity}
+                                                    </div>
+                                                </template>
+                                            </td>
+                                            <template if:true={showDescOne}><td class={row.second.cssClass.Description}>{row.second.item.Description}</td></template>
+                                            <template if:true={showDescTwo}><td class={row.second.cssClass.Description_2__c}>{row.second.item.Description_2__c}</td></template>
+                                            <template if:true={showNotes}><td class={row.second.cssClass.Note__c}>{row.second.item.Note__c}</td></template>
+                                        </tr>
+                                    </template>
+                                </template>
+                            </table>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </div>
+    </div>
+    <template if:true={isAddDeductActive}>
+        <div class="slds-container_large">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Create Add/Deduct Quote</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_12-of-12">
+                                <lightning-input name="Version Description" type="text" label="Version Description"
+                                    onchange={handleInput} value={versionDescription}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12">
+                                <lightning-input name="Rev #" type="number" label="Rev #"
+                                onchange={handleInput} value={revisionNumber}>
+                            </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12">
+                                <lightning-combobox name="Quote Type" label="Quote Type"
+                                    value={selectedQuoteType} required="true" options={quoteTypeList}
+                                    onchange={handleInput}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12">
+                                <lightning-combobox name="Primary Bidder" label="Primary Bidder"
+                                    value={selectedBidder} required="true" options={bidderList}
+                                    onchange={handleInput}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th>Include?</th>
+                                        <th>Name</th>
+                                    </tr>
+                                    <template for:each={addConfigs}  for:item="config">
+                                        <tr key={config.RowId}>
+                                            <td>
+                                                <lightning-input checked={config.checked} name="Checked Add" type="checkbox"
+                                                    onchange={handleInput} access-key={config.RowId} >
+                                                </lightning-input>
+                                            </td>
+                                            <td >
+                                                <lightning-input name="Name Add" type="text"
+                                                    onchange={handleInput} value={config.Name} access-key={config.RowId}>
+                                                </lightning-input>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th>Include?</th>
+                                        <th>Name</th>
+                                    </tr>
+                                    <template for:each={deductConfigs}  for:item="config">
+                                        <tr key={config.RowId}>
+                                            <td>
+                                                <lightning-input checked={config.checked} name="Checked Deduct" type="checkbox"
+                                                    onchange={handleInput} access-key={config.RowId} >
+                                                </lightning-input>
+                                            </td>
+                                            <td >
+                                                <lightning-input name="Name Deduct" type="text"
+                                                    onchange={handleInput} value={config.Name} access-key={config.RowId}>
+                                                </lightning-input>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleAddDeductCancel}></lightning-button>
+                        <lightning-button class="lightningBtn"
+                                          variant="brand"
+                                          name="Create"
+                                          label="Create"
+                                          title="Create"
+                                          onclick={handleAddDeductConfirm}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={quoteIsActive}>
+        <div class="slds-container_large">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">{quoteText}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                            <tr>
+                                <th style="width:5vw;">Locked?</th>
+                                <th style="width:5vw;">Rev #</th>
+                                <th style="width:5vw;">Type</th>
+                                <th style="width:15vw;">Version Description</th>
+                                <th style="width:5vw;">Quote</th>
+                                <th style="width:5vw;">Quote #</th>
+                                <th style="width:5vw;">Account</th>
+                                <th style="width:5vw;">Division</th>
+                                <th style="width:5vw;">Created On</th>
+                                <th style="width:5vw;">Action</th>
+                            </tr>
+                            <template for:each={quoteList}  for:item="quote">
+                                <tr accesskey={quote.Id} key={quote.Id} >
+                                    <td>
+                                        <template if:true={quote.Locked__c}>
+                                            <lightning-button-icon variant="bare" icon-name="utility:lock"></lightning-button-icon> 
+                                        </template>
+                                        <template if:false={quote.Locked__c}>
+                                            <lightning-button-icon variant="bare" icon-name="utility:preview"></lightning-button-icon>
+                                        </template>
+                                    </td>
+                                    <td style="width:5vw;">{quote.Revision_Number__c}</td>
+                                    <td style="width:5vw;">{quote.BidQuote__c}</td>
+                                    <td style="min-width:15vw;max-width:15vw;white-space:break-spaces;">{quote.Version_Description__c}</td>
+                                    <td style="max-width:10vw;white-space: break-spaces;"><a href={quote.Link} target="_blank">{quote.Name}</a></td>
+                                    <td style="width:5vw;">{quote.QuoteNumber}</td>
+                                    <td style="width:5vw;">{quote.Account_Name_Formula__c}</td>
+                                    <td style="width:5vw;">{quote.Division__c}</td>
+                                    <td style="width:5vw;">{quote.CreatedDate}</td>
+                                    <td style="width:5vw;"><lightning-button-icon  accesskey={quote.Id} variant="brand" icon-name="utility:add" onclick={handleQuoteSelect}></lightning-button-icon></td>
+                                </tr>
+                            </template>
+                        </table>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleQuoteCancel}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={matchIsActive}>
+        <div class="slds-container_large">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-04" aria-modal="true" aria-describedby="modal-content-id-4" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">Match Alternates</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_12-of-12">
+                                <p style="padding-bottom:10px;">Select an alternate from Quote (1) and then an alternate from Quote (2) to create a match. 
+                                    Hit the (X) button next to a match to undo the matching between alternates.
+                                     Click on the (Match) button on the bottom-right to calculate matched alternates, 
+                                     appending the results to the end of the page. 
+                                     This also removes the unmatched alternates from the page.
+                                </p>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th style="width:5vw;">Alternate 1</th>
+                                        <th></th>
+                                    </tr>
+                                    <template for:each={comparison.noMatchOneAlts}  for:item="alt">
+                                        <tr accesskey={alt.key} key={alt.key}>
+                                            <td class={alt.cssClass} style="min-width:500px;max-width:500px;white-space:break-spaces;">
+                                                {alt.key}
+                                            </td>
+                                            <td>
+                                                <template if:true={alt.isSelected}>
+                                                    <lightning-button-icon name="One" accesskey={alt.key} variant="brand" icon-name="utility:close" onclick={handleMatchUnselect}></lightning-button-icon></td>
+                                                </template>
+                                                <template if:false={alt.isSelected}>
+                                                    <lightning-button-icon name="One" accesskey={alt.key} variant="brand" icon-name="utility:add" onclick={handleMatchSelect}></lightning-button-icon></td>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th style="width:5vw;">Alternate 2</th>
+                                        <th></th>
+                                    </tr>
+                                    <template for:each={comparison.noMatchTwoAlts}  for:item="alt">
+                                        <tr accesskey={alt.key} key={alt.key}>
+                                            <td class={alt.cssClass} style="min-width:500px;max-width:500px;white-space:break-spaces;">
+                                                {alt.key}
+                                            </td>
+                                            <td>
+                                                <template if:true={alt.isSelected}>
+                                                    <lightning-button-icon name="Two" accesskey={alt.key} variant="brand" icon-name="utility:close" onclick={handleMatchUnselect}></lightning-button-icon></td>
+                                                </template>
+                                                <template if:false={alt.isSelected}>
+                                                    <lightning-button-icon name="Two" accesskey={alt.key} variant="brand" icon-name="utility:add" onclick={handleMatchSelect}></lightning-button-icon></td>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th>Alternate 1</th>
+                                        <th>Alternate 2</th>
+                                        <th></th>
+                                    </tr>
+                                    <template for:each={comparison.manualAlts}  for:item="alt">
+                                        <tr accesskey={alt.one.key} key={alt.one.key}>
+                                            <td>
+                                                {alt.one.key}
+                                            </td>
+                                            <td>
+                                                {alt.two.key}
+                                            </td>
+                                            <td><lightning-button-icon name="Match" accesskey={alt.one.key} variant="brand" icon-name="utility:close" onclick={handleMatchUnselect}></lightning-button-icon></td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleMatchClose}></lightning-button>
+                                          <lightning-button class="lightningBtn"
+                                          variant="brand"
+                                          name="match"
+                                          label="Match"
+                                          title="Match"
+                                          style="margin-left:20px;"
+                                          onclick={handleMatchProcess}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <template if:true={exportIsActive}>
+        <div class="slds-container_large">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-05" aria-modal="true" aria-describedby="modal-content-id-5" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-05" class="slds-text-heading_medium slds-hyphenate">Export Options</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-5">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th></th>
+                                        <th style="border-bottom:1px solid black;">Field Options</th>
+                                        <th style="border-bottom:1px solid black;">(1)</th>
+                                        <th style="border-bottom:1px solid black;">(2)</th>
+                                        <th style="border-bottom:1px solid black;">(Δ)</th>
+                                    </tr>
+                                    <template for:each={exportColumns} for:item="option">
+                                        <tr key={option.Id}>
+                                            <td><lightning-input access-key={option.Id} name="all" checked={option.all} type="checkbox-button"
+                                                    onchange={handleExportInput} >
+                                                </lightning-input></td>
+                                            <td>{option.label}</td>
+                                            <td> 
+                                                <lightning-input access-key={option.Id} name="one" checked={option.one} type="checkbox-button"
+                                                    onchange={handleExportInput} >
+                                                </lightning-input>
+                                            </td>
+                                            <td>
+                                                <lightning-input access-key={option.Id} name="two" checked={option.two} type="checkbox-button"
+                                                    onchange={handleExportInput} >
+                                                </lightning-input>
+                                            </td>
+                                            <td>
+                                                <lightning-input access-key={option.Id} name="delta" checked={option.delta} type="checkbox-button"
+                                                    onchange={handleExportInput}  >
+                                                </lightning-input>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th style="border-bottom:1px solid black;">Options</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display:flex;">
+                                                <div>
+                                                    <lightning-input name="Alt Total (1)" checked={exportOptions.exportAltOne} type="checkbox-button"
+                                                        label="Alt Total (1)" onchange={handleExportInput}  >
+                                                    </lightning-input>
+                                                </div>
+                                                <div class="export-text">
+                                                    <label class="slds-form-element__label">Alt Total (1)</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display:flex;">
+                                                <div>
+                                                    <lightning-input name="Alt Total (2)" checked={exportOptions.exportAltTwo} type="checkbox-button"
+                                                        label="Alt Total (2)" onchange={handleExportInput}  >
+                                                    </lightning-input>
+                                                </div>
+                                                <div class="export-text">
+                                                    <label class="slds-form-element__label"> Alt Total (2)</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display:flex;">
+                                                <div>
+                                                    <lightning-input name="Show Only Changes" checked={exportOptions.showOnlyChanges} type="checkbox-button"
+                                                        label="Show Only Changes" onchange={handleExportInput}>
+                                                    </lightning-input>
+                                                </div>
+                                                <div class="export-text">
+                                                    <label class="slds-form-element__label">Show Only Changes</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <lightning-input name="File Name" type="text" label="File Name"
+                                                onchange={handleExportInput} value={exportOptions.fileName}>
+                                            </lightning-input>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_4-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th>Compared</th>
+                                    </tr>
+                                    <template for:each={comparison.matchedAlts} for:item="alt">
+                                        <template if:false={alt.noMatchOne}>
+                                            <template if:false={alt.noMatchTwo}>
+                                                <tr key={alt.AlternateId}>
+                                                    <td>
+                                                        <div style="display:flex;">
+                                                            <div>
+                                                                <lightning-input name="matchedAlts" checked={alt.isSelected} type="checkbox-button"
+                                                                    label={alt.key} accesskey={alt.key} onchange={handleExportAltInput}  >
+                                                                </lightning-input>
+                                                            </div>
+                                                            <div class="export-text-2">
+                                                                {alt.key}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                        
+                                    </template>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_4-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th>No Match - Quote (1)</th>
+                                    </tr>
+                                    <template for:each={comparison.noMatchOneAlts} for:item="alt">
+                                        <tr key={alt.AlternateId}>
+                                            <td>
+                                                <div style="display:flex;">
+                                                    <div>
+                                                        <lightning-input name="noMatchOneAlts" checked={alt.isSelected} type="checkbox-button"
+                                                            label={alt.key} accesskey={alt.key} onchange={handleExportAltInput}  >
+                                                        </lightning-input>
+                                                    </div>
+                                                    <div class="export-text-2">
+                                                        {alt.key}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                            <div class="slds-col slds-size_4-of-12">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                                    <tr>
+                                        <th>No Match - Quote (2)</th>
+                                    </tr>
+                                    <template for:each={comparison.noMatchTwoAlts} for:item="alt">
+                                        <tr key={alt.AlternateId}>
+                                            <td>
+                                                <div style="display:flex;">
+                                                    <div>
+                                                        <lightning-input name="noMatchTwoAlts" checked={alt.isSelected} type="checkbox-button"
+                                                            label={alt.key} accesskey={alt.key} onchange={handleExportAltInput}  >
+                                                        </lightning-input>
+                                                    </div>
+                                                    <div class="export-text-2">
+                                                        {alt.key}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="lightningBtn"
+                                          variant="neutral"
+                                          name="Cancel"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick={handleExportClose}></lightning-button>
+                                          <lightning-button class="lightningBtn"
+                                          variant="brand"
+                                          name="Export"
+                                          label="Export"
+                                          title="Export"
+                                          style="margin-left:20px;"
+                                          onclick={handleExport}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

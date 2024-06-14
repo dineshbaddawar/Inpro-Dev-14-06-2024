@@ -1,0 +1,57 @@
+<template>
+    <div style="background-color: #f7f7f7;">
+        <div style="padding: 10px; background-color:white; padding:10px; position:relative; width:98%; left:1%; ">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title" style="padding-bottom:10px;">
+                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="standard:work_type_group" size="small"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <a href="#" class="slds-card__header-link slds-truncate" title="Accounts">
+                                    <span>Fulfillments ({FullfillmentCount})</span>
+                                </a>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div if:false={loaded}>
+                <lightning-spinner  alternative-text="Loading">Loading....</lightning-spinner>
+            </div>
+            <div if:true={loaded}>
+                <template if:true={hasFulfillmentData}>
+                    <div>
+                        <div>
+                            <br/>
+                            <lightning-button style="float: left; left: 8px;" variant="brand" title="Retrieve Fulfillment Items For Selected Fulfillment"
+                                class="slds-m-left_x-small" onclick={populateFulfillmentItems} label="Retrieve Fulfillment Items For Selected Fulfillment">
+                            </lightning-button>
+                            <br/><br/>
+                            <div style="background-color: white; padding:10px;">
+                                <lightning-datatable key-field="Id" data={fulfillmentData} columns={fulfillmentColumns} max-row-selection="1"
+                                    sorted-by={sortBy} sorted-direction={sortDirection} data-id='dg_itemGrid' style="padding: 10px; left:10px; right:10px; position: relative;"
+                                    onsort={doSorting}>
+                                </lightning-datatable>
+                            </div>
+                            <div style="background-color: white; padding:10px;">
+                                <div class="slds-media__body" if:true={hasFulfillmentItemData}>
+                                    <h2 class="slds-card__header-title">
+                                        <a href="#" class="slds-card__header-link slds-truncate" title="Accounts">
+                                            <span>Fulfillment Items ({FullfillmentItemCount}) - ID: {selectedFulfillmentId}</span>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <lightning-datatable if:true={hasFulfillmentItemData} show-row-number-column="true" key-field="Id" data={fulfillmentItemData} columns={fulfillmentItemColumns}
+                                    hide-checkbox-column="true" sorted-by={sortBy} sorted-direction={sortDirection} style="padding: 10px; left:10px; right:10px; position: relative;"
+                                    onsort={doSorting}>
+                                </lightning-datatable>
+                            </div><br/>
+                        </div>
+                    </div>            
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

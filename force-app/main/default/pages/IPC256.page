@@ -1,0 +1,701 @@
+<apex:page renderAs="PDF" standardController="Quote" extensions="IPC256Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+  <apex:outputText rendered="{!BlankForm == true}">
+<html>
+    
+    <head>
+      <style>
+        @page {
+          margin-top: 2.2cm;
+          margin-bottom: 2.2cm;
+          margin-left: 1cm;
+          margin-right: 1cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+          border-bottom: 1px solid black;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+          
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <table style="width:100%">
+          <tr>
+            <td>
+              <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+            </td>
+            <td style="text-align: right;">
+                Measurement Form
+              <div style="text-align: right; font-weight:bold;">
+                <strong>Custom Clear Polycarbonate Corner Guards</strong>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <div style="width:100%;">
+          <table style="width:100%;">
+            <tr>
+              <td style="width:15%">
+                <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+              </td>
+              <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+              <td style="width:15%">IPC.256/Rev.14</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <apex:form style="font-family: sans-serif; font-size: 9pt;">
+       
+        <p style="padding-left: 6pt; text-align: left;">
+          Please complete the following information based on field verified dimensions. Use one order form per size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+        </p>
+
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+            <td style="width: 20%; border: 1px solid black;"></td>
+            <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+            <td style="width: 20%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+            </td>
+            <td style="width: 20%; border: 1px solid black;">Account #</td>
+            <td style="width: 35%; border: 1px solid black;">
+              <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+            </td>
+          </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td style="width:22%;">Wing Width (Select One):</td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                          {!isMetricWingbox1}
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                          {!isMetricWingbox2}
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                          {!isMetricWingbox3}
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                          {!isMetricWingbox4}
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:28%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                          {!isMetricWingbox5}
+                        </div>
+                        
+                    </div>
+                </td>
+                           
+                            
+                        
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td style="width:24%;">Corner Guard Height {!isMetricExperssion}</td>
+                <td style="width:15%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:5%;"></td>
+                  <td style="width:15%;">Quality:</td>
+                <td style="width:15%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:29%;"></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td style="width:22%;">Corner Radius (Select One):</td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            Standard
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            Bullnose
+                        </div>
+                        
+                    </div>
+                    </td>
+                    <td style="width:5%"></td>
+                    <td style="width:40%">{!isMetricAngleBox1}
+                    </td>
+                </tr>
+            </table>
+        <table>
+            <tr>
+                <td style="width:22%;">Corner Angle (Select One):</td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                           90&#xb0;
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:15%">
+                    <div style="display:inline-block;width:10%;margin-left:30px">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            135&#xb0;
+                        </div>
+                        
+                    </div>
+                    </td>
+                    <td style="width:5%"></td>
+                    <td style="width:40%">{!isMetricAngleBox2}</td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td style="width:26%;">Mounting Options (Select One):</td>
+                    <td style="width:15%">
+                        <div style="display:inline-block;width:10%;margin-left:30px">
+                            <div
+                                 style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                            </div>
+                            <div style="padding-left:25px;margin-top:-18px">
+                                Screw-on 
+                            </div>
+                            
+                        </div>
+                    </td>
+                    <td style="width:15%">
+                        <div style="display:inline-block;width:10%;margin-left:30px">
+                            <div
+                                 style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                            </div>
+                            <div style="padding-left:25px;margin-top:-18px">
+                                No Holes/No Tape 
+                            </div>
+                            
+                        </div>
+                        </td>
+                        <td style="width:5%"></td>
+            
+                        <td style="width:25%">
+                            <div style="display:inline-block;width:10%;margin-left:30px">
+                                <div
+                                     style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                                </div>
+                                <div style="padding-left:25px;margin-top:-18px">
+                                    Self-Adhesive Tape
+                                </div>
+                                
+                            </div>
+                            </td>
+                        </tr>
+                </table>
+
+                <table style="width:100%;">
+                    <tr>
+                      <td >
+                        <img  src="{!$Resource.cf_ipc256_customclearpolycarbonate}" alt="customclearpolycarbonate" width="700" height="220"/>
+                      </td>
+                    </tr>
+                </table>
+
+                &nbsp;&nbsp;<span>NOTES:</span>
+                <li>Max Height of 12' (144")</li>
+                <li>Mounting Hardware Included for Screw-on</li>
+                <li>Tolerances of Wing Width +/- 1/16", Length +/- 1/4"</li>
+                <li>Wing Width: 3/4" (.050" +/- .015" Thick)</li>
+                <li>Wing Width: 1-1/8", 1-1/2", or 2" (.075" +/- .015" Thick)</li>
+                <li>Wing Width: 2-1/2" (.100" +/- .015" Thick)</li>
+                <li>Corner Radius: Standard (1/16" - 5/32" O.D. pending Wing Width)</li>
+                <li>Corner Radius: Bullnose (1/2" I.D.)</li>
+                <li>¾" wing has self-tapping nail screws - 6 each provided.</li>
+                <li>All other screw-on corner guards to have pre-drilled holes - 3 holes on each wing (#6 panhead self-tapping
+                     screws provided). </li>
+                <li>Self-Adhesive Tape will show through the clear polycarbonate (including stress lines).</li>
+                <br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><u>*A copy of this measurement form must be returned to Inpro with the finished order*</u></span><br/><br/>
+
+                <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;">
+                            <b>FOR INPRO USE ONLY</b>
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Customer Order #:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Inpro Drawing: N/A
+                        </td>
+                        <td style="border: 1px solid black;padding:6px;">
+                            Inpro #:
+                        </td>
+                    </tr>            
+                </table>
+        </apex:form>
+        </body>
+        
+        </html>
+      </apex:outputText>
+
+      <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+              <head>
+                <style>
+                  @page {
+                    margin-top: 2.2cm;
+                    margin-bottom: 2.2cm;
+                    margin-left: 1cm;
+                    margin-right: 1cm;
+          
+                    @top-center {
+                      content: element(header);
+                    }
+                    @bottom-center {
+                      content: element(footer);
+                    }
+                  }
+          
+                  div.header {
+                    padding: 10px;
+                    position: running(header);
+                    width: 100%;
+                    border-bottom: 1px solid black;
+                  }
+          
+                  div.footer {
+                    padding: 10px;
+                    position: running(footer);
+                    width: 100%;
+                    
+                  }
+          
+                  .pagenumber:before {
+                    content: counter(page);
+                  }
+          
+                  .pagecount:before {
+                    content: counter(pages);
+                  }
+          
+                  div.content {
+                    border-style: dotted;
+                    float: left;
+                    width: 100%;
+                  }
+          
+                  table {
+                    border-collapse: collapse;
+                    width: 100%;
+                  }
+          
+                  th, td {
+                    padding: 8px;
+                    text-align: left;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="header">
+                  <table style="width:100%">
+                    <tr>
+                      <td>
+                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                      </td>
+                      <td style="text-align: right;">
+                          Measurement Form
+                        <div style="text-align: right; font-weight:bold;">
+                          <strong>Custom Clear Polycarbonate Corner Guards</strong>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+          
+                <div class="footer">
+                  <div style="width:100%;">
+                    <table style="width:100%;">
+                      <tr>
+                        <td style="width:15%">
+                          <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+                        </td>
+                        <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                        <td style="width:15%">IPC.256/Rev.14</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+          
+                <apex:form style="font-family: sans-serif; font-size: 9pt;">
+                 
+                  <p style="padding-left: 6pt; text-align: left;">
+                    Please complete the following information based on field verified dimensions. Use one order form per size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                  </p>
+          
+                  <!--Header Table-->
+                  <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                    <tr>
+                      <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                      <td style="width: 20%; border: 1px solid black;"></td>
+                      <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                      <td style="width: 35%; border: 1px solid black;">
+                        <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                      <td style="width: 20%; border: 1px solid black;">
+                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                      </td>
+                      <td style="width: 20%; border: 1px solid black;">Account #</td>
+                      <td style="width: 35%; border: 1px solid black;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                      </td>
+                    </tr>
+                  </table>
+          
+                  <table>
+                      <tr>
+                          <td style="width:22%;">Wing Width (Select One):</td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WingBox1}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                    {!isMetricWingbox1}
+                                  </div>
+                                  
+                              </div>
+                          </td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WingBox2}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                    {!isMetricWingbox2}
+                                  </div>
+                                  
+                              </div>
+                          </td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WingBox3}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                    {!isMetricWingbox3}
+                                  </div>
+                                  
+                              </div>
+                          </td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WingBox4}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                    {!isMetricWingbox4}
+                                  </div>
+                                  
+                              </div>
+                          </td>
+                          <td style="width:28%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WingBox5}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                    {!isMetricWingbox5}
+                                  </div>
+                                  
+                              </div>
+                          </td>
+                                     
+                                      
+                                  
+                      </tr>
+                  </table>
+                  <table>
+                      <tr>
+                          <td style="width:24%;">Corner Guard Height {!isMetricExperssion}</td>
+                          <td style="width:15%;">
+                              <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Length}</div>
+                            </td>
+                            <td style="width:5%;"></td>
+                            <td style="width:15%;">Quality:</td>
+                          <td style="width:15%;">
+                              <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Quantity}</div>
+                            </td>
+                            <td style="width:29%;"></td>
+                      </tr>
+                  </table>
+                  <table>
+                      <tr>
+                          <td style="width:25%;">Corner Radius (Select One):</td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.ItemNumberWithBN}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                      Standard
+                                  </div>
+                                  
+                              </div>
+                          </td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.ItemNumberWithoutBN}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                      Bullnose
+                                  </div>
+                                  
+                              </div>
+                              </td>
+                              <td style="width:5%"></td>
+                              <td style="width:40%">{!isMetricAngleBox1}
+                              </td>
+                          </tr>
+                      </table>
+                  <table>
+                      <tr>
+                          <td style="width:22%;">Corner Angle (Select One):</td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.Description90}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                     90&#xb0;
+                                  </div>
+                                  
+                              </div>
+                          </td>
+                          <td style="width:15%">
+                              <div style="display:inline-block;width:10%;margin-left:30px">
+                                  <div
+                                       style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.Description135}">
+                                  </div>
+                                  <div style="padding-left:25px;margin-top:-18px">
+                                      135&#xb0;
+                                  </div>
+                                  
+                              </div>
+                              </td>
+                              <td style="width:5%"></td>
+                              <td style="width:40%">{!isMetricAngleBox2}</td>
+                          </tr>
+                      </table>
+          
+                      <table>
+                          <tr>
+                              <td style="width:26%;">Mounting Options (Select One):</td>
+                              <td style="width:15%">
+                                  <div style="display:inline-block;width:10%;margin-left:30px">
+                                      <div
+                                           style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.MountingOpt1}">
+                                      </div>
+                                      <div style="padding-left:25px;margin-top:-18px">
+                                          Screw-on 
+                                      </div>
+                                      
+                                  </div>
+                              </td>
+                              <td style="width:15%">
+                                  <div style="display:inline-block;width:10%;margin-left:30px">
+                                      <div
+                                           style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.MountingOpt2}">
+                                      </div>
+                                      <div style="padding-left:25px;margin-top:-18px">
+                                          No Holes/No Tape 
+                                      </div>
+                                      
+                                  </div>
+                                  </td>
+                                  <td style="width:5%"></td>
+                      
+                                  <td style="width:25%">
+                                      <div style="display:inline-block;width:10%;margin-left:30px">
+                                          <div
+                                               style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.MountingOpt3}">
+                                          </div>
+                                          <div style="padding-left:25px;margin-top:-18px">
+                                              Self-Adhesive Tape
+                                          </div>
+                                          
+                                      </div>
+                                      </td>
+                                  </tr>
+                          </table>
+          
+                          <table style="width:100%;">
+                              <tr>
+                                <td >
+                                  <img  src="{!$Resource.cf_ipc256_customclearpolycarbonate}" alt="customclearpolycarbonate" width="700" height="235"/>
+                                </td>
+                              </tr>
+                          </table>
+          
+                          &nbsp;&nbsp;<span>NOTES:</span>
+                          <li>Max Height of 12' (144")</li>
+                          <li>Mounting Hardware Included for Screw-on</li>
+                          <li>Tolerances of Wing Width +/- 1/16", Length +/- 1/4"</li>
+                          <li>Wing Width: 3/4" (.050" +/- .015" Thick)</li>
+                          <li>Wing Width: 1-1/8", 1-1/2", or 2" (.075" +/- .015" Thick)</li>
+                          <li>Wing Width: 2-1/2" (.100" +/- .015" Thick)</li>
+                          <li>Corner Radius: Standard (1/16" - 5/32" O.D. pending Wing Width)</li>
+                          <li>Corner Radius: Bullnose (1/2" I.D.)</li>
+                          <li>¾" wing has self-tapping nail screws - 6 each provided.</li>
+                          <li>All other screw-on corner guards to have pre-drilled holes - 3 holes on each wing (#6 panhead self-tapping
+                               screws provided). </li>
+                          <li>Self-Adhesive Tape will show through the clear polycarbonate (including stress lines).</li>
+                          <br/>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><u>*A copy of this measurement form must be returned to Inpro with the finished order*</u></span><br/><br/>
+          
+                          <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                              <tr>
+                                  <td style="border: 1px solid black; padding:6px;">
+                                      <b>FOR INPRO USE ONLY</b>
+                                  </td>
+                                  <td style="border: 1px solid black; padding:6px;">
+                                      {!customForm.quoteRecord.Inside_Rep__c}
+                                  </td>
+                                  <td style="border: 1px solid black; padding:6px;">
+                                      Customer Order #:
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td style="border: 1px solid black; padding:6px;">
+                                      Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                                  </td>
+                                  <td style="border: 1px solid black; padding:6px;">
+                                      Inpro Drawing: N/A
+                                  </td>
+                                  <td style="border: 1px solid black;padding:6px;">
+                                      Inpro #:
+                                  </td>
+                              </tr>            
+                          </table>
+                         
+                  </apex:form>
+                  </body>
+        </apex:repeat>
+          </html>
+        </apex:outputText>
+        
+        </apex:page>

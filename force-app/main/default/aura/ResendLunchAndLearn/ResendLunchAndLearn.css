@@ -1,0 +1,21 @@
+.THIS .footerShade {
+    border-top: 2px solid rgb(221, 219, 218);
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    padding: .75rem 1rem;
+    background-color: rgb(230, 230, 230);
+}
+.THIS .headerBorder {
+	border-bottom: 2px solid rgb(221, 219, 218);
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+.THIS th {
+	background: rgb(250, 250, 250) !important;
+}
+.THIS lightning-icon.success > lightning-primitive-icon > svg > use {
+	fill : white;
+}
+.THIS lightning-icon.error > lightning-primitive-icon > svg > use {
+	fill : white;
+}

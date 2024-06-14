@@ -1,0 +1,52 @@
+<template>
+    <div style="background-color:white; padding:10px;">
+        <h3 slot="title" >       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Customer Product History</strong>
+        </h3>    
+    </div>
+    <label if:true={returnedMaxRows} style="color:red;padding-left:10px;">This search returned the max 1,000 results. You may want to use the filters to narrow down your search results.</label>
+    <br/><br/>
+    <lightning-button style="margin-left:10px;" variant="brand-outline" title="Run Report" class="slds-m-left_x-small" onclick={runSelectedReport}  label="Run Report"></lightning-button> 
+    <lightning-button style="margin-left:0px; padding:10px;" variant="brand-outline" title="Download Data as CSV" class="slds-m-left_x-small" onclick={downloadCSVFile}  label="Download Data as CSV"></lightning-button>
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    <lightning-input name="li_itemNumber" data-id="li_itemNumber" label="Item Number" onchange={handleInputOnChange} style="padding-right: 10px; padding-left:10px;"></lightning-input>  
+                </td>
+                <td>
+                    <lightning-input name="li_documentNumber" data-id="li_documentNumber" label="Invoice Number" onchange={handleInputOnChange} style="padding-right: 10px;"></lightning-input>  
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lightning-input name="li_startDate" data-id="li_startDate" label="Start Date" onchange={handleInputOnChange} style="padding-right: 10px;padding-left:10px;" type="date"></lightning-input>    
+                </td>
+                <td>
+                    <lightning-input name="li_endDate" data-id="li_endDate" label="End Date" onchange={handleInputOnChange} style="padding-right: 10px;" type="date"></lightning-input>  
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lightning-dual-listbox name="dl_division" data-id="dl_division" label="Division" options={divisions} onchange={handleInputOnChange} style="padding-left:10px;"></lightning-dual-listbox>  
+                </td>
+                <td>
+                    <lightning-input name="li_quoteOpportunityName" data-id="li_quoteOpportunityName" label="Quote/Opportunity Name" onchange={handleInputOnChange} style="padding-right: 10px;"></lightning-input>  
+                </td>
+            </tr>                          
+        </table>
+    </div>
+    <br/>
+    <div style="background-color:white; padding:10px;">
+        <lightning-datatable
+            key-field="id"
+            data={reportData}
+            show-row-number-column="true"
+            columns={reportColumns}>
+        </lightning-datatable>    
+    </div>
+    <br/><br/>
+    <template if:false={loaded}>
+        <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+    </template>
+</template>

@@ -1,0 +1,265 @@
+<aura:component controller="LandLRegistrationPageController" implements="flexipage:availableForAllPageTypes" access="global">
+    
+    <aura:attribute name="lunchandLearnId" type="string" default=""/>
+    <aura:attribute name="lunchandLearnEventRecord" type="Object"/>
+    <aura:attribute name="StandardBodyList" type="List"/>
+    <aura:attribute name="loading" type="boolean" default="false"/>
+    <aura:attribute name="FirstName" type="String"/>
+    <aura:attribute name="LastName" type="String"/>
+    <aura:attribute name="Company" type="String"/>
+    <aura:attribute name="EmailAddress" type="String"/>
+    <aura:attribute name="ProjectFollowUp" type="Boolean" default="false"/>
+    <aura:attribute name="OptIn" type="Boolean" default="false"/>
+    <aura:attribute name="isError" type="Boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="isEventPast" type="Boolean" default="false"/>
+    <aura:attribute name="isSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="showEmailModal" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div>
+        
+        <div align="center">
+            
+            <div aura:id="spinnerDiv">
+                <aura:if isTrue="{!v.loading}">
+                    <lightning:spinner variant="brand" size="large" alternativeText="{!$Label.c.L_L_Loading_Message}"/>
+                </aura:if>
+            </div>
+            
+            
+            <div style= "text-align: center;">
+                <h2 style="color: #4296ed;font-size: 30px;"><br/>{!$Label.c.L_L_Registration_Page_Header} </h2>
+            </div>    
+            
+            <table align="center" style="width:50%">
+                <tr>
+                    <td style="width:50%;">
+                        <img src="{!v.lunchandLearnEventRecord.CompanyLogo}" style="width:auto;height:auto;"/>
+                    </td>
+                    
+                    <aura:iteration items="{!v.lunchandLearnEventRecord.ProviderLogoUrls}" var="providerLogo">
+                        <td style="width:16%">
+                            <img src="{!providerLogo}" style="height: 90px;"/>
+                        </td>
+                    </aura:iteration>
+                </tr>
+            </table>
+            
+            <aura:if isTrue="{!v.isEventPast}">
+                <table style="width:50%">
+                    <tr>
+                        <div class="button-row error-text" style="font-weight:bold;color:#4296ed;text-align:center;font-size: 1.5em;">
+                            <p>
+                                <lightning:formattedRichText value="{!v.lunchandLearnEventRecord.RegistrationOverMessage}"/>
+                            </p>
+                        </div>
+                    </tr>
+                </table>
+
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.isSuccess}">
+                        <table style="width:50%">
+                            <tr>
+                                <div class="button-row error-text" style="font-weight:bold;color:#4296ed;">
+                                    <p>
+                                        {!$Label.c.L_L_Registration_Success_Message} 
+                                    </p>
+                                </div>
+                            </tr>
+                        </table>
+                        
+                        <div style= "text-align: center;margin-top:50px">
+                            <lightning:button variant="brand" label="Next Attendee" title="Next Attendee" onclick="{!c.nextRegistration}" />
+                        </div>  
+                        
+                        <aura:set attribute="else">
+                            
+                            <aura:if isTrue="{!v.showEmailModal}">
+                                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                    <div class="slds-modal__container custom-modal">
+                                        <header class="custom-modal__header">
+                                            <h3 id="modal-heading-01" class="subhead"></h3>
+                                            <lightning:buttonIcon iconName="utility:close"
+                                                                  onclick="{! c.closeEmailModal }"
+                                                                  alternativeText="close"
+                                                                  class="modal-close"
+                                                                  size="large"
+                                                                  />
+                                        </header>
+                                        <div class="modal-content">
+                                            <div>
+                                                <p class="intro-text">{!$Label.c.L_L_Registration_Page_Email_Prompt} </p>
+                                            </div>
+                                        </div>
+                                        <footer class="custom-modal__footer">
+                                            <lightning:button variant="brand" label="{!$Label.c.L_L_Submit_Without_Email_Button}" title="{!$Label.c.L_L_Submit_Without_Email_Button}" onclick="{!c.createRegistrationWithoutEmail}" />
+                                            <lightning:button variant="brand" label="{!$Label.c.L_L_Add_Email_Address_Button}" title="{!$Label.c.L_L_Add_Email_Address_Button}" onclick="{!c.closeEmailModal}" />
+                                            <!--<button class="theme-button" onclick="{!c.createRegistrationWithoutEmail}">{!$Label.c.L_L_Submit_Without_Email_Button}</button>
+                                            <button class="theme-button" onclick="{! c.closeEmailModal }">{!$Label.c.L_L_Add_Email_Address_Button}</button>-->
+                                        </footer>
+                                    </div>
+                                </section>
+                                <div class="slds-backdrop slds-backdrop_open"></div>
+                            </aura:if>
+                            
+                            
+                            <div>
+                                <table style="width:50%">
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Provider}</b>
+                                        </td>
+                                        <td>
+                                            {!v.lunchandLearnEventRecord.Provider}
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Provider_Number}</b>
+                                        </td>
+                                        <td>
+                                            {!v.lunchandLearnEventRecord.ProviderNumber}
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Course_Name}</b>
+                                        </td>
+                                        <td>
+                                            {!v.lunchandLearnEventRecord.CourseName}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Course_Id}</b>
+                                        </td>
+                                        <td>
+                                            {!v.lunchandLearnEventRecord.CourseId}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Date}</b>
+                                        </td>
+                                        <td>
+                                            {!v.lunchandLearnEventRecord.EventDate}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            
+                            <div>
+                                <table style="width:50%">
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_First_Name}</b>
+                                        </td>
+                                        <td>
+                                            <ui:inputText value="{!v.FirstName}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Last_Name}</b>
+                                        </td>
+                                        <td>
+                                            <ui:inputText value="{!v.LastName}"/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <aura:if isTrue="{!v.lunchandLearnEventRecord.IsAnotherLocation}">
+                                        <tr>
+                                            <td>
+                                                <b>{!$Label.c.L_L_Company}</b>
+                                            </td>
+                                            <td>
+                                                <ui:inputText value="{!v.Company}"/>
+                                            </td>
+                                        </tr>
+                                    </aura:if>
+                                    
+                                    <aura:iteration items="{!v.StandardBodyList}" var="body" indexVar="index">
+                                        <tr>
+                                            <td>
+                                                <b>{!body.FieldLabel}</b>
+                                            </td>
+                                            <td>
+                                                <ui:inputText value="{!body.RegistrationNumber}"/>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                    
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Email}</b>
+                                        </td>
+                                        <td>
+                                            <ui:inputText value="{!v.EmailAddress}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Project_Follow_Up}</b>
+                                        </td>
+                                        <td>
+                                            <ui:inputCheckbox value="{!v.ProjectFollowUp}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>{!$Label.c.L_L_Opt_In}
+                                                <span class="slds-form-element">
+                                                    <div class="slds-form-element__icon slds-align-middle" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
+                                                        <button class="slds-button slds-button slds-button--icon" aria-describedby="help" title="{!$Label.c.L_L_Help_Button}" >
+                                                            <lightning:icon iconName="utility:info" size="xx-small" alternativeText="{!$Label.c.L_L_Help_Button}"/>
+                                                            <span class="slds-assistive-text">{!$Label.c.L_L_Help_Button}</span>
+                                                        </button>
+                                                    </div>
+                                                </span>
+                                                <div class="slds-popover slds-popover--tooltip slds-nubbin--left-top toggle" role="tooltip" id="help" style="position:inherit;top:660px;left:430px;" aura:id="tooltip">
+                                                    <div class="slds-popover__body">{!$Label.c.L_L_Registration_Page_Tooltip_Text}</div>
+                                                </div> 
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <ui:inputCheckbox value="{!v.OptIn}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            
+                            <aura:if isTrue="{!v.isError}">
+                                <table style="width:50%">
+                                    <tr>
+                                        <div class="button-row error-text" style="font-weight:bold;color:red;">
+                                            <p>
+                                                <lightning:formattedRichText value="{!v.errorMessage}"/>
+                                            </p>
+                                        </div>
+                                    </tr>
+                                </table>
+                            </aura:if>
+                            
+                            <div style= "text-align: center;margin-top:30px">
+                                <lightning:button variant="brand" label="{!$Label.c.L_L_I_Attended_Button}" title="{!$Label.c.L_L_I_Attended_Button}" onclick="{!c.createRegistration}" />
+                            </div>   
+                        </aura:set>
+                        
+                    </aura:if>
+                    
+                </aura:set>
+            </aura:if>
+            
+            
+        </div>
+        
+    </div>
+    
+    
+</aura:component>

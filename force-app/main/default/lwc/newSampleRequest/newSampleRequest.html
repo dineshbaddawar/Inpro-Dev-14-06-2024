@@ -1,0 +1,263 @@
+<template>
+    <div>
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                New Sample Request
+            </h2>
+        </header>
+        <div class="slds-p-around_medium column-padding fixed-height ">
+            <div class="full-screen">
+                <template if:false={loaded}>
+                    <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+                <div class="slds-grid slds-wrap">
+                    <template if:true={IsAccountSearchable}>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <c-lookup data-id="selectedAccount" name="selectedAccount" onsearch={handleAccountSearch} label="Account"
+                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                placeholder="Search Accounts..." onselectionchange={handleLookupSelectionChange} aria-required="true">
+                            </c-lookup>
+                        </div>
+                    </template>
+                    <template if:false={IsAccountSearchable}>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="account"
+                                type="text"
+                                label="Account"
+                                value={AccountName}
+                                disabled="disabled"
+                                tabindex="0">
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-helptext content="Select the desired shipping method. Note that accelerated methods may require managerial approval."
+                            style="margin-left:150px;"></lightning-helptext>
+                        <lightning-combobox
+                            name="selectedDesiredShippingMethod"
+                            label="Desired Shipping Method"
+                            value={selectedDesiredShippingMethod}
+                            required="true"
+                            options={desiredShippingMethodList}
+                            onchange={handleInput}
+                            style="margin-top:-20px;">
+                        </lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <template if:true={IsContact}>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="selectedContact"
+                                type="text"
+                                label="Contact"
+                                value={ContactName}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <template if:false={IsContact}>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-helptext content="Which Contact should this sample request be shipped to attention of"
+                                style="margin-left:60px;"></lightning-helptext>
+                                <lightning-combobox
+                                name="selectedContact"
+                                label="Contact"
+                                value={selectedContact}
+                                required={IsContactRequired}
+                                options={contactList}
+                                onchange={handleInput}
+                                style="margin-top:-20px;">
+                            </lightning-combobox>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-combobox
+                            name="selectedShipTo"
+                            label="Ship To"
+                            value={selectedShipTo}
+                            required="true"
+                            options={shipToList}
+                            onchange={handleInput}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <template if:true={IsOpportunity}>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="opportunity"
+                                type="text"
+                                label="Opportunity"
+                                value={OpportunityName}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <template if:false={IsOpportunity}>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <c-lookup data-id="selectedOpportunity" name="selectedOpportunity" onsearch={handleOpportunitySearch} label="Opportunity"
+                                secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                placeholder="Search Opportunities..." onselectionchange={handleLookupSelectionChange}>
+                            </c-lookup>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-col-space slds-size_6-of-12">
+                        <lightning-helptext content="Select the purpose for this request."
+                            style="margin-left:40px;"></lightning-helptext>
+                        <lightning-combobox
+                            name="selectedType"
+                            label="Type"
+                            value={selectedType}
+                            required="true"
+                            options={typeList}
+                            onchange={handleInput}
+                            style="margin-top:-20px;">
+                        </lightning-combobox>
+                    </div>
+                </div>
+                <template if:true={IsLead}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="LeadName"
+                                type="text"
+                                label="Lead"
+                                value={LeadName}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12"></div>
+                    </div>
+                </template>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <hr>
+                        <h4>Address:</h4>
+                    </div>
+                </div>
+                <template if:true={IsManualAddress}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressStreet"
+                                type="text"
+                                label="Street Address"
+                                onchange={handleInput}
+                                value={addressStreet}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressCity"
+                                type="text"
+                                label="City"
+                                onchange={handleInput}
+                                value={addressCity}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressState"
+                                type="text"
+                                label="State/Province"
+                                onchange={handleInput}
+                                value={addressState}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressZip"
+                                type="text"
+                                label="Postal Code"
+                                onchange={handleInput}
+                                value={addressZip}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressCountry"
+                                type="text"
+                                label="Country"
+                                onchange={handleInput}
+                                value={addressCountry}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            
+                        </div>
+                    </div>
+                </template>
+                <template if:false={IsManualAddress}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressStreet"
+                                type="text"
+                                label="Street Address"
+                                value={addressStreet}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressCity"
+                                type="text"
+                                label="City"
+                                value={addressCity}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressState"
+                                type="text"
+                                label="State/Province"
+                                value={addressState}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressZip"
+                                type="text"
+                                label="Postal Code"
+                                value={addressZip}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input
+                                name="addressCountry"
+                                type="text"
+                                label="Country"
+                                value={addressCountry}
+                                disabled="disabled">
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+            <lightning-button style="float: left; padding:10px;" variant="brand-outline" title="Close" 
+                class="slds-m-left_x-small" onclick={closeQuickAction} label="Close">
+            </lightning-button>
+            <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                class="slds-m-left_x-small" onclick={handleSave} label="Save">
+            </lightning-button>
+        </footer>
+    </div>
+</template>

@@ -1,0 +1,25 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title" style="padding: 10px;">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Route Order Request</strong>
+        </h3>          
+        <lightning-textarea style="padding: 10px; height:120px;" name="ta_Notes" label="Please enter your approval/rejection/resubmittal notes below." onchange={handleNotesOnChange}></lightning-textarea>
+        <h1 style="padding: 10px;">Choose from the action list below.</h1>
+        <lightning-button variant="brand-outline" title="Resubmit" class="slds-m-left_x-small"
+            onclick={routeOrderRequest}  label="Resubmit For Approval">
+        </lightning-button>
+        <lightning-button if:true={hasFinancePermissions} variant="brand-outline" title="Approve" class="slds-m-left_x-small"
+            onclick={routeOrderRequest}  label="Approve">
+        </lightning-button>
+        <lightning-button if:true={hasFinancePermissions} variant="brand-outline" title="Reject" class="slds-m-left_x-small"
+            onclick={routeOrderRequest}  label="Reject">
+        </lightning-button>        
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+        <lightning-button style="float: left;padding-top:20px;padding-bottom:10px;" variant="brand" title="Cancel"
+        class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+    </lightning-button>
+    </template>
+</template>

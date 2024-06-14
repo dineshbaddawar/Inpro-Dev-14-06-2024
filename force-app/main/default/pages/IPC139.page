@@ -1,0 +1,579 @@
+<apex:page renderAs="pdf" controller="IPC139Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <apex:outputText rendered="{!BlankForm == false}">
+
+<apex:form >
+<apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+    <title>IPC139</title>
+    <head>
+        <style type="text/css">
+            @page {
+                size: 8.5in 11in portrait;
+                margin-top: 0in;
+                margin-bottom: 0.2in;
+                margin-left: 0.4in;
+                margin-right: 0.3in;
+            }
+        </style>
+    </head>
+
+    <body style="font-family: sans-serif; font-size: 10pt;">
+        <!--Header-->
+        <div>
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                    </td>
+                    <td style="text-align: right;">
+                        Custom Product Order Form
+                        <div style="text-align: right; font-weight:bold;">
+                         Corner Guard - Modification <br />
+                         With and Without Tape</div>
+                    </td>
+                </tr>
+            </table>
+            <hr style="border-width:1px;" />
+            <p style="padding-left: 6pt;;text-align: left;">
+                Please complete the following information based on field verified dimensions.
+                Use one order form per size.Orders for custom products cannot be cancelled or returned.Please sign and return to proceed with your order.
+                 <br /> Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+            </p>
+        </div>
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+            <tr>
+                <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                <td style="width: 20%; border: 1px solid black;"></td>
+                <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                <td style="width: 35%; border: 1px solid black;">
+                    <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                <td style="width: 20%; border: 1px solid black;">
+                    <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+
+                </td>
+                <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                <td style="width: 35%; border: 1px solid black;">
+                    <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                <td style="width: 20%; border: 1px solid black;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                </td>
+                <td style="width: 20%; border: 1px solid black;">Account #</td>
+                <td style="width: 35%; border: 1px solid black;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                </td>
+            </tr>
+        </table>
+
+        <!--Material and Color Table-->
+        <table style="width:100%; padding-left:9px; padding-top:6px;">
+            <tr>
+                <td><label for="qty">Std. Corner Guard P/N:</label></td>
+                <td style="width:20%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!quoteLine.materialThickness}</div>
+                </td>
+                <td><label for="qty">Color Name:</label></td>
+                <td style="width:20%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!quoteLine.colorName}</div>
+                </td>
+                <td><label for="qty">Color #:</label></td>
+                <td style="width:20%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!quoteLine.colorNumber}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!--Dimension Table-->
+        <table style="width:100%; padding-left:9px; padding-top:10px; padding-bottom:20px; border-spacing: 0 10px">
+          <tr>
+               <td><label for="qty">Dimension A*</label></td>
+               <td style="width:20%;">
+                   <div
+                       style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                       
+                    </div>
+               </td>
+               <td><label for="qty" style="font-size:10px;">
+                <apex:outputText rendered="{!isMetric == false}">
+                    Min. 3/8'' 
+                </apex:outputText>
+                <apex:outputText rendered="{!isMetric == true}">
+                    Min. .9525cm
+                </apex:outputText>
+               
+                
+                (If Wing Width Is Trimmed From Std.)</label></td>
+               <td rowspan="2" style="width:20%;">
+                       <div
+                       style="text-align:center; display: inline-block;margin-top:-32px; width: 85%;  border: none; outline: none; font-size: 65px;">
+                       &#125;</div>
+               </td>
+               <td rowspan="2"><label for="qty" style="font-size:10px;">Only one wing can be 3/8" - other wing must be 1" or greater.</label></td>
+          </tr>
+
+           <tr>
+               <td><label for="qty">Dimension B*</label></td>
+               <td style="width:20%;">
+                   <div
+                       style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+
+                    </div>
+               </td>
+               <td><label for="qty" style="font-size:10px;">
+                <apex:outputText rendered="{!isMetric == false}">
+                    Min. 3/8'' 
+                </apex:outputText>
+                <apex:outputText rendered="{!isMetric == true}">
+                    Min. .9525cm
+                </apex:outputText>
+                
+                (If Wing Width Is Trimmed From Std.)</label></td>
+           </tr>
+         
+           <tr>
+            <td style="width:15%;"><label for="qty">Dimension C:</label></td>
+            <td style="width:10%;">
+                <div
+                    style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                </div>
+            </td>
+            <td style="width:30%;padding-left:40px">
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tape:
+            </td>
+           
+            <td colspan="2" style="width:25%;padding-left:-20px">
+                 <table>
+                      <tr>
+                          <td>
+                              <div
+                                  style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.checkNoTrue}">
+                              </div>
+                              <div style="display: inline-block;padding-right:10px; float: right;"> &nbsp; No</div>
+                          </td>
+                          <td>
+                              <div
+                                  style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.checkYesTrue}">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:10px;"> Yes*</div>
+                          </td>
+                      </tr>
+                  </table>
+            </td>
+            <td style="width:40%;">
+            </td>
+            
+        </tr>
+
+           <tr>
+               <td colspan="1" style="width:15%;"><label for="qty">Custom Angle Bend**:</label></td>
+               <td  style="width:10%;">
+                   <div
+                       style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                       {!quoteLine.CustomAngle}
+                   </div>
+               </td>
+           </tr>
+           <tr>
+            <td colspan="1" style="width:15%;"><label for="qty">Qty of P/N:</label></td>
+            <td  style="width:10%;">
+                <div
+                    style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                    {!Text(quoteLine.QliQuantity)}
+                </div>
+            </td>
+        </tr>
+                      
+        </table>
+        <p style="width:43%;text-align:center;font-weight:bold;">Angle**</p>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:50%; text-align: left; vertical-align: top;">    
+                    <img width="70%" src="{!$Resource.cf_ipc139_Capture}" alt="Horizontal L Fabrication" />
+                </td>
+                <td style="width:50%; text-align: left;">
+                    <p><b>
+                        Notes:* Wing Width can only be trimmed on 90° 
+                        angles without tape. Use heavy duty adhesive to
+                        apply. Custom bending frequently causes
+                        product to bow. Heavy duty adhesive is
+                        necessary for proper installation of custom 
+                        angles.  
+                    </b></p> 
+                    <p>
+                        <b>
+                            **Custom Angle Bends
+                            90° product = 45° min; 100° max
+                            135° product = 101° min; 155° max
+                                                    </b>
+                                                </p>
+                                                
+                                                <p>
+                                                    <b>
+                                                        Fabrication bending tolerance is +/- 3°.
+                            Indicate whole degrees only. For angles 
+                            measured in half degrees, round down to the 
+                            whole degree.
+                                                    </b>
+                                                </p>
+                                                
+                                                <p>
+                                                    <b>
+                                                        Dimensions "A" and "B" +/- .060'' (+/-1.524mm)
+                                                        Dimension "C" +.060''/-0 (+1.524mm/-0)
+                                                    </b>
+                                                </p>
+                                                
+                                                <p>
+                                                    <b>
+                                                        All measurements to be measured as an Inside 
+                            Dimension.
+                        </b>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Bottom Footer -->
+    <div style="page-break-after: auto;">
+        <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+            <tr>
+                <td style="border: 1px solid black; padding:6px;">
+                   <b> FOR INPRO USE ONLY</b>
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    {!customForm.quoteRecord.Inside_Rep__c}
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    Customer Order #:
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; padding:6px;">
+                Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    Inpro Drawing: N/A
+                </td>
+                <td style="border: 1px solid black;padding:6px;">
+                    Inpro #:
+                </td>
+            </tr>            
+        </table>
+
+        <table style="width:100%; padding:2px;">
+            <tr>
+                <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                <td style="width:15%" >PC.139/Rev.9</td>
+            </tr>
+        </table>
+    </div>
+    </body>
+
+</apex:repeat>
+</apex:form>
+</apex:outputText>
+
+<apex:outputText rendered="{!BlankForm == true}">
+
+<apex:form >
+    <title>IPC139</title>
+    <head>
+        <style type="text/css">
+            @page {
+                size: 8.5in 11in portrait;
+                margin-top: 0in;
+                margin-bottom: 0.2in;
+                margin-left: 0.4in;
+                margin-right: 0.3in;
+            }
+        </style>
+    </head>
+
+    <body style="font-family: sans-serif; font-size: 10pt;">
+        <!--Header-->
+        <div>
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                    </td>
+                    <td style="text-align: right;">
+                        Custom Product Order Form
+                        <div style="text-align: right; font-weight:bold;">
+                         Corner Guard - Modification <br />
+                         With and Without Tape</div>
+                    </td>
+                </tr>
+            </table>
+            <hr style="border-width:1px;" />
+            <p style="padding-left: 6pt;;text-align: left;">
+                Please complete the following information based on field verified dimensions.
+                Use one order form per size.Orders for custom products cannot be cancelled or returned.Please sign and return to proceed with your order.
+                 <br /> Fax to  at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+            </p>
+        </div>
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+            <tr>
+                <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                <td style="width: 20%; border: 1px solid black;"></td>
+                <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                <td style="width: 35%; border: 1px solid black;">
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                <td style="width: 20%; border: 1px solid black;">
+                   
+                </td>
+                <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                <td style="width: 35%; border: 1px solid black;">
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                <td style="width: 20%; border: 1px solid black;">
+                    
+                </td>
+                <td style="width: 20%; border: 1px solid black;">Account #</td>
+                <td style="width: 35%; border: 1px solid black;">
+                    
+                </td>
+            </tr>
+        </table>
+
+        <!--Material and Color Table-->
+        <table style="width:100%; padding-left:9px; padding-top:6px;">
+            <tr>
+                <td><label for="qty">Std. Corner Guard P/N:</label></td>
+                <td style="width:20%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                        
+                    </div>
+                </td>
+                <td><label for="qty">Color Name:</label></td>
+                <td style="width:20%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                       
+                    </div>
+                </td>
+                <td><label for="qty">Color #:</label></td>
+                <td style="width:20%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                        
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!--Dimension Table-->
+        <table style="width:100%; padding-left:9px; padding-top:10px; padding-bottom:20px; border-spacing: 0 10px">
+          <tr>
+               <td><label for="qty">Dimension A*</label></td>
+               <td style="width:20%;">
+                   <div
+                       style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                       
+                    </div>
+               </td>
+               <td><label for="qty" style="font-size:10px;">
+                <apex:outputText rendered="{!isMetric == false}">
+                    Min. 3/8'' 
+                </apex:outputText>
+                <apex:outputText rendered="{!isMetric == true}">
+                    Min. .9525cm
+                </apex:outputText>
+               
+                
+                (If Wing Width Is Trimmed From Std.)</label></td>
+               <td rowspan="2" style="width:20%;">
+                       <div
+                       style="text-align:center; display: inline-block;margin-top:-32px; width: 85%;  border: none; outline: none; font-size: 65px;">
+                       &#125;</div>
+               </td>
+               <td rowspan="2"><label for="qty" style="font-size:10px;">Only one wing can be 3/8" - other wing must be 1" or greater.</label></td>
+          </tr>
+
+           <tr>
+               <td><label for="qty">Dimension B*</label></td>
+               <td style="width:20%;">
+                   <div
+                       style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                      
+                    </div>
+               </td>
+               <td><label for="qty" style="font-size:10px;">
+                <apex:outputText rendered="{!isMetric == false}">
+                    Min. 3/8'' 
+                </apex:outputText>
+                <apex:outputText rendered="{!isMetric == true}">
+                    Min. .9525cm
+                </apex:outputText>
+                
+                (If Wing Width Is Trimmed From Std.)</label></td>
+           </tr>
+         
+           <tr>
+            <td style="width:15%;"><label for="qty">Dimension C:</label></td>
+            <td style="width:10%;">
+                <div
+                    style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                </div>
+            </td>
+            <td style="width:30%;padding-left:40px">
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tape:
+            </td>
+           
+            <td colspan="2" style="width:25%;padding-left:-20px">
+                 <table>
+                      <tr>
+                          <td>
+                              <div
+                                  style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block;padding-right:10px; float: right;"> &nbsp; No</div>
+                          </td>
+                          <td>
+                              <div
+                                  style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block; float: right;padding-left:10px;"> Yes*</div>
+                          </td>
+                      </tr>
+                  </table>
+            </td>
+            <td style="width:40%;">
+            </td>
+            
+        </tr>
+
+           <tr>
+               <td colspan="1" style="width:15%;"><label for="qty">Custom Angle Bend**:</label></td>
+               <td  style="width:10%;">
+                   <div
+                       style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                       
+                   </div>
+               </td>
+           </tr>
+           <tr>
+            <td colspan="1" style="width:15%;"><label for="qty">Qty of P/N:</label></td>
+            <td  style="width:10%;">
+                <div
+                    style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #999; outline: none;">
+                   
+                </div>
+            </td>
+        </tr>
+                      
+        </table>
+        <p style="width:43%;text-align:center;font-weight:bold;">Angle**</p>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:50%; text-align: left; vertical-align: top;">    
+                    <img width="70%" src="{!$Resource.cf_ipc139_Capture}" alt="Horizontal L Fabrication" />
+                </td>
+                <td style="width:50%; text-align: left;">
+                    <p><b>
+                        Notes:* Wing Width can only be trimmed on 90° 
+                        angles without tape. Use heavy duty adhesive to
+                        apply. Custom bending frequently causes
+                        product to bow. Heavy duty adhesive is
+                        necessary for proper installation of custom 
+                        angles.  
+                    </b></p> 
+                    <p>
+                        <b>
+                            **Custom Angle Bends
+                            90° product = 45° min; 100° max
+                            135° product = 101° min; 155° max
+                                                    </b>
+                                                </p>
+                                                
+                                                <p>
+                                                    <b>
+                                                        Fabrication bending tolerance is +/- 3°.
+                            Indicate whole degrees only. For angles 
+                            measured in half degrees, round down to the 
+                            whole degree.
+                                                    </b>
+                                                </p>
+                                                
+                                                <p>
+                                                    <b>
+                                                        Dimensions "A" and "B" +/- .060'' (+/-1.524mm)
+                                                        Dimension "C" +.060''/-0 (+1.524mm/-0)
+                                                    </b>
+                                                </p>
+                                                
+                                                <p>
+                                                    <b>
+                                                        All measurements to be measured as an Inside 
+                            Dimension.
+                        </b>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Bottom Footer -->
+    <div style="page-break-after: auto;">
+        <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+            <tr>
+                <td style="border: 1px solid black; padding:6px;">
+                   <b> FOR INPRO USE ONLY</b>
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    Customer Order #:
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; padding:6px;">
+                Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    Inpro Drawing: N/A
+                </td>
+                <td style="border: 1px solid black;padding:6px;">
+                    Inpro #:
+                </td>
+            </tr>            
+        </table>
+
+        <table style="width:100%; padding:2px;">
+            <tr>
+                <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                <td style="width:15%" >PC.139/Rev.9</td>
+            </tr>
+        </table>
+    </div>
+    </body>
+
+
+</apex:form>
+</apex:outputText>
+
+</apex:page>

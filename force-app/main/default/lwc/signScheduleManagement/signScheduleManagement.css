@@ -1,0 +1,27 @@
+.qcHolder {
+    min-height: 500px;
+    min-width: 500px;
+    overflow: scroll;
+}
+
+
+
+.pointer {
+    cursor: pointer;
+}
+
+.resizable {
+    resize: horizontal !important;
+}
+
+.green {
+    background-color: lightgreen !important;    
+}
+
+.red {
+    background-color: red !important;
+}
+
+.yellow {
+    background-color: yellow !important;
+}

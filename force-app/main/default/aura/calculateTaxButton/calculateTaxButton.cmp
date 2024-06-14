@@ -1,0 +1,3 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <c:calculateTax recordId="{!v.recordId}" onclose="{!c.closeQA}"></c:calculateTax>
+</aura:component>

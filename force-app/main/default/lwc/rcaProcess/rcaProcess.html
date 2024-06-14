@@ -1,0 +1,28 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Process RCA</strong>
+        </h3> 
+        <h3 if:true={over70DaysOld} style="color: red;"><strong>The original ship date for the order is over 70 days ago.</strong></h3>
+        <h3 if:true={noChargeOver99} style="color: red;"><strong>This No Charge request is over $99.</strong></h3>
+        <h3 if:true={over2500} style="color: red;"><strong>This RCA request is over $2499. Please add notes for the senior manager approver.</strong></h3>  
+        <lightning-textarea name="ta_Notes" label="Please enter your approval/rejection notes below." onchange={handleNotesOnChange}></lightning-textarea>
+        <h1 style="padding: 10px;">Choose from the action list below.</h1>
+        <lightning-button variant="brand-outline" title="Approve RCA" class="slds-m-left_x-small"
+            onclick={handleApproveRCAClick}  label="Approve RCA">
+        </lightning-button>
+        <lightning-button variant="brand-outline" title="Reject RCA" class="slds-m-left_x-small"
+            onclick={handleRejectRCAClick}  label="Reject RCA">
+        </lightning-button>
+        <lightning-button variant="brand-outline" title="Send to NetSuite" class="slds-m-left_x-small"
+            onclick={handleSendRCAToNetSuiteClick}  label="Send to NetSuite">
+        </lightning-button>
+        <lightning-button style="float: left;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+    </template>
+</template>

@@ -1,0 +1,15 @@
+<template>
+    <lightning-card>
+    <div style="padding:2px;">
+        <strong>EDI PO Details:</strong>
+        <ul>
+            <template for:each={POList} for:item="po">
+                <li key={po}>                    
+                    <lightning-formatted-rich-text value={po}>
+                    </lightning-formatted-rich-text>     
+                </li>
+            </template>
+        </ul>
+    </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,240 @@
+<template>
+    <template if:true={loaded}>
+        <div if:false={showError}>
+            <div if:false={uploaded}>
+                <h3 slot="title">
+                    <lightning-icon style="padding:5px;" icon-name="utility:save" alternative-text="Save" size="medium" title="Save"
+                        onclick={saveEstimate} class="pointer"></lightning-icon>
+                    &nbsp;<strong>Estimating Upload - Upload XLS files to CRM Estimates</strong>
+                </h3>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div if:false={fileUploaded}>
+                                    <h1><strong>Select a file to upload</strong></h1>
+                                    <!-- <input  onchange={fileUploaded} type="file" accept=".xls,.xlsx"></input> -->
+                                    <lightning-file-upload label="Attach Estimate" name="fileUploader"
+                                        accept={acceptedFormats} record-id={recordId}
+                                        onuploadfinished={handleUploadFinished}>
+                                    </lightning-file-upload>
+                                </div>
+                                <div if:true={fileUploaded}>
+                                    <p>{FileName}</p>
+                                </div>
+                                <lightning-input if:true={isDoorAndWall} type="checkbox" label="Deduct?" onchange={handleDeductChecked}
+                                    value="Deduct?">
+                                </lightning-input>
+                                <lightning-input if:false={isDoorAndWall} type="checkbox" label="New Alternate" onchange={handleNewAlternateChecked}
+                                    value="New Alternate">
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr if:true={isDoorAndWall}>
+                            <td>
+                                <h1><strong>Maintenance Stock</strong></h1>
+                                <lightning-input type="checkbox" label="Add Maintenance Stock"
+                                    onchange={handleMaintenanceStockChecked} value="MaintenanceStock"></lightning-input>
+                                <lightning-input label="Percent" id="mainStock" title="MaintenanceStock"
+                                    name="MaintenanceStock" onchange={handleFormInputChange} type="text">
+                                </lightning-input>
+                            </td>
+                        </tr>
+                        <tr if:true={isDoorAndWall}>
+                            <td>
+                                <h1><strong>Alternate Options</strong></h1>
+                                <div>
+                                    <input type="radio" id="newAlternate" onclick={handleAltOptionSelected}
+                                        value="Create a new Alternate (enter name below)" name='altOption'>
+                                    <label for="newAlternate">&nbsp;Create a new Alternate (enter name below)</label>
+                                </div>
+                                <lightning-input label="Alternate Name" id="altName" title="AlternateName"
+                                    name="AlternateName" onchange={handleFormInputChange} type="text"></lightning-input>
+                                <div>
+                                    <input type="radio" id="appendExisting" onclick={handleAltOptionSelected}
+                                        value="Append to an existing Alternate (select from grid below)"
+                                        name='altOption'>
+                                    <label for="appendExisting">&nbsp;Append to an existing Alternate (select from grid
+                                        below)</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="replaceExisting" onclick={handleAltOptionSelected}
+                                        name='altOption' value="Replace an existing Alternate (select from grid below)">
+                                    <label for="replaceExisting">&nbsp;Replace an existing Alternate (select from grid
+                                        below)</label>
+                                </div>
+                                <!-- Define table structure -->
+                                <table
+                                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="" scope="col">
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="AltNumber">Alt #</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="AlternateName">Alternate Name</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Loop through alternates -->
+                                    <template for:each={alternateList} for:item="alternate">
+                                        <tbody key={alternate.AlternateId}>
+                                            <tr>
+                                                <td>
+                                                    <input class="slds-p-left_xx-large" type="radio"
+                                                        onchange={handleGroupCheckBoxOnChange}
+                                                        checked={alternate.Selected} accesskey={alternate.AlternateId}
+                                                        name="altSelection">
+                                                </td>
+                                                <td>{alternate.Number}</td>
+                                                <td>{alternate.Name}</td>
+                                            </tr>
+                                        </tbody>
+                                    </template>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div if:true={uploaded}>
+                <h3 slot="title">
+                    <lightning-icon icon-name="action:approval" alternative-text="Save" size="small" title="Save"
+                        onclick={createAsyncTask} class="pointer"></lightning-icon>
+                    &nbsp;Upload Results
+                </h3>
+                <div if:true={isDoorAndWall}>
+                    <div if:true={missingInExperlogix} style="color: red; padding:2px;">
+                        Warning: There are items that were imported that do not exist in Experlogix.
+                    </div>                  
+                    <div if:true={obsoleteProducts} style="color: red; padding:2px;">
+                        Warning: There are items that were imported that are obsolete.
+                    </div>
+                    <div if:true={mismatchedColorProducts} style="color: red; padding:2px;">
+                        Warning: There are items with mismatched colors.
+                    </div>
+                    <div if:true={colorMissingProducts} style="color: red; padding:2px;">
+                        Warning: There are items with missing colors.
+                    </div>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Item #">Item #</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Valid Experlogix">Valid Experlogix</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Obsolete">Obsolete</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Qty">Qty</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Color">Color</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Deduct">Deduct</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Notes">Notes</div>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <!-- Loop through alternates -->
+                        <template for:each={productList} for:item="product">
+                            <tbody key={product.ID}>
+                                <tr class={product.Background}>
+                                    <td>{product.ItemNumber}</td>
+                                    <td class={product.BackgroundExperlogix}>{product.ValidExperlogix}</td>
+                                    <td class={product.BackgroundObsolete}>{product.Obsolete}</td>
+                                    <td>{product.Quantity}</td>
+                                    <td class={product.BackgroundColorValid}>{product.Color}</td>
+                                    <td>{product.Deduct}</td>
+                                    <td>{product.Notes}</td>
+                                </tr>
+                            </tbody>
+                        </template>
+                    </table>                   
+                    <div>
+                        <div style="float:left;">
+                            <strong>Color Legend:</strong>
+                            &nbsp;</div>
+                        <!-- <div class='box tan'>&nbsp;<strong>- Color / Code Mismatch </strong>|&nbsp;</div> -->
+                        <div class='box green'>&nbsp;<strong>- Valid Properties </strong>|&nbsp;</div>
+                        <div class='box red'>&nbsp;<strong>- Obsolete, Not in Experlogix, or Color Missing/Mismatched </strong>&nbsp;</div>
+                    </div>
+                </div>
+                <div if:false={isDoorAndWall}>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Alternate Name">Alternate Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Item #">Item #</div>
+                                </th>                                
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Color">Color</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Letter Code">Letter Code</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Description 1">Description 1</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Description 2">Description 2</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Notes">Notes</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Qty">Qty</div>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <!-- Loop through alternates -->
+                        <template for:each={productList} for:item="product">
+                            <tbody key={product.ID}>
+                                <tr class={product.Background}>
+                                    <td>{product.AlternateName}</td>
+                                    <td>{product.ItemNumber}</td>
+                                    <td>{product.Color}</td>
+                                    <td>{product.LetterCode}</td>
+                                    <td>{product.Description1}</td>
+                                    <td>{product.Description2}</td>
+                                    <td>{product.Notes}</td>
+                                    <td>{product.Qty}</td>                                    
+                                </tr>
+                            </tbody>
+                        </template>
+                    </table>                    
+                    <div>
+                        <div style="float:left;">
+                            <strong>Color Legend:</strong>
+                            &nbsp;</div>
+                        <div class='box tan'>&nbsp;<strong>- Not In Experlogix </strong>|&nbsp;</div>
+                        <div class='box green'>&nbsp;<strong>- Valid Experlogix Product </strong>|&nbsp;</div>
+                        <div class='box red'>&nbsp;<strong>- Obsolete Product </strong>&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div if:true={showError}>
+            {errorMessage}
+        </div>
+        <lightning-button style="float: right;padding:10px;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+    </template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+</template>

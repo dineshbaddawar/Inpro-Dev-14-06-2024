@@ -1,0 +1,4 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId">
+  <ltng:require styles="{!$Resource.lunchlearnModalCSS}"/>
+  <c:lunchlearnManageParticipants recordId="{!v.recordId}" /> 
+</aura:component>

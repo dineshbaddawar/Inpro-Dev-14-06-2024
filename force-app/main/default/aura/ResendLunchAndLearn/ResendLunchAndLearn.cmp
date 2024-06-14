@@ -1,0 +1,117 @@
+<aura:component controller="ResendLunchAndLearnContact" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global" >
+	    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="lncLrnEvent" type="LunchAndLearnEvent__c" 
+                    default="{ 'sObjectType' : 'LunchAndLearnEvent__c'}"/>
+    <aura:attribute name="attendees" type="List" default="[]" />
+    <aura:attribute name="loading" type="Boolean" default="false" />
+    <aura:attribute name="userTheme" type="String" default=""/>
+    <aura:attribute name="classicMessage" type="String" default="" />
+    
+    <article class="slds-card slds-grid slds-wrap slds-col slds-size_1-of-1 slds-align_absolute-center">
+        <div aura:id="spinnerDiv">
+            <aura:if isTrue="{!v.loading}">
+                <lightning:spinner variant="brand" size="large" alternativeText="Loading Lead..."/>
+            </aura:if>
+        </div>
+        <aura:if isTrue="{!not(empty(v.classicMessage))}">
+            <aura:if isTrue="{!v.classicMessage=='Certificates confirmed and emails resent successfully.'}">
+                <div class="slds-col slds-size_1-of-1 slds-notify slds-notify_toast slds-theme_success">
+                    <lightning:icon iconName="utility:check" class="success" alternativeText="Success!" />
+                    <h2 class="slds-text-heading_small">{!v.classicMessage}</h2>
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-col slds-size_1-of-1 slds-notify slds-notify_toast slds-theme_error">
+                        <lightning:icon iconName="utility:error" class="error" alternativeText="Error!" variant="error"/>
+                        <h2 class="slds-text-heading_small">{!v.classicMessage}</h2>
+                    </div>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+        <div class="slds-card__header slds-col slds-size_1-of-1 slds-grid slds-wrap headerBorder">
+            <div class="slds-col slds-size_1-of-1 slds-text-heading_medium" style="padding-bottom: 1%">Lunch and Learn - Check Certificates and Resend Email</div>
+        	<div class="slds-col slds-size_1-of-1 slds-text-heading_small" style="padding-bottom: 1%">{!v.lncLrnEvent.Course_Name__r.Name} - {!v.lncLrnEvent.Start_Formatted__c}</div>
+        </div>
+        <div class="slds-card__body slds-card__body_inner slds-col slds-size_1-of-1 slds-grid slds-wrap">                
+            <div class="slds-col slds-size_1-of-1">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                	<thead>
+                    	<tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <!--<div class="slds-truncate" title="Resend?">Resend?</div>-->
+                                <ui:inputCheckbox aura:id="selectAllCheckbox"
+                                                  label="" 
+                                                  change="{!c.onselectAll}"/>
+                            </th>
+                        	<th scope="col">
+                            	<div class="slds-truncate" title="First Name">First Name</div>
+                            </th>
+                            <th scope="col">
+                            	<div class="slds-truncate" title="Last Name">Last Name</div>
+                            </th>
+                            <th scope="col">
+                            	<div class="slds-truncate" title="AIA#">AIA#</div>
+                            </th>
+                            <th scope="col">
+                            	<div class="slds-truncate" title="GBCI#">GBCI#</div>
+                            </th>
+                            <th scope="col">
+                            	<div class="slds-truncate" title="IDCEC#">IDCEC#</div>
+                            </th>
+                            <th scope="col">
+                            	<div class="slds-truncate" title="Email">Email</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration  items="{!v.attendees}" var="attendee">
+                            <tr>
+                            	<td data-label="{!attendee.camMemId+'Resend'}">
+                                	<ui:inputCheckbox aura:id="{!attendee.camMemId}"
+                                                      label="" value="{!attendee.resend}"
+                                                      disabled="{!attendee.email == null}"/>
+                                </td>
+                                <td data-label="{!attendee.firstName}">
+                                    <ui:outputText aura:id="{!attendee.camMemId+'FirstName'}"
+                                                   value="{!attendee.firstName}" />
+                                </td>
+                                <td data-label="{!attendee.lastName}">
+                                    <ui:outputText aura:id="{!attendee.camMemId+'LastName'}"
+                                                   value="{!attendee.lastName}" />
+                                </td>
+                                <td data-label="{!attendee.AIA}">
+                                    <ui:outputText aura:id="{!attendee.camMemId+'AIA'}"
+                                                   value="{!attendee.AIA}" />
+                                </td>
+                                <td data-label="{!attendee.GBCI}">
+                                    <ui:outputText aura:id="{!attendee.camMemId+'GBCI'}"
+                                                   value="{!attendee.GBCI}" />
+                                </td>
+                                <td data-label="{!attendee.IDCEC}">
+                                    <ui:outputText aura:id="{!attendee.camMemId+'IDCEC'}"
+                                                   value="{!attendee.IDCEC}" />
+                                </td>
+                            	<td data-label="{!attendee.email}">
+                                    <ui:outputText aura:id="{!attendee.camMemId+'Email'}"
+                                                   value="{!attendee.email}"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <footer class="slds-card__footer slds-col slds-size_1-of-1 slds-grid slds-wrap footerShade">
+            <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                <lightning:button label="Cancel" title="Cancel"
+                    iconName="action:back" onclick="{! c.cancelResend }"/>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                <lightning:button variant="brand" label="Resend" title="Resend" 
+                    iconName="action:email" onclick="{! c.completeResend }" />
+            </div>
+        </footer>
+    </article>
+    
+</aura:component>

@@ -1,0 +1,19 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <!--  this tag sets modal width -->
+    <aura:html tag="style">        
+        .cuf-content{
+            padding:0 !important;
+        }
+        .slds-p-around--medium{
+            padding:0 !important;
+        }
+        .slds-modal__container{
+            min-width: 80%;
+        }
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>  
+    <c:newSampleItem recordId="{!v.recordId}" onclose="{!c.closeQA}"></c:newSampleItem>
+</aura:component>

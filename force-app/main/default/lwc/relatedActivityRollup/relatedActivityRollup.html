@@ -1,0 +1,108 @@
+<template>
+    <div class="slds-page-header slds-page-header_record-home">
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+        <template if:true={loaded}>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-col-space slds-size_8-of-12">
+                    <lightning-layout>
+                        <lightning-layout-item>
+                            <div class="slds-page-header slds-page-header_record-home">
+                                <div class="slds-page-header__row">
+                                    <div class="slds-page-header__col-title" style="padding-bottom:10px;">
+                                        <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                                            <div class="slds-media__figure">
+                                                <lightning-icon icon-name="standard:quotes" size="small"></lightning-icon>
+                                            </div>
+                                            <div class="slds-media__body">
+    
+                                                <h2 class="slds-card__header-title">
+                                                    <a href="#" class="slds-card__header-link slds-truncate"
+                                                        title="Accounts">
+                                                        <span>Activities (Rollup) ({RecordCount})</span>
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item>
+                            <lightning-input style="width: 200px;" label="Search (Subject/Description)"
+                                id="searchActivities" title="Search" name="Search" onchange={handleSearch}
+                                value={searchValue} type="text">
+                            </lightning-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-col slds-col-space slds-size_1-of-12">
+                    <p style="margin-left:15px;margin-top:7px;"><b>Page:</b> {searchPage}</p>
+                </div>
+                <div class="slds-col slds-col-space slds-size_3-of-12" style="display:flex;">
+                    <lightning-button-icon icon-name="utility:back" onclick={handlePageChange} name="Back" alternative-text="Back" title="Back">
+
+                    </lightning-button-icon>
+                    <lightning-combobox
+                        name="searchPage"
+                        value={searchPage}
+                        options={pageLibrary}
+                        onchange={handlePageChange}
+                        placeholder={searchPage}
+                        style="margin-top:-17px;width:100px;">
+                    </lightning-combobox>
+                    <lightning-button-icon icon-name="utility:forward" onclick={handlePageChange} name="Next" alternative-text="Next" title="Next">
+                        
+                    </lightning-button-icon>
+                </div>
+            </div>
+            <div if:true={showGrid}>
+                <lightning-layout>
+                    <lightning-layout-item size="12">
+                        <template if:true={tableReady}>
+                            <lightning-datatable column-widths-mode="auto" key-field="RecordId" data={activities}
+                                columns={columns} hide-checkbox-column="true" sorted-by={sortedBy}
+                                sorted-direction={sortDirection} onsort={onHandleSort} onrowaction={handleRowAction}>
+                            </lightning-datatable>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <!-- </div>
+                </div> -->
+            </div>
+            <div if:false={showGrid}>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-button label="Back" onclick={handleCloseGrid}></lightning-button>
+                    </div>
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-formatted-rich-text value={Description}></lightning-formatted-rich-text>
+                    </div>
+                    <template if:true={containsAttachments}>
+                        <div class="slds-col slds-col-space slds-size_12-of-12" style="border-top:2px solid black;padding-top:10px;">
+                            <h2 style="font-size:18px;">Attachments:</h2>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_12-of-12" style="margin-top:15px;margin-bottom:15px;">
+                            <template for:each={activityAttachments} for:item="activity">
+                                <div key={activity.AttachmentId}>
+                                    <lightning-button label={activity.FileName} accesskey={activity.AttachmentId} onclick={downloadAttachment}></lightning-button>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <lightning-button label="Back" onclick={handleCloseGrid}></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+    <!-- <div class="slds-grid slds-grid_align-center">
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-button variant="base"
+                        title="View All" class="slds-m-left_x-small slds-align_absolute-center" onclick={handleOpen} label="View All">
+                    </lightning-button>
+                </div>
+            </div>         -->
+</template>

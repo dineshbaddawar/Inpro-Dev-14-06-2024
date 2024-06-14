@@ -1,0 +1,93 @@
+<template>
+    <article class="slds-card slds-card_boundary slds-page-header">
+        <lightning-card title={title} icon-name="doctype:folder">
+            <template if:false={loaded}>
+                <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+            </template>
+            
+            <template if:true={loaded}>
+              <c-table key-field="Id" records={data} columns={columns} page-size="10" max-page-size="50" 
+                       display-row-select="true" select-multiple="true" select-text="Delete Selected" select-function={handleDeleteMultiple}
+                       enable-upload="true" upload-function={handleUploadFinished}></c-table>
+            </template>
+        </lightning-card>
+    </article>
+    
+    <template if:false={loaded2}>
+        <p>{stepMessage}</p>
+        <lightning-progress-bar value={currentStep} size="large"></lightning-progress-bar>
+    </template>
+    <template if:true={loaded2}>
+        <template if:true={hasLegacyFiles}>
+            <article class="slds-card slds-card_boundary slds-page-header">
+                <lightning-card title={legacyTitle} icon-name="doctype:folder">
+                    <c-table key-field="Id" records={legacyData} columns={columns} page-size="10" max-page-size="50" display-row-select="true"></c-table>
+                </lightning-card>
+            </article>
+        </template>
+        <template if:false={hasLegacyFiles}>
+
+        </template>
+    </template>
+    <template if:true={isDeleteActive}>
+      <div class="slds-container_small">
+          <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-06" aria-modal="true" aria-describedby="modal-content-id-6" class="slds-modal slds-fade-in-open">
+              <div class="slds-modal__container" style="max-width:75rem !important;" >
+                  <header class="slds-modal__header">
+                      <h2 id="modal-heading-06" class="slds-text-heading_medium slds-hyphenate">Delete {currentFileName}</h2>
+                  </header>
+                  <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+                      <template if:false={loaded}>
+                          <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                      </template>
+                      <div class="slds-grid slds-wrap">
+                          <div class="slds-col slds-col-space-thin slds-size_12-of-12">
+                                <template if:true={isDeleteMultiple}>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_12-of-12">
+                                            Are you sure you want to delete the following files?
+                                        </div>
+                                        <div class="slds-col slds-size_12-of-12">
+                                            <lightning-datatable key-field="RecordId"
+                                                            data={selectedData}
+                                                            columns={columns}
+                                                            hide-checkbox-column="true">
+                                            </lightning-datatable>
+                                        </div>
+                                        <template for:each={data} for:item="file">
+                                            <template if:true={file.Selected}>
+                                                <div key={file.Id} class="slds-col slds-size_12-of-12">
+                                                    {file.Id}
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={isDeleteMultiple}>
+                                    <h1><b>Are you sure you want to delete {currentFileName}?</b></h1>
+                                </template>
+                              
+                          </div>
+                      </div>
+                  </div>
+                  <footer class="slds-modal__footer">
+                      <lightning-button variant="brand-outline" title="Close" 
+                          class="slds-m-left_x-small" onclick={handleDeleteClose} label="Cancel" icon-name="utility:back" icon-position="left">
+                      </lightning-button>
+                      <template if:true={isDeleteMultiple}>
+                        <lightning-button variant="brand" title="Delete Selected" 
+                            class="slds-m-left_x-small" onclick={handleDeleteMultipleConfirm} label="Delete Selected">
+                        </lightning-button>
+                      </template>
+                      <template if:false={isDeleteMultiple}>
+                        <lightning-button variant="brand" title="Delete" 
+                              class="slds-m-left_x-small" onclick={handleDelete} label="Delete">
+                          </lightning-button>
+                      </template>
+                  </footer>
+              </div>
+          </section>
+          <div class="slds-backdrop slds-backdrop_open"></div>
+      </div>
+  </template>
+</template>

@@ -1,0 +1,32 @@
+.openInternalBtn{
+    padding:8px 3px 11px 3px;
+    display:inline;
+}
+
+.openInternalBtn button{
+    width:32px;
+    height:32px;
+    background-color:rgba(255,183,93,1) !important;
+    border-color:rgb(185, 132, 67) !important;
+}
+
+.deleteBtn{
+    padding:8px 3px 11px 3px;
+    display:inline;
+}
+
+.deleteBtn button{
+    width:32px;
+    height:32px;
+    color:white !important;
+    background-color:rgba(194,57,52,1) !important;
+    border-color:rgb(134, 39, 36) !important;
+}
+
+.lightningBtn{
+    padding:8px 3px 11px 3px;
+}
+
+:host {
+    --sds-c-card-color-background: rgb(243,243,243);
+}

@@ -1,0 +1,893 @@
+<apex:page renderAs="PDF" standardController="Quote" extensions="IPC078Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+  <apex:outputText rendered="{!BlankForm == false}">
+<html>
+    <head>
+      <style> 
+        @page {
+          margin-top: 2.2cm;
+          margin-bottom: 2.2cm;
+          margin-left: 0.5cm;
+          margin-right: 0.5cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+          border: 1px solid black;
+        }
+
+        table.no-border {
+          border: none;
+        }
+
+        table.no-border th, table.no-border td {
+          border: none;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <table class="no-border" style="width:100%">
+          <tr>
+            <td>
+              <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+            </td>
+            <td style="text-align: right;">
+              Custom Product Order Form
+              <div style="text-align: right; font-weight:bold;">
+                Profile Custom Cuts* Order Form
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <table class="no-border" style="width:100%; padding:2px;">
+          <tr>
+            <td style="width:15%">
+              <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+            </td>
+            <td style="width:70%">
+              Sales 800.222.5556 / Fax: 888.715.8407
+            </td>
+            <td style="width:15%">
+              IPC.078/Rev.10
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <apex:form style="font-family: sans-serif; font-size: 9pt;">
+        <hr/>
+        <p style="padding-left: 8pt; text-align: left;">
+          Please complete the following information based on field verified dimensions.
+          Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+        </p>
+        
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+          <tr>
+            <td style="width: 25%; padding: 8px;">Authorized Signature/Date</td>
+            <td style="width: 20%; padding: 8px;"></td>
+            <td style="width: 20%; padding: 8px;">Inpro Quote #</td>
+            <td style="width: 35%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; padding: 8px;">Print Name/Title</td>
+            <td style="width: 20%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+            </td>
+            <td style="width: 20%; padding: 8px;">Project Name</td>
+            <td style="width: 35%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; padding: 8px;">Company Name</td>
+            <td style="width: 20%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+            </td>
+            <td style="width: 20%; padding: 8px;">Account #</td>
+            <td style="width: 35%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+            </td>
+          </tr>
+        </table>
+        
+        <h3>PROFILE CUSTOM CUTS</h3><br/>
+        
+        <!-- Custom Cuts Table -->
+        <table style="width:100%;">
+          <tr>
+            <th rowspan="2" style="width: 12%; text-align: center;">Inpro Use Only<br/>Order Qty<br/>(# of full Lengths<br/>to be cut)</th>
+            <th rowspan="2" style="width: 6%; text-align: center;">Cut<br/>in half?**</th>
+            <th rowspan="2" style="width: 14%; text-align: center;">Part Number<br/>(list each separately below:<br/>Vinyl.Aluminum,Bumper)</th>
+            <th rowspan="2" style="width: 8%; text-align: center;">Color Name</th>
+            <th rowspan="2" style="width: 8%; text-align: center;">Color#</th>
+            <th colspan="6" style="width: 36%; text-align: center;">Cut Information***</th>
+            <th rowspan="2" style="width: 8%; text-align: center;">Send Drops?</th>
+          </tr>
+          <tr>
+            <th style="width: 6%; text-align: center;">Size</th>
+            <th style="width: 6%; text-align: center;">Total Qty to Ship</th>
+            <th style="width: 6%; text-align: center;">Size</th>
+            <th style="width: 6%; text-align: center;">Total Qty to Ship</th>
+            <th style="width: 6%; text-align: center;">Size</th>
+            <th style="width: 6%; text-align: center;">Total Qty to Ship</th>
+          </tr>
+          <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+            <tr>
+              <td style="text-align: center;">{!quoteLine.Quantity}</td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">{!quoteLine.ItemNumber}</td>
+              <td style="text-align: center;">{!quoteLine.colorName}</td>
+              <td style="text-align: center;">{!quoteLine.colorNumber}</td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+          </apex:repeat>
+        </table>
+        
+        <br/>
+        <p>
+          *This form is <u>not</u>  for Sheet, Custom Angles, Trimming Wing Widths, or Bed Locators.<br/>
+          **If yes, Cut Information and Send Drop fields are not applicable. Cut pieces will be approximately half; tolerances do not apply.<br/>
+          ***When needing exact cut dimensions, Inpro to use “Precut Vinyl Aluminum Workbook” for individual size of cover, retainer and bumper less end
+          caps, returns, and/or inside/outside corners.
+        </p>
+        
+        <br />
+        
+        <div style="page-break-after: auto;">
+          <table style="padding-top:35px; border-collapse: collapse; width:100%; border:solid black;">
+            <tr>
+              <td style="padding:6px;">
+                <b>FOR INPRO USE ONLY</b>
+              </td>
+              <td style="padding:6px;">
+                {!customForm.quoteRecord.Inside_Rep__c}
+              </td>
+              <td style="padding:6px;">
+                Customer Order #: 
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:6px;">
+                Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of        
+              </td>
+              <td style="padding:6px;">
+                Inpro Drawing: N/A
+              </td>
+              <td style="padding:6px;">
+                Inpro #:
+              </td>
+            </tr>
+          </table>
+        </div>
+      </apex:form>
+    </body>
+  </html>
+  </apex:outputText>
+
+
+
+
+  <apex:outputText rendered="{!BlankForm == true}">
+
+  <html>
+    <head>
+      <style>
+        @page {
+          margin-top: 2.2cm;
+          margin-bottom: 2.2cm;
+          margin-left: 0.5cm;
+          margin-right: 0.5cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+          border: 1px solid black;
+        }
+
+        table.no-border {
+          border: none;
+        }
+
+        table.no-border th, table.no-border td {
+          border: none;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <table class="no-border" style="width:100%">
+          <tr>
+            <td>
+              <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+            </td>
+            <td style="text-align: right;">
+              Custom Product Order Form
+              <div style="text-align: right; font-weight:bold;">
+                Profile Custom Cuts* Order Form
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <table class="no-border" style="width:100%; padding:2px;">
+          <tr>
+            <td style="width:15%">
+              <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+            </td>
+            <td style="width:70%">
+              Sales 800.222.5556 / Fax: 888.715.8407
+            </td>
+            <td style="width:15%">
+              IPC.078/Rev.10
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <apex:form style="font-family: sans-serif; font-size: 10pt;">
+        <hr/>
+        <p style="padding-left: 8pt; text-align: left;">
+          Please complete the following information based on field verified dimensions.
+          Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+        </p>
+        
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+          <tr>
+            <td style="width: 25%; padding: 8px;">Authorized Signature/Date</td>
+            <td style="width: 20%; padding: 8px;"></td>
+            <td style="width: 20%; padding: 8px;">Inpro Quote #</td>
+            <td style="width: 35%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; padding: 8px;">Print Name/Title</td>
+            <td style="width: 20%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+            </td>
+            <td style="width: 20%; padding: 8px;">Project Name</td>
+            <td style="width: 35%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%; padding: 8px;">Company Name</td>
+            <td style="width: 20%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+            </td>
+            <td style="width: 20%; padding: 8px;">Account #</td>
+            <td style="width: 35%; padding: 8px;">
+              <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+            </td>
+          </tr>
+        </table>
+        
+        <h3>PROFILE CUSTOM CUTS</h3><br/>
+        
+        <!-- Custom Cuts Table -->
+        <table style="width:100%;">
+          <tr>
+            <th rowspan="2" style="width: 12%; text-align: center;">Inpro Use Only<br/>Order Qty<br/>(# of full Lengths<br/>to be cut)</th>
+            <th rowspan="2" style="width: 6%; text-align: center;">Cut in half?**</th>
+            <th rowspan="2" style="width: 14%; text-align: center;">Part Number<br/>(list each separately below:<br/>Vinyl.Aluminum,Bumper)</th>
+            <th rowspan="2" style="width: 8%; text-align: center;">Color Name</th>
+            <th rowspan="2" style="width: 8%; text-align: center;">Color#</th>
+            <th colspan="6" style="width: 36%; text-align: center;">Cut Information***</th>
+            <th rowspan="2" style="width: 8%; text-align: center;">Send Drops?</th>
+          </tr>
+          <tr>
+            <th style="width: 6%; text-align: center;">Size</th>
+            <th style="width: 6%; text-align: center;">Total Qty to Ship</th>
+            <th style="width: 6%; text-align: center;">Size</th>
+            <th style="width: 6%; text-align: center;">Total Qty to Ship</th>
+            <th style="width: 6%; text-align: center;">Size</th>
+            <th style="width: 6%; text-align: center;">Total Qty to Ship</th>
+          </tr>
+          
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+           
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;"></td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+              <td style="text-align: center;">
+                
+              </td>
+            </tr>
+
+          
+        </table>
+        
+        <br/>
+        <p>
+          *This form is <u> not</u> for Sheet, Custom Angles, Trimming Wing Widths, or Bed Locators.<br/>
+          **If yes, Cut Information and Send Drop fields are not applicable. Cut pieces will be approximately half; tolerances do not apply.<br/>
+          ***When needing exact cut dimensions, Inpro to use “Precut Vinyl Aluminum Workbook” for individual size of cover, retainer and bumper less end
+          caps, returns, and/or inside/outside corners.
+        </p>
+        
+        <br />
+        
+        <div style="page-break-after: auto;">
+          <table style="padding-top:35px; border-collapse: collapse; width:100%; border:solid black;">
+            <tr>
+              <td style="padding:6px;">
+                <b>FOR INPRO USE ONLY</b>
+              </td>
+              <td style="padding:6px;">
+                {!customForm.quoteRecord.Inside_Rep__c}
+              </td>
+              <td style="padding:6px;">
+                Customer Order #: 
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:6px;">
+                Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of        
+              </td>
+              <td style="padding:6px;">
+                Inpro Drawing: N/A
+              </td>
+              <td style="padding:6px;">
+                Inpro #:
+              </td>
+            </tr>
+          </table>
+        </div>
+      </apex:form>
+    </body>
+  </html>
+
+
+  </apex:outputText>
+</apex:page>

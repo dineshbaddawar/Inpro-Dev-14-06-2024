@@ -1,0 +1,327 @@
+<template>
+    <div style="background:white;">
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                New Opportunity
+            </h2>
+        </header>
+        <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+            </template>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-input type="text" name="opportunityName" label="Name" value={opportunityName}
+                        onchange={handleInput}
+                        field-level-help="Opportunity Name will be formatted as 'Division Code - Construction Project' after the record is created."
+                        required="true" style="width:100%;"
+                        data-id="opportunityName">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-helptext content="GC or SC that was the Originator of the Opportunity"
+                        style="position:absolute;margin-left:90px;"></lightning-helptext>
+
+                    <c-lookup name="originalAccount" onsearch={handleAccountSearch}
+                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Account Name"
+                        placeholder="Search Accounts..." onselectionchange={handleLookupSelectionChange}
+                        style="width:100%;" selection={originalAccountSelection} disabled="disabled">
+                    </c-lookup>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="division" label="Division" value={division} placeholder="--None--"
+                        options={divisionList} onchange={handleInput} required="true">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="bidderContact" label="Contact" value={bidderContact}
+                        placeholder="--None--" options={bidderContactList} onchange={handleInput} required="true">
+                    </lightning-combobox>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12">
+                    <template if:true={marketSegmentSubSegmentVisible}>
+                        <template if:true={lockSegments}>
+                            <lightning-combobox
+                                name="marketSegment"
+                                label="Market Segment"
+                                value={marketSegment}
+                                placeholder="--None--"
+                                options={marketSegmentList}
+                                onchange={handleInput}
+                                disabled="disabled"
+                                required="true">
+                            </lightning-combobox>
+                        </template>
+                        <template if:false={lockSegments}>
+                            <lightning-combobox
+                                name="marketSegment"
+                                label="Market Segment"
+                                value={marketSegment}
+                                placeholder="--None--"
+                                options={marketSegmentList}
+                                onchange={handleInput}
+                                required="true">
+                            </lightning-combobox>    
+                        </template>
+                    </template>              
+                </div>
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-helptext content="Owner of the Building that the Opportunity is Related to"
+                        style="position:absolute;margin-left:90px;"></lightning-helptext>
+                    <template if:true={buildingOwnerIsReadyOnly}>
+                        <c-lookup value={buildingOwner} name="buildingOwner" onsearch={handleBuildingOwnerSearch}
+                            secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner"
+                            placeholder="Search Building Owner Accounts..." onselectionchange={handleLookupSelectionChange} disabled="disabled"
+                            style="width:100%;" selection={buildingOwnerSelection}>
+                        </c-lookup>
+                    </template>
+                    <template if:false={buildingOwnerIsReadyOnly}>
+                        <template if:true={defaultBuildingOwner}>
+                            <c-lookup value={buildingOwner} name="buildingOwner" onsearch={handleBuildingOwnerSearch}
+                                secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner"
+                                placeholder="Search Building Owner Accounts..." onselectionchange={handleLookupSelectionChange}
+                                style="width:100%;" selection={buildingOwnerSelection}>
+                            </c-lookup>
+                        </template>
+                        <template if:false={defaultBuildingOwner}>
+                            <c-lookup value={buildingOwner} name="buildingOwner" onsearch={handleBuildingOwnerSearch}
+                                secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner"
+                                placeholder="Search Building Owner Accounts..." onselectionchange={handleLookupSelectionChange}
+                                style="width:100%;">
+                            </c-lookup>
+                        </template>
+                    </template>
+                </div>
+            </div>
+            <template if:true={buildingOwnerContactRequired}>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_6-of-12"></div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <template if:true={buildingOwnerHasContacts}>
+                            <lightning-combobox name="buildingOwnerContact" label="Building Owner Contact" value={buildingOwnerContact}
+                                placeholder="--None--" options={buildingOwnerContactList} onchange={handleInput}>
+                            </lightning-combobox>
+                        </template>
+                        <template if:false={buildingOwnerHasContacts}>
+                            <lightning-combobox name="buildingOwnerContact" label="Building Owner Contact" value={buildingOwnerContact}
+                                placeholder="--None--" options={buildingOwnerContactList} onchange={handleInput}>
+                            </lightning-combobox>
+                        </template>
+                    </div>
+                </div>
+            </template>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12">
+                    <template if:true={marketSegmentSubSegmentVisible}>
+                        <template if:true={lockSegments}>
+                            <lightning-combobox
+                                name="subSegment"
+                                label="Sub-Segment"
+                                value={subSegment}
+                                placeholder="--None--"
+                                options={subSegmentList}
+                                onchange={handleInput}
+                                disabled="disabled"
+                                required="true">
+                            </lightning-combobox>   
+                        </template>
+                        <template if:false={lockSegments}>
+                            <lightning-combobox
+                                name="subSegment"
+                                label="Sub-Segment"
+                                value={subSegment}
+                                placeholder="--None--"
+                                options={subSegmentList}
+                                onchange={handleInput}
+                                required="true">
+                            </lightning-combobox>   
+                        </template>
+                        
+                    </template>           
+                </div>
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-helptext content="Owner of the Building that the Opportunity is Related to"
+                        style="position:absolute;margin-left:120px;"></lightning-helptext>
+                    
+                    <template if:true={buildingOwnerParentFound}>
+                        <template if:true={buildingOwnerIsReadyOnly}>
+                            <c-lookup value={buildingOwnerParent} name="buildingOwnerParent" onsearch={handleBuildingOwnerParentSearch}
+                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner Parent"
+                                    placeholder="Search Building Owner Accounts..." onselectionchange={handleLookupSelectionChange} disabled="disabled"
+                                    style="width:100%;" selection={buildingOwnerParentSelection}>
+                                </c-lookup>
+                        </template>
+                        <template if:false={buildingOwnerIsReadyOnly}>
+                            <c-lookup value={buildingOwnerParent} name="buildingOwnerParent" onsearch={handleBuildingOwnerParentSearch}
+                                secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner Parent"
+                                placeholder="Search Building Owner Accounts..." onselectionchange={handleLookupSelectionChange}
+                                style="width:100%;" selection={buildingOwnerParentSelection}>
+                            </c-lookup>
+                        </template>
+                    </template>
+                    <template if:false={buildingOwnerParentFound}>
+                        <template if:true={buildingOwnerIsReadyOnly}>
+                            <c-lookup value={buildingOwnerParent} name="buildingOwnerParent" onsearch={handleBuildingOwnerParentSearch}
+                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner Parent"
+                                    placeholder="Search Building Owner Accounts..." onselectionchange={handleLookupSelectionChange} disabled="disabled"
+                                    style="width:100%;">
+                                </c-lookup>
+                        </template>
+                        <template if:false={buildingOwnerIsReadyOnly}>
+                            <c-lookup value={buildingOwnerParent} name="buildingOwnerParent" onsearch={handleBuildingOwnerParentSearch}
+                                secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner Parent"
+                                placeholder="Search Building Owner Accounts..." onselectionchange={handleLookupSelectionChange}
+                                style="width:100%;">
+                            </c-lookup>
+                        </template>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12">
+                    <template if:true={hasCZSelected}>
+                        <lightning-combobox name="divSection" label="Div Section" value={divSection}
+                            placeholder="--None--" options={divSectionList} onchange={handleInput} required="true">
+                        </lightning-combobox>
+                    </template>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <template if:true={showArcFac}>
+                        <lightning-combobox name="arcFac" label="ARC/FAC" value={arcFac} placeholder="--None--"
+                            options={arFacList} onchange={handleInput} required="true">
+                        </lightning-combobox>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <template if:true={categorySelectionVisible}>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-combobox
+                                name="category"
+                                label="Category"
+                                value={category}
+                                placeholder="--None--"
+                                options={categoryList}
+                                onchange={handleInput}>
+                            </lightning-combobox>                   
+                    </div>
+                </template>  
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_3-of-12">
+                    <lightning-input type="date" name="estCloseDate" label="Est. Close Date" value={estCloseDate}
+                        onchange={handleInput}
+                        field-level-help="Date that the Opportunity is expected to be Closed with an Order."
+                        required="true">
+                    </lightning-input>
+
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap" style="margin-top:20px;margin-bottom:20px;">
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="checkbox" name="estimateRequired" label="Is Estimate Required?" checked={estimateRequired}
+                        value={estimateRequired} onchange={handleInput}
+                        field-level-help="Check if an Estimate is required. Leave Unchecked if the Customer is providing and responsible for the list of products and quantities.">
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <template if:true={bidDateEntryPossible}>
+                    <div class="slds-col slds-size_6-of-12">
+                        <template if:true={estimateRequired}>
+                            <lightning-input type="datetime" name="date" label="Bid Date, GC to Owner" value={oppDate} 
+                                onchange={handleInput} style="width:100%;">
+                            </lightning-input>
+                        </template>
+                        <template if:false={estimateRequired}>
+                            <lightning-input type="datetime" name="date" label="Bid Date, GC to Owner" value={oppDate} 
+                                onchange={handleInput} style="width:100%;" required="true">
+                            </lightning-input>
+                        </template>                    
+                    </div>
+                </template>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12" style="margin-top:20px;margin-bottom:20px;">
+                    <lightning-input type="checkbox" name="largeProject" label="Large Project" value={largeProject} 
+                        onchange={handleInput} field-level-help="• All airport, stadium & casino projects (unless there is less than 75,000 SQFT or 50 architectural drawing pgs)
+                        • Healthcare projects over 60,000 SqFt
+                        • Any type of project over 175,000 SqFt
+                        • More than1 building
+                        • More than100 architectural drawings">
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-border_top">
+                <div class="slds-col slds-size_12-of-12">
+                    <lightning-combobox name="addressList" label="Select Project Address" value={selectedAddressList}
+                        placeholder="--None--" options={addressList} onchange={handleAddressListOnChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="text" name="addressStreet" label="Street" value={addressStreet}
+                        onchange={handleInput}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="text" name="addressCity" label="City" value={addressCity}
+                        onchange={handleInput}>
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="addressState" label="State/Province" value={addressState}
+                        placeholder="--None--" options={stateList} onchange={handleInput}
+                        dropdown-alignment="bottom-left">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="text" name="addressZip" label="Zip/Postal Code" value={addressZip}
+                        onchange={handleInput} required="true" onfocusout={zipCodeLookup}>
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="addressCountry" label="Country" value={addressCountry}
+                        placeholder="--None--" options={countryList} onchange={handleInput}
+                        dropdown-alignment="bottom-left" required="true">
+                    </lightning-combobox>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_12-of-12">
+                    <lightning-input type="text" name="isrComments" label="ISR Comments" value={isrComments}
+                        onchange={handleInput}
+                        field-level-help="Any comments entered here will be added to the ISR Comments from Opportunity field on the Estimating Task. If no Estimate is needed, these comments will not be used.">
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_12-of-12">
+                    <lightning-textarea name="largeProjectDefinition" label="Large Project Definition"
+                        value={largeProjectDefinition} disabled="disabled"
+                        field-level-help="Large Project Definition. Displayed on the Opportunity Creation Page for informational purposes. Only editable by System Admin.">
+                    </lightning-textarea>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+            <template if:true={loaded}>
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Save"
+                    class="slds-m-left_x-small" onclick={handleSave} label="Save">
+                </lightning-button>
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Cancel"
+                    class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+                </lightning-button>
+            </template>
+        </footer>
+    </div>
+</template>

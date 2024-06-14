@@ -1,0 +1,149 @@
+.slds-modal__container{
+    min-width: 1200px; 
+}
+
+.slds-table-header > th{
+    border-bottom:2px solid black;
+}
+.btn-header > button{
+    white-space: nowrap;
+    text-align: center;
+}
+
+.sticky-row{
+    position: relative;
+}
+
+.sticky-column{
+    background: white;
+    width: 60px;
+    position: sticky;
+    top: auto;
+    left: 0;
+    z-index: 15 !important;
+    border-right: 2px solid gray;
+}
+
+.sticky-header > th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.sticky-table{
+    text-align: left;
+    position: relative;
+    max-height:55vh;
+}
+
+.strike-out{
+    background: gray;
+}
+.strike-out:hover{
+    background: gray !important;
+}
+
+.note{
+    margin-top:-17px;
+    margin-left:20px;
+    min-width:300px;
+    height:32px;
+}
+.note > textarea{
+    height:32px !important;
+}
+
+.table-header-text{
+    width:8%;
+    max-width:8%;
+    white-space: break-spaces; 
+    font-weight:bold;
+}
+
+.table-header-text2{
+    width:6%;
+    max-width:6%;
+    white-space: break-spaces; 
+    font-weight:bold;
+}
+
+.table-header-number{
+    width:4%;
+    max-width:4%;
+    white-space: break-spaces; 
+    font-weight:bold;
+}
+
+.table-row-text{
+    width:8%;
+    max-width:8%;
+    white-space: break-spaces; 
+}
+
+.table-row-text2{
+    width:6%;
+    max-width:6%;
+    white-space: break-spaces; 
+}
+
+.table-row-number{
+    width:4%;
+    max-width:4%;
+    white-space: break-spaces; 
+}
+
+.table-alt-header{
+    margin-top:20px;
+    font-weight:bold;
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.table-freight-header{
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.change-red{
+    background-color:#ff3131;
+}
+.change-green{
+    background-color:#00FF00;
+}
+.change-yellow{
+    background-color:yellow;
+}
+.change-empty{
+    background-color:Gray;
+}
+
+.table-divider{
+    background:darkgrey;
+    width:1%;
+}
+
+.table-hide-column{
+    width:2%;
+}
+
+.half-wrap{
+    max-width:500px;
+    white-space:break-spaces;
+}
+
+.export-text{
+    width:200px;
+    margin-left:15px;
+    white-space:break-spaces;
+    overflow:auto;
+    text-overflow:ellipsis;
+}
+
+.export-text-2{
+    width:300px;
+    margin-left:15px;
+    white-space:break-spaces;
+    overflow:auto;
+    text-overflow:ellipsis;
+}

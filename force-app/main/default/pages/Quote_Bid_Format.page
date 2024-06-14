@@ -1,0 +1,584 @@
+<apex:page renderAs="PDF" standardStylesheets="false"  controller="QuoteBidPDFController" lightningStylesheets="false"  applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                @page {
+                margin-top:20px;
+                margin-bottom:40px;
+                size: 8.5in 11in;
+                margin-left: 0.4in;
+                margin-right: 0.3in;
+                size: portrait;
+                @top-center {
+                content: element(header);
+                }
+                @bottom-left {
+                content: element(footer);
+                }
+                }
+                html{
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                }
+                body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font: 8.5pt "Calibri";
+                }                   
+                div.header {
+                padding:20px;
+                position: header;
+                }
+                div.footer {
+                display: block;
+                padding: 2px;
+                position: running(footer);
+                }
+                .pagenumber:before {
+                content: counter(page);
+                }
+                .pagecount:before {
+                content: counter(pages);
+                }
+                
+                
+                
+                #leftHeader{
+                float:right;
+                width: 25%;
+                }
+                
+                #rightHeader{
+                display: inline-block;
+                float:right;
+                width: 35%;
+                margin-top: 2%;
+                }
+                
+                #middleHeader{
+                float:right;
+                width: 40%;
+                margin-top: 4%;
+                }
+                
+                #leftFooter{
+                float:left;
+                width: 33%;
+                text-align:left;
+                font: 12pt "Calibri";
+                }
+                
+                #rightFooter{
+                float:right;
+                width: 33%;
+                text-align:right;
+                font: 12pt "Calibri";
+                }
+                
+                #middleFooter{
+                float:left;
+                width: 33%;
+                text-align:center;
+                font: 12pt "Calibri";
+                }
+                
+                .addressLine{
+                text-align:right;
+                font: 8pt "Calibri";
+                }
+                
+                #titleDiv{
+                padding-left:260px;
+                font: 8.5pt "Calibri";
+                }
+                
+                #titleDiv{
+                float:left;
+                font: 8.5pt "Calibri";
+                width:100%
+                }
+                
+                .ft0{font: 10px 'Helvetica';line-height: 13px;}
+                .ft1{font: 10px 'Helvetica';line-height: 11px;}
+                .ft2{font: 10px 'Helvetica';line-height: 12px;}
+                .ft002{font: bold 20px 'Helvetica';line-height: 22px;}
+                .ft3{font: 11px 'Helvetica';line-height: 14px;}
+                .ft4{font: bold 11px 'Helvetica';line-height: 14px;}
+                .ft5{font: 1px 'Helvetica';line-height: 1px;}
+                .ft6{font: 11px 'Helvetica';line-height: 12px;}
+                .ft7{font: 1px 'Helvetica';line-height: 12px;}
+                .ft8{font: 11px 'Helvetica';line-height: 13px;}
+                .ft9{font: 1px 'Helvetica';line-height: 8px;}
+                .ft10{font: bold 13px 'Helvetica';line-height: 16px;}
+                .ft11{font: 1px 'Helvetica';line-height: 6px;}
+                .ft12{font: bold 10px 'Helvetica';line-height: 12px;}
+                .ft13{font: 1px 'Helvetica';line-height: 11px;}
+                .ft14{font: 1px 'Helvetica';line-height: 2px;}
+                .ft15{font: 1px 'Helvetica';line-height: 7px;}
+                .ft16{font: 1px 'Helvetica';line-height: 3px;}
+                .ft17{font: bold 16px 'Helvetica';line-height: 19px;}
+                .ft18{font: 8px 'Calibri';line-height: 10px;}
+                .ft19{font: bold 10px 'Helvetica';line-height: 21px;}
+                
+                .ft20{font: bold 11px 'Helvetica';text-decoration: underline;line-height: 14px;}
+                .ft21{font: 12px 'Helvetica';margin-left: 3px;line-height: 14px;}
+                .ft22{font: 11px 'Helvetica';margin-left: 3px;line-height: 13px;}
+                .ft23{font: bold 13px 'Helvetica';text-decoration: underline;color: #0000ff;line-height: 16px;}
+                
+                .p0{text-align: right;padding-right: 70px;margin-top: 0px;margin-bottom: 0px;}
+                .p1{text-align: right;padding-right: 71px;margin-top: 0px;margin-bottom: 0px;}
+                .p2{text-align: left;padding-left: 60px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p3{text-align: left;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p4{text-align: left;padding-left: 81px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p5{text-align: left;padding-left: 52px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p6{text-align: left;padding-left: 35px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p7{text-align: left;padding-left: 51px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p7ben{text-align: left;padding-left: 51px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap; overflow-wrap: break-word;}
+                .p8{text-align: left;padding-left: 6px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p9{text-align: left;padding-left: 2px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p10{text-align: left;padding-left: 26px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p11{text-align: right;padding-right: 29px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p12{text-align: right;padding-right: 2px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p13{text-align: right;padding-right: 43px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p14{text-align: left;padding-left: 106px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p15{text-align: left;padding-left: 30px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p16{text-align: left;padding-left: 98px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p17{text-align: right;padding-right: 11px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p18{text-align: left;padding-right: 161px;margin-top: 0px;margin-bottom: 0px;text-indent: 151px;}
+                .p19{text-align: left;padding-left: 55px;margin-top: 6px;margin-bottom: 0px;}
+                .p20{text-align: left;padding-left: 130px;margin-top: 22px;margin-bottom: 0px;}
+                .p21{text-align: left;padding-left: 97px;padding-right: 45px;margin-top: 10px;margin-bottom: 0px;text-indent: -96px;}
+                .p22{text-align: left;padding-left: 137px;padding-right: 174px;margin-top: 18px;margin-bottom: 0px;text-indent: -5px;}
+                .p23{text-align: left;padding-left: 207px;margin-top: 6px;margin-bottom: 0px;}
+                .p24{text-align: left;margin-top: 10px;margin-bottom: 0px;}
+                .p25{text-align: left;margin-top: 21px;margin-bottom: 0px;}
+                .p26{text-align: left;margin-top: 11px;margin-bottom: 0px;}
+                .p27{text-align: left;padding-right: 66px;margin-top: 9px;margin-bottom: 0px;}
+                .p28{text-align: left;margin-top: 3px;margin-bottom: 0px;}
+                .p29{text-align: left;padding-right: 78px;margin-top: 10px;margin-bottom: 0px;}
+                .p30{text-align: left;margin-top: 8px;margin-bottom: 0px;}
+                .p31{text-align: left;margin-top: 13px;margin-bottom: 0px;}
+                .p32{text-align: left;margin-top: 9px;margin-bottom: 0px;}
+                .p33{text-align: left;padding-left: 1px;margin-top: 14px;margin-bottom: 0px;}
+                .p34{text-align: left;margin-top: 0px;margin-bottom: 0px;}
+                .p35{text-align: left;margin-top: 8px;margin-bottom: 0px; overflow-wrap: break-word;}
+                
+                .td0{padding: 0px;margin: 0px;width: 135px;vertical-align: bottom;}
+                .td1{padding: 0px;margin: 0px;width: 341px;vertical-align: bottom;}
+                .td2{padding: 0px;margin: 0px;width: 182px;vertical-align: bottom;}
+                .td3{padding: 0px;margin: 0px;width: 61px;vertical-align: bottom;}
+                .td4{padding: 0px;margin: 0px;width: 17px;vertical-align: bottom;}
+                .td5{padding: 0px;margin: 0px;width: 476px;vertical-align: bottom;}
+                .td6{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 476px;vertical-align: bottom;}
+                .td7{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 182px;vertical-align: bottom;}
+                .td8{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 61px;vertical-align: bottom;}
+                .td9{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 17px;vertical-align: bottom;}
+                .td10{padding: 0px;margin: 0px;width: 658px;vertical-align: bottom;}
+                .td11{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 135px;vertical-align: bottom;}
+                .td12{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 341px;vertical-align: bottom;}
+                .td13{border-left: #000000 1px solid;padding: 0px;margin: 0px;width: 134px;vertical-align: bottom;background: #b0c4de;}
+                .td14{padding: 0px;margin: 0px;width: 341px;vertical-align: bottom;background: #b0c4de;}
+                .td15{padding: 0px;margin: 0px;width: 182px;vertical-align: bottom;background: #b0c4de;}
+                .td16{padding: 0px;margin: 0px;width: 61px;vertical-align: bottom;background: #b0c4de;}
+                .td17{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 16px;vertical-align: bottom;background: #b0c4de;}
+                .td18{border-left: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 134px;vertical-align: bottom;background: #b0c4de;}
+                .td19{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 341px;vertical-align: bottom;background: #b0c4de;}
+                .td20{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 182px;vertical-align: bottom;background: #b0c4de;}
+                .td21{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 61px;vertical-align: bottom;background: #b0c4de;}
+                .td22{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 16px;vertical-align: bottom;background: #b0c4de;}
+                .td23{border-left: #000000 1px solid;padding: 0px;margin: 0px;width: 134px;vertical-align: bottom;}
+                .td24{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 16px;vertical-align: bottom;}
+                .td25{border-left: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 134px;vertical-align: bottom;}
+                .td26{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 16px;vertical-align: bottom;}
+                .td27{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 523px;vertical-align: bottom;}
+                .td28{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 78px;vertical-align: bottom;}
+                .td29{padding: 0px;margin: 0px;width: 523px;vertical-align: bottom;}
+                .td30{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 77px;vertical-align: bottom;}
+                .td31{border-left: #000000 1px solid;padding: 0px;margin: 0px;width: 475px;vertical-align: bottom;}
+                .td32{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 77px;vertical-align: bottom;}
+                .td33{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 235px;vertical-align: bottom;}
+                .td34{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 236px;vertical-align: bottom;}
+                .td35{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 167px;vertical-align: bottom;}
+                .td36{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 97px;vertical-align: bottom;}
+                .td37{padding: 0px;margin: 0px;width: 235px;vertical-align: bottom;}
+                .td38{padding: 0px;margin: 0px;width: 236px;vertical-align: bottom;}
+                .td39{padding: 0px;margin: 0px;width: 264px;vertical-align: bottom;}
+                .td40{padding: 0px;margin: 0px;width: 403px;vertical-align: bottom;}
+                .td41{padding: 0px;margin: 0px;width: 97px;vertical-align: bottom;}
+                .td42{padding: 0px;margin: 0px;width: 303px;vertical-align: bottom;}
+                .td43{padding: 0px;margin: 0px;width: 258px;vertical-align: bottom;}
+                .td44{padding: 0px;margin: 0px;width: 133px;vertical-align: bottom;}
+                
+                .tr0{height: 18px;}
+                .tr1{height: 19px;}
+                .tr2{height: 24px;}
+                .tr3{height: 13px;}
+                .tr4{height: 20px;}
+                .tr5{height: 12px;}
+                .tr6{height: 23px;}
+                .tr7{height: 8px;}
+                .tr177{height: 15px;}
+                .tr8{height: 17px;}
+                .tr9{height: 6px;}
+                .tr10{height: 14px;}
+                .tr11{height: 11px;}
+                .tr12{height: 16px;vertical-align:top; }
+                .tr13{height: 2px;}
+                .tr14{height: 15px;}
+                .tr15{height: 7px;}
+                .tr16{height: 3px;}
+                .tr17{height: 25px;}
+                .tr18{height: 36px;}
+                
+                .t0{width: 736px;margin-top: 30px;font: 10px 'Helvetica'; border-collapse: collapse;}
+                .t1{width: 735px;margin-top: 5px;font: bold 16px 'Helvetica';}
+                .t2{width: 694px;margin-top: 377px;font: bold 16px 'Helvetica';} 
+            </style>
+        </head>
+        <body>
+            
+            <div class="header" >
+                <div id="leftHeader">
+                </div>
+                <div id="rightHeader">
+                    <div class="addressLine">Corporate Headquarters</div>
+                    <div class="addressLine">S80 W18766 Apollo Drive</div>
+                    <div class="addressLine">PO Box 406</div>
+                    <div class="addressLine">Muskego, WI 53150</div>
+                    <div class="addressLine">www.inprocorp.com</div>
+                    <div class="addressLine">Nationwide: (800) 222-5556</div>
+                    <div class="addressLine">Fax: (888) 715-8407</div>
+                    <br/>
+                    <div class="addressLine">
+                        <!--apex:image url="{!$Resource.IPC_Logo}" width="175" height="40" /--> 
+                    </div>
+                </div>
+                <div id="middleHeader">
+                    <apex:image url="{!$Resource.Inpro_Logo}" width="250" height="100"/>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <div id="leftFooter">
+                    <!--<b>Quote:{!quoteDetails.quoteRecord.Name} </b>-->
+                </div>
+                <div id="middleFooter">
+                    <b><div>Page <span class="pagenumber"/> of <span class="pagecount"/></div></b>
+                </div>
+                <div id="rightFooter">
+                    <!--<b>{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</b>-->
+                </div>
+            </div>
+            <div calss ="content">
+                <DIV id="page_1" style="margin-top:150px;">
+                  
+                   <div style="text-align: center;">
+                        <P class="ft002"> {!IF(quoteDetails.internal,'In-House Version Bid','')}</P>
+                   </div> 
+                    <TABLE cellpadding="0" cellspacing="0" class="t0">
+                        <TR>
+                            <TD class="tr0 td0"><P class="p2 ft4">Project: <SPAN class="ft3">{!quoteDetails.project}</SPAN></P></TD>
+                            <TD class="tr0 td1"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr0 td2"><P class="p4 ft3" style="padding-left: 78px"><SPAN class="ft4">Date: </SPAN>
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!today()}" /> 
+                                </apex:outputText></P></TD>
+                            <TD class="tr0 td3"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr0 td4"><P class="p3 ft5">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD colspan="2" class="tr1 td5"><P class="p5 ft3"><SPAN class="ft4">Location: </SPAN>{!quoteDetails.location}</P></TD>
+                            <TD class="tr1 td2"><P class="p6 ft4" style="padding-left:23px">Project Number: <SPAN class="ft3">{!quoteDetails.opportunityRecord.Project_Number__c}</SPAN></P></TD>
+                            <TD class="tr1 td3"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr1 td4"><P class="p3 ft5">&nbsp;</P></TD>
+                        </TR>
+                         <TR>
+                            <TD class="tr2 td0"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td1"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td2"><P class="p2 ft4">&nbsp;Quote #: <SPAN class="ft3">{!quoteDetails.quoteRecord.QuoteNumber}</SPAN></P></TD>
+                            <TD class="tr2 td3"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td4"><P class="p3 ft5">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr2 td0"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td1"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td2"><P class="p2 ft4">Revision: <SPAN class="ft3">{!quoteDetails.quoteRecord.Revision_Number__c}</SPAN></P></TD>
+                            <TD class="tr2 td3"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td4"><P class="p3 ft5">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr2 td0"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td1"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td2"><P class="p7ben ft4">Printed By: <SPAN class="ft3">{!quoteDetails.printingUser}</SPAN></P></TD>
+                            <TD class="tr2 td3"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td4"><P class="p3 ft5">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD class="tr2 td0"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td1"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td2"><P class="p7ben ft4" style="padding-left: 38px">Document ID: <SPAN class="ft3">{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</SPAN></P></TD>
+                            <TD class="tr2 td3"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr2 td4"><P class="p3 ft5">&nbsp;</P></TD>
+                        </TR>
+                        <TR>
+                            <TD colspan="2" class="tr3 td6"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr3 td7"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr3 td8"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr3 td9"><P class="p3 ft5">&nbsp;</P></TD>
+                        </TR>
+                         <TR>
+                            <TD colspan="5" class="tr4 td5"><P class="p8 ft3">Inpro Corporation is bidding as {!quoteDetails.opportunityRecord.Spec_Status__c} based on the following plans and specifications.<br/></P></TD>
+                            
+                        </TR>
+                        <TR>
+                            <TD colspan="5" class="tr4 td5"><P class="p8 ft3">Inpro Corporation submits a bid for {!quoteDetails.material}.<br/><br/></P></TD>
+                            
+                        </TR>
+                        <TR>
+                            <TD colspan="5" style="Padding:5px;" class="tr4 td5 ft3">
+                                <apex:outputField value="{!quoteDetails.quoteRecord.Introduction__c}"/>
+                                
+                            </TD>
+                        </TR>
+                        <TR>
+                            <TD colspan="5" style="Padding:5px;" class="tr4 td5 ft3">
+                                <apex:outputField value="{!quoteDetails.quoteRecord.Quote_Estimating_Notes__c}"/>
+                                <br/>
+                            </TD>
+                        </TR>
+                    <!--/TABLE>
+                    <TABLE cellpadding="0" cellspacing="0" class="t0"-->
+                        <TR>
+                            <TD class="tr7 td11" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                            <TD class="tr7 td12" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                            <TD class="tr7 td7" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                            <TD class="tr7 td8" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                            <TD class="tr7 td9" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                        </TR>                        
+                        
+                        <apex:repeat value="{!quoteDetails.groupMap}" var="key">
+                            <TR style=" {!IF (quoteDetails.containsFreightGroups, '', 'display:none;')}">
+                                <TD class="tr8 td13" style="border-top:#000000 1px solid; border-right:#000000 1px solid; background:#5b8dde; text-align: center;" colspan="5"><P class="p9 ft10" style="text-align:center;">{!quoteDetails.groupMap[key].groupName}</P></TD>
+                            </TR>
+                            <!-- <TR>
+                                <TD class="tr9 td18"><P class="p3 ft11">&nbsp;</P></TD>
+                                <TD class="tr9 td19"><P class="p3 ft11">&nbsp;</P></TD>
+                                <TD class="tr9 td20"><P class="p3 ft11">&nbsp;</P></TD>
+                                <TD class="tr9 td21"><P class="p3 ft11">&nbsp;</P></TD>
+                                <TD class="tr9 td22"><P class="p3 ft11">&nbsp;</P></TD>
+                            </TR> -->
+                            <apex:repeat value="{!quoteDetails.groupMap[key].alternates}" var="alt">
+                                <TR>
+                                    <TD class="tr8 td13" style="border-top:#000000 1px solid;"><P class="p9 ft10">{!alt.alternateName}</P></TD>
+                                    <TD class="tr8 td14" style="border-top:#000000 1px solid;"><P class="p3 ft5">&nbsp;</P></TD>
+                                    <TD class="tr8 td15" style="border-top:#000000 1px solid;"><P class="p3 ft5">&nbsp;</P></TD>
+                                    <TD class="tr8 td16" style="border-top:#000000 1px solid;"><P class="p3 ft5">&nbsp;</P></TD>
+                                    <TD class="tr8 td17" style="border-top:#000000 1px solid;"><P class="p3 ft5">&nbsp;</P></TD>
+                                </TR>
+                                <!-- <TR>
+                                    <TD class="tr9 td18"><P class="p3 ft11">&nbsp;</P></TD>
+                                    <TD class="tr9 td19"><P class="p3 ft11">&nbsp;</P></TD>
+                                    <TD class="tr9 td20"><P class="p3 ft11">&nbsp;</P></TD>
+                                    <TD class="tr9 td21"><P class="p3 ft11">&nbsp;</P></TD>
+                                    <TD class="tr9 td22"><P class="p3 ft11">&nbsp;</P></TD>
+                                </TR> -->
+                                <TR>
+                                    <TD class="tr10 td23"><P class="p9 ft12">Item Number</P></TD>
+                                    <TD class="tr10 td1"><P class="p3 ft12">Description</P></TD>
+                                    <TD class="tr10 td2"><P class="p10 ft12">Color</P></TD>
+                                    <TD class="tr10 td3" ><P class="p11 ft12">Piece</P></TD>
+                                    <TD class="tr10 td24"><P class="p3 ft5">&nbsp;</P></TD>
+                                </TR>
+                                <!-- <TR>
+                                    <TD class="tr11 td25"><P class="p3 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td12"><P class="p3 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td7"><P class="p3 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td8"><P class="p3 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td26"><P class="p3 ft13">&nbsp;</P></TD>
+                                </TR> -->
+                                <apex:repeat value="{!alt.quoteItems}" var="item">
+                                    <TR>
+                                        <TD class="tr12 td23"><P class="p9 ft0">{! IF(item.Custom_Part_Number__c != null, item.Custom_Part_Number__c,item.Product2.ProductCode)}</P></TD>
+                                        <TD class="tr12 td1">
+                                            <P class="p3 ft0">&nbsp;{!item.Description}<br/>
+                                            {!item.Description_2__c}<br/></P>
+                                            <P class="p35 ft0">{!item.Note__c}</P>
+                                        </TD>
+                                        <TD class="tr12 td2"><P class="p10 ft0">{!item.Color__c}</P></TD>
+                                        <TD class="tr12 td3"><P class="p12 ft0">
+                                            
+                                            <apex:outputText value="{!FLOOR(item.Quantity)}"/>
+                                            </P></TD>
+                                        <TD class="tr12 td24"><P class="p12 ft0">{!item.Unit_of_Measure__c}</P></TD>
+                                    </TR>
+                                    <TR>
+                                        <TD class="tr7 td11" style="border-left: #000000 1px solid;border-bottom: #000000 1px solid;"><P class="p3 ft9">&nbsp;</P></TD>
+                                        <TD colspan="2" class="tr7 td27"><P class="p3 ft9">&nbsp;</P></TD>
+                                        <TD colspan="2" class="tr7 td28" style="border-right: #000000 1px solid;"><P class="p3 ft9">&nbsp;</P></TD>
+                                    </TR>
+                                    
+                                </apex:repeat>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups,'display:none;', IF (alt.showUnitPricing, 'display:none;',''))}">
+                                
+                                    <TD  style="border-left: #000000 1px solid;" colspan="3" class="tr8 td29"><P class="p13 ft10">Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! alt.freightCarrier}</P></TD>
+                                    <TD colspan="2" class="tr8 td30"><P class="p12 ft10">Included &nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups,'display:none;', IF (alt.showUnitPricing, 'display:none;',IF (quoteDetails.isTaxable,'','display:none;')))}">
+                                    <TD colspan="3" class="tr4 td2" style="border-left: #000000 1px solid;"><P class="p13 ft10">Tax Amount (if applicable {!alt.taxPercent}%):</P></TD>
+                                    <TD colspan="2" class="tr4 td30"><P class="p12 ft10">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!alt.freightTax + alt.productTax }" />
+                                        </apex:outputText>
+                                        &nbsp;</P>
+                                    </TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups,'display:none;', IF (alt.showUnitPricing, 'display:none;',IF (quoteDetails.isTaxable,'','display:none;')))}"> 
+                                    
+                                    <TD colspan="3" class="tr4 td2" style="border-left: #000000 1px solid;"><P class="p13 ft10">{!alt.alternateName} Total: (USD)</P></TD>
+                                    <TD colspan="2" class="tr4 td30"><P class="p12 ft10">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!alt.alternateTotalwTax}" />
+                                        </apex:outputText>
+                                        &nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups,'display:none;', IF (alt.showUnitPricing, 'display:none;',IF (NOT(quoteDetails.isTaxable),'','display:none;')))}"> 
+                                    
+                                    <TD colspan="3" class="tr4 td2" style="border-left: #000000 1px solid;"><P class="p13 ft10">{!alt.alternateName} Total: (USD)</P></TD>
+                                    <TD colspan="2" class="tr4 td30"><P class="p12 ft10">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!alt.alternateTotal}" />
+                                        </apex:outputText>
+                                        &nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups,'display:none;', '')}">
+                                    <TD class="tr13 td25"><P class="p3 ft14">&nbsp;</P></TD>
+                                    <TD class="tr13 td12"><P class="p3 ft14">&nbsp;</P></TD>
+                                    <TD class="tr13 td7"><P class="p3 ft14">&nbsp;</P></TD>
+                                    <TD class="tr13 td8"><P class="p3 ft14">&nbsp;</P></TD>
+                                    <TD class="tr13 td26"><P class="p3 ft14">&nbsp;</P></TD>
+                                </TR>      
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups,'display:none;', '')}">
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                </TR>                      
+                            </apex:repeat>
+                            
+                            <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.groupMap[key].showUnitPricing, 'display:none;',''),'display:none;')}">
+                                
+                                <TD  style="border-left: #000000 1px solid;" colspan="3" class="tr8 td29"><P class="p13 ft10">Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! quoteDetails.groupMap[key].freightCarrier}</P></TD>
+                                <TD colspan="2" class="tr8 td30"><P class="p12 ft10">Included &nbsp;</P></TD>
+                            </TR>
+                            <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.groupMap[key].showUnitPricing, 'display:none;',IF (quoteDetails.isTaxable,'','display:none;')),'display:none;')}">
+                                <TD colspan="3" class="tr4 td2" style="border-left: #000000 1px solid;"><P class="p13 ft10">Tax Amount (if applicable {!quoteDetails.groupMap[key].taxPercent}%):</P></TD>
+                                <TD colspan="2" class="tr4 td30"><P class="p12 ft10">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.groupMap[key].freightTax + quoteDetails.groupMap[key].productTax }" />
+                                    </apex:outputText>
+                                    &nbsp;</P>
+                                </TD>
+                            </TR>
+                            <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.groupMap[key].showUnitPricing, 'display:none;',IF (quoteDetails.isTaxable,'','display:none;')),'display:none;')}"> 
+                                
+                                <TD colspan="3" class="tr4 td2" style="border-left: #000000 1px solid;"><P class="p13 ft10">{!key} Total: (USD)</P></TD>
+                                <TD colspan="2" class="tr4 td30"><P class="p12 ft10">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.groupMap[key].groupTotalwTax}" />
+                                    </apex:outputText>
+                                    &nbsp;</P></TD>
+                            </TR>
+                            <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.groupMap[key].showUnitPricing, 'display:none;',IF (NOT(quoteDetails.isTaxable),'','display:none;')),'display:none;')}"> 
+                                
+                                <TD colspan="3" class="tr4 td2" style="border-left: #000000 1px solid;"><P class="p13 ft10">{!key} Total: (USD)</P></TD>
+                                <TD colspan="2" class="tr4 td30"><P class="p12 ft10">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.groupMap[key].groupTotal}" />
+                                    </apex:outputText>
+                                    &nbsp;</P></TD>
+                            </TR>
+                            <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.groupMap[key].showUnitPricing, 'display:none;',''),'display:none;')}">
+                                <TD class="tr13 td25"><P class="p3 ft14">&nbsp;</P></TD>
+                                <TD class="tr13 td12"><P class="p3 ft14">&nbsp;</P></TD>
+                                <TD class="tr13 td7"><P class="p3 ft14">&nbsp;</P></TD>
+                                <TD class="tr13 td8"><P class="p3 ft14">&nbsp;</P></TD>
+                                <TD class="tr13 td26"><P class="p3 ft14">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr177 td11" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                                <TD class="tr177 td12" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                                <TD class="tr177 td7" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                                <TD class="tr177 td8" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                                <TD class="tr177 td9" style="border:none"><P class="p3 ft9">&nbsp;</P></TD>
+                            </TR>   
+                        </apex:repeat>   
+                    </TABLE>
+                    
+                       <apex:pageBlock rendered="{!quoteDetails.printGrandTotal}">
+                    <TABLE cellpadding="0" cellspacing="0" class="t1">
+                        <TR>
+                            <TD class="tr17 td33"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr17 td34"><P class="p3 ft5">&nbsp;</P></TD>
+                            <TD class="tr17 td35"><P class="p3 ft17">Grand Total: (USD)</P></TD>
+                            <TD class="tr17 td36"><P class="p12 ft17">
+                                
+                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                    <apex:param value="{!quoteDetails.grandTotal}" />
+                                </apex:outputText>
+                                &nbsp;</P></TD>
+                        </TR>
+                        
+                    </TABLE>
+                    </apex:pageBlock>
+
+                    <DIV id="page_2">
+                    
+                    
+                        <DIV id="id2_1">
+                            <P class="" style="line-height: 21px;"></P>
+                            <P class="" style="line-height: 21px;">
+                                  <apex:outputField value="{!quoteDetails.quoteRecord.Ending__c}"/>
+                                </P>
+                            <P class="p18 ft19">State, county and use tax if applicable, will be added to the invoice at time of billing. Customer is responsible for supplying a valid sales tax exemption certificate at time of order if an exemption is claimed.</P>
+                            <P class="p19 ft4">This proposal is valid for thirty (30) days from the date of issue and is subject to Inpro's Standard Terms and Conditions.</P>
+                            <P class="p20 ft4">If you choose to ship with a third party carrier, please add (2) two days to quoted lead times.</P>
+                            <P class="p21 ft12">All custom and <NOBR>non-stocked</NOBR> products are not returnable. No returns after 60 days. If a return is authorized, a restocking fee based on the time elapsed will be charged in addition to the return shipping costs. Refer to InPro's return policy for details.</P>
+                            <P class="p22 ft19">2% discount not available on credit card payments, shipping charges or PREPAY accounts. Due to the volatility of freight rates, actual charges will be applied at the time of shipping.</P>
+                            <P class="p23 ft4">Please see below for bid qualifications, terms and conditions.</P>
+                            <P class="p24 ft4"><SPAN class="ft20">Inpro's Estimators Qualifications - Please read</SPAN>:</P>
+                            <apex:repeat value="{!quoteDetails.estimatingQualifications}" var="item"> 
+                                <P class="p26 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft21">{!item.Description__c}</SPAN></P>
+                            </apex:repeat>
+                            <P class="p25 ft4"><SPAN class="ft20">Inpro's Qualifications</SPAN>:</P>
+                            <apex:repeat value="{!quoteDetails.qualifications}" var="item"> 
+                                <P class="p26 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft21">{!item.Description__c}</SPAN></P>
+                            </apex:repeat>
+                            <br/>
+                            <p  class="ft12" style="{!IF ((quoteDetails.opportunityRecord.Division_Abbreviation__c ='IPC'), 'display:none;','')} ">>
+                                This proposal is valid for thirty (30) days from the date of issue and subject to Inpro's Standard Terms and Conditions. Inpro reserves the right to adjust pricing after thirty (30) days based on current market volatility of raw materials.
+                            </p>
+                            
+                            <p  class="ft12" style="{!IF (!(quoteDetails.opportunityRecord.Division_Abbreviation__c ='IPC'), 'display:none;','')} ">
+                                This proposal is valid for thirty (30) days from the date of issue and is subject to Inpro's Standard Terms and Conditions.
+                               Inpro reserves the right to adjust pricing during or after thirty (30) days based on current market volatility of raw materials.
+                            </p>
+                            <P class="p30 ft0">Submitted By:</P>
+                            <P class="p31 ft17">{!quoteDetails.opportunityRecord.Owner.Name}</P>
+                            <P class="p32 ft23"><A href="mailto:{!quoteDetails.opportunityRecord.Owner.Email}">{!quoteDetails.opportunityRecord.Owner.Email}</A></P>
+                            <P class="p33 ft12">Inpro Corporation</P>
+                            
+                        </DIV>
+                    </DIV>
+                </DIV>
+                <!-- <div style="page-break-after:always"/>                 -->
+            </div>
+        </body>
+    </html>
+</apex:page>

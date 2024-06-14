@@ -1,0 +1,197 @@
+<template>
+    <div>
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                New Construction Project
+            </h2>
+        </header>
+        <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+            </template>
+            <div class="slds-grid slds-wrap">
+                <!-- Row #1 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="text" name="Name" label="Construction Project" value={record.Name}
+                        onchange={handleInput} required="true" style="width:100%;">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="Market_Segment__c" label="Market Segment" value={record.Market_Segment__c} placeholder="--None--"
+                        options={list.Market_Segment__c} onchange={handleInput} required="true">
+                    </lightning-combobox>
+                </div>
+                <!-- Row #2 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox class="validity" name="Construction_Stage__c" label="Stage" value={record.Construction_Stage__c} placeholder="--None--"
+                        options={list.Construction_Stage__c} onchange={handleInput}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox class="validity" name="Sub_Segment__c" label="Sub-Segment" value={record.Sub_Segment__c} placeholder="--None--"
+                        options={list.Sub_Segment__c} onchange={handleInput} required="true">
+                    </lightning-combobox>
+                </div>
+                <!-- Row #3 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="text" name="A_E_Project_Number__c" label="A/E Project Number" value={record.A_E_Project_Number__c}
+                        onchange={handleInput} style="width:100%;">
+                    </lightning-input>
+                </div>
+                <!-- <div class="slds-col slds-size_6-of-12">
+                    <c-lookup value={selection.Territory__c} name="Territory__c" onsearch={handleSearch}
+                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Territory"
+                        placeholder="Search Territories..." onselectionchange={handleLookupSelectionChange}
+                        style="width:100%;" selection={selection.Territory__c}>
+                    </c-lookup>
+                </div> -->
+                <!-- Row #4 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="Project_Source__c" label="Most Recent Project Source" value={record.Project_Source__c} placeholder="--None--"
+                        options={list.Project_Source__c} onchange={handleInput} required="true">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="ARC_FAC__c" label="ARC/FAC" value={record.ARC_FAC__c} placeholder="--None--"
+                        options={list.ARC_FAC__c} onchange={handleInput} required="true">
+                    </lightning-combobox>
+                </div>
+                <!-- Row #5 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input name="Total_Constructed_Value__c" label="Total Constructed Value" value={record.Total_Constructed_Value__c}
+                        onchange={handleInput} style="width:100%;" type="number" step=".01" formatter="currency">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="Category__c" label="Category" value={record.Category__c} placeholder="--None--"
+                        options={list.Category__c} onchange={handleInput}>
+                    </lightning-combobox>
+                </div>
+                <!-- Row #6(a) -->
+                <div class="slds-col slds-size_12-of-12" style="margin-top:20px;margin-bottom:20px;">
+                    <lightning-input type="checkbox" name="Large_Project__c" label="Large Project"
+                        value={record.Large_Project__c} onchange={handleInput}>
+                    </lightning-input>
+                </div>
+                <!-- Row #7 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <template if:true={isBuildingOwner}>
+                        <lightning-input type="text" name="recordName" label="Building Owner" value={recordName}
+                            onchange={handleInput} style="width:100%;" disabled="disabled">
+                        </lightning-input>
+                    </template>
+                    <template if:false={isBuildingOwner}>
+                        <c-lookup value={selection.Building_Owner__c} name="Building_Owner__c" onsearch={handleSearch}
+                            secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Building Owner"
+                            placeholder="Search Accounts..." onselectionchange={handleLookupSelectionChange}
+                            style="width:100%;" selection={selection.Building_Owner__c}>
+                        </c-lookup>
+                    </template>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <c-lookup value={selection.Primary_Contact__c} name="Primary_Contact__c" onsearch={handleSearch}
+                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Primary Contact"
+                        placeholder="Search Contacts..." onselectionchange={handleLookupSelectionChange}
+                        style="width:100%;" selection={selection.Primary_Contact__c}>
+                    </c-lookup>
+                </div>
+                <!-- Row #8 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <template if:true={isArchitect}>
+                        <lightning-input type="text" name="recordName" label="Architect Firm" value={recordName}
+                            onchange={handleInput} style="width:100%;" disabled="disabled">
+                        </lightning-input>
+                    </template>
+                    <template if:false={isArchitect}>
+                        <c-lookup value={selection.Architect_Firm__c} name="Architect_Firm__c" onsearch={handleSearch}
+                            secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Architect Firm"
+                            placeholder="Search Accounts..." onselectionchange={handleLookupSelectionChange}
+                            style="width:100%;" selection={selection.Architect_Firm__c}>
+                        </c-lookup>
+                    </template>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <c-lookup value={selection.Architect_Contact__c} name="Architect_Contact__c" onsearch={handleSearch}
+                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Architect Contact"
+                        placeholder="Search Contacts..." onselectionchange={handleLookupSelectionChange}
+                        style="width:100%;" selection={selection.Architect_Contact__c}>
+                    </c-lookup>
+                </div>
+                <!-- Row #9 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <template if:true={isContractor}>
+                        <lightning-input type="text" name="recordName" label="Contractor" value={recordName}
+                            onchange={handleInput} style="width:100%;" disabled="disabled">
+                        </lightning-input>
+                    </template>
+                    <template if:false={isContractor}>
+                        <c-lookup value={selection.General_Contractor__c} name="General_Contractor__c" onsearch={handleSearch}
+                            secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Contractor"
+                            placeholder="Search Accounts..." onselectionchange={handleLookupSelectionChange}
+                            style="width:100%;" selection={selection.General_Contractor__c}>
+                        </c-lookup>
+                    </template>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <c-lookup value={selection.GC_Contact__c} name="GC_Contact__c" onsearch={handleSearch}
+                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Contractor Contact"
+                        placeholder="Search Contacts..." onselectionchange={handleLookupSelectionChange}
+                        style="width:100%;" selection={selection.GC_Contact__c}>
+                    </c-lookup>
+                </div>
+                <!-- Row #10 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="date" name="Start_Date__c" label="Expected Start Date" value={record.Start_Date__c}
+                        onchange={handleInput} style="width:100%;">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="date" name="Expected_Completion_Date__c" label="Expected Completion Date" value={record.Expected_Completion_Date__c}
+                        onchange={handleInput} style="width:100%;">
+                    </lightning-input>
+                </div>
+                <!-- Row #10 -->
+                <div class="slds-col slds-size_12-of-12">
+                    <lightning-combobox name="addressType" label="Address Type" value={selectedAddressType} placeholder="--None--"
+                        options={addressType} onchange={handleAddressInput} required="true" class="addressType">
+                    </lightning-combobox>
+                </div>
+                <!-- Row #11 -->
+                <div class="slds-col slds-size_12-of-12">
+                    <lightning-input type="text" name="Street_Address__c" label="Street Address" value={record.Street_Address__c}
+                        onchange={handleAddressInput}>
+                    </lightning-input>
+                </div>
+                <!-- Row #12 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="State__c" label="State" value={record.State__c} placeholder="--None--" 
+                        options={list.State__c} onchange={handleAddressInput} dropdown-alignment="bottom-left">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="text" name="City__c" label="City" value={record.City__c}
+                        onchange={handleAddressInput}>
+                    </lightning-input>
+                </div>
+                <!-- Row #13 -->
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-input type="text" name="ZIP__c" label="Zip/Postal Code" value={record.ZIP__c}
+                        onchange={handleAddressInput} required="true" onfocusout={zipCodeLookup}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <lightning-combobox name="Country__c" label="Country" value={record.Country__c} placeholder="--None--" 
+                        options={list.Country__c} onchange={handleAddressInput} dropdown-alignment="bottom-left" required="true">
+                    </lightning-combobox>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-modal__footer" style="height: 70px;">
+            <template if:true={loaded}>
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Save"
+                    class="slds-m-left_x-small" onclick={handleSave} label="Save">
+                </lightning-button>
+            </template>
+        </footer>
+    </div>
+</template>

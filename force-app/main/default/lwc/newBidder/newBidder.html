@@ -1,0 +1,281 @@
+<template>
+    <template if:true={isMain}>
+        <div>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">
+                    New Bidder
+                </h2>
+            </header>
+            <div class="slds-p-around_medium column-padding fixed-height ">
+                <div class="full-screen">
+                    <template if:false={loaded}>
+                        <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                    </template>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_1-of-12" style="margin-top:23px;margin-right:-50px;">
+                            <lightning-button-icon icon-name="utility:zoomin" variant="brand" 
+                                alternative-text="Zoom in" onclick={handleStartSearch} class="slds-m-left_xx-small" title="Zoom in"></lightning-button-icon>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_5-of-12">
+                            <div>
+                                <template if:true={isSearchValue}>
+                                    <c-lookup tabindex="0" data-id="selectedAccount" name="selectedAccount" onsearch={handleAccountSearch} label="Bidder"
+                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10 selection={accountSelection}
+                                    placeholder="Search Accounts..." onselectionchange={handleLookupSelectionChange} onkeydown={handleSearchKeyDown}>
+                                </c-lookup>
+                                </template>
+                                <template if:false={isSearchValue}>
+                                    <c-lookup tabindex="0" data-id="selectedAccount" name="selectedAccount" onsearch={handleAccountSearch} label="Bidder"
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                        placeholder="Search Accounts..." onselectionchange={handleLookupSelectionChange} onkeydown={handleSearchKeyDown}>
+                                    </c-lookup>
+                                </template>
+                                
+                            </div>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_1-of-12" style="margin-top:23px;margin-left:50px;margin-right:-50px;">
+                            <template if:true={isNewContactActive}>
+                                <lightning-button-icon icon-name="utility:add" variant="brand" 
+                                alternative-text="Add new contact" onclick={handleContactStart} class="slds-m-left_xx-small" title="Add new contact"></lightning-button-icon>
+                            </template>
+                            <template if:false={isNewContactActive}>
+                                <lightning-button-icon icon-name="utility:add" variant="outline" 
+                                alternative-text="Add new contact" disabled="disabled" class="slds-m-left_xx-small" title="Add new contact"></lightning-button-icon>
+                            </template>
+                           
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_5-of-12">
+                            <lightning-combobox
+                                name="selectedContact"
+                                label="Contact"
+                                value={selectedContact}
+                                required="true"
+                                options={contactList}
+                                onchange={handleInput}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_12-of-12">
+                            <lightning-datatable
+                                name="divisionTable"
+                                key-field="Id"
+                                data={divisionTable}
+                                columns={divisionColumns}
+                                onrowselection={handleDataTableInput}
+                                selected-rows={selectedDivisionTable}>
+                            </lightning-datatable>
+                        </div>
+                    </div>
+                    <template if:true={isClickezeSelected}>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-col-space slds-size_12-of-12">
+                                <lightning-combobox
+                                name="selectedDivSection"
+                                label="Div Section"
+                                value={selectedDivSection}
+                                required="true"
+                                options={divSectionList}
+                                onchange={handleInput}>
+                            </lightning-combobox>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-helptext content="Pricing Group that the Bidder is in. Value will be prepopulated based on the Account Record Type, but can be edited." style="margin-left:75px;"></lightning-helptext>
+                            <lightning-combobox
+                                name="selectedPricingGroup"
+                                label="Pricing Group"
+                                value={selectedPricingGroup}
+                                options={pricingGroupList}
+                                onchange={handleInput}
+                                style="margin-top:-20px;" >
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-helptext content="Status of the bidder on the project." style="margin-left:70px;"></lightning-helptext>
+                            <lightning-combobox
+                                name="selectedQuoteStatus"
+                                label="Quote Status"
+                                value={selectedQuoteStatus}
+                                options={quoteStatusList}
+                                onchange={handleInput}
+                                style="margin-top:-20px;" >
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-helptext content="How the bid request was received." style="margin-left:50px;"></lightning-helptext>
+                            <lightning-combobox
+                                name="selectedSource"
+                                label="Source"
+                                value={selectedSource}
+                                required="true"
+                                options={sourceList}
+                                onchange={handleInput}
+                                style="margin-top:-20px;" >
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-helptext content="How will the Bidder purchase and install the product?" style="margin-left:90px;"></lightning-helptext>
+                            <lightning-combobox
+                                name="selectedInstallationType"
+                                label="Installation Type"
+                                value={selectedInstallationType}
+                                options={installationTypeList}
+                                onchange={handleInput}
+                                style="margin-top:-20px;" >
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-helptext content="Date that Quote or Bid Request was requested." style="margin-left:135px;"></lightning-helptext>
+                            <lightning-input 
+                                style="margin-top:-20px;" 
+                                type="date" 
+                                label="Quote/Bid Request Date" 
+                                name="quoteBidRequestDate" 
+                                value={quoteBidRequestDate}
+                                onchange={handleInput}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="date" 
+                                label="Quote/Bid Due Date" 
+                                name="quoteBidDueDate" 
+                                value={quoteBidDueDate} 
+                                onchange={handleInput}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                        class="slds-m-left_x-small" onclick={handleSave} label="Save">
+                    </lightning-button>
+            </footer>
+        </div>
+    </template>
+    <template if:true={isSearch}>
+        <div>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">
+                    {searchTitle}
+                </h2>
+            </header>
+            <div class="slds-p-around_medium column-padding fixed-height ">
+                <div class="full-screen-2">
+                    <template if:false={loaded}>
+                        <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                    </template>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="text" 
+                                label="Search" 
+                                name="searchInput" 
+                                value={searchInput} 
+                                onchange={handleDelayInput}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_12-of-12">
+                            <lightning-datatable
+                                name="searchTable"
+                                key-field="Id"
+                                data={searchTable}
+                                columns={searchColumns}
+                                onrowselection={handleSearchInput}
+                                selected-rows={selectedSearchRows}>
+                            </lightning-datatable>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                        class="slds-m-left_x-small" onclick={handleSearchCancel} label="Cancel">
+                    </lightning-button>
+            </footer>
+        </div>
+    </template>
+    <template if:true={isNewContact}>
+        <div>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">
+                    New Contact
+                </h2>
+            </header>
+            <div class="slds-p-around_medium column-padding fixed-height ">
+                <div class="full-screen-2">
+                    <template if:false={loaded}>
+                        <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                    </template>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="text" 
+                                label="First Name" 
+                                name="contactFirstName" 
+                                value={contactFirstName} 
+                                onchange={handleInput}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="text" 
+                                label="Contact Owner" 
+                                name="contactOwner" 
+                                value={contactOwner} 
+                                onchange={handleInput}
+                                disabled="disabled"></lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="text" 
+                                label="Last Name" 
+                                name="contactLastName" 
+                                value={contactLastName} 
+                                onchange={handleInput}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="text" 
+                                label="Account Name" 
+                                name="contactAccountName" 
+                                value={contactAccountName} 
+                                onchange={handleInput}
+                                disabled="disabled"></lightning-input>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="email" 
+                                label="Email" 
+                                name="contactEmail" 
+                                value={contactEmail} 
+                                onchange={handleInput}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+                
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Next"
+                    class="slds-m-left_x-small" onclick={handleContactSave} label="Save">
+                </lightning-button>
+                <lightning-button style="float: right; padding:10px;" variant="outline" title="Next"
+                    class="slds-m-left_x-small" onclick={handleSearchCancel} label="Cancel">
+                </lightning-button>
+            </footer>
+        </div>
+    </template>
+</template>

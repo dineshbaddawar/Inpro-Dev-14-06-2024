@@ -1,0 +1,19 @@
+<apex:page lightningStylesheets="true"  showHeader="false">
+    
+     <apex:includeLightning />
+    
+    <div id="ltngComponent"></div> 
+    <script>
+    debugger;
+    $Lightning.use("c:LandLAddAttendessBulkApp", function() {
+        
+        $Lightning.createComponent("c:LandLAddAttendessBulk",
+                                   { 
+                                       lunchandLearnId : '{!$CurrentPage.parameters.lunchandLearnId}'
+                                   },
+                                   "ltngComponent",
+                                   function(component) {});
+    });
+    </script>
+    
+</apex:page>

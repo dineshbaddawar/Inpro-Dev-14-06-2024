@@ -1,0 +1,190 @@
+<apex:page Controller="contactDetailsControllerPDF" renderAs="pdf" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" showHeader="false" sidebar="false">
+    <head>
+        <style type="text/css">
+            @page {
+            size: 10.59in 8.50in;
+            margin: 0px;
+            padding: 0px;
+            }
+            
+            *{
+            margin: 0px;
+            padding: 0px;
+            }
+            
+           <!--#main{
+            background:url("{!certificateBackground}");
+            background-repeat: repeat;
+            } -->
+            
+        </style>
+    </head>
+    
+    <div style="margin:0px,0px,0px,0px;text-align: center;width : 100%; font-style: normal;background-color: rgb(18, 72, 134);height:130px;" >
+        <h1 style=" font-family: Arial Unicode MS;padding-top:30px;font-size: 60px;font-style: normal;font-variant: normal;
+                   font-weight: 100;color: white;">CERTIFICATE OF COMPLETION</h1> 
+    </div>
+    
+    <div id ="main" style = "height:686px;">
+        
+        <div style="padding-top:20px">
+            <div style="font-size: 1rem;text-align: center;font-family: serif;color: rgb(130, 119, 119);">
+                <p>This certifies that the recipient named has successfully completed a registered</p>
+            </div>
+            
+            <div style="font-size: 1rem;text-align: center;font-family: serif;color: rgb(130, 119, 119);">
+                <p>Lunch &amp; Learn (live-instructor led) course earning one AIA Continuing Education System, </p>
+            </div>
+            
+            <div style="font-size: 1rem;text-align: center;font-family: serif;color: rgb(130, 119, 119);">
+                <p>Health, Safety and Welfare Sustainable Design Learning Unit.</p>
+            </div>
+            
+        </div>
+        
+        <div style="padding-top:30px">
+            <div style="font-size: 1rem;text-align:center;font-style: italic;font-family: serif;color: rgb(130, 119, 119);">
+                <p>This certificate is awarded to:</p>
+            </div>
+        </div>
+        
+        <div style="margin-top:20px; width:75%; padding:0 12%;">
+            <div style="text-align:center; font-family: Dialog;padding-top 30px;">
+                <h2 style="text-transform: uppercase;color: rgb(18, 72, 134);">{!FullName}</h2>
+                <hr width="100%" />
+            </div> 
+        </div>
+        
+        <div style="padding-top:15px; width:75%; padding:0 12%; text-align:center; font-family: Dialog;margin-top:40px; ">
+            <div style="margin-top:15px; float:left; width:30%; padding:0 1%;">
+                <h3 style="color: rgb(18, 72, 134);">{!IDCECcourseid}
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    IDCEC #
+                </h4>
+            </div>
+            <div style="margin-top:15px; float:left; width:30%; padding:0 1%;">
+                <h3 style="color: rgb(18, 72, 134);">{!Coursecredit} 
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    COURSE CREDIT 
+                </h4>
+            </div>
+            <div style="margin-top:15px; float:left; width:30%; padding:0 1%;">
+                <h3 style="color: rgb(18, 72, 134);"><apex:outputText style="color: rgb(18, 72, 134);" >
+                    <!--apex:param value="{!NOW()}" /-->
+                       {!dateCompleted}
+                    </apex:outputText> 
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    DATE COMPLETED 
+                </h4>
+            </div>
+        </div>
+        
+        <div style="margin-top:60px; width:75%; padding:0 12%;padding-top:30px;">
+            <div style="text-align:center; font-family: Dialog;">
+                <h2 style="text-transform: uppercase;text-align:center;color: rgb(18, 72, 134);">{!courseName}</h2>
+                <hr width="100%" />
+            </div> 
+        </div>
+        
+        <div style="padding-top:15px; width:75%; padding:0 12%; text-align:center; font-family: Dialog;margin-top:40px; ">
+            <div style="margin-top:15px; float:left; width:30%; padding:0 1%;">
+                <h3 style="color: rgb(18, 72, 134);"> {!courseId }
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    COURSE NUMBER
+                </h4>
+            </div>
+            <div style="margin-top:15px; float:left; width:30%; padding:0 1%;">
+                <h3 style="color: rgb(18, 72, 134);">{!ProviderName}
+ 
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    PROVIDER NAME 
+                </h4>
+            </div>
+            <div style="margin-top:15px; float:left; width:30%; padding:0 1%;">
+                <h3 style="color: rgb(18, 72, 134);">{!ProviderNumberIDCEC}
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    PROVIDER NUMBER 
+                </h4>
+            </div>
+        </div>
+        <div style="margin-top:80px; width:75%; padding:0 12%; text-align:center; font-family: Dialog; ">
+            <div style="margin-top:15px; float:left; width:40%; padding:0 37px;">
+                <h3 style="color: rgb(18, 72, 134);"> {!ContactInfo} 
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    CONTACT INFORMATION 
+                </h4>
+            </div>
+            
+            <div style="margin-top:15px; float:left; width:40%; padding:0 37px;">
+                <h3 style="color: rgb(18, 72, 134);">{!OwnerName}
+                </h3>
+                <hr width="100%" />
+                <h4 style="color: rgb(130, 119, 119);padding-top:5px;">
+                    PRESENTER
+                </h4>
+            </div>
+        </div>
+        
+        <div style="margin-top:125px;">
+         <div style="float:left;padding-left:20px;">
+         <apex:image url="{!IDCECLogo}"  height="55"/>
+          <!-- <apex:image url="{!URLFOR($Resource.GBCICMP)}" width="10%" />   -->   
+             
+            
+             
+         </div>
+       
+             <div style=" float:left;padding-top:20px;padding-left:440px;">
+            
+             <div style="color: rgb(18, 72, 134);"> <apex:outputText style="color: rgb(18, 72, 134);" value="">
+                     {!OwnerName}
+                    </apex:outputText>
+                 </div>
+              <hr/>
+               <div style="color: rgb(130, 119, 119);"> 
+                   
+                    <b>Products Representative</b>
+                    
+                 </div>
+             
+           
+              
+          </div>   
+                     <div style=" float:right;padding-top:20px;padding-right:120px">
+            
+             <div style="color: rgb(130, 119, 119);"><apex:outputText style="color: rgb(18, 72, 134);" value="{0,date,MM-dd-yyyy}">
+                    <apex:param value="{!NOW()}" />
+                    </apex:outputText>
+                   </div>
+                         <hr/>
+              <div style="color: rgb(130, 119, 119);"> 
+                   
+                  <b> Date</b>
+                    
+                 </div>
+              
+             
+             
+           
+              
+          </div>
+            
+                     
+            
+     </div>       
+    </div> 
+</apex:page>

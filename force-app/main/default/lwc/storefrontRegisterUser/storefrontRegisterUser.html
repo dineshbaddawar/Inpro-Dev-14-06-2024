@@ -1,0 +1,37 @@
+<template>
+    <lightning-card style="padding: 15px;">
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+        <template if:true={loaded}>
+            <h3 slot="title">
+                <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Register Storefront
+                    Customer</strong>
+            </h3>
+            <h1 style="padding: 10px;">This will register the contact selected as the selected Storefront user, if they
+                are already a user,
+                this will send an email to the contact with instructions on how to reset their password.</h1>
+
+            <lightning-combobox style="padding: 10px;" name="StoreFrontAccount" label="Store Front Account"
+                placeholder="Please Select" options={accountList} value={accountId} onchange={handleInputUpdate}>
+
+            </lightning-combobox>
+            <div style="padding: 10px;">
+                <c-lookup name="contactLookup" onsearch={handleContactSearch} scrollafternitems=10 label="Contact"
+                    placeholder="Search Contacts" onselectionchange={handleLookupSelectionChange}>
+                </c-lookup>
+            </div>
+            <lightning-combobox style="padding: 10px;" name="CustomerAccount" label="Customer Account"
+                placeholder="Please Select" options={customerAccountList} value={customerAccountId}
+                onchange={handleInputUpdate}>
+
+            </lightning-combobox>
+
+            <lightning-button variant="brand-outline" title="Register User/Reset Password" class="slds-m-left_x-small"
+                onclick={handleRegisterUserClick} label="Register User/Reset Password">
+            </lightning-button>
+            <h2 style="color: rgb(104, 2, 2); padding:5px;">{Response}</h2>
+
+        </template>
+    </lightning-card>
+</template>

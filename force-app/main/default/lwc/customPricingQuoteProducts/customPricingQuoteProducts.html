@@ -1,0 +1,416 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <template if:true={loaded}>
+                <div if:false={showError}>
+                    <h3 slot="title">
+                        <lightning-icon style="padding: 5px;" icon-name="utility:save" alternative-text="Save"
+                            size="Medium" title="Save" onclick={createAsyncTask} class="pointer"></lightning-icon>
+                        &nbsp;<strong>Custom Products</strong>
+                    </h3>
+                    <lightning-button if:true={saveAttempted} style="padding: 5px;" label="Cancel Save" onclick={cancelSave}>
+                    </lightning-button>
+                    <!-- Define table structure -->
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Line Number">Line Number</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Alternate Name">Alternate Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Item Number">Item Number</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Item Number">Yards</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Item Number">Labor</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Item Number">Liner</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Item Number">T Note</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Room Location">Room Location</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Style</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Quantity</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Mounting Type</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Pattern</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Fabric Width</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Vertical Repeat</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Color</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Height</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Return</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Lining</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Thickness</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Color 2</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Color 3</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Color 4</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Color 5</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Vendor</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Vendor 2</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Pattern 2</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Width</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Note</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Height 2</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Height 3</div>
+                                </th>                         
+                                
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Sewing Type</div>
+                                </th>                         
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Sewing Type 2</div>
+                                </th>                         
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Installation</div>
+                                </th>          
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Fullness</div>
+                                </th>          
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Operator</div>
+                                </th>          
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Draw Type</div>
+                                </th>                         
+
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Window Depth</div>
+                                </th>                     
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Rail Road</div>
+                                </th>                     
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Chain Guide</div>
+                                </th>                  
+                                
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Hem Bar</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Accessory</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Size</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Size 2</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Rod Part Number</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Stiffener</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Type</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Unit Cost</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Operator Location</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">T Note</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Tilt</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Lift</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Valance</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Valance 2</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Tilt 2</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Lift 2</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Brackets</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Brackets 2</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Quote Note</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Privacy Slat</div>
+                                </th>                  
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Style">Fabric Tape</div>
+                                </th>                  
+                            </tr>
+                        </thead>
+                        <!-- Loop through groups -->
+                        <tbody>
+                            <template for:each={QuoteProductList} for:item="product">
+                                <tr key={product.Id}>
+                                    <td>
+                                        {product.LineNumber__c}
+                                    </td>
+                                    <td>
+                                        {product.Alternate__r.Name__c}
+                                    </td>
+                                    <td>
+                                        {product.Item_Number__c}
+                                    </td>
+                                    <td>
+                                        <lightning-input style="width:50px;" name="Yards_Per_Line__c" accesskey={product.Id}
+                                            onchange={handleGridInputChange} type="text"
+                                            value={product.Yards_Per_Line__c}>
+                                        </lightning-input>
+                                    </td>
+                                    <td>
+                                        <lightning-input style="width:50px;" name="Labor__c" accesskey={product.Id}
+                                            onchange={handleGridInputChange} type="text" value={product.Labor__c}>
+                                        </lightning-input>
+                                    </td>
+                                    <td>
+                                        <lightning-input style="width:50px;" name="Additional_Liner__c" accesskey={product.Id}
+                                            onchange={handleGridInputChange} type="text"
+                                            value={product.Additional_Liner__c}> </lightning-input>
+                                    </td>
+                                    <td>
+                                        <lightning-input style="width:50px;" name="T_Note__c" accesskey={product.Id}
+                                            onchange={handleGridInputChange} type="text" value={product.T_Note__c}>
+                                        </lightning-input>
+                                    </td>
+                                    <td>
+                                        {product.Room_Location__c}
+                                    </td>
+                                    <td>
+                                        {product.Style__c}
+                                    </td>
+                                    <td>
+                                        {product.Quantity}
+                                    </td>
+                                    <td>
+                                        {product.Mounting_Type__c}
+                                    </td>
+                                    <td>
+                                        {product.Pattern__c}
+                                    </td>
+                                    <td>
+                                        {product.Fabric_Width__c}
+                                    </td>
+                                    <td>
+                                        {product.Fabric_Vertical_Repeat__c}
+                                    </td>
+                                    <td>
+                                        {product.Color__c}
+                                    </td>
+                                    <td>
+                                        {product.Height__c}
+                                    </td>
+                                    <td>
+                                        {product.Return__c}
+                                    </td>
+                                    <td>
+                                        {product.Lining__c}
+                                    </td>
+                                    <td>
+                                        {product.Thickness__c}
+                                    </td>
+                                    <td>
+                                        {product.Color_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Color_3__c}
+                                    </td>
+                                    <td>
+                                        {product.Color_4__c}
+                                    </td>
+                                    <td>
+                                        {product.Color_5__c}
+                                    </td>
+                                    <td>
+                                        {product.Vendor__c}
+                                    </td>
+                                    <td>
+                                        {product.Vendor_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Pattern_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Width__c}
+                                    </td>
+                                    <td>
+                                        {product.Note__c}
+                                    </td>
+                                    <td>
+                                        {product.Height_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Height_3__c}
+                                    </td>
+                                    <td>
+                                        {product.Sewing_Type__c}
+                                    </td>
+                                    <td>
+                                        {product.Sewing_Type_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Installation__c}
+                                    </td>
+                                    
+                                    <td>
+                                        {product.Fullness__c}
+                                    </td>
+                                    <td>
+                                        {product.Operator__c}
+                                    </td>
+                                    <td>
+                                        {product.Draw_Type__c}
+                                    </td>
+                                    
+                                    <td>
+                                        {product.Window_Depth__c}
+                                    </td>
+                                    <td>
+                                        {product.Railroad__c}
+                                    </td>
+                                    <td>
+                                        {product.Chain_Guide__c}
+                                    </td>
+                                                                        
+                                    <td>
+                                        {product.Hem_Bar__c}
+                                    </td>
+                                    <td>
+                                        {product.Accessory__c}
+                                    </td>
+                                    <td>
+                                        {product.Size__c}
+                                    </td>
+                                    
+                                    <td>
+                                        {product.Size_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Rod_Part_Number__c}
+                                    </td>
+                                    <td>
+                                        {product.Stiffener__c}
+                                    </td>
+                                    
+                                    <td>
+                                        {product.Type__c}
+                                    </td>                                    
+                                    <td>
+                                        {product.Unit_Cost__c}
+                                    </td>
+                                    <td>
+                                        {product.Operator_Location__c}
+                                    </td>
+                                    <td>
+                                        {product.T_Note__c}
+                                    </td>
+                                    <td>
+                                        {product.Tilt__c}
+                                    </td>
+                                    <td>
+                                        {product.Lift__c}
+                                    </td>
+                                    <td>
+                                        {product.Valance__c}
+                                    </td>
+                                    <td>
+                                        {product.Valance_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Tilt_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Lift_2__c}
+                                    </td>
+                                    <td>
+                                        {product.Brackets__c}
+                                    </td>                               
+                                    <td>
+                                        {product.Brackets_2__c}
+                                    </td>                               
+                                    <td>
+                                        {product.Quote_Note__c}
+                                    </td>                     
+                                    <td>
+                                        {product.Privacy_Slat__c}
+                                    </td>                     
+                                    <td>
+                                        {product.Fabric_Tape__c}
+                                    </td>             
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="color:red; padding: 10px;" if:true={showError}>
+                    {errorMessage}
+                    <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                    </lightning-button>
+                </div>
+            </template>
+            <template if:false={loaded}>
+                <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+            </template>
+        </div>
+    </lightning-card>
+</template>

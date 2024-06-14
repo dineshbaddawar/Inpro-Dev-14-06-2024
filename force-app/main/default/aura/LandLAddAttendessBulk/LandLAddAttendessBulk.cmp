@@ -1,0 +1,168 @@
+<aura:component controller="LandLAddAttendeesBulkController" implements="flexipage:availableForAllPageTypes" access="global" >
+    
+    <aura:attribute name="lunchandLearnId" type="string"/>
+    <aura:attribute name="standardBodiesList" type="List"/>
+    <aura:attribute name="attendeeList" type="List"/>
+    <aura:attribute name="lunchandLearnEventRecord" type="Object"/>
+    <aura:attribute name="loading" type="boolean" default="false"/>
+    <aura:attribute name="isError" type="Boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="isEventPast" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <article class="slds-card slds-grid slds-wrap slds-col slds-size_1-of-1 slds-align_absolute-center">
+        <div class="slds-card__header slds-col slds-size_1-of-1 slds-grid slds-wrap headerBorder">
+            <div class="slds-col slds-size_1-of-1 slds-text-heading_medium" style="padding-bottom: 1%">{!$Label.c.L_L_Bulk_Registration_Page_Header}</div>
+            <div class="slds-col slds-size_1-of-1 slds-text-heading_small" style="padding-bottom: 1%">{!v.lunchandLearnEventRecord.Name}</div>
+        </div>
+    </article>
+    
+    
+    <aura:if isTrue="{!v.isEventPast}">
+        
+        <div class="button-row error-text" style="font-weight:bold;color:#4296ed;text-align:center;font-size: 1.5em;">
+            <p>
+                <lightning:formattedRichText value="{!v.lunchandLearnEventRecord.RegistrationCompleteMessage}"/>
+            </p>
+        </div>
+        
+        <aura:set attribute="else">
+            
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                
+                <div aura:id="spinnerDiv">
+                    <aura:if isTrue="{!v.loading}">
+                        <lightning:spinner variant="brand" size="large" alternativeText="{!$Label.c.L_L_Loading_Message}"/>
+                    </aura:if>
+                </div>
+                
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <div class="slds-truncate">{!$Label.c.L_L_S_No}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="{!$Label.c.L_L_First_Name}">{!$Label.c.L_L_First_Name}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="{!$Label.c.L_L_Last_Name}">{!$Label.c.L_L_Last_Name}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="{!$Label.c.L_L_Email}">{!$Label.c.L_L_Email}</div>
+                        </th>
+                        <aura:if isTrue="{!v.lunchandLearnEventRecord.IsAnotherLocation}">
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.L_L_Company}">{!$Label.c.L_L_Company}</div>
+                            </th>
+                        </aura:if>
+                        <aura:iteration items="{!v.standardBodiesList}" var="stdBody" indexVar="index">
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!stdBody.Name}">{!stdBody.Name+' '+$Label.c.L_L_Membership_Number}</div>
+                            </th>
+                        </aura:iteration>
+                        <th scope="col">
+                            <div class="slds-truncate" title="{!$Label.c.L_L_Email_Opt_In}">{!$Label.c.L_L_Email_Opt_In}</div>
+                        </th>
+                    </tr>
+                </thead>   
+                <tbody>
+                    <aura:iteration items="{!v.attendeeList}" var="attendee" indexVar="index">
+                        <tr class="slds-text">
+                            
+                            <aura:if isTrue="{!attendee.EditOrSave}">
+                                <td> 
+                                    {!index + 1}
+                                </td>
+                                <td>
+                                    <ui:inputText class="slds-input" value="{!attendee.FirstName}"/>
+                                </td>
+                                <td>
+                                    <ui:inputText class="slds-input" value="{!attendee.LastName}"/>
+                                </td>
+                                <td>
+                                    <ui:inputText class="slds-input" value="{!attendee.EmailAddress}"/>
+                                </td>
+                                <aura:if isTrue="{!v.lunchandLearnEventRecord.IsAnotherLocation}">
+                                    <td>
+                                        <ui:inputText class="slds-input" value="{!attendee.Company}"/>
+                                    </td>
+                                </aura:if>
+                                <aura:iteration items="{!attendee.StandardBodies}" var="stdBody" indexVar="index">
+                                    <td>
+                                        <ui:inputText class="slds-input" value="{!stdBody.RegistrationNumber}"/>
+                                    </td>
+                                </aura:iteration>
+                                <td>
+                                    <ui:inputCheckbox value="{!attendee.EmailOptIn}"/>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!attendee.NewRow}">
+                                        <a onclick="{!c.saveNewRow}" data-id="{!index+'-index'}">{!$Label.c.L_L_Save_Button}</a>
+                                        <aura:set attribute="else">
+                                            <a onclick="{!c.saveRow}" data-id="{!attendee.AttendeeId+'Save'}">{!$Label.c.L_L_Save_Button}</a>
+                                            &nbsp;
+                                            <a onclick="{!c.CancelEdit}" data-id="{!attendee.AttendeeId+'Cancel'}">{!$Label.c.L_L_Cancel}</a>
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                
+                                <aura:set attribute="else">
+                                    <td> 
+                                        {!index + 1}
+                                    </td>
+                                    <td>
+                                        <ui:outputText value="{!attendee.FirstName}"/>
+                                    </td>
+                                    <td>
+                                        <ui:outputText  value="{!attendee.LastName}"/>
+                                    </td>
+                                    <td>
+                                        <ui:outputText  value="{!attendee.EmailAddress}"/>
+                                    </td>
+                                    <aura:if isTrue="{!v.lunchandLearnEventRecord.IsAnotherLocation}">
+                                        <td>
+                                            <ui:outputText value="{!attendee.Company}"/>
+                                        </td>
+                                    </aura:if>
+                                    <aura:iteration items="{!attendee.StandardBodies}" var="stdBody" indexVar="index">
+                                        <td>
+                                            <ui:outputText value="{!stdBody.RegistrationNumber}"/>
+                                        </td>
+                                    </aura:iteration>
+                                    <td>
+                                        <ui:outputCheckbox value="{!attendee.EmailOptIn}"/>
+                                    </td>
+                                    <td>
+                                        <a onclick="{!c.editRow}" data-id="{!attendee.AttendeeId+'Edit'}">{!$Label.c.L_L_Edit_Button}</a>
+                                        &nbsp;
+                                        <a onclick="{!c.deleteRow}" data-id="{!attendee.AttendeeId+'Delete'}">{!$Label.c.L_L_Delete_Button}</a>
+                                    </td> 
+                                </aura:set>
+                            </aura:if>
+                            
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            
+            
+            <div style="text-align: right;padding: 20px;">
+                <a onclick="{!c.addNewRow}">{!$Label.c.L_L_Add_New_Row_Button}</a> 
+            </div>
+            
+            
+            
+        </aura:set>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isError}">
+        <div class="button-row error-text" style="font-weight:bold;color:red;">
+            <p>
+                <lightning:formattedRichText value="{!v.errorMessage}"/>
+            </p>
+        </div>
+    </aura:if>
+    
+    
+</aura:component>

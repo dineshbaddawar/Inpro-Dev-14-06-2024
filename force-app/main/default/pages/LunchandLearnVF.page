@@ -1,0 +1,17 @@
+<apex:page standardController="LunchAndLearnEvent__c" sidebar="false" standardStylesheets="false">
+    <apex:includeLightning />
+    <apex:includeScript value="/lightning/lightning.out.js" />
+    <div id="lightning" style="padding:50px;margin-left:50px;" />
+    
+    <script>
+    var AccountId = "{!$CurrentPage.parameters.AccountId}";
+    var CampaignId = "{!$CurrentPage.parameters.CampaignId}";
+    var type = "{!$CurrentPage.parameters.type}";
+    console.log('accoutn::' + AccountId+ CampaignId+type);
+    $Lightning.use("c:LALApp", function() {
+        $Lightning.createComponent("c:LunchandLearnComp", {"AccountId":AccountId,"CampaignIdFromUrl":CampaignId,"startFrom":type,
+        }, "lightning", function(cmp){
+        });
+    }); 
+    </script>
+</apex:page>

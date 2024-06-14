@@ -1,0 +1,56 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Quote Line Item Total Yardage Summary</strong>
+        </h3>        
+        <h1 style="padding: 10px;">Sums the total yards associated with the quoted items.</h1>
+        <br/>
+        <div class="slds-box slds-theme_default" style="margin: 5px;">
+            <table
+                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                <thead>
+                    <tr>
+                        <th class="" scope="col"></th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Alternate">Alternate</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="ItemNumber">Item Number</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Color">Color</div>
+                        </th>                       
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="TotalYards">Total Yards</div>
+                        </th>                                               
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={quoteProductList} for:item="item">
+                        <tr key={item.Id}>
+                            <td>
+                                <lightning-input type="checkbox" accesskey={item.Id} 
+                                    onchange={handleOptionChecked} checked={item.Selected}>
+                                </lightning-input>
+                            </td>
+                            <td>{item.Alternate}</td>
+                            <td>{item.ItemNumber}</td>
+                            <td>{item.Color}</td>          
+                            <td>{item.YardsPerLine}</td>                                                      
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <lightning-input name="input_totalYards" style="padding-left: 10px; padding-right: 10px;" label="Total Yards (of selected line items):" disabled value={totalYards} ></lightning-input><br/>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+
+        <lightning-button style="float: left;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+    </template>
+</template>

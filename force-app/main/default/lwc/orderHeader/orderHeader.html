@@ -1,0 +1,118 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">                       
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12" style="padding-right:10px;border-bottom:solid;border-color:lightgrey;border-width:0.5mm;padding-bottom:5px;padding-top:10px;">
+                <table>
+                    <tr>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="shipToContactLabel" label="Ship to Contact" value="Ship To Contact" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="text" name="shipToContact" label="Ship to Contact" value={shipToContact} style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="orderStatusLabel" label="Order Status" value="Order Status" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="text" name="orderStatus" label="Order Status" value={orderStatus} style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12" style="padding-right:10px;border-bottom:solid;border-color:lightgrey;border-width:0.5mm;padding-bottom:5px;padding-top:10px;">
+                <table>
+                    <tr>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="poNumberLabel" label="PO Number" value="PO Number" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="text" name="poNumber" label="PO Number" value={poNumber} style="width:100%; pointer-events:none;"></lightning-formatted-text>           
+                        </td>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="subTotalLabel" label="Subtotal" value="Subtotal" style="width:100%; pointer-events:none;"></lightning-formatted-text>                
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="date" name="subTotal" label="Subtotal" value={subTotal} style="width:100%; pointer-events:none;"></lightning-formatted-text>                                  
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>  
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12" style="padding-right:10px;border-bottom:solid;border-color:lightgrey;border-width:0.5mm;padding-bottom:5px;padding-top:10px;">
+                <table>
+                    <tr>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="orderStartDateLabel" label="Order Start Date" value="Order Start Date" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="date" name="orderStartDate" label="Order Start Date" value={orderStartDate} style="width:100%; pointer-events:none;"></lightning-formatted-text>           
+                        </td>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="taxLabel" label="Tax" value="Tax" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="text" name="tax" label="Tax" value={tax} style="width:100%; pointer-events:none;"></lightning-formatted-text>               
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12" style="padding-right:10px;border-bottom:solid;border-color:lightgrey;border-width:0.5mm;padding-bottom:5px;padding-top:10px;">
+                <table>
+                    <tr>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="expectedShipDateLabel" label="Expected Ship Date" value="Expected Ship Date" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="date" name="expectedShipDate" label="Expected Ship Date" value={expectedShipDate} style="width:100%; pointer-events:none;"></lightning-formatted-text>                       
+                        </td>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="shippingAmountLabel" label="Shipping Amount" value="Shipping Amount" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="text" name="shippingAmount" label="Freight" value={shippingAmount} style="width:100%; pointer-events:none;"></lightning-formatted-text>       
+                        </td>
+                    </tr>
+                </table>
+             </div>
+        </div>    
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_12-of-12" style="padding-right:10px;border-bottom:solid;border-color:lightgrey;border-width:0.5mm;padding-bottom:5px;padding-top:10px;">
+                <table>
+                    <tr>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="actualShipDateLabel" label="Actual Ship Date" value="Actual Ship Date" style="width:100%; pointer-events:none;"></lightning-formatted-text>
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="date" name="actualShipDate" label="Actual Ship Date" value={actualShipDate} style="width:100%; pointer-events:none;"></lightning-formatted-text>                       
+                        </td>
+                        <td style="width:10%;">
+                            <lightning-formatted-text type="text" name="totalLabel" label="Total" value="Total" style="width:100%; pointer-events:none;"></lightning-formatted-text>             
+                        </td>
+                        <td style="width:40%;">    
+                            <lightning-formatted-text type="text" name="total" label="Total" value={total} style="width:100%; pointer-events:none;"></lightning-formatted-text>                         
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>    
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_6-of-12" style="padding-right:10px;border-bottom:solid;border-color:lightgrey;border-width:0.5mm;padding-bottom:5px;padding-top:10px;">
+                <lightning-input type="checkbox" name="nonCommissionable" label="Non-Commissionable" value={nonCommissionable} style="width:100%; pointer-events:none;"></lightning-input>                      
+            </div>
+            <div class="slds-col slds-size_6-of-12">                  
+           </div>
+        </div>                                      
+    </div>
+    <div><h3 style="padding-left: 10px; font-size:16px;"><b>Shipment Information</b></h3></div>
+    <lightning-datatable key-field="Id" data={fulfillmentData} columns={fulfillmentColumns} hide-checkbox-column="true"
+        sorted-direction={sortDirection} data-id='dg_itemGrid' style="padding: 10px; left:10px; right:10px; position: relative;">
+    </lightning-datatable>
+</template>

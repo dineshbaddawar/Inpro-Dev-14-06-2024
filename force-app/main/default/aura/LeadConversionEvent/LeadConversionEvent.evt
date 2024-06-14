@@ -1,0 +1,9 @@
+<aura:event type="COMPONENT" description="Event template">
+	<aura:attribute name="wasSuccess" type="boolean"/>
+	<aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="wasExistingRecord" type="boolean" default="false"/>
+    <aura:attribute name="type" type="String"/>
+	<aura:attribute name="message" type="String"/>
+    <aura:attribute name="trace" type="String"/>
+    <aura:attribute name="componentLabel" type="String"/>
+</aura:event>

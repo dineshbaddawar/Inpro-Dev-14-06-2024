@@ -1,0 +1,290 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                    <template if:false={discountSimilar}>
+                        <h3 slot="title">
+                            <lightning-icon style="padding: 5px;" icon-name="utility:save"
+                                alternative-text="Save Config" size="medium" title="Save Config" onclick={saveConfig}
+                                class="pointer"></lightning-icon>
+                            &nbsp;<strong>Quote Discounting</strong>
+                        </h3>
+                        <lightning-layout vertical-align="space">
+                            <lightning-layout-item>
+                                <div style="width: 150px;">
+                                    <div style="padding:5px;">
+                                        <h2 style="font-weight:bold;">Alternates</h2>
+                                    </div>
+                                    <lightning-vertical-navigation onselect={handleSelected}
+                                        selected-item={selectedItem}>
+                                        <lightning-vertical-navigation-section>
+                                            <template for:each={alternateList} for:item="alt">
+                                                <lightning-vertical-navigation-item name={alt.AlternateId}
+                                                    key={alt.AlternateId} label={alt.AlternateName}>
+                                                </lightning-vertical-navigation-item>
+                                            </template>
+                                        </lightning-vertical-navigation-section>
+                                    </lightning-vertical-navigation>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="width:100%">
+                                <!-- begin top Inputs -->
+                                <lightning-layout horizontal-align="left" multiple-rows>
+                                    <lightning-input label="Discount %" id="discountPercent" title="Discount %"
+                                        name="discountPercent" onchange={handleFormInputChange} type="text">
+                                    </lightning-input>
+                                    <lightning-button variant="brand-outline" title="Apply % to Selected"
+                                        class="slds-m-left_x-small" onclick={handleApplyToSelectedOnClick}
+                                        label="Apply % To Selected">
+                                </lightning-button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <lightning-input label="Discount CM" id="discountCM" title="Discount CM"
+                                        name="discountCM" onchange={handleFormInputChange} type="text">
+                                    </lightning-input>
+                                    <lightning-button variant="brand-outline" title="Apply CM to Selected"
+                                        class="slds-m-left_x-small" onclick={handleApplyToSelectedCMOnClick}
+                                        label="Apply CM To Selected">
+                                    </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <lightning-button variant="brand-outline" title="Discount Similar Items"
+                                        class="slds-m-left_x-small" onclick={handleDiscountSimilarItemsOnClick}
+                                        label="Discount Similar Items">
+                                    </lightning-button>
+                                </lightning-layout>
+                                <!-- end top Inputs -->
+
+                                <!-- begin data Grid -->
+                                <div class="slds-box slds-theme_default" style="margin: 5px;">
+                                    <table
+                                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate">
+                                                        <lightning-input type="checkbox"
+                                                            onchange={handleCheckAllChecked}>
+                                                        </lightning-input>
+                                                    </div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Product">Item #</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Color">Description 1</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Color">Description 2</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Color">Color</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Qty">Qty</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Yield">Yield (%)</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="OriginalPrice">Original Price
+                                                    </div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="DiscountPrice">Discount Price
+                                                    </div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="CM">CM</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="DiscountPrice">Discount Price
+                                                    </div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="DiscountPercent">Discount %</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="DiscountCM">Discount CM</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={existingProductList} for:item="product">
+                                                <tr class={product.BackGround} key={product.Id}>
+
+                                                    <td>
+                                                        <lightning-input type="checkbox" accesskey={product.Id}
+                                                            onchange={handleOptionChecked} checked={product.Selected}>
+                                                        </lightning-input>
+                                                    </td>
+                                                    <td>{product.Name}</td>
+                                                    <td>{product.Description}</td>
+                                                    <td>{product.Description2}</td>
+                                                    <td>{product.Color}</td>
+                                                    <td>{product.Quantity}</td>
+                                                    <td>{product.Yield}%</td>
+                                                    <td>${product.BasePrice}</td>
+                                                    <td>${product.Price}</td>
+                                                    <td>{product.CM}%</td>
+                                                    <td>
+                                                        <lightning-input name="OptionDiscountPrice"
+                                                            accesskey={product.Id} onchange={handleGridInputChange}
+                                                            type="text" value={product.DiscountPrice}>
+                                                        </lightning-input>
+                                                    </td>
+                                                    <td>
+                                                        <lightning-input name="OptionDiscountPercent"
+                                                            accesskey={product.Id} onchange={handleGridInputChange}
+                                                            type="text" value={product.DiscountPercent}>
+                                                        </lightning-input>
+                                                    </td>
+                                                    <td>
+                                                        <lightning-input name="OptionDiscountCM"
+                                                            accesskey={product.Id} onchange={handleGridInputChange}
+                                                            type="text" value={product.DiscountCM}>
+                                                        </lightning-input>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <div style="float:left">
+                                        <strong>Alternate Total:</strong> ${alternateTotal} <strong>
+                                            Alternate Total Yield:</strong> {alternateTotalYield}% | 
+                                           <strong> Alternate CM:</strong> {alternateCM}% |
+                                            <strong>Color Legend:</strong>
+                                        &nbsp;</div>
+                                    <div class='box red'>&nbsp;<strong>- Below Cost </strong>|&nbsp;</div>
+                                    <div class='box lighttan'>&nbsp;<strong>- Below Divisional Threshold </strong>|&nbsp;
+                                    </div>
+                                    <div class='box blue'>&nbsp;<strong>- Has Contract Pricing</strong>&nbsp;</div>
+                                </div>
+                                <!-- end data grid-->
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={discountSimilar}>
+                        <lightning-layout horizontal-align="left" multiple-rows>
+                            <lightning-button variant="brand-outline" title="Apply To Selected"
+                                class="slds-m-left_x-small" onclick={handleApplyDiscountClick}
+                                label="Apply To Selected">
+                            </lightning-button>
+                            <lightning-button variant="brand-outline" title="Discount Similar Items"
+                                class="slds-m-left_x-small" onclick={handleReturnToMainScreenOnClick}
+                                label="Return to Main Screen">
+                            </lightning-button>
+                        </lightning-layout>
+                        <!-- begin data Grid -->
+                        <div class="slds-box slds-theme_default" style="margin: 5px;">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">
+                                                <lightning-input type="checkbox" onchange={handleCheckAllDiscountSimilar}>
+                                                </lightning-input>
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="ItemNumber">Item #</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Description1">Description 1</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Description2">Description 2</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Qty">Qty</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Yield">Yield (%)</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="OriginalPrice">Original Price</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="DiscountPrice">Discount Price</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="CM">CM</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="DiscountPrice">Discount Price</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="DiscountPercent">Discount %</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="DiscountCM">Discount CM</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Color">Color</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={existingProductList} for:item="product">
+                                        <tr class={product.BackGround} key={product.Id}>
+
+                                            <td>
+                                                <lightning-input type="checkbox" accesskey={product.Id}
+                                                    onchange={handleOptionChecked} checked={product.Selected}>
+                                                </lightning-input>
+                                            </td>
+                                            <td>{product.Name}</td>
+                                            <td>{product.Description}</td>
+                                            <td>{product.Description2}</td>
+                                            <td>{product.Quantity}</td>
+                                            <td>{product.Yield}</td>
+                                            <td>{product.BasePrice}</td>
+                                            <td>{product.Price}</td>
+                                            <td>{product.CM}</td>
+                                            <td>
+                                                <lightning-input name="OptionDiscountPrice" accesskey={product.Id}
+                                                    onchange={handleGridInputChange} type="text"
+                                                    value={product.DiscountPrice}> </lightning-input>
+                                            </td>
+                                            <td>
+                                                <lightning-input name="OptionDiscountPercent" accesskey={product.Id}
+                                                    onchange={handleGridInputChange} type="text"
+                                                    value={product.DiscountPercent}></lightning-input>
+                                            </td>
+                                            <td>
+                                                <lightning-input name="OptionDiscountCM" accesskey={product.Id}
+                                                    onchange={handleGridInputChange} type="text"
+                                                    value={product.DiscountCM}></lightning-input>
+                                            </td>
+                                            <td>{product.Color}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <div style="float:left">
+                                <strong>Color Legend:</strong>
+                                &nbsp;</div>
+                            <div class='box red'>&nbsp;<strong>- Below Cost </strong>|&nbsp;</div>
+                            <div class='box lighttan'>&nbsp;<strong>- Below Divisional Threshold </strong>&nbsp;</div>
+
+                        </div>
+                        <!-- end data grid-->
+                    </template>
+                </template>
+                <lightning-button style="float: right; padding:30px 10px 10px 10px;" variant="brand" title="Cancel"
+                    class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+                </lightning-button>
+                <template if:false={loaded}>
+                    <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

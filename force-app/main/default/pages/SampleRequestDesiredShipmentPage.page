@@ -1,0 +1,59 @@
+<apex:page controller="SampleRequestController" >
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:slds />
+        </head>
+        <body>
+            <apex:form >
+                <apex:outputPanel id="buttons">
+                    <apex:actionSupport event="onclick" reRender="buttons"/>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_2-of-12">
+                            <p style="text:bold;font-size:16px;padding-top:5px;"><b>Shipping Method:</b></p>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <p style="text:bold;font-size:16px;padding-top:5px;">{!sampleRequest.Desired_Shipping_Method__c}</p>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <apex:commandbutton action="{!ChangeToFedEx}" disabled="{!sampleRequest.Status__c == 'Delivered'}" value="FedEx Standard" styleClass="slds-button slds-button--brand">
+                                <apex:actionSupport event="onclick" reRender="buttons"/>
+                            </apex:commandbutton>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <apex:commandbutton action="{!ChangeToUPS}" disabled="{!sampleRequest.Status__c == 'Delivered'}" value="UPS Ground" styleClass="slds-button slds-button--brand">
+                                <apex:actionSupport event="onclick" reRender="buttons"/>
+                            </apex:commandbutton>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <apex:commandbutton action="{!ChangeToUSPS}" disabled="{!sampleRequest.Status__c == 'Delivered'}" value="USPS Priority" styleClass="slds-button slds-button--brand">
+                                <apex:actionSupport event="onclick" reRender="buttons"/>
+                            </apex:commandbutton>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap" style="padding-top:5px;">
+                        <div class="slds-col slds-size_2-of-12">
+                            <p style="text:bold;font-size:16px;padding-top:5px;"><b>Package Type:</b></p>
+                        </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <p style="text:bold;font-size:16px;padding-top:5px;">{!sampleRequest.Desired_Package_Type__c}</p>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                        </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <apex:commandbutton action="{!ChangeToUSPSFlatRateEnvelope}" disabled="{!sampleRequest.Desired_Shipping_Method__c != 'Priority' || sampleRequest.Status__c == 'Delivered'}" value="USPS Flat Rate Envelope" styleClass="slds-button slds-button--brand">
+                                <apex:actionSupport event="onclick" reRender="buttons"/>
+                            </apex:commandbutton>
+                            <apex:commandbutton action="{!ChangeToUSPSPaddedFlatRateEnvelope}" disabled="{!sampleRequest.Desired_Shipping_Method__c != 'Priority' || sampleRequest.Status__c == 'Delivered'}" value="USPS Padded Flat Rate Envelope" styleClass="slds-button slds-button--brand">
+                                <apex:actionSupport event="onclick" reRender="buttons"/>
+                            </apex:commandbutton>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+                
+            </apex:form>
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,20 @@
+.pointer{
+    cursor:pointer;
+}
+
+.qcHolder
+{
+    min-height: 500px;
+    min-width: 500px;
+}
+
+.full-screen{
+    max-height:65vh;
+    overflow-y:auto;
+}
+
+.warning-message{
+    text-align:center;
+    color:red;
+    font:x-large bold red;
+}

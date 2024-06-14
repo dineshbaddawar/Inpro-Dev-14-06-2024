@@ -1,0 +1,26 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:60%; margin-bottom:60%;" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Process Bulk Packaging Task</strong>
+        </h3> 
+        <lightning-textarea name="ta_comments" label="Please enter your notes below." onchange={handleCommentsOnChange}></lightning-textarea>
+        <lightning-combobox 
+            name="lcb_status"
+            label="Status"
+            value={status}
+            placeholder="Please Select"
+            options={statuses}
+            onchange={handlestatusOptionChange}>
+        </lightning-combobox>
+        <br/>
+    </template>          
+    <lightning-button title="Save" variant="brand" style="float: right;" class="slds-m-left_x-small"
+        onclick={handleSave}  label="Save">
+    </lightning-button>               
+    <lightning-button style="float: left;" variant="brand" title="Cancel"
+        class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+    </lightning-button>
+</template>

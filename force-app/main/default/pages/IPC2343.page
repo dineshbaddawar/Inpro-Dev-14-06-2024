@@ -1,0 +1,733 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC2343Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px"> 
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" >IPC.2343/Rev.2</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <b> Model 30 Kickplate</b>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        <div style="font-size:12px">
+            <title>IPC2343</title>
+            
+            <p style="padding-left: 8pt;;text-align: left;padding-top:20px;font-size:12px">
+                Please complete the following information based on field verified dimensions.  Orders for custom products cannot 
+                be cancelled or returned.  Please sign and return to proceed with your order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for 
+                quotation.  Sales contact:  800-222-5556.
+            </p>
+            <!--Header Table-->
+            <table style="width:100%; border-collapse: collapse; border: 2px solid black;padding-top:5px;font-size:12px">
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                    <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                        
+                    </td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                    <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                        
+                    </td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                    <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                        
+                    </td>
+                </tr>
+            </table>
+            
+            <p style="padding:5px; font-size:12px">
+                Note: This form is for standard dimensions and shapes only.  Modifications are available as a custom order through our 
+                Expressions program.
+            </p>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                <tr>
+                    <td style="width: 55%;">
+                        Designer Kickplate Thickness (select one): <br/><br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer;background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;.040"</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 80px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 100px; margin-top: -15px;">&nbsp;&nbsp;.060"</div>
+                        <br/>
+                        *.080'' available - minimums and/or set-ups apply.
+                    </td>
+                    <td style="width: 45%;" rowSpan="4">
+                        <img style="width: 100%; margin: 0 auto; display: block;" src="{!$Resource.cf_ipc2343_Model30KP}" alt="Inpro" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        Grain Direction (select one): <br/><br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;Vertical</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 100px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 120px; margin-top: -15px;">&nbsp;&nbsp;Horizontal</div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        Peel &amp; Stick Adhesive (select one): <br/>
+                        <small>Note: Not available with Beadboard pattern.</small> <br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;Yes</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 80px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 100px; margin-top: -15px;">&nbsp;&nbsp;No</div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        Beadboard Pattern: <br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;Yes</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 80px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 100px; margin-top: -15px;">&nbsp;&nbsp;No</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Notes:
+                        &emsp; &#x2022; Door Handle Circle to be cut on site by others <br/>
+                        &emsp; &#x2022; Drawing shown is a left side door handle location. <br/>
+                        &emsp; &#x2022; All edges are beveled. <br/>
+                        &emsp; &#x2022; Tolerances are +0-1/16" <br/>
+                        &emsp; &#x2022; Model 10 top piece has a height of approximately 12". <br/>
+                        &emsp; &#x2022; Model 20 top piece has a height of approximately 16". <br/>
+                        &emsp; &#x2022; Maximum width for kickplates is 47 ¾". <br/>
+                        &emsp; &#x2022; Woodland and Elements Patterns - Grain direction is vertical. <br/>
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="font-size:10px; border-collapse: collapse;"> 
+                <tr style="font-weight:bold;background-color: #dddddd;">
+                    <td style="width:8.3%; border: 1px solid;">
+                        Sr.No
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            Qty
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            COLOR
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            WIDTH IN. (CM)
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            HEIGHT IN. (CM) (to Cenre of Door Handle)
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            DOOR HANDLE  (Left or Right Side)
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            LOCATION
+                        </b>
+                    </td> 
+                </tr>
+                
+                <tr> 
+                    <td style="width:8.3%; border: 1px solid;">
+                        1
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                </tr>
+                <tr> 
+                    <td style="width:8.3%; border: 1px solid;">
+                        2
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                </tr>
+                <tr> 
+                    <td style="width:8.3%; border: 1px solid;">
+                        3
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                </tr>
+                <tr> 
+                    <td style="width:8.3%; border: 1px solid;">
+                        4
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                </tr>
+                <tr> 
+                    <td style="width:8.3%; border: 1px solid;">
+                        5
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                </tr>
+                <tr> 
+                    <td style="width:8.3%; border: 1px solid;">
+                        6
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                </tr>
+                <tr> 
+                    <td style="width:8.3%; border: 1px solid;">
+                        7
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        
+                    </td>
+                </tr>
+                
+                
+            </table>
+            
+            <br/>
+            <table style="font-size:12px;border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;font-weight:bold;">
+                        <b>
+                            FOR INPRO USE ONLY
+                        </b>
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Customer Order #:
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Inpro Drawing: N/A
+                    </td>
+                    <td style="border: 1px solid black;padding:6px;">
+                        Inpro #:
+                    </td>
+                </tr>            
+            </table>
+            
+            <br/>
+        </div>
+        
+    </apex:outputText>
+    
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px"> 
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" >IPC.2343/Rev.2</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <b> Model 30 Kickplate</b>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        
+        <div style="font-size:12px">
+            <title>IPC2343</title>    
+            <p style="padding-left: 8pt;;text-align: left;padding-top:30px;font-size:12px">
+                Please complete the following information based on field verified dimensions.  Orders for custom products cannot 
+                be cancelled or returned.  Please sign and return to proceed with your order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for 
+                quotation.  Sales contact:  800-222-5556.
+            </p>
+            <!--Header Table-->
+            <table style="width:100%; border-collapse: collapse; border: 2px solid black;padding-top:5px;font-size:12px">
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                    <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                    </td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                    <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                    </td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                    <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                    </td>
+                </tr>
+            </table>
+            
+            <p style="padding:5px; font-size:12px">
+                Note: This form is for standard dimensions and shapes only.  Modifications are available as a custom order through our 
+                Expressions program.
+            </p>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                <tr>
+                    <td style="width: 55%;">
+                        Designer Kickplate Thickness (select one): <br/><br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer;background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;{!customForm.isMetricExpressionFourZero}</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 80px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 100px; margin-top: -15px;">&nbsp;&nbsp;{!customForm.isMetricExpressionSixZero}</div>
+                        <br/>
+                        {!customForm.isMetricExpressionForThickness}
+                    </td>
+                    <td style="width: 45%;" rowSpan="4">
+                        <img style="width: 100%; margin: 0 auto; display: block;" src="{!$Resource.cf_ipc2343_Model30KP}" alt="Inpro" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Grain Direction (select one): <br/><br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;Vertical</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 100px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 120px; margin-top: -15px;">&nbsp;&nbsp;Horizontal</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Peel &amp; Stick Adhesive (select one): <br/>
+                        <small>Note: Not available with Beadboard pattern.</small> <br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;Yes</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 80px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 100px; margin-top: -15px;">&nbsp;&nbsp;No</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Beadboard Pattern: <br/>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 20px; margin-top: -15px;">&nbsp;&nbsp;Yes</div>
+                        
+                        <div style="width: 15px; height: 15px; margin-left: 80px; margin-top: -15px; border: 1px solid #333; cursor: pointer; background:"></div>
+                        <div style="padding-left: 100px; margin-top: -15px;">&nbsp;&nbsp;No</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Notes:
+                        &emsp; &#x2022; Door Handle Circle to be cut on site by others <br/>
+                        &emsp; &#x2022; Drawing shown is a left side door handle location. <br/>
+                        &emsp; &#x2022; All edges are beveled. <br/>
+                        &emsp; &#x2022; Tolerances are +0-1/16" <br/>
+                        &emsp; &#x2022; Model 10 top piece has a height of approximately 12". <br/>
+                        &emsp; &#x2022; Model 20 top piece has a height of approximately 16". <br/>
+                        &emsp; &#x2022; Maximum width for kickplates is 47 ¾". <br/>
+                        &emsp; &#x2022; Woodland and Elements Patterns - Grain direction is vertical. <br/>
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="font-size:10px; border-collapse: collapse;"> 
+                <tr style="font-weight:bold;background-color: #dddddd;">
+                    <td style="width:8.3%; border: 1px solid;">
+                        Sr.No
+                    </td>
+                    
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            Qty
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            COLOR
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            WIDTH IN. (CM)
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            HEIGHT IN. (CM) (to Cenre of Door Handle)
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            DOOR HANDLE  (Left or Right Side)
+                        </b>
+                    </td>
+                    <td style="width:8.3%; border: 1px solid;">
+                        <b>
+                            LOCATION
+                        </b>
+                    </td> 
+                </tr>
+                <apex:variable var="index" value="{!0}"/>
+                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine" >
+                    <tr>
+                        <apex:variable var="index" value="{!(index+1)}"/>
+                        <td style="width:8.3%; border: 1px solid;text-align:center;"><apex:outputText value="{!index}"/></td>
+                        <td style="width:8.3%; border: 1px solid;text-align:center;">
+                            {!Text(quoteLine.quoteLineItem.Quantity)} 
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;text-align:center;">
+                            {!quoteLine.quoteLineItem.Color__c}
+                        </td>
+                        <td style="width:8.3%; border: 1px solid;text-align:center;">
+                            {!Text(quoteLine.quoteLineItem.Width__c)} 
+                        </td>
+                        
+                        <td style="width:8.3%; border: 1px solid;text-align:center;">
+                            {!Text(quoteLine.quoteLineItem.Height__c)} 
+                        </td>
+                        
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                        
+                        <td style="width:8.3%; border: 1px solid;">
+                            
+                        </td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            <br/><br/><br/><br/><br/><br/>
+            <table style="font-size:12px;border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;font-weight:bold;">
+                        <b>
+                            FOR INPRO USE ONLY
+                        </b>
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Customer Order #:
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                    </td>
+                    <td style="border: 1px solid black; padding:6px;">
+                        Inpro Drawing: N/A
+                    </td>
+                    <td style="border: 1px solid black;padding:6px;">
+                        Inpro #:
+                    </td>
+                </tr>            
+            </table>    
+            <br/>
+        </div>
+    </apex:outputText>
+</apex:page>

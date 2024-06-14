@@ -1,0 +1,149 @@
+.pointer{
+    cursor:pointer;
+}
+
+.qcHolder
+{
+    min-height: 600px;
+    min-width: 1200px;
+}
+
+.Yellow{
+    background-color: yellow;
+    
+}
+
+.Feature1{
+    background-color: lightpink;
+}
+
+.Feature2{
+    background-color: lightblue;
+}
+
+.Feature3{
+    background-color: lightgray;
+}
+
+.Feature4{
+    background-color: lightyellow;
+}
+
+.Feature5{
+    background-color: lightcyan;
+}
+
+.Feature6{
+    background-color: lightsteelblue;
+}
+
+.Feature7{
+    background-color: #b8ffcb;
+}
+
+.Feature8{
+    background-color: #c5ffb8;
+}
+
+.Feature9{
+    background-color: #ebccff;
+}
+
+.Feature10{
+    background-color: #d4dbff;
+}
+
+.Feature11{
+    background-color: #d6ffeb;
+}
+
+.Feature12{
+    background-color: #fcffd9;
+}
+
+.Feature13{
+    background-color: #adddff;
+}
+
+.Feature14{
+    background-color: #e3c2ff;
+}
+
+.Feature15{
+    background-color: #cfffd7;
+}
+
+.Feature16{
+    background-color: #ffcfd2;
+}
+
+.Feature17{
+    background-color: #fffed9;
+}
+
+.Feature18{
+    background-color: #d5ffc9;
+}
+
+.Feature19{
+    background-color: #c7fffe;
+}
+
+.Feature20{
+    background-color: #cccfff;
+}
+
+.Feature20{
+    background-color: #f0cfff;
+}
+
+.Feature21{
+    background-color: #ffe3d1;
+}
+
+.Feature22{
+    background-color: #feffd1;
+}
+
+.Feature23{
+    background-color: #d9ffd4;
+}
+
+.Feature24{
+    background-color: #cafcf4;
+}
+
+.Feature25{
+    background-color: #d9e0ff;
+}
+
+.Feature26{
+    background-color: #f3deff;
+}
+
+.Feature27{
+    background-color: #ffd4f7;
+}
+
+.Feature28{
+    background-color: #ffdbbf;
+}
+
+.Feature29{
+    background-color: #e4ffcf;
+}
+
+.Feature30{
+    background-color: #d1fffc;
+}
+
+.Y{
+    color: #ff0000;
+    font-weight: bolder;
+    background-color: lightgray;
+}
+
+.N{
+    color: black;
+    background-color: white;
+}

@@ -1,0 +1,1710 @@
+<apex:page renderAs="PDF" standardStylesheets="false"  controller="QuoteBidPDFController" lightningStylesheets="false"  applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                @page {
+                    margin-top:20px;
+                    margin-bottom:40px;
+                    size: 8.5in 11in;
+                    margin-left: 0.4in;
+                    margin-right: 0.3in;
+                    size: portrait;
+                    @top-center {
+                        content: element(header);
+                    }
+                    @bottom-left {
+                        content: element(footer);
+                    }
+                }   
+                html{
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                } 
+                body {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                    font: 12px "Helvetica";
+                    background-image: url("{!IF(quoteDetails.printQuote.Is_Internal__c,URLFOR($Resource.Quote_Draft_Watermark),URLFOR($Resource.Quote_Empty_Watermark))}");
+                    background-repeat: repeat;
+                }   
+                div.header {
+                    display:flex;
+                    padding:20px;
+                    position: header;
+                }
+                div.footer {
+                    display: block;
+                    padding: 2px;
+                    position: running(footer);
+                }
+                .pagenumber:before {
+                    content: counter(page);
+                }
+                .pagecount:before {
+                    content: counter(pages);
+                }
+                .leftHeader{
+                    float:right;
+                    width: 30%;
+                }
+                .rightHeader{
+                    float:right;
+                    width: 35%;
+                    margin-top: 2%;
+                }
+                .middleHeader{
+                    float:right;
+                    width: 35%;
+                    margin-top: 4%;
+                }
+                .leftFooter{
+                    float:left;
+                    width: 33%;
+                    text-align:left;
+                    font: 12pt "Calibri";
+                }
+                .rightFooter{
+                    float:right;
+                    width: 33%;
+                    text-align:right;
+                    font: 12pt "Calibri";
+                }
+                .middleFooter{
+                    float:left;
+                    width: 33%;
+                    text-align:center;
+                    font: 12pt "Calibri";
+                }
+                .addressLine{
+                    text-align:right;
+                    font: 8pt "Calibri";
+                }
+                .titleDiv{
+                    padding-left:260px;
+                    font: 8.5pt "Calibri";
+                    float:left;
+                    width:100%;
+                }
+
+                /** Table Styles **/
+
+                .tblInfo{padding:5px;width:100%;}
+                    .tblInfo .label{
+                        font: bold 12px 'Helvetica';
+                        width:15%;
+                        text-align:left;
+                        padding-right:10px;
+                        padding-top:8px;
+                    }
+                    .tblInfo .value{
+                        font: 12px 'Helvetica';
+                        width:35%;
+                        padding-right:10px;
+                        padding-top:8px;
+                        text-align:left;
+                    }
+                    .tblInfo .label2{
+                        font: bold 12px 'Helvetica';
+                        width:20%;
+                        text-align:right;
+                        padding-right:10px;
+                        padding-top:8px;
+                    }
+                    .tblInfo .intro{
+                        font: 12px 'Helvetica';
+                        width:100%;
+                        padding:10px;
+                    }
+                    .tblInfo .extraLarge td{
+                        font: bold 20px 'Helvetica';
+                        text-align:center;
+                        padding-bottom:24px;
+                    }
+                    .tblInfo .signRow td{
+                        padding-top:24px;
+                    }
+                    .tblInfo .signature{
+                        border-bottom:0.01em solid black;
+                    }
+                    .tblInfo li{
+                        font: 12px 'Helvetica';
+                        padding-bottom:6px;
+                    }
+                .tblAlts{
+                    width:100%;
+                    border:1px solid black;
+                    margin-bottom:36px;
+                    page-break-inside:auto;
+                }
+                    .tblAlts .group td{
+                        background:#a7b1c0; 
+                        border:#000000 1px solid;
+                        font: bold 12px 'Helvetica';
+                        line-height:14px;
+                        text-align: center;
+                    }
+                    .tblAlts .alt td{
+                        background:rgb(184, 223, 255);
+                        border:#000000 1px solid;
+                        font: bold 12px 'Helvetica';
+                        text-align:left;
+                        line-height:24px;
+                    }
+                    .tblAlts .altInfo{
+                        page-break-inside: avoid;
+                    }
+                    .tblAlts .altInfo td{
+                        background: #b0c4de;
+                        border:#000000 1px solid;
+                        font: bold 12px 'Helvetica';
+                        text-align:center;
+                        line-height:24px;
+                    }
+                    .tblAlts .altInfo2{
+                        page-break-inside: avoid;
+                    }
+                    .tblAlts .altInfo2 td{
+                        background: #b0c4de;
+                        font: bold 12px 'Helvetica';
+                        text-align:center;
+                        page-break-inside: avoid;
+                        line-height:24px;
+                    }
+                    .tblAlts .altInfo3{
+                        page-break-inside: avoid;
+                    }
+                    .tblAlts .altInfo3 td{
+                        background: #b0c4de;
+                        border-top:#000000 1px solid;
+                        border-bottom:#000000 1px solid;
+                        font: bold 12px 'Helvetica';
+                        text-align:left;
+                        line-height:24px;
+                    }
+                    .tblAlts .itemContainer{
+                        page-break-inside: avoid;
+                    }
+                    .tblAlts .itemContainer td{
+                        border-bottom:#000000 0.01em solid;
+                        padding-bottom:4px;
+                        page-break-inside: avoid;
+                    }
+                    .tblAlts .quantity{
+                        text-align:right;
+                    }
+                    .tblAlts .altTotal td{
+                        border-bottom:#000000 0.01em solid;
+                        font: bold 12px 'Helvetica';
+                        text-align:right;
+                        line-height: 16px;
+                        padding-right:10px;
+                    }
+
+                    .tblAlts .altTotalTop td{
+                        font: bold 12px 'Helvetica';
+                        text-align:right;
+                        padding-bottom:8px;
+                        padding-right:10px;
+                    }
+
+                    .tblAlts .altTotalBottom td{
+                        border-bottom:#000000 0.01em solid;
+                        font: bold 12px 'Helvetica';
+                        text-align:right;
+                        padding-bottom:8px;
+                        padding-right:10px;
+                    }
+                    
+                    .tblAlts .altFinish td{
+                        font: bold 14px 'Helvetica';
+                        padding-right:10px;
+                    }
+
+                    .tblAlts .altFinish{
+                        margin-bottom:24px;
+                    }
+                .tblQual{
+                    width:100%;
+                    margin-top:36px;
+                }
+                    .tblQual .exp td{
+                        font: bold 14px 'Helvetica';
+                        text-decoration: underline;
+                        text-align:left;
+                        padding-bottom:12px;
+                    }
+                    .tblQual .expItem td{
+                        font: 14px 'Helvetica';
+                        text-align:left;
+                    }
+                    .tblQual .large td{
+                        font: bold 16px 'Helvetica';
+                        text-align:center;
+                        padding-bottom:24px;
+                    }
+                    .tblQual .normal td{
+                        font: bold 14px 'Helvetica';
+                        text-align:center;
+                        padding-bottom:24px;
+                    }
+                    .tblQual .justified td{
+                        font: normal 14px 'Helvetica';
+                        text-align:justify;
+                        padding-bottom:12px;
+                    }
+                    .tblQual .center td{
+                        font: normal 14px 'Helvetica';
+                        text-align:center;
+                        padding-bottom:12px;
+                    }
+                .ftVersion{font: bold 20px 'Helvetica';line-height: 22px;}
+            </style>
+        </head>
+        <body>
+            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Add_Deduct' && quoteDetails.printQuote.Is_Printing_Summary__c}">
+                <div class="header">
+                    <div style="float:left;margin-left:-25px;">
+                        <apex:image url="{!$Resource.Inpro_Header}" width="194" height="124"/>
+                    </div>
+                    <div class="rightHeader" style="text-align:right;">
+                        <apex:outputText rendered="{! !IsCAD}">
+                            <div class="addressLine">Corporate Headquarters</div>
+                            <div class="addressLine">S80 W18766 Apollo Drive</div>
+                            <div class="addressLine">PO Box 406</div>
+                            <div class="addressLine">Muskego, WI 53150</div>
+                            <div class="addressLine">www.inprocorp.com</div>
+                            <div class="addressLine">Nationwide: (800) 222-5556</div>
+                            <div class="addressLine">Fax: (888) 715-8407</div>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!IsCAD}">
+                            <div class="addressLine">Inpro Building Products</div>
+                            <div class="addressLine">93 Bell Farm Road</div>
+                            <div class="addressLine">Suite 109 Barrie</div>
+                            <div class="addressLine">Ontario L4M 5G1 2</div>
+                            <div class="addressLine">www.inprocorp.com</div>
+                            <div class="addressLine">Nationwide: (800) 222-5556</div>
+                            <div class="addressLine">Fax: (888) 715-8407</div>
+                        </apex:outputText>
+                        <div style="font-weight:bold;font-size:14px;"> 
+                            <apex:outputText value="{0, date, EEEE, MMMM d, yyyy}">
+                                <apex:param value="{!NOW()}" /> 
+                            </apex:outputText>
+                        </div>
+                    </div>
+                </div>
+                <div class="content" style="margin-top:150px;font-size:14px;font-family:Arial, Helvetica, sans-serif;line-height: 1.5;">
+                    <p class="ftVersion" style="text-align: center;">Add/Deduct Summary</p>
+                    <p><apex:outputField value="{!quoteDetails.quoteRecord.Introduction__c}"/></p>
+                    <p>
+                        <table class="tblAlts" style="margin-left:auto;margin-right:auto;width:75%;" cellpadding="0" cellspacing="0">
+                            <tr class="altInfo">
+                                <td>Alternate</td>
+                                <td>Total</td>
+                            </tr>
+                            <apex:repeat value="{!quoteDetails.groupMap}" var="key">
+                                <apex:repeat value="{!key.alternates}" var="alt">
+                                        <tr class="itemContainer">
+                                            <td>&nbsp;&nbsp;{!alt.alternateName} Total ({!quoteDetails.printQuote.Currency_Code__c}):</td>
+                                            <td>&nbsp;&nbsp;
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!alt.alternateTotalwTax}" />
+                                                </apex:outputText>
+                                                <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!alt.alternateTotal}" />
+                                                </apex:outputText>
+                                            </td>
+                                        </tr>
+                                </apex:repeat>
+                            </apex:repeat>
+                        </table>
+                    </p>
+                    <p>
+                        <table class="tblAlts" style="margin-left:auto;margin-right:auto;width:75%;" cellpadding="0" cellspacing="0">
+                            <tr class="altInfo">
+                                <td>Alternate</td>
+                                <td>Total</td>
+                            </tr>
+                            <tr class="itemContainer">
+                                <td>
+                                    &nbsp;&nbsp;Total in Adds:
+                                </td>
+                                <td>&nbsp;&nbsp;
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.AddsTotal}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    &nbsp;&nbsp;Total in Deducts:
+                                </td>
+                                <td>&nbsp;&nbsp;
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.DeductsTotal}" />
+                                        </apex:outputText>
+                                </td>
+                            </tr>
+                        </table>
+                    </p>
+                    <p>
+                        <apex:outputText rendered="{!quoteDetails.printQuote.Is_Printing_Grand_Total__c}">
+                            <table class="tblQual" cellpadding="0" cellspacing="0">
+                                <tr class="large"  >
+                                    <td style="border-bottom:0.01em solid black; text-align:right;">
+                                        Grand Total: ({!quoteDetails.printQuote.Currency_Code__c})&nbsp;
+                                        <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!quoteDetails.printQuote.Grand_Total_With_Tax__c}" />
+                                            </apex:outputText>
+                                        </apex:outputText>
+                                        <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Taxable__c}">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!quoteDetails.printQuote.Grand_Total__c}" />
+                                            </apex:outputText>
+                                        </apex:outputText>
+                                    </td>
+                                </tr>
+                            </table>
+                        </apex:outputText>
+                    </p>
+                </div>
+                <apex:outputText rendered="{!quoteDetails.printQuote.Is_Printing_Details__c}">
+                    <div style="page-break-after:always;"></div>
+                </apex:outputText>
+            </apex:outputText>
+            <apex:outputText rendered="{!(quoteDetails.printQuote.Form_Type__c == 'Add_Deduct' && quoteDetails.printQuote.Is_Printing_Details__c) || quoteDetails.printQuote.Form_Type__c != 'Add_Deduct'}">
+                <div class="header">
+                    <div class="leftHeader">
+        
+                    </div>
+                    <div class="rightHeader">
+                        <apex:outputText rendered="{! !IsCAD}">
+                            <div class="addressLine">Corporate Headquarters</div>
+                            <div class="addressLine">S80 W18766 Apollo Drive</div>
+                            <div class="addressLine">PO Box 406</div>
+                            <div class="addressLine">Muskego, WI 53150</div>
+                            <div class="addressLine">www.inprocorp.com</div>
+                            <div class="addressLine">Nationwide: (800) 222-5556</div>
+                            <div class="addressLine">Fax: (888) 715-8407</div>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!IsCAD}">
+                            <div class="addressLine">Inpro Building Products</div>
+                            <div class="addressLine">93 Bell Farm Road</div>
+                            <div class="addressLine">Suite 109 Barrie</div>
+                            <div class="addressLine">Ontario L4M 5G1 2</div>
+                            <div class="addressLine">www.inprocorp.com</div>
+                            <div class="addressLine">Nationwide: (800) 222-5556</div>
+                            <div class="addressLine">Fax: (888) 715-8407</div>
+                        </apex:outputText>
+                    </div>
+                    <div class="middleHeader">
+                        <apex:image url="{!$Resource.Inpro_Logo}" width="250" height="100"/>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="leftFooter">
+                        
+                    </div>
+                    <div class="middleFooter">
+                        <b><div>Page <span class="pagenumber"/> of <span class="pagecount"/></div></b>
+                    </div>
+                    <div class="rightFooter">
+                        
+                    </div>
+                </div>
+                <div class="content" style="margin-top:150px;">
+                    <div style="text-align: center;">
+                        <P class="ftVersion"> 
+                            {!IF(quoteDetails.printQuote.Is_Internal__c,'In-House Version ','')}
+                            <apex:outputText rendered="{!quoteDetails.printQuote.Is_Submittal_Version__c}">
+                                Submittal
+                            </apex:outputText>
+                            <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Submittal_Version__c}">
+                                {!IF(quoteDetails.printQuote.Form_Type__c == 'Bid_Format','Bid','')}
+                                {!IF(quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing','Quotation','')}
+                                {!IF(quoteDetails.printQuote.Form_Type__c == 'Add_Deduct','Add/Deduct','')}
+                                {!IF(quoteDetails.printQuote.Form_Type__c == 'Quote_w_Lump_Sum_Pricing','Quotation','')}
+                                {!IF(quoteDetails.printQuote.Form_Type__c == 'Pro_Forma','Pro Forma Invoice','')}
+                                {!IF(quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit','Pro Forma Invoice For Letter Of Credit','')}
+                                {!IF(quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer','Pro Forma Invoice For Wire Transfer','')}
+                            </apex:outputText>
+                        </P>
+                    </div> 
+                    <table class="tblInfo" cellpadding="0" cellspacing="0" style="padding-bottom:24px;">
+                        <!-- Bid Format -->
+                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Bid_Format'}">
+                            <tr>
+                                <td class="label">Project:</td>
+                                <td class="value">{!quoteDetails.printQuote.Project__c}</td>
+                                <td class="label">Date:</td>
+                                <td class="value">
+                                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                        <apex:param value="{!today()}" /> 
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">Location:</td>
+                                <td class="value">{!quoteDetails.printQuote.Location__c}</td>
+                                <td class="label">Project Number:</td>
+                                <td class="value">{!quoteDetails.opportunityRecord.Project_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Quote #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.QuoteNumber}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Revision #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Revision_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Printed By:</td>
+                                <td class="value">{!quoteDetails.printingUser}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Document ID:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-top:12px;border-top:0.01em solid black;">
+                                    Inpro Corporation is bidding as {!quoteDetails.opportunityRecord.Spec_Status__c} based on the following plans and specifications.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    Inpro Corporation submits a bid for {!quoteDetails.printQuote.Material__c}.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-top:12px;">
+                                    <apex:outputField value="{!quoteDetails.quoteRecord.Introduction__c}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-top:12px;">
+                                    <apex:outputField value="{!quoteDetails.quoteRecord.Quote_Estimating_Notes__c}"/>
+                                </td>
+                            </tr>
+                        </apex:outputText>
+                        <!-- Quote w/Pricing -->
+                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Add_Deduct' || quoteDetails.printQuote.Form_Type__c == 'Quote_w_Lump_Sum_Pricing'}">
+                            <tr>
+                                <td class="label">To:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</td>
+                                <td class="label">Date:</td>
+                                <td class="value">
+                                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                        <apex:param value="{!today()}" /> 
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">ATTN:</td>
+                                <td class="value">{!quoteDetails.printQuote.Contact_Name__c} {!quoteDetails.printQuote.Contact_Phone__c}</td>
+                                <td class="label">Project Number:</td>
+                                <td class="value">{!quoteDetails.opportunityRecord.Project_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.printQuote.Contact_Email__c}</td>
+                                <td class="label">Quote #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.QuoteNumber}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Fax:</td>
+                                <td class="value">{!quoteDetails.printQuote.Fax__c}</td>
+                                <td class="label">Revision #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Revision_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Project:</td>
+                                <td class="value">{!quoteDetails.printQuote.Project__c}</td>
+                                <td class="label">Customer #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Customer_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Location:</td>
+                                <td class="value">{!quoteDetails.printQuote.Location__c}</td>
+                                <td class="label">Printed By:</td>
+                                <td class="value">{!quoteDetails.printingUser}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Sales Rep:</td>
+                                <td class="value">{!quoteDetails.opportunityRecord.Owner.Name}</td>
+                                <td class="label">Document ID:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.opportunityRecord.Owner.Email}</td>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-top:12px;">
+                                    <apex:outputField value="{!quoteDetails.quoteRecord.Introduction__c}"/>
+                                </td>
+                            </tr>
+                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Add_Deduct'}">
+                                <tr>
+                                    <td colspan="4" style="padding-top:12px;">
+                                        <apex:outputField value="{!quoteDetails.quoteRecord.Quote_Estimating_Notes__c}"/>
+                                    </td>
+                                </tr>
+                            </apex:outputText>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                            <tr>
+                                <td class="label">Date:</td>
+                                <td class="value">
+                                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                        <apex:param value="{!today()}" /> 
+                                    </apex:outputText>
+                                </td>
+                                <td class="label">Customer #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Customer_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">PO Number:</td>
+                                <td class="value">{!quoteDetails.printQuote.PO_Number__c}</td>
+                                <td class="label">Project Number:</td>
+                                <td class="value">{!quoteDetails.opportunityRecord.Project_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Sold To:</td>
+                                <td class="value">ATTN: {!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</td>
+                                <td class="label">Quote #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.QuoteNumber}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</td>
+                                <td class="label">Revision #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Revision_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingStreet}</td>
+                                <td class="label">Ship To:</td>
+                                <td class="value">{!quoteDetails.printQuote.Ship_To_Name__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCity}, {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingState} {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingPostalCode}</td>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.printQuote.Ship_To_Street__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCountry}</td>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.printQuote.Ship_To_City__c}, {!quoteDetails.printQuote.Ship_To_State__c}  {!quoteDetails.printQuote.Ship_To_Postal_Code__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Sold To Phone:</td>
+                                <td class="value">{!quoteDetails.printQuote.Contact_Phone__c}</td>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.printQuote.Ship_To_Country__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Sold To Fax:</td>
+                                <td class="value">{!quoteDetails.printQuote.Fax__c}</td>
+                                <td class="label">Ship To Contact:</td>
+                                <td class="value">{!quoteDetails.printQuote.Contact_Name__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Sold To Email:</td>
+                                <td class="value">{!quoteDetails.printQuote.Contact_Email__c}</td>
+                                <td class="label">Terms:</td>
+                                <td class="value">{!quoteDetails.printQuote.Payment_Terms__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Document ID:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</td>
+                            </tr>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                            <tr>
+                                <td class="label">Customer #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Customer_Number__c}</td>
+                                <td class="label">Project Number:</td>
+                                <td class="value">{!quoteDetails.opportunityRecord.Project_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Your Reference:</td>
+                                <td class="value">{!quoteDetails.printQuote.Your_Reference__c}</td>
+                                <td class="label">Quote #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.QuoteNumber}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Revision #:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Revision_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Sold To:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</td>
+                                <td class="label">Ship To:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingStreet}</td>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode}  {!quoteDetails.quoteRecord.ShippingPostalCode}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCity}, {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingState} {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingPostalCode}</td>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.ShippingCountryCode}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCountry}</td>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">ATTN:</td>
+                                <td class="value">{!quoteDetails.printQuote.Contact_Name__c}</td>
+                                <td class="label">Phone:</td>
+                                <td class="value">{!quoteDetails.printQuote.Contact_Phone__c}</td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Date:</td>
+                                <td class="value">
+                                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                        <apex:param value="{!today()}" /> 
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td class="value"></td>
+                                <td class="label">Document ID:</td>
+                                <td class="value">{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</td>
+                            </tr>
+                        </apex:outputText>
+                    </table>
+    
+                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                        <hr/>
+                        <table class="tblInfo" cellspacing="0" cellpadding="0" style="padding-bottom:24px;">
+                            <tr>
+                                <td><b>Terms</b></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ul style="list-style-type:decimal;">
+                                        <li><div>Wire Transfer. Please forward to:</div>
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td><b>U.S. Bank National Association</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>777 E.Wisconsin Avenue</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Milwaukee, WI 53202 USA</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Telex 192179 (ANSWERBACK USBINTL MPS) </b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>S.W.I.F.T. USBKUS44 MIL</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>For credit to InPro Corporation</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Account No. 182355578390</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Routing: 075000022</b></td>
+                                                    </tr>
+                                                </table>
+                                            </div></li>
+                                        <li><b>InPro Corporation will only pay U.S. Bank banking charges which are incurred in the United States.</b></li>
+                                        <li>
+                                            <table style="margin-left:-3px;">
+                                                <tr>
+                                                    <td style="width:400px;">Payment Terms: {!quoteDetails.printQuote.Payment_Terms__c}</td>
+                                                    <td>Shipping Terms: {!quoteDetails.printQuote.Shipping_Terms__c}</td>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                        <li>Due to the volatility of freight rates, actual charges will be applied at the time of shipping.</li>
+                                    </ul> 
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:outputText>
+                    
+                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit'}">
+                        <hr/>
+                        <table class="tblInfo" cellspacing="0" cellpadding="0" style="padding-bottom:24px;">
+                            <tr>
+                                <td><b>Terms</b></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ul style="list-style-type:decimal;">
+                                        <li>Please open an Irrevocable Letter of Credit.</li>
+                                        <li>Drafts to be drawn at signt for full invoice value of goods.</li>
+                                        <li>Terms of Sale: {!quoteDetails.printQuote.Shipping_Terms__c}</li>
+                                        <li>
+                                            <div>
+                                                The credit issued should be irrecovable and subject to the Uniform Customs and Practice for Documentary Credits.
+                                            </div>
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td>The credit shall be by:</td>
+                                                        <td><b>U.S. Bank National Association 777 E.Wisconsin Avenue</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><b>Milwaukee, WI 53202 USA</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><b>Telex 192179 (ANSWERBACK USBINTL MPS) S.W.I.F.T. USBKUS44 MIL</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><b>Account No. 182355578390</b></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>The letter of credit should be provided for U.S. Bank reimbursement.</li>
+                                        <li>The letter of credit must be available with any bank by negotiation. The letter of credit may be confirmed at the request of the beneficiary.</li>
+                                        <li>Expiration: 90 days. Ship by 60 days from letter of credit date and present documents by 21 days.</li>
+                                        <li>All banking charges are for the account of the Applicant.</li>
+                                        <li>Shipment from: Any North American Port.</li>
+                                        <li>Partial Shipments and Transshipments: Allowed</li>
+                                        <li>2% discount not available on credit card payments, shipping charges or PREPAY accounts.</li>
+                                        <li>Due to the volatility of freight rates, actual charges will be applied at the time of shipping.</li>
+                                    </ul> 
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:outputText>
+    
+                    <!-- Table by Alternates -->
+                    <apex:outputText rendered="{! !quoteDetails.printQuote.Has_Freight_Groups__c}">
+                        <apex:repeat value="{!quoteDetails.groupMap}" var="key">
+                            <apex:repeat value="{!key.alternates}" var="alt">
+                                <table class="tblAlts" cellpadding="0" cellspacing="0">
+                                    <!-- Header Rows -->
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                        <tr class="altInfo2">
+                                            <td>Part Number</td>
+                                            <td>Description</td>
+                                            <td style="min-width:100px;">Color</td>
+                                            <td>Quantity</td>
+                                            <td>Country of Origin</td>
+                                            <td>Harmonized Code</td>
+                                            <td style="min-width:100px;">Price {!quoteDetails.printQuote.Currency_Code__c} $</td>
+                                            <td style="min-width:100px;">Extension</td>
+                                        </tr>
+                                        <tr class="altInfo3">
+                                            <td colspan="8">&nbsp;&nbsp;{!alt.alternateName}</td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                        <tr class="altInfo2">
+                                            <td>Part Number</td>
+                                            <td>Description</td>
+                                            <td style="min-width:150px;">Color</td>
+                                            <td>Quantity</td>
+                                            <td style="min-width:100px;">Unit Price</td>
+                                            <td style="min-width:100px;">Total Price</td>
+                                        </tr>
+                                        <tr class="altInfo3">
+                                            <td colspan="6">&nbsp;&nbsp;{!alt.alternateName}</td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Bid_Format' ||
+                                                                quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' ||
+                                                                quoteDetails.printQuote.Form_Type__c == 'Add_Deduct' ||
+                                                                quoteDetails.printQuote.Form_Type__c == 'Quote_w_Lump_Sum_Pricing'}">
+                                        <tr class="alt">
+                                            <td colspan="6">&nbsp;&nbsp;{!alt.alternateName}</td>
+                                        </tr>
+                                        <tr class="altInfo">
+                                            <td style="min-width:100px;">Item Number</td>
+                                            <td style="min-width:130px;">Item Description</td>
+                                            <td style="min-width:120px;">Item Color</td>
+                                            <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Hiding_Qty__c}">
+                                                <td style="min-width:150px;">Piece</td>
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td style="min-width:100px;">Unit Price</td>
+                                                <td style="min-width:100px;padding-right:10px;">Line Total</td>
+                                            </apex:outputText>
+                                        </tr>
+                                    </apex:outputText>
+                                    <!-- Quote Product Rows -->
+                                    <apex:repeat value="{!alt.quoteItems}" var="item">   
+                                        <tr class="itemContainer">
+                                            <td>&nbsp;{!IF(item.CustomPartNumber != null, item.CustomPartNumber,item.ItemNumber)}</td>
+                                            <td style="padding-left:5px;padding-right:5px;">
+                                                <div>&nbsp;{!item.Description}</div>
+                                                <div>&nbsp;{!item.Description2}</div>
+                                                <apex:outputText rendered="{!item.Note != ''}">
+                                                    <div>&nbsp;{!item.Note}</div>
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <div>{!item.Color}</div>
+                                                <div>{!item.Color2}</div>
+                                                <div>{!item.Color3}</div>
+                                                <div>{!item.Color4}</div>
+                                                <div>{!item.Color5}</div>
+                                                <div>{!item.Color6}</div>
+                                                <div>{!item.Color7}</div>
+                                            </td>
+                                            <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Hiding_Qty__c}">
+                                                <td class="quantity">
+                                                    <apex:outputText value="{!FLOOR(item.Quantity)}"/>{!item.UnitofMeasure}&nbsp;&nbsp;
+                                                    &nbsp;
+                                                </td>
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                                <td></td>
+                                                <td></td>
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                                <td class="quantity">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!item.UnitPrice}" />
+                                                    </apex:outputText>
+                                                    &nbsp;
+                                                </td>
+                                                <td class="quantity">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!item.TotalPrice}" />
+                                                    </apex:outputText>
+                                                    &nbsp;
+                                                </td>
+                                            </apex:outputText>
+                                        </tr>
+                                    </apex:repeat>
+                                    <!-- Total Rows -->
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                        <tr class="altTotalBottom">
+                                            <td colspan="7">{!alt.alternateName} Material Only Total EXW {!quoteDetails.printQuote.Currency_Code__c}:</td>
+                                            <td colspan="1">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!alt.subTotal}" />
+                                                </apex:outputText>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr class="altTotalBottom">
+                                            <td colspan="7">Freight / Transportation {!quoteDetails.printQuote.Currency_Code__c} ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}):</td>
+                                            <td colspan="1">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!alt.freightAmount}" />
+                                                </apex:outputText>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr class="altTotalBottom">
+                                            <td colspan="7">{!quoteDetails.printQuote.Shipping_Terms__c} {!quoteDetails.quoteRecord.ShippingCity}, {!quoteDetails.quoteRecord.ShippingStateCode} Total {!quoteDetails.printQuote.Currency_Code__c}:</td>
+                                            <td colspan="1">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!alt.alternateTotal}" />
+                                                </apex:outputText>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Submittal_Version__c && quoteDetails.printQuote.Form_Type__c != 'Pro_Forma_Letter_of_Credit' && quoteDetails.printQuote.Form_Type__c != 'Pro_Forma_Wire_Transfer'}">
+                                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Bid_Format'}">
+                                            <tr class="altTotalBottom">
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                    <td colspan="2"></td>
+                                                </apex:outputText>
+                                                <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                                    {!alt.alternateName} 
+                                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                        Material Total ({!quoteDetails.printQuote.Currency_Code__c} Dollars-EX-Works):
+                                                    </apex:outputText>
+                                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Pro_Forma' }">
+                                                        Sub Total:
+                                                    </apex:outputText>
+                                                </td>
+                                                <td colspan="1">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!alt.subTotal}" />
+                                                    </apex:outputText>
+                                                </td>
+                                            </tr>
+                                        </apex:outputText>
+                                        <tr class="altTotalTop">
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td colspan="2"></td>
+                                            </apex:outputText>
+                                            <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                                Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {!alt.freightCarrier}:
+                                            </td>
+                                            
+                                            <td colspan="1">
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Bid_Format'}">
+                                                    <apex:outputText rendered="{!alt.freightAmount == 0.0}">
+                                                        Not Included
+                                                    </apex:outputText>
+                                                    <apex:outputText rendered="{!alt.freightAmount > 0.0}">
+                                                        Included
+                                                    </apex:outputText>
+                                                </apex:outputText>
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Bid_Format'}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!alt.freightAmount}" />
+                                                    </apex:outputText>
+                                                </apex:outputText>
+                                            </td>
+                                        </tr>
+                                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Bid_Format'}">
+                                            <tr class="altTotalBottom">
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                    <td colspan="2"></td>
+                                                </apex:outputText>
+                                                <td colspan="{!quoteDetails.hideQtyColumnWidth}">{!key.ManualShippingDescription}</td>
+                                                
+                                                <td colspan="1"></td>
+                                            </tr>
+                                        </apex:outputText>
+                                        <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}">
+                                            <tr class="altTotalTop">
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                    <td colspan="2"></td>
+                                                </apex:outputText>
+                                                <td colspan="{!quoteDetails.hideQtyColumnWidth}">Product {!quoteDetails.taxType} Tax Amount:</td>
+                                                <td colspan="1">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!alt.productTax}" />
+                                                    </apex:outputText>
+                                                </td>
+                                            </tr>
+                                            <tr class="altTotalBottom" >
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                    <td colspan="2"></td>
+                                                </apex:outputText>
+                                                <td colspan="{!quoteDetails.hideQtyColumnWidth}">Freight {!quoteDetails.taxType} Tax Amount:</td>
+                                                <td colspan="1">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!alt.freightTax}" />
+                                                    </apex:outputText>
+                                                </td>
+                                            </tr>
+                                        </apex:outputText>
+                                        <apex:outputText rendered="{!quoteDetails.isAscend}">
+                                            <tr class="altTotalBottom" >
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                    <td colspan="2"></td>
+                                                </apex:outputText>
+                                                <td colspan="{!quoteDetails.hideQtyColumnWidth}">Weight Total Lbs.:</td>
+                                                <td colspan="1" >
+                                                    {!alt.totalWeight}
+                                                </td>
+                                            </tr>
+                                        </apex:outputText>
+                                        <tr class="altTotal altFinish" >
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td colspan="2"></td>
+                                            </apex:outputText>
+                                            <td colspan="{!quoteDetails.hideQtyColumnWidth}">{!alt.alternateName} Total ({!quoteDetails.printQuote.Currency_Code__c}):</td>
+                                            <td colspan="1" >
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!alt.alternateTotalwTax}" />
+                                                </apex:outputText>
+                                                <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!alt.alternateTotal}" />
+                                                </apex:outputText>
+                                            </td>
+                                        </tr>
+                                    </apex:outputText>
+                                </table>
+                            </apex:repeat>
+                        </apex:repeat>
+                    </apex:outputText>
+                    <!-- Table by Freight Groups -->
+                    <apex:outputText rendered="{!quoteDetails.printQuote.Has_Freight_Groups__c}">
+                        <apex:repeat value="{!quoteDetails.groupMap}" var="key">
+                            <table class="tblAlts" cellpadding="0" cellspacing="0">
+                                <apex:outputText rendered="{!key.isGroup}">
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                        <tr class="group">
+                                            <td colspan="8">{!key.groupName}&nbsp;</td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Pro_Forma_Letter_of_Credit' && quoteDetails.printQuote.Form_Type__c != 'Pro_Forma_Wire_Transfer'}">
+                                        <tr class="group">
+                                            <td colspan="6">{!key.groupName}&nbsp;</td>
+                                        </tr>
+                                    </apex:outputText>
+                                </apex:outputText>
+                                
+                                <apex:repeat value="{!key.alternates}" var="alt">
+                                    <!-- Header Rows -->
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                        <tr class="altInfo2">
+                                            <td>Part Number</td>
+                                            <td>Description</td>
+                                            <td style="min-width:100px;">Color</td>
+                                            <td>Quantity</td>
+                                            <td>Country of Origin</td>
+                                            <td>Harmonized Code</td>
+                                            <td style="min-width:100px;">Price {!quoteDetails.printQuote.Currency_Code__c} {!quoteDetails.printQuote.Currency_Symbol__c}</td>
+                                            <td style="min-width:100px;">Extension</td>
+                                        </tr>
+                                        <tr class="altInfo3">
+                                            <td colspan="8">&nbsp;&nbsp;{!alt.alternateName}</td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                        <tr class="altInfo2">
+                                            <td>Part Number</td>
+                                            <td>Description</td>
+                                            <td style="min-width:150px;">Color</td>
+                                            <td>Quantity</td>
+                                            <td style="min-width:100px;">Unit Price</td>
+                                            <td style="min-width:100px;">Total Price</td>
+                                        </tr>
+                                        <tr class="altInfo3">
+                                            <td colspan="6">&nbsp;&nbsp;{!alt.alternateName}</td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Bid_Format' ||
+                                                                quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' ||
+                                                                quoteDetails.printQuote.Form_Type__c == 'Add_Deduct' || 
+                                                                quoteDetails.printQuote.Form_Type__c == 'Quote_w_Lump_Sum_Pricing'}">
+                                        <tr class="alt">
+                                            <td colspan="6">&nbsp;&nbsp;{!alt.alternateName}</td>
+                                        </tr>
+                                        <tr class="altInfo">
+                                            <td style="min-width:100px;">Item Number</td>
+                                            <td style="min-width:130px;">Item Description</td>
+                                            <td style="min-width:120px;">Item Color</td>
+                                            <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Hiding_Qty__c}">
+                                                <td style="min-width:150px;">Piece</td>
+                                            </apex:outputText>
+                                            
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td style="min-width:100px;">Unit Price</td>
+                                                <td style="min-width:100px;padding-right:10px;">Line Total</td>
+                                            </apex:outputText>
+                                        </tr>
+                                    </apex:outputText>
+                                    <!-- Quote Product Rows -->
+                                    <apex:repeat value="{!alt.quoteItems}" var="item">   
+                                        <tr class="itemContainer">
+                                            <td>&nbsp;{!IF(item.CustomPartNumber != null, item.CustomPartNumber,item.ItemNumber)}</td>
+                                            <td style="padding-left:5px;padding-right:5px;">
+                                                <div>&nbsp;{!item.Description}</div>
+                                                <div>&nbsp;{!item.Description2}</div>
+                                                <apex:outputText rendered="{!item.Note != ''}">
+                                                    <div>&nbsp;{!item.Note}</div>
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <div>{!item.Color}</div>
+                                                <div>{!item.Color2}</div>
+                                                <div>{!item.Color3}</div>
+                                                <div>{!item.Color4}</div>
+                                                <div>{!item.Color5}</div>
+                                                <div>{!item.Color6}</div>
+                                                <div>{!item.Color7}</div>
+                                            </td>
+                                            <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Hiding_Qty__c}">
+                                                <td class="quantity">
+                                                    <apex:outputText value="{!FLOOR(item.Quantity)}"/>{!item.UnitofMeasure}&nbsp;&nbsp;
+                                                </td>
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                                <td></td>
+                                                <td></td>
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || QuoteDetails.printQuote.Form_Type__c == 'Pro_Forma' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                                <td class="quantity">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!item.UnitPrice}" />
+                                                    </apex:outputText>
+                                                    &nbsp;
+                                                </td>
+                                                <td class="quantity">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                        <apex:param value="{!item.TotalPrice}" />
+                                                    </apex:outputText>
+                                                    &nbsp;
+                                                </td>
+                                            </apex:outputText>
+                                        </tr>
+                                    </apex:repeat>
+                                </apex:repeat>
+                                <!-- Group Total Rows -->
+                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                                    <tr class="altTotalBottom">
+                                        <td colspan="7">
+                                            <apex:outputText rendered="{!key.isGroup}">{!key.groupName}</apex:outputText>
+                                            <apex:outputText rendered="{! !key.isGroup}">{!key.otherName}</apex:outputText>
+                                             Material Only Total EXW {!quoteDetails.printQuote.Currency_Code__c}:</td>
+                                        <td colspan="1">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!key.subTotal}" />
+                                            </apex:outputText>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr class="altTotalBottom">
+                                        <td colspan="7">Freight / Transportation {!quoteDetails.printQuote.Currency_Code__c} ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}):</td>
+                                        <td colspan="1">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!key.freightAmount}" />
+                                            </apex:outputText>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr class="altTotalBottom">
+                                        <td colspan="7">{!quoteDetails.printQuote.Shipping_Terms__c} {!quoteDetails.quoteRecord.ShippingCity}, {!quoteDetails.quoteRecord.ShippingStateCode} Total {!quoteDetails.printQuote.Currency_Code__c}:</td>
+                                        <td colspan="1" style="padding-top:14px;">
+                                            <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!key.groupTotal}" />
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!key.groupTotalwTax}" />
+                                            </apex:outputText>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                </apex:outputText>
+                                <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Submittal_Version__c && quoteDetails.printQuote.Form_Type__c != 'Pro_Forma_Letter_of_Credit' && quoteDetails.printQuote.Form_Type__c != 'Pro_Forma_Wire_Transfer'}">
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Bid_Format'}">
+                                        <tr class="altTotal">
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || QuoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td colspan="2"></td>
+                                            </apex:outputText>
+                                            <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                                <apex:outputText rendered="{!key.isGroup}">{!key.groupName}</apex:outputText>
+                                                <apex:outputText rendered="{! !key.isGroup}">{!key.otherName}</apex:outputText>
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                    Material Total ({!quoteDetails.printQuote.Currency_Code__c} Dollars-EX-Works):
+                                                </apex:outputText>
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Pro_Forma'}">
+                                                    Sub Total:
+                                                </apex:outputText>
+                                            </td>
+                                            <td colspan="1">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!key.subTotal}" />
+                                                </apex:outputText>
+                                            </td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <tr class="altTotalTop">
+                                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || QuoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                            <td colspan="2"></td>
+                                        </apex:outputText>
+                                        <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                            Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! key.freightCarrier}:
+                                        </td>
+                                        <td colspan="1">
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Bid_Format'}">
+                                                <apex:outputText rendered="{!key.freightAmount == 0.0}">
+                                                    Not Included
+                                                </apex:outputText>
+                                                <apex:outputText rendered="{!key.freightAmount > 0.0}">
+                                                    Included
+                                                </apex:outputText>
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Bid_Format'}">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!key.freightAmount}" />
+                                                </apex:outputText>
+                                            </apex:outputText>
+                                            
+                                        </td>
+                                    </tr>
+                                    
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Bid_Format'}">
+                                        <tr class="altTotalBottom">
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || QuoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td colspan="2"></td>
+                                            </apex:outputText>
+                                            <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                                {!key.ManualShippingDescription}
+                                            </td>
+                                            <td colspan="1"></td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}">
+                                        <tr class="altTotalTop">
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td colspan="2"></td>
+                                            </apex:outputText>
+                                            <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                                Product {!quoteDetails.taxType} Tax Amount:
+                                            </td>
+                                            <td colspan="1">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!key.productTax}" />
+                                                </apex:outputText>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr class="altTotalBottom">
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                <td colspan="2"></td>
+                                            </apex:outputText>
+                                            <td colspan="{!quoteDetails.hideQtyColumnWidth}">Freight {!quoteDetails.taxType} Tax Amount:</td>
+                                            <td colspan="1">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                    <apex:param value="{!key.freightTax}" />
+                                                </apex:outputText>
+                                            </td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteDetails.isAscend}">
+                                            <tr class="altTotalBottom" >
+                                                <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                                    <td colspan="2"></td>
+                                                </apex:outputText>
+                                                <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                                     Weight Total Lbs.:
+                                                </td>
+                                                <td colspan="1" >
+                                                    {!key.totalWeight}
+                                                </td>
+                                            </tr>
+                                        </apex:outputText>
+                                    <tr class="altTotal altFinish" >
+                                        <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing' || QuoteDetails.printQuote.Form_Type__c == 'Pro_Forma'}">
+                                            <td colspan="2"></td>
+                                        </apex:outputText>
+                                        <td colspan="{!quoteDetails.hideQtyColumnWidth}">
+                                            <apex:outputText rendered="{!key.isGroup}">{!key.groupName}</apex:outputText>
+                                            <apex:outputText rendered="{! !key.isGroup}">{!key.otherName}</apex:outputText>
+                                            Total ({!quoteDetails.printQuote.Currency_Code__c}):
+                                        </td>
+                                        <td colspan="1">
+                                            <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!key.groupTotal}" />
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}" value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!key.groupTotalwTax}" />
+                                            </apex:outputText>
+                                            
+                                        </td>
+                                    </tr>
+                                </apex:outputText>
+                            </table>
+                        </apex:repeat>
+                    </apex:outputText>
+    
+                    <apex:outputText rendered="{!quoteDetails.printQuote.Is_Printing_Grand_Total__c}">
+                        <table class="tblQual" cellpadding="0" cellspacing="0">
+                            <tr class="large"  >
+                                <td style="border-bottom:0.01em solid black; text-align:right;">
+                                    Grand Total: ({!quoteDetails.printQuote.Currency_Code__c})&nbsp;
+                                    <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.printQuote.Grand_Total_With_Tax__c}" />
+                                        </apex:outputText>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Taxable__c}">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.printQuote.Grand_Total__c}" />
+                                        </apex:outputText>
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:outputText>
+                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Bid_Format' || quoteDetails.printQuote.Form_Type__c == 'Quote_w_Lump_Sum_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing'}">
+                        <table class="tblInfo" cellpadding="0" cellspacing="0" style="padding-bottom:24px;">
+                            <tr>
+                                <td colspan="4">
+                                    <apex:outputField value="{!quoteDetails.quoteRecord.Ending__c}"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="tblQual" cellpadding="0" cellspacing="0">
+                            <!-- <tr class="large">
+                                <td>
+                                    Given the current volatility of the raw materials market, pricing is valid for 90 days on immediate release of materials only.
+                                    Contracts for projects with extended ship dates will be subject to escalation terms including provisions for cost increases over
+                                    the project schedule.
+                                </td>
+                            </tr> -->
+                            <apex:outputText rendered="{!quoteDetails.isSignScape}">
+                                <tr class="large">
+                                    <td>
+                                        <i style="background-color:yellow;">
+                                            Please note that the sign design drawings (may also include sign schedule (Sign Pro) and Estimating plans) include up to (3) revisions.
+A sign design fee of $250 will be assessed for each additional revision starting at Rev. 3. It will be noted as PC80-S.  
+Please review sign drawing designs, text, colors, etc. thoroughly to avoid multiple revisions.
+
+                                        </i>
+                                    </td>
+                                </tr>
+                            </apex:outputText>
+                            <tr class="normal">
+                                <td>
+                                    State, county and use tax if applicable, will be added to the invoice at time of billing.
+                                </td>
+                            </tr>
+                            <tr class="normal">
+                                <td>
+                                    Customer is responsible for supplying a valid sales tax exemption certificate at time of order if an exemption is claimed.
+                                </td>
+                            </tr>
+                            <tr class="normal">
+                            <td>
+                                This proposal is valid for ninety (90) days from the date of issue and is subject to Inpro's Standard Terms and Conditions. Inpro reserves the right to adjust
+                                pricing during or after ninety (90) days based on current market volatility of raw materials.
+                            </td>
+                            </tr>
+                            <tr class="normal">
+                                <td>
+                                    An online portal is available for convenient payment options, including ACH and debit cards.  A 3% fee will be applied to credit card transactions over $5,000.
+                                </td>
+                            </tr>
+                            <tr class="normal">
+                                <td>
+                                    If you choose to ship with a third party carrier, please add (2) two days to quoted lead times.
+                                </td>
+                            </tr>
+                            <tr class="normal">
+                                <td>
+                                    All custom and non-stocked products are not returnable. No returns after 60 days. If a return is authorized, a restocking fee based on the time
+                                    elapsed will be charged in addition to the return shipping costs. Refer to InPro's return policy for details.                            
+                                </td>
+                            </tr>
+                            <tr class="normal">
+                                <td>
+                                    2% discount not available on credit card payments, shipping charges or PREPAY accounts. Due to the volatility of freight rates, actual charges
+                                    will be applied at the time of shipping.
+                                </td>
+                            </tr>
+                            <tr class="normal">
+                                <td>
+                                    Please see below for bid qualifications, terms and conditions
+                                </td>
+                            </tr>
+                            <tr class="exp">
+                                <td>Inpro's Estimators Qualifications - Please read:</td>
+                            </tr>
+                            <apex:repeat value="{!quoteDetails.estimatingQualifications}" var="item">
+                                <tr class="expItem" >
+                                    <td style="padding-bottom:6px;">- {!item.Description__c}</td>
+                                </tr>
+                            </apex:repeat>
+                            <tr class="exp" >
+                                <td style="padding-top:12px;">Inpro's Qualifications:</td>
+                            </tr>
+                            <apex:repeat value="{!quoteDetails.qualifications}" var="item">
+                                <tr class="expItem" >
+                                    <td style="padding-bottom:6px;">- {!item.Description__c}</td>
+                                </tr>
+                            </apex:repeat>
+                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Quote_w_Lump_Sum_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing'}">
+                                <tr class="normal">
+                                    <td>If you have any questions regarding this quote, please contact {!quoteDetails.opportunityRecord.Owner.Name} at <NOBR>1-800-222-5556</NOBR></td>
+                                </tr>
+                            </apex:outputText>
+                            <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Bid_Format'}">
+                                <tr>
+                                    <td style="padding-top:24px;font: 14px 'Helvetica';text-align:left;">Submitted By:</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:12px;font:bold 18px 'Helvetica';text-align:left;">{!quoteDetails.opportunityRecord.Owner.Name}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:12px;font:bold 16px 'Helvetica';text-align:left;color:blue;text-decoration:underline;">{!quoteDetails.opportunityRecord.Owner.Email}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:12px;font: 16px 'Helvetica';text-align:left;">Inpro Corporation</td>
+                                </tr>
+                            </apex:outputText>
+                        </table>
+                    </apex:outputText>
+                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma' || quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Wire_Transfer'}">
+                        <table class="tblQual" cellpadding="0" cellspacing="0" style="page-break-inside:avoid;">
+                            <tr class="justified">
+                                <td>
+                                    By signing below we acknowledge that the materials, models, quantities, colors, and prices quoted are accepted as shown. All orders are subject to approval by the Credit Department. We also acknowledge the terms specified above. 2% discount not available on credit card payments,
+    shipping charges or PREPAY accounts.
+                                </td>
+                            </tr>
+                            <tr class="center">
+                                <td>
+                                    Due to the volatility of freight rates, actual charges will be applied at the time of shipping.
+                                </td>
+                            </tr>
+                            <tr class="justified">
+                                <td>
+                                    This proposal is valid for ninety (90) days from the date of issue and is subject to Inpro's Standard Terms and Conditions. Inpro reserves the right to adjust
+                                    pricing during or after ninety (90) days based on current market volatility of raw materials.
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="tblInfo" cellpadding="0" cellspacing="0">
+                            <tr class="signRow">
+                                <td class="label2">Authorized Signature:</td>
+                                <td class="signature">&nbsp;</td>
+                                <td class="label2">Date:</td>
+                                <td class="signature">&nbsp;</td>
+                            </tr>
+                        </table>
+                    </apex:outputText>
+                    <apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c == 'Pro_Forma_Letter_of_Credit'}">
+                        <table class="tblQual" cellpadding="0" cellspacing="0" style="page-break-inside:avoid;">
+                            <tr class="justified">
+                                <td>
+                                    This proposal is valid for ninety (90) days from the date of issue and is subject to Inpro's Standard Terms and Conditions. Inpro reserves the right to adjust
+                                    pricing during or after ninety (90) days based on current market volatility of raw materials.
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="tblInfo" cellpadding="0" cellspacing="0">
+                            <tr class="signRow">
+                                <td class="label2">Authorized Signature:</td>
+                                <td class="signature">&nbsp;</td>
+                                <td class="label2">Date:</td>
+                                <td class="signature">&nbsp;</td>
+                            </tr>
+                        </table>
+                    </apex:outputText>
+                </div>
+                <apex:outputText rendered="{!(quoteDetails.printQuote.Form_Type__c == 'Quote_w_Lump_Sum_Pricing' || quoteDetails.printQuote.Form_Type__c == 'Quote_w_Pricing') && !quoteDetails.printQuote.Is_Submittal_Version__c}">
+                    <div style="page-break-after:always;"></div>
+                    <div class="header">
+                        <div class="leftHeader">
+            
+                        </div>
+                        <div class="rightHeader">
+                            <apex:outputText rendered="{! !IsCAD}">
+                                <div class="addressLine">Corporate Headquarters</div>
+                                <div class="addressLine">S80 W18766 Apollo Drive</div>
+                                <div class="addressLine">PO Box 406</div>
+                                <div class="addressLine">Muskego, WI 53150</div>
+                                <div class="addressLine">www.inprocorp.com</div>
+                                <div class="addressLine">Nationwide: (800) 222-5556</div>
+                                <div class="addressLine">Fax: (888) 715-8407</div>
+                            </apex:outputText>
+                            <apex:outputText rendered="{!IsCAD}">
+                                <div class="addressLine">Inpro Building Products</div>
+                                <div class="addressLine">93 Bell Farm Road</div>
+                                <div class="addressLine">Suite 109 Barrie</div>
+                                <div class="addressLine">Ontario L4M 5G1 2</div>
+                                <div class="addressLine">www.inprocorp.com</div>
+                                <div class="addressLine">Nationwide: (800) 222-5556</div>
+                                <div class="addressLine">Fax: (888) 715-8407</div>
+                            </apex:outputText>
+                        </div>
+                        <div class="middleHeader">
+                            <apex:image url="{!$Resource.Inpro_Logo}" width="250" height="100"/>
+                        </div>
+                    </div>
+                    <table class="tblInfo" style="margin-top:120px;" cellpadding="0" cellspacing="0">
+                        <tr class="extraLarge">
+                            <td colspan="4">To place this quote as an order, please sign below and return to Sales Rep</td>
+                        </tr>
+                        <tr>
+                            <td class="label">To:</td>
+                            <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</td>
+                            <td class="label">Date:</td>
+                            <td class="value">
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!today()}" /> 
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">ATTN:</td>
+                            <td class="value">{!quoteDetails.printQuote.Contact_Name__c} {!quoteDetails.printQuote.Contact_Phone__c}</td>
+                            <td class="label">Project Number:</td>
+                            <td class="value">{!quoteDetails.opportunityRecord.Project_Number__c}</td>
+                        </tr>
+                        <tr>
+                            <td class="label"></td>
+                            <td class="value">{!quoteDetails.printQuote.Contact_Email__c}</td>
+                            <td class="label">Quote #:</td>
+                            <td class="value">{!quoteDetails.quoteRecord.QuoteNumber}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Fax:</td>
+                            <td class="value">{!quoteDetails.printQuote.Fax__c}</td>
+                            <td class="label">Revision #:</td>
+                            <td class="value">{!quoteDetails.quoteRecord.Revision_Number__c}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Project:</td>
+                            <td class="value">{!quoteDetails.printQuote.Project__c}</td>
+                            <td class="label">Cust #:</td>
+                            <td class="value">{!quoteDetails.quoteRecord.Primary_Bidder__r.Customer_Number__c}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Location:</td>
+                            <td class="value">{!quoteDetails.printQuote.Location__c}</td>
+                            <td class="label">Sales Rep:</td>
+                            <td class="value">{!quoteDetails.opportunityRecord.Owner.Name}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Terms:</td>
+                            <td class="value">{!quoteDetails.quoteRecord.Account.Payment_Terms__c}</td>
+                            <td class="label"></td>
+                            <td class="value">{!quoteDetails.opportunityRecord.Owner.Email}</td>
+                        </tr>
+                        <tr>
+                            <td class="label"></td>
+                            <td class="value"></td>
+                            <td class="label">Document ID:</td>
+                            <td class="value">{!quoteDetails.printQuote.Inpro_Document_Number__c}</td>
+                        </tr>
+                        <tr>
+                            <td class="label"></td>
+                            <td class="value"></td>
+                            <td class="label">Total Amount:</td>
+                            <td class="value">
+                                <apex:outputText rendered="{!quoteDetails.printQuote.Is_Taxable__c}">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.printQuote.Grand_Total_With_Tax__c}" />
+                                    </apex:outputText>
+                                </apex:outputText>
+                                <apex:outputText rendered="{! !quoteDetails.printQuote.Is_Taxable__c}">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                        <apex:param value="{!quoteDetails.printQuote.Grand_Total__c}" />
+                                    </apex:outputText>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                By signing below I certify:
+                                <ul style="margin-bottom:0px;">
+                                    <li>I am authorized to place this order.</li>
+                                    <li>This document will be accepted by my organization as a valid Purchase Order.</li>
+                                    <li>I acknowledge that the material, models, quantities, colors, and prices quoted are accepted.</li>
+                                    <li>All orders subject to approval by Finance Services Department.</li>
+                                    <li>Shipping charges are based on one shipment from original quote.</li>
+                                    <li>Any deviation in shipment per customer request will result in additional shipping charges.</li>
+                                    <li>Sales tax will be added at time of invoicing, if applicable.</li>
+                                    <li>By signing this quotation you are foregoing any Contract or Purchase Agreement and agreeing to Inpro's Terms and Conditions.
+                                         Inpro's full Terms and Conditions can be found on our website www.inprocorp.com or contact your Sales Representative if more information is needed.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Authorized Signature:</td>
+                            <td class="signature">&nbsp;</td>
+                            <td class="label">Printed Name:</td>
+                            <td class="signature">&nbsp;</td>
+                        </tr>
+                        <tr class="signRow">
+                            <td class="label">Title:</td>
+                            <td class="signature">&nbsp;</td>
+                            <td class="label">Date:</td>
+                            <td class="signature">&nbsp;</td>
+                        </tr>
+                        <tr class="signRow">
+                            <td class="label">Bill to Name:</td>
+                            <td class="signature">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</td>
+                            <td class="label">Ship to Location Name:</td>
+                            <td class="signature">&nbsp;</td>
+                        </tr>
+                        <tr class="signRow">
+                            <td class="label">Bill to Address:</td>
+                            <td class="signature">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingStreet}</td>
+                            <td class="label">Ship to Address:</td>
+                            <td class="signature">&nbsp;</td>
+                        </tr>
+                        <tr class="signRow">
+                            <td class="label"></td>
+                            <td class="signature">&nbsp;</td>
+                            <td class="label">Ship to Contact / Phone Number:</td>
+                            <td class="signature">&nbsp;</td>
+                        </tr>
+                        <tr class="signRow">
+                            <td class="label">Bill to City, State, Zip Code:</td>
+                            <td class="signature">{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCity}, {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingState} {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingPostalCode}</td>
+                            <td class="label">Ship to City:</td>
+                            <td class="signature">&nbsp;</td>
+                        </tr>
+                        <tr class="signRow">
+                            <td class="label">PO Number:</td>
+                            <td class="signature">&nbsp;</td>
+                            <td class="label">Ship to State, Zip Code:</td>
+                            <td class="signature">&nbsp;</td>
+                        </tr>
+                        <tr class="signRow">
+                            <td class="label">Special Delivery Instructions:</td>
+                            <td class="signature" colspan="3">&nbsp;</td>
+                        </tr>
+                    </table>
+                </apex:outputText>
+            </apex:outputText>
+            <!--<apex:outputText rendered="{!quoteDetails.printQuote.Form_Type__c != 'Add_Deduct' && !quoteDetails.printQuote.Is_Printing_Summary__c}">
+                <div style="page-break-after:always;"></div>
+                <div class="header">
+                    <div style="float:left;margin-left:-25px;">
+                        <apex:image url="{!$Resource.Inpro_Header}" width="194" height="124"/>
+                    </div>
+                    <div class="rightHeader" style="margin-top:100px;text-align:right;">
+                        <div style="font-weight:bold;font-size:14px;">January 5, 2023</div>
+                    </div>
+                </div>
+                <div class="content" style="margin-top:150px;font-size:14px;font-family:Arial, Helvetica, sans-serif;line-height: 1.5;">
+                    <!-- <p style="text-align:center;"><b>Customer Routed Freight</b></p>
+                    <p>Dear Valued Customer: </p>
+                    <p>Global events during the past couple years have caused unprecedented constraints on the supply chain and extreme 
+                        capacity shortages within the transportation industry. It is unlikely the supply chain and transportation capacity will 
+                        return to pre-Covid normalcy in the next year. </p>
+                    <p>Due to the unknown availability of carrier capacity and scheduling, Inpro will continue the customer routed freight 
+                        constraints that became effective Friday, May 14, 2021. This policy mirrors the customer routed freight restrictions used 
+                        during the pandemic. </p>
+                    <p>Until further notice, we will ship all orders using our core carrier base. If you have an account with the following carriers, 
+                        your order can be shipped on your account: <br/></p>
+                    <ul>
+                        <li>Old Dominion - nationwide</li>
+                        <li>Estes Express - nationwide</li>
+                        <li>AIT - nationwide</li>
+                        <li>Sutton Transport - midwest</li>
+                        <li>UPS Ground - small parcel</li>
+                        <li>FedEx Ground - small parcel</li>
+                    </ul>
+                    <p>We thank you for your patience and appreciate your cooperation as we work to mitigate these unexpected, ongoing 
+                        constraints while providing you the high-quality service you require.<br/></p>
+                    <p>Sincerely,</p>
+                    <p><apex:image url="{!$Resource.Signature_Grace_Kingstad}" width="120" height="55"/></p>
+                    <p>
+                        Grace Kingstad<br/>
+                        Traffic Manager<br/>
+                        Inpro
+                    </p>  - - >
+                </div>
+            </apex:outputText>-->
+        </body>
+    </html>
+</apex:page>

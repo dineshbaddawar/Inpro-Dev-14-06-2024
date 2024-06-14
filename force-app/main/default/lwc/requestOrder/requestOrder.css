@@ -1,0 +1,42 @@
+.qcHolder
+{
+    min-height: 500px;
+    min-width: 500px;
+}
+
+.pointer{
+    cursor:pointer;
+}
+
+.full-screen{
+    max-height:65vh;
+    overflow-y:auto;
+}
+
+
+td{
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.reveal-grid{
+    background: lightyellow;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 10px;
+    width: 50%;
+    border: 1px solid #ddd;
+  }
+
+.slds-col-space{
+    padding: 10px !important;
+}
+.slds-col-space-thin{
+    padding-top:10px !important;
+}

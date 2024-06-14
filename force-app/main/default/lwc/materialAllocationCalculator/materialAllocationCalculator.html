@@ -1,0 +1,41 @@
+<template>
+    <template if:true={loaded}>
+        <div if:false={showError}>          
+            <lightning-layout vertical-align="space">
+                <lightning-layout-item>
+                    <div style="width: 150px;">
+                        <div style="padding:10px;">
+                            <h2 style="font-weight:bold;">Products Allocated</h2>
+                        </div>
+                        <lightning-vertical-navigation onselect={handleSelected} selected-item={selectedItem}>
+                            <lightning-vertical-navigation-section>
+                                <template for:each={products} for:item="p">
+                                    <lightning-vertical-navigation-item style="font-size: 10px;" name={p.Id} key={p.Id}
+                                        label={p.ItemNumber}>
+                                    </lightning-vertical-navigation-item>
+                                </template>
+                            </lightning-vertical-navigation-section>
+                        </lightning-vertical-navigation>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item style="width:100%">
+                    <div style="text-align: center;">
+                        <img style="padding: 100px;" src={imageData} />
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <div style="padding:10px;">
+         (Save in progress, you will be notified when it finishes (Bell icon in the upper right corner).)
+        </div>
+        <div style="color:red; padding: 10px;" if:true={showError}>
+            {errorMessage}           
+        </div>
+        <lightning-button style="float: left;padding:10px;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+    </template>
+    <template if:false={loaded}>
+        <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+    </template>
+</template>

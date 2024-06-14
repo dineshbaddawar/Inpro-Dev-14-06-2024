@@ -1,0 +1,166 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                    <div if:true={containsExperlogixPublishSet}>
+                        <p style="color: red;"><strong>Warning: This document is also an automated form in Salesforce,
+                             please verify that the document requestor submitted an IT Request to get that version of the document updated. </strong></p>
+                    </div>
+                    
+                    <div if:true={mapOrphanedPublishSets}>
+                        <h1><strong>Orphaned Publish Set Wizard</strong></h1>
+                        <lightning-combobox style="padding: 10px;" name="selectedFile" label="Files"
+                            placeholder="--None--" options={fileDropDownList} onchange={handleInputUpdate}
+                            required="true"></lightning-combobox>
+                        <lightning-datatable data-id="orphanGrid" key-field="Id" data={orphanedPublishSetList}
+                            columns={orphanColumns}>
+                        </lightning-datatable>
+                        <div style="padding: 10px;">
+
+                            <lightning-button label="Map File" onclick={handleMapFile}>
+                            </lightning-button>
+                            <lightning-button label="Finish" onclick={handleValidateOrphanFinish}>
+                            </lightning-button>
+                            <lightning-button label="Cancel" onclick={handleCancelMapOrphans}>
+                            </lightning-button>
+
+                            <div if:true={missingOrphanedMapping}>
+                                <strong>
+                                    <p style="color:red;"> Not all orphaned Publish Sets have been mapped.</p>
+                                </strong>
+                                <lightning-button label="Finish Anyway" onclick={handleOrphanFinish}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div if:true={hasOrphanedPulishSets}>
+                       <strong> Orphaned Publish Sets Exist, do you want to map those now?</strong>
+                        <div style="padding:10px;">
+                            <lightning-button label="Yes" onclick={handleShowOrphanYes}>
+                            </lightning-button>
+                            <lightning-button label="No" onclick={handleShowOrphanNo}>
+                            </lightning-button>
+                        </div>
+                    </div>
+
+                    <div if:true={mainForm}>
+                        <h3 slot="title">
+                            <lightning-icon icon-name="utility:save" alternative-text="Create Publish Sets"
+                                size="medium" title="Create Publish Sets" onclick={handleCreatePublishSets}
+                                class="pointer">
+                            </lightning-icon>
+                            &nbsp;<strong>Publishing Wizard</strong>
+                        </h3>
+                        <lightning-datatable data-id="publishSetGrid" key-field="Id" data={publishSetList}
+                            columns={publishSetColumns}>
+                        </lightning-datatable>
+                        <div style="padding: 10px;">
+                            <lightning-button label="Add Publish Set" onclick={handleAddPublishSet}>
+                            </lightning-button>
+                        </div>
+                    </div>
+
+                    <div if:true={fileSelection}>
+                        <lightning-datatable data-id="fileGrid" key-field="Id" data={fileList} columns={fileColumns}>
+                        </lightning-datatable>
+                        <div style="padding:10px;">
+                            <lightning-button label="Use Selected Files" onclick={pickLocation}>
+                            </lightning-button>
+                            <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                            </lightning-button>
+                        </div>
+                    </div>
+
+                    <div if:true={chooseLocation}>
+                        <lightning-button style="padding: 10px;" label="Inpro Insider" name="InproInsider"
+                            onclick={handleLocationSelection}></lightning-button>
+                        <lightning-button style="padding: 10px;" label="PDF Portal" name="PDFPortal"
+                            onclick={handleLocationSelection}></lightning-button>
+                        <lightning-button style="padding: 10px;" label="Website" name="Website"
+                            onclick={handleLocationSelection}></lightning-button>
+                        <lightning-button style="padding: 10px;" label="Experlogix" name="Experlogix"
+                            onclick={handleLocationSelection}></lightning-button>
+                        <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                        </lightning-button>
+                    </div>
+
+                    <div if:true={pdfPortalLocation}>
+                        <lightning-combobox style="padding: 10px;" name="PdfPortalCategory" label="Category Name"
+                            placeholder="--None--" options={pdfPortalCategoryList} onchange={handleInputUpdate}
+                            required="true">
+                        </lightning-combobox>
+                        <lightning-button label="Done" onclick={finishPDFPortalSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                        </lightning-button>
+                    </div>
+
+                    <div if:true={websiteLocation}>
+                        <lightning-button label="Done" onclick={finishWebsiteSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-input type="text" name="WebsiteFriendlyName" label="Website Friendly Name:"
+                            onchange={handleInputUpdate}>
+                        </lightning-input>
+                        <table>
+                            <tr>
+                                <td style="padding:10px; Height:300px;">
+                                    <h2><strong>Product Categories</strong></h2>
+                                    <!-- <lightning-input type="text" name="searchCategories" label="Search:"
+                                        style="width:200px;" onchange={handleSearchGrids}>
+                                    </lightning-input> -->
+                                    <lightning-datatable data-id="categoryGrid" key-field="Id" data={categoryList}
+                                        columns={columns}>
+                                    </lightning-datatable>
+                                </td>
+                                <td style="padding:10px;">
+                                    <h2><strong>Product Series</strong></h2>
+                                    <!-- <lightning-input type="text" name="searchSeries" label="Search:"
+                                        style="width:200px;" onchange={handleSearchGrids}>
+                                    </lightning-input> -->
+                                    <lightning-datatable data-id="seriesGrid" key-field="Id" data={seriesList}
+                                        columns={columns}>
+                                    </lightning-datatable>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Sharepoint File Browser -->
+                    <div if:true={inproInsiderLocation} class="slds-p-around_medium lgc-bg">
+                        <lightning-button label="Done" onclick={finishSharepointSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <lightning-button label="Cancel" onclick={cancelSelection} style="padding: 10px;">
+                        </lightning-button>
+                        <div><strong>Current Location:</strong> {sharepointLocation}</div>
+                        <table>
+                            <tr>
+                                <td style="width: 300px;">
+                                    <lightning-input label="Specify URL:" onchange={updateSpecifiedUrl} type="text">
+                                    </lightning-input>
+                                </td>
+                                <td style="padding-top: 20px; padding-left:10px;">
+                                    <lightning-button label="Use Url" onclick={handleSpecifyUrl}></lightning-button>
+                                </td>
+                            </tr>
+                        </table>
+                        <lightning-tree items={items} header="Inpro Insider" onselect={handleOnselect}></lightning-tree>
+                    </div>
+                    <!-- End Sharepoint File Browser -->
+
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

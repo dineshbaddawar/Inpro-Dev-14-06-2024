@@ -1,0 +1,110 @@
+<apex:page controller="MapEventController"   sidebar="false" showHeader="false" >
+     <script src="{!URLFOR($Resource.JQueryversions3)}"></script>
+     <script src="{!URLFOR($Resource.bootstrapMin)}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    
+    <script type="text/javascript">
+    function changeFunction() {
+    var selectBox = document.getElementById("selectBox");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    if(selectedValue == 'Contact'){
+        document.getElementById("contactDiv").style.display = 'block'; 
+        document.getElementById("leadDiv").style.display = 'none'; 
+    }
+     else if(selectedValue == 'Lead'){
+         document.getElementById("leadDiv").style.display = 'block'; 
+         document.getElementById("contactDiv").style.display = 'none'; 
+     }
+  
+   }
+
+  </script>
+    <style>
+    .btn-primary {
+    color: #fff !important;
+    background: #337ab7 !important;
+    border-color: #2e6da4 !important;
+}
+    </style>
+  <apex:outputPanel rendered="{!outputPanelFlag}">
+    <div class="container pagination-centered">
+         <div style="padding-top:10%;" align="center" >
+  <h3 style="color:#337ab7">Add Participant  <br/> </h3>
+            
+      <apex:form styleClass="form-horizontal" >
+           <div  align="left" >
+    <div class="form-group ">
+        <br/>
+      <label class="col-sm-1 col-sm-offset-4" for="inputEmail1">Select </label>
+        <div class="col-sm-3">
+            <select id="selectBox" class="form-control" name ="chooseItem" onchange="changeFunction();">
+                <option value=""></option>
+                <option value="Lead">Lead</option>
+                <option value="Contact">Contact</option>    
+            </select>
+        </div>
+    </div>
+    <div class="form-group" id="contactDiv" style="display:none" >
+      <label class="col-sm-1 col-sm-offset-4" >Contact</label>
+        <div class="col-sm-5"><apex:inputField value="{!LunchAndLearnEventRecord.lookup_to_contact__c}"  /></div>
+    </div>
+          
+               <div class="form-group" id="leadDiv"  style="display:none"  >
+                   <label class="col-sm-1 col-sm-offset-4" >Lead</label>
+                   <div class="col-sm-5"><apex:inputField value="{!LunchAndLearnEventRecord.lookup_to_lead__c}"  /></div>
+                  
+               </div>
+    
+     
+       <div class="form-group" style="">
+                   <label class="col-md-1 col-md-offset-4" for="inputPassword1"></label>
+                
+                   <apex:commandButton action="{!submit}" styleClass="btn-primary col-sm-1 " value="Submit"/>
+                   <apex:commandButton action="{!Close}" styleClass="btn-primary col-sm-1" value="Close"/>
+               </div>
+          
+          </div>
+    </apex:form> </div>
+        <hr/>
+</div>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!successFlag}">
+          <div class="container pagination-centered">
+         <div style="margin-top:20px;" align="center" >
+             <div class="alert alert-success">
+                <strong>Success!</strong>  {!messageStr}
+            </div>
+             <apex:form >
+                 
+                  <div class="form-group" style="">
+                   <label class="col-md-1 col-md-offset-4" for="inputPassword1"></label>
+                    <apex:commandButton action="{!AddNext}" styleClass="btn-primary col-sm-2" value="Add Next Participant"/>
+                   <apex:commandButton action="{!Close}" styleClass="btn-primary col-sm-1" value="Close"/>
+               </div>
+                  
+             </apex:form>
+       
+              </div>
+        </div>
+    </apex:outputPanel>
+    
+    <apex:outputPanel rendered="{!errorFlag}">
+          <div class="container pagination-centered">
+         <div style="margin-top:20px;" align="center" >
+             <div class="alert alert-danger">
+                <strong>Error!</strong>  Something went wrong please try again! 
+            </div>
+             <apex:form >
+                 
+                  <div class="form-group" style="">
+                   <label class="col-md-1 col-md-offset-4" for="inputPassword1"></label>
+                    <apex:commandButton action="{!AddNext}" styleClass="col-sm-2 " value="Add Next Participant"/>
+                   <apex:commandButton action="{!Close}" styleClass="col-sm-1" value="Close"/>
+               </div>
+                  
+             </apex:form>
+       
+              </div>
+        </div>
+    </apex:outputPanel>
+</apex:page>

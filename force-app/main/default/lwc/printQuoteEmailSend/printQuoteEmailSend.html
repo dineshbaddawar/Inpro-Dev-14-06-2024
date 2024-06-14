@@ -1,0 +1,227 @@
+<template>
+    <template if:true={panelRefresh}>
+        <div class="container">
+            <div class="inner-container">
+                
+                <div class="slds-grid slds-wrap" >
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                       <!-- <div class="slds-grid slds-wrap" >
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12">
+                                <label class="slds-form-element__label">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                    From:
+                                </label>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12">
+                                <lightning-combobox
+                                    variant = " label-hidden"
+                                    name="FromEmail"
+                                    label="From"
+                                    value={fromEmailVal}
+                                    placeholder="Select From Email"
+                                    options={fromEmailList}
+                                    onchange={handleFromEmailChange} ></lightning-combobox>
+                            </div>
+                        </div>   
+                    -->     
+
+                        <div class="slds-grid slds-wrap" >
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 field-label">
+                                <label class="slds-form-element__label" style="margin-top: 12px;">
+                                    To:
+                                </label> 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12">
+                                <template if:true={showToEmail}>
+                                    <c-lwc-multi-lookup selected-contact-list={toEmailContacts} object-name="Contact" field-name="Email" icon-name = "standard:contact" onselected={handleSelectedRecords} ></c-lwc-multi-lookup>
+                                </template>
+                            </div>
+                        </div>    
+                        
+                        <div class="slds-grid slds-wrap" >
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 field-label">
+                                <label class="slds-form-element__label" style="margin-top: 12px;">
+                                    CC: 
+                                </label>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12">
+                                <template if:true={showCCEmail}>
+                                    <c-lwc-multi-lookup selected-contact-list={ccEmailContacts} object-name="Contact" field-name="Email" icon-name = "standard:contact" onselected={handleSelectedCCRecords} ></c-lwc-multi-lookup>
+                                </template>
+                            </div>
+                        </div>    
+
+                        <div class="slds-grid slds-wrap" >
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 field-label">
+                            
+                                <label class="slds-form-element__label" style="margin-top: 12px;">
+                                    BCC: 
+                                </label>
+                                
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12">
+                                <template if:true={showBCCEmail}>
+                                    <c-lwc-multi-lookup selected-contact-list={bccEmailContacts} object-name="Contact" field-name="Email" icon-name = "standard:contact" onselected={handleSelectedBCCRecords} ></c-lwc-multi-lookup>
+                                </template>
+                            </div>
+                        </div>    
+
+                        <div class="slds-grid slds-wrap" style="padding-top: 10px;" >
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12">
+                                <label class="slds-form-element__label">
+                                    Subject: 
+                                </label>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                    <input onchange={handleSubjectChange} value={subject} type="text" id="subject" placeholder="Enter Subject" required="" class="slds-input" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+
+                        <div class="slds-grid slds-wrap" style="margin-top: 10px;">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                <lightning-input-rich-text value={richTextVal} class="rich-text-custom" > </lightning-input-rich-text>
+                            </div>
+                        </div>    
+
+                        <div class="slds-grid slds-wrap" style="margin-top: 15px;">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                                <lightning-button-group>
+                                    <lightning-button-icon icon-name="utility:attach" variant="border-filled" alternative-text="Attach" onclick={handleFileUploadClick}></lightning-button-icon>
+                                   <!-- <lightning-button-icon icon-name="utility:merge_field" variant="border-filled" alternative-text="Code"></lightning-button-icon>-->
+                                    <lightning-button-icon icon-name="utility:insert_template" variant="border-filled" alternative-text="Insert Template" onclick={handleTemplateSelectClick}></lightning-button-icon>
+                                </lightning-button-group>
+                            </div>
+                           <!-- <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                                <lightning-button-group>
+                                    <lightning-button-icon icon-name="utility:preview" variant="border-filled" alternative-text="Preview"></lightning-button-icon>
+                                    <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="Delete"></lightning-button-icon>
+                                    <lightning-button-icon icon-name="utility:new_window" variant="border-filled" alternative-text="New Window"></lightning-button-icon>
+                                </lightning-button-group>
+                            </div>
+                        -->
+                        </div>    
+
+                        <div class="slds-grid slds-wrap" style="margin-top: 15px;">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                        <lightning-pill-container items={selectedFiles} ></lightning-pill-container>        
+                                    </div>
+                                </div>     
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12" style="text-align:right;">
+                              <!--  <button class="slds-button slds-button_brand" onclick={handleSendEmail}>Send</button>       -->                     
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <template if:true={showModal}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="width: 90%;">
+                    <header class="slds-modal__header">
+                        <button onclick={closeModal}
+                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            <svg focusable="false" data-key="close" aria-hidden="true" viewBox="0 0 52 52"
+                                class="slds-icon slds-icon-text-default" style="fill: white;">
+                                <g>
+                                    <path
+                                        d="M31 25.4l13-13.1c.6-.6.6-1.5 0-2.1l-2-2.1c-.6-.6-1.5-.6-2.1 0L26.8 21.2c-.4.4-1 .4-1.4 0L12.3 8c-.6-.6-1.5-.6-2.1 0l-2.1 2.1c-.6.6-.6 1.5 0 2.1l13.1 13.1c.4.4.4 1 0 1.4L8 39.9c-.6.6-.6 1.5 0 2.1l2.1 2.1c.6.6 1.5.6 2.1 0L25.3 31c.4-.4 1-.4 1.4 0l13.1 13.1c.6.6 1.5.6 2.1 0L44 42c.6-.6.6-1.5 0-2.1L31 26.8c-.4-.4-.4-1 0-1.4z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                            <template if:true={isTemplateSelect}>
+                                Select Template
+                            </template>
+                            <template if:true={isFileAttachment}>
+                                Select Files
+                            </template>
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="position: relative;">
+                        <template if:true={isShowSpinner}>
+                            <div class="backgroundInverse">
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </div>
+                        </template>
+                        <template if:true={isTemplateSelect}>
+                            <c-lwc-multi-lookup object-name="EmailTemplate" field-name="DeveloperName" icon-name = "standard:template" onselected={handleSelectedTemplateRecords} ></c-lwc-multi-lookup>
+                        </template>
+                        <template if:true={isFileAttachment}>
+                            <div class="slds-grid slds-wrap" >
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                    <div class="slds-grid slds-wrap" >
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12" style="height: 22rem;border-right: 1px solid lightgray;">
+                                            <lightning-file-upload label="Upload Files" name="fileUploader"
+                                                onuploadfinished={handleFileUploaded}>
+                                            </lightning-file-upload>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_7-of-12" style="padding-left: 15px;">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1" style="    padding-bottom: 12px;">
+                                                    <div onkeyup={handleKeyUp}>
+                                                        <lightning-input
+                                                            name="search-file"
+                                                            label=""
+                                                            type="search"
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap" style="padding-bottom: 1.5rem;">
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1" style="max-height: 42vh;
+                                                overflow-y: auto;">                                        
+                                                    <template for:each={fileList} for:item="fileObj">
+                                                        <div class="slds-grid slds-wrap file-row" key={fileObj.Id}>
+                                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-12">
+                                                                <div class="slds-form-element">
+                                                                    <div class="slds-form-element__control">                                                                
+                                                                        <input class="file-checkbox" type="checkbox" value={fileObj.Id} />                                                                           
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                                                                <img src={fileObj.imgURL} alt="NoImg" class="img-thumb" />
+                                                            </div>
+                                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12">
+                                                                <div>
+                                                                    <a href={fileObj.fileLink} target="_blank" class="text-truncate">{fileObj.Title}</a> 
+                                                                </div>
+                                                                <div>
+                                                                    <span class="file-sub-info">
+                                                                        {fileObj.date} . {fileObj.sizeStr} . {fileObj.FileExtension}
+                                                                    </span>                                                                
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <template if:true={isFileAttachment}>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_brand" onclick={handleAttachSelectedFiles}>Attach</button>
+                        </footer>
+                    </template>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+
+</template>

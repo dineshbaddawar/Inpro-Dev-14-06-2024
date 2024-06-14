@@ -1,0 +1,106 @@
+<template>
+    <template if:false={loaded}>
+        <c-spinner size="medium" variant="brand" alternative-text="Loading">Loading....</c-spinner>
+    </template>
+    <template if:true={loaded}>
+        <lightning-record-edit-form object-api-name="Sample_Request__c" record-id={recordId} onsubmit={handleClone} >
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                Clone Sample Request
+            </h2>
+        </header>
+        <div class="slds-modal__content slds-p-vertical_medium slds-p-horizontal_medium" style="height:70vh !important;">
+            
+            <lightning-accordion active-section-name="A">
+                <lightning-accordion-section name="A" label="Key Info">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input-field onchange={handleChange} field-name="Account__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Contact__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Ship_to_Phone__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Lead__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Customer_Number__c"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input-field onchange={handleChange} field-name="OwnerId"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="ISR__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Territory_Manager__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Opportunity__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Current_Approver__c"></lightning-input-field>
+                            <lightning-output-field field-name="Status__c" style="background-color:rgb(255, 238, 80);"></lightning-output-field>
+                            <p style="margin-left:10vw;">• Changed to "New"</p>
+                        </div> 
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="B" label="Sample Data">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input-field onchange={handleChange} field-name="Division__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Div_Section__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Notes__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Side_Mark__c"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input-field onchange={handleChange} field-name="Type__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Total_Cost_of_Sample_Request__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Quantity_of_Requested_Items__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Website_Order_Number__c"></lightning-input-field>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="C" label="Shipping Data">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_5-of-12">
+                            <lightning-input-field onchange={handleChange} field-name="Street_Address__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="City__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="State__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Postal_Code__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Country__c"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_7-of-12">
+                            <lightning-input-field onchange={handleChange} field-name="Preferred_Shipping_Date__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Desired_Shipping_Method__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Desired_Package_Type__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Ship_using_Customer_Account__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Customer_Shipping_Account_Number__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Customer_Billing_Zip__c"></lightning-input-field>
+                            <lightning-input-field onchange={handleChange} field-name="Customer_Billing_Phone_Number__c"></lightning-input-field>
+                            <lightning-output-field field-name="Print_Date__c" style="background-color:rgb(255, 238, 80);"></lightning-output-field>
+                            <p style="margin-left:10vw;">• Will be empty on copy</p>
+                            <lightning-output-field field-name="Tracking_Code__c" style="background-color:rgb(255, 238, 80);"></lightning-output-field>
+                            <p style="margin-left:10vw;">• Will be empty on copy</p>
+                            <lightning-output-field field-name="Track__c" style="background-color:rgb(255, 238, 80);"></lightning-output-field>
+                            <p style="margin-left:10vw;">• Will be empty on copy</p>
+                            <lightning-output-field field-name="Manual_Tracking_Number__c" style="background-color:rgb(255, 238, 80);"></lightning-output-field>
+                            <p style="margin-left:10vw;">• Will be empty on copy</p>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+            <div class="slds-grid slds-wrap">
+                <template if:true={hasInactiveItems}>
+                    <div class="slds-col slds-col-space slds-size_12-of-12 slds-p-vertical_medium">
+                        <p>
+                            <lightning-icon icon-name="utility:warning" variant="warning" alternative-text="Indicates approval"></lightning-icon>
+                            <b style="color:red;padding-right:10px;">Some sample items are now inactive, and they will not be copied over to the cloned sample request. 
+                                Please review the list below.</b>
+                        </p>
+                    </div>
+                </template>
+                
+                <div class="slds-col slds-col-space slds-size_12-of-12" >
+                    <c-table key-field="Id" onrowselection={handleInput} records={sampleItems} columns={sampleItemColumns} page-size="all" display-row-number="false" resizable="false"></c-table>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 5em;">
+            <lightning-button style="float: left; padding:10px;" variant="brand-outline" title="Close" 
+                class="slds-m-left_x-small" onclick={closeQuickAction} label="Close">
+            </lightning-button>
+            <lightning-button style="float: right; padding:10px;" variant="brand" title="Save"
+                class="slds-m-left_x-small" type="submit" label="Clone Sample Request">
+            </lightning-button>
+        </footer>
+        </lightning-record-edit-form>
+    </template>
+</template>

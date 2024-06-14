@@ -1,0 +1,20 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <div>
+        <lightning-combobox
+            name="division"
+            label="Division"
+            value={division}
+            placeholder="--None--"
+            options={divisionList}
+            onchange={handleInput}
+            required="true">
+        </lightning-combobox> 
+        <br/>
+        <lightning-button variant="brand" title="Generate Account Summary Letter"
+            class="slds-m-left_x-small" onclick={generateAccountSummaryLetter} label="Generate Account Summary Letter">
+        </lightning-button>
+    </div>
+</template>

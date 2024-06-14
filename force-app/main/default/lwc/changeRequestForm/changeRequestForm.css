@@ -1,0 +1,18 @@
+.column-padding >div >div{
+    padding-left:10px;
+    padding-right:10px;
+    padding-top: 10px;
+}
+
+:host {
+    --sds-c-textarea-sizing-min-height: 240px;
+ }
+
+ .fixed-height{
+    max-height:85vh;
+    overflow-y:scroll;
+}
+
+.requiresApproval{
+    background-color: "#fcdfbd" !important ;
+}

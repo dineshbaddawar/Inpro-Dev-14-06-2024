@@ -1,0 +1,574 @@
+<apex:page renderAs="PDF" standardController="Quote" extensions="IPC176Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <apex:outputText rendered="{!BlankForm == false}">
+<apex:form >
+<apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+
+	<title>IPC176</title>
+
+    <head>
+        <style type="text/css" media="print">
+            @page {
+                size: 8.5in 11in portrait;
+                margin-top: 0.2in;
+                margin-bottom: 0.2in;
+                margin-left: 0.4in;
+                margin-right: 0.3in;
+            }
+        </style>
+    </head>
+
+   <body style="font-family: sans-serif; font-size: 10pt;">
+
+        <!--Header-->
+        <div>
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                    </td>
+                    <td style="text-align: right;">
+                        Custom Product Order Form
+                        <div style="text-align: right; font-weight:bold;">
+                            Modify High Impact Corner Guards<br/>(Custom Angle Bend)</div>
+                    </td>
+                </tr>
+            </table>
+            <hr style="border-width:1px;" />
+            <p style="padding-left: 8pt;;text-align: left;">
+                Please complete the following information based on field verified dimensions.
+                Use one order per size. Orders <br/> for custom products cannot be cancelled or returned. Plese sign and return to proceed with your order. Fax to<br />
+                 {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+            </p>
+        </div>
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                </td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                </td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                </td>
+            </tr>
+        </table>
+        <br/>
+        
+       <table style="width:100%; border-collapse: collapse; border: 1px solid black;">
+            <tr>
+                <td style="width: 8%; text-align: left; font-weight:bold"> Part #:</td>
+                <td style="width:38%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">{!quoteLine.ItemNumber}
+                        </div>
+                </td>
+                <td style="width: 12%; text-align: center; "><b>Retainer</b> :<br/>(Select one)</td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style=" display: inline-block; padding-left:8px;">Regrind &nbsp;</div>
+                    
+                          </td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block;padding-left:8px;">Aluminum &nbsp;</div>
+                    
+                          </td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block;padding-left:8px;">BluNose </div>
+                    
+                          </td>
+               
+            </tr>
+     
+            
+            
+        </table>
+        <br/>
+        <table  style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width:12%; font-weight:bold"> Color Name:</td>
+                <td style="width:35%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">{!quoteLine.colorName}
+                        </div>
+                </td>
+                <td style="width:10%; font-weight:bold"> Color #:</td>
+                <td style="width:40%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">{!quoteLine.colorNumber}
+                        </div>
+                </td>
+               
+            </tr>
+          
+                       
+        </table>
+        <br/>
+        <table  style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width:24%; font-weight:bold"> Custom Angle (Degrees):</td>
+                <td style="width:24%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">{!quoteLine.customAngle}
+                        </div>
+                </td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                </td>
+               
+            </tr>
+          
+                       
+        </table>
+     
+        
+        <table  style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width:5%;"></td>
+                <td style="width:8%; font-weight:bold"> Qty of P/N:</td>
+                <td style="width:15%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">{!quoteLine.Quantity}
+                        </div>
+                </td>
+                <td style="width:30%;"></td>
+                
+               
+            </tr>
+          
+                       
+        </table>
+     
+        
+        <br/>
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td>
+                        <img src="{!$Resource.cf_ipc176_CG}" alt="HeaderImage" width="320" height="260" />
+
+                    </td>
+                <td>
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"><strong>Part</strong> </td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"><strong>Min Angle</strong> </td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"><strong> Max Angle</strong></td>
+                            
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 150/G2-150/G2-150R/160/<br/>G2-160/G2-160R</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 68°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 112°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 130/G2-130/G2-130R/130BN</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 113°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 157°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 150BN/160BN</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 75°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 112°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 150F/160F/150FR/160FR</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 70°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 113°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 130F/130FR</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 114°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 155°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 151TC-FLEX/161TC-FLEX</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 68°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 112°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 121TC-FLEX</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 113°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 157°</td>
+                            
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+   
+        <br/>
+        <span>
+          &nbsp;&nbsp;&nbsp;&nbsp;  Note: Fabrication bending tolerance is +/- 3°.<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;  Note: Indicate whole degrees only. For angles measured in half degrees, round down to the whole<br/>
+		  &nbsp;&nbsp;&nbsp;&nbsp;  degree.
+        </span>
+        <br/>
+        <br/><br/>
+        <!-- Bottom Footer -->
+               <div style="page-break-after: auto;">
+                    <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">
+                                <b>FOR INPRO USE ONLY</b>
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Customer Order #:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Inpro Drawing: N/A
+                            </td>
+                            <td style="border: 1px solid black;padding:6px;">
+                                Inpro #:
+                            </td>
+                        </tr>            
+                    </table>
+                    
+                    <table style="width:100%; padding:2px;">
+                        <tr>
+                            <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                            <td style="width:70%; font-size:very small">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                            <td style="width:15%; font-size:very small">IPC.176/Rev.14</td>
+                </tr>
+                    </table>
+        </div>
+        
+        
+        
+        </body>
+    
+   
+
+</apex:repeat>
+</apex:form>
+</apex:outputText>
+
+
+
+<apex:outputText rendered="{!BlankForm == true}">
+<apex:form >
+
+
+	<title>IPC176</title>
+
+    <head>
+        <style type="text/css" media="print">
+            @page {
+                size: 8.5in 11in portrait;
+                margin-top: 0.2in;
+                margin-bottom: 0.2in;
+                margin-left: 0.4in;
+                margin-right: 0.3in;
+            }
+        </style>
+    </head>
+
+   <body style="font-family: sans-serif; font-size: 10pt;">
+
+        <!--Header-->
+        <div>
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                    </td>
+                    <td style="text-align: right;">
+                        Custom Product Order Form
+                        <div style="text-align: right; font-weight:bold;">z
+                            Modify High Impact Corner Guards<br/>(Custom Angle Bend)</div>
+                    </td>
+                </tr>
+            </table>
+            <hr style="border-width:1px;" />
+            <p style="padding-left: 8pt;;text-align: left;">
+                Please complete the following information based on field verified dimensions.
+                Use one order per size. Orders <br/> for custom products cannot be cancelled or returned. Plese sign and return to proceed with your order. Fax to<br />
+                  at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+            </p>
+        </div>
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                </td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                </td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                </td>
+            </tr>
+        </table>
+        <br/>
+        
+       <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width: 8%; text-align: left;font-weight:bold"> Part #:</td>
+                <td style="width:38%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">
+                        </div>
+                </td>
+                <td style="width: 12%; text-align: center;"><b>Retainer:</b> <br/>(Select one)</td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style=" display: inline-block; padding-left:8px;">Regrind &nbsp;</div>
+                    
+                          </td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block;padding-left:8px;">Aluminum &nbsp;</div>
+                    
+                          </td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                              <div style="display: inline-block;padding-left:8px;">BluNose </div>
+                    
+                          </td>
+               
+            </tr>
+     
+            
+            
+        </table>
+        <br/>
+        <table  style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width:12%;font-weight:bold"> Color Name:</td>
+                <td style="width:35%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">
+                        </div>
+                </td>
+                <td style="width:10%;font-weight:bold"> Color #:</td>
+                <td style="width:40%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">
+                        </div>
+                </td>
+               
+            </tr>
+          
+                       
+        </table>
+        <br/>
+        <table  style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width:24%;font-weight:bold"> Custom Angle (Degrees):</td>
+                <td style="width:24%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">
+                        </div>
+                </td>
+                <td style="padding: 10px;">
+                              <div
+                                  style="width: 12px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                              </div>
+                </td>
+               
+            </tr>
+          
+                       
+        </table>
+     
+        
+        <table  style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width:5%;"></td>
+                <td style="width:8%;font-weight:bold"> Qty of P/N:</td>
+                <td style="width:15%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 2px solid #999; outline: none;">
+                        </div>
+                </td>
+                <td style="width:30%;"></td>
+                
+               
+            </tr>
+          
+                       
+        </table>
+     
+        
+        <br/>
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td>
+                        <img src="{!$Resource.cf_ipc176_CG}" alt="HeaderImage" width="320" height="260" />
+
+                    </td>
+                <td>
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"><strong>Part</strong> </td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"><strong>Min Angle</strong> </td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"><strong> Max Angle</strong></td>
+                            
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 150/G2-150/G2-150R/160/<br/>G2-160/G2-160R</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 68°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 112°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 130/G2-130/G2-130R/130BN</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 113°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 157°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 150BN/160BN</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 75°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 112°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 150F/160F/150FR/160FR</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 70°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 113°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 130F/130FR</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 114°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 155°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 151TC-FLEX/161TC-FLEX</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 68°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 112°</td>
+                            
+                        </tr>
+                        <tr>
+                        	<td style="width: 25%; border: 1px solid black; padding: 8px;"> 121TC-FLEX</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 113°</td>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;"> 157°</td>
+                            
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+   
+        <br/><br/>
+        <span>
+          &nbsp;&nbsp;&nbsp;&nbsp;  Note: Fabrication bending tolerance is +/- 3°.<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;  Note: Indicate whole degrees only. For angles measured in half degrees, round down to the whole<br/>
+		  &nbsp;&nbsp;&nbsp;&nbsp;  degree.
+        </span>
+        <br/>
+        <br/>
+        <!-- Bottom Footer -->
+               <div style="page-break-after: auto;">
+                    <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">
+                                <b>FOR INPRO USE ONLY</b>
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Customer Order #:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Inpro Drawing: N/A
+                            </td>
+                            <td style="border: 1px solid black;padding:6px;">
+                                Inpro #:
+                            </td>
+                        </tr>            
+                    </table>
+                    
+                    <table style="width:100%; padding:2px;">
+                        <tr>
+                            <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                            <td style="width:70%; font-size:very small">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                            <td style="width:15%; font-size:very small">IPC.176/Rev.14</td>
+                </tr>
+                    </table>
+        </div>
+        
+        
+        
+        </body>
+    
+   
+
+
+</apex:form>
+</apex:outputText>
+
+</apex:page>

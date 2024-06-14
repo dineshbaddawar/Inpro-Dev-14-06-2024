@@ -1,0 +1,20 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Ecommerce Register User</strong>
+        </h3>        
+        <h1 style="padding: 10px;"> This will register the current contact as a website user, if they are already a user, 
+            this will send an email to the contact with instructions on how to reset their password.</h1>
+        <lightning-button style="float: right;" variant="brand-outline" title="Register User/Reset Password" class="slds-m-left_x-small"
+            onclick={handleRegisterUserClick}  label="Register User/Reset Password">
+        </lightning-button>
+        <lightning-button style="float: left;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+        
+    </template>
+</template>

@@ -1,0 +1,101 @@
+<template>
+    <div class="qcHolder">
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                {addressValidationHeaderText}
+            </h2>
+        </header>
+        <div class="slds-p-around_medium slds-is-relative column-padding">
+            <template if:false={isLoaded}>
+                <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+            </template>
+            
+            <div class="slds-grid slds-wrap">
+                <template if:false={enableProposed}>
+                    <div class="slds-col slds-size_12-of-12" style="padding-bottom:10px;">
+                        <b>Address validation service was unable to find an address based off of original value. 
+                            Please double-check address and update it below, or click Use Original if address is otherwise known to be valid.</b>
+                    </div>
+                </template>
+                <div class="slds-col slds-size_12-of-12">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <tr>
+                            <td>Address Field</td>
+                            <td>Original Value</td>
+                            <td>Proposed Value</td>
+                        </tr>
+                        <tr>
+                            <td>Address 1</td>
+                            <td><lightning-input type="text" name="aLine1" value={aLine1} onchange={handleInput}> </lightning-input></td>
+                            <td>{bLine1}</td>
+                        </tr>
+                        <tr>
+                            <td>Address 2</td>
+                            <td><lightning-input type="text" name="aLine2" value={aLine2} onchange={handleInput}> </lightning-input></td>
+                            <td>{bLine2}</td>
+                        </tr>
+                        <tr>
+                            <td>City</td>
+                            <td><lightning-input type="text" name="aCity" value={aCity} onchange={handleInput}> </lightning-input></td>
+                            <td>{bCity}</td>
+                        </tr>
+                        <tr>
+                            <td>State / Province</td>
+                            <td><lightning-input type="text" name="aState" value={aState} onchange={handleInput}> </lightning-input></td>
+                            <td>{bState}</td>
+                        </tr>
+                        <tr>
+                            <td>Zip Code</td>
+                            <td><lightning-input type="text" name="aZip" value={aZip} onchange={handleInput}> </lightning-input></td>
+                            <td>{bZip}</td>
+                        </tr>
+                        <!--<tr>
+                            <td>Country</td>
+                            <td><lightning-combobox
+                                name="country"
+                                value={aCountry}
+                                placeholder="None"
+                                options={countryList}
+                                onchange={handleInput}>
+                                </lightning-combobox>
+                            </td>
+                            <td>{bCountry}</td>
+                        </tr>-->
+                    </table>
+                </div>
+            </div>
+            <template if:true={isAccount}>
+                <template if:true={isisAddressOne}>
+                   
+                </template>
+            </template>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_12-of-12">
+                    <template if:true={runAgain}>
+                        <lightning-button style="float: right; padding:10px;" variant="brand"
+                        title="Run Validation" class="slds-m-left_x-small" onclick={handleRerun} label="Run Validation">
+                    </lightning-button>
+                    </template>
+                    <template if:false={runAgain}>
+                        <template if:true={enableProposed}>
+                            <lightning-button style="float: right; padding:10px;" variant="brand"
+                                title="Use Proposed" class="slds-m-left_x-small" onclick={handleProposed} label="Use Proposed">
+                            </lightning-button>
+                        </template>
+                        <template if:false={enableProposed}>
+                            <lightning-button style="float: right; padding:10px;" variant="brand"
+                                title="Use Proposed" class="slds-m-left_x-small" disabled="disabled" label="Use Proposed">
+                            </lightning-button>
+                        </template>
+                        
+                        <lightning-button style="float: right; padding:10px;" variant="brand"
+                            title="Use Original" class="slds-m-left_x-small" onclick={handleOriginal} label="Use Original">
+                        </lightning-button>
+                    </template>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

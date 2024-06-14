@@ -1,0 +1,68 @@
+<template>
+    <lightning-accordion allow-multiple-sections-open="true" active-section-name={activeSections}>
+        <lightning-accordion-section name="grandTotals" label="Grand Totals">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-input name="executedContractTotal" label="Executed Contract Amount" value={executedContractTotal} 
+                        data-id="executedContractTotal" style="width:100%;padding-right:10px;" disabled="disabled" type="number" formatter="currency">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-input name="totalOpenOrderAmount" label="Total Open Order Amount" value={totalOpenOrderAmount} 
+                        data-id="totalOpenOrderAmount" style="width:100%;" disabled="disabled" type="number" formatter="currency">
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-input name="pendingContractTotal" label="Pending Contract Amount" value={pendingContractTotal} 
+                        data-id="pendingContractTotal" style="width:100%;padding-right:10px;" disabled="disabled" type="number" formatter="currency">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                    <lightning-input name="totalBilledOrderAmount" label="Total Billed Amount" value={totalBilledOrderAmount} 
+                        data-id="totalBilledOrderAmount" style="width:100%;" disabled="disabled" type="number" formatter="currency">
+                    </lightning-input>
+                </div>
+            </div>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="executedTotals" label="Executed Contract Totals">
+            <lightning-datatable
+                    hide-checkbox-column="true"
+                    key-field="id"
+                    data={executedContractData}
+                    columns={executedContractColumns}>
+                </lightning-datatable>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="openOrderTotals" label="Open Orders Totals">
+            <lightning-datatable
+                    hide-checkbox-column="true"
+                    key-field="id"
+                    data={openOrderData}
+                    columns={openOrderColumns}>
+                </lightning-datatable>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="billedOrderTotals" label="Billed Order Totals">
+            <lightning-datatable
+                    hide-checkbox-column="true"
+                    key-field="id"
+                    data={billedOrderData}
+                    columns={billedOrderColumns}>
+                </lightning-datatable>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="remainingContractTotals" label="Remaining Contract Totals (Executed Contract Value - Open Orders - Billed Orders)">
+            <lightning-datatable
+                    hide-checkbox-column="true"
+                    key-field="id"
+                    data={remainingContractData}
+                    columns={remainingContractColumns}>
+                </lightning-datatable>
+        </lightning-accordion-section>
+    </lightning-accordion> 
+    <lightning-button style="float: left; padding:10px;" variant="brand" title="Cancel" class="slds-m-left_x-small"
+            onclick={closeQuickAction} label="Close">
+    </lightning-button>
+    <template if:false={loaded}>
+        <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+    </template>
+</template>

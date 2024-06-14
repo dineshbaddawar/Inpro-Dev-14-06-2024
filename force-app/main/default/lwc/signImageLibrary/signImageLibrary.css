@@ -1,0 +1,9 @@
+.qcHolder
+{
+    min-height: 500px;
+    min-width: 500px;
+}
+
+.pointer{
+    cursor:pointer;
+}

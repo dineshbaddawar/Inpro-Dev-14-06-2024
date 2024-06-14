@@ -1,0 +1,28 @@
+<apex:page standardcontroller="Construction_Project__c" id="pid">
+    <apex:includeScript value="/soap/ajax/32.0/connection.js" />
+    <apex:includeScript value="/soap/ajax/29.0/apex.js" />
+    <apex:includeScript value="{!URLFOR($Resource.JQueryandEasy, 'jquery-3.2.1.min.js')}" />
+
+    <script>
+        sforce.connection.sessionId = "{!$Api.Session_ID}";
+
+        window.onload = function () {
+
+            var URL = document.URL;
+            var Surl = URL.split("scontrolCaching=1&id=")[1];
+
+            var contid = Surl;
+            if ('{!$User.ContactId}' == '') {
+                window.open('/apex/SubstitutionRequest?id=' + contid, '_parent');
+            }
+            else {
+
+                window.open('/Agents/apex/SubstitutionRequest?id=' + contid, '_parent');
+            }
+        }
+
+    </script>
+    <apex:form id="fid">
+
+    </apex:form>
+</apex:page>

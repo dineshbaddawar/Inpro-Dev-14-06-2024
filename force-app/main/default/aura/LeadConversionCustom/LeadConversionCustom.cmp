@@ -1,0 +1,603 @@
+<aura:component controller="LeadConversionController" implements="force:lightningQuickActionWithoutHeader,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <!--- Attributes for storing exisiting Account, Contact or Opportunity,Status -->
+    <aura:attribute Name="Account" type="object"  access="public" />
+    
+    <aura:attribute Name="contact" type="object"  access="public" /> 
+    <aura:attribute Name="User" type="object"  access="public" />
+    <aura:attribute Name="Userstring" type="string"  access="public" />
+    <aura:attribute Name="StatusList" type="list" access="public"/>
+    <aura:attribute Name="Status" type="String" access="public" default="Qualified" />
+     <aura:attribute Name="errorMsg" type="boolean" access="public" default ='false' />
+    <!--- Attributes for storing exisiting Account, Contact or Opportunity -->
+    
+    <aura:handler name="customComponentEvent" event="c:LeadConversionEvent" action="{!c.customFormEventFired}"/>
+    
+    <!--- Attributes for recordtypes  -->
+    <aura:attribute Name="AccountRecordTypes" type="list" access="public"/>
+    <aura:attribute Name="AccountRecordType" type="string" access="public"/>
+    <aura:attribute Name="ContactRecordTypes" type="list" access="public"/>
+    <aura:attribute Name="ContactRecordType" type="string" access="public"/>
+    
+    
+    <!--- Attributes for rendering  -->
+    <aura:attribute Name="createNewAccount" type="boolean" default="true" access="public" /> 
+    <aura:attribute Name="createNewContact" type="boolean" default="true" access="public" />
+    <aura:attribute Name="isFullyLoaded" type="boolean" default="false" access="public" />
+    <aura:attribute Name="isAccountContactComplete" type="boolean" default="false" access="public" />
+    <aura:attribute Name="isFullySubmitted" type="boolean" default="false" access="public" />
+    <aura:attribute Name="showSpinner" type="boolean" default="true" access="public" />
+    <aura:attribute Name="lockFilter" type="boolean" default="false" access="public" />
+    <aura:attribute Name="lastFilter" type="string" default="" access="public" />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <aura:attribute Name="createdAccountId" type="string"  access="public" />
+    <aura:attribute Name="createdContactId" type="string"  access="public" />
+    
+    <aura:attribute Name="accountName" type="string"  access="public" />
+    <aura:attribute  Name="accBillingStreet" type="string"  access="public" />
+    <aura:attribute Name="accBillingCity" type="string"  access="public" />
+    <aura:attribute Name="accBillingState" type="string"  access="public" />
+    <aura:attribute Name="accBillingPostalCode" type="string"  access="public" />
+    <aura:attribute Name="accBillingCountry" type="string"  access="public" />
+    <aura:attribute Name="accPhone" type="string"  access="public" />
+    <aura:attribute Name="accFax" type="string"  access="public" />
+    <aura:attribute Name="accWebsite" type="string"  access="public" />
+    
+    
+    <aura:attribute Name="contactName" type="string"  access="public" />
+    <aura:attribute Name="contactFirstName" type="string"  access="public" />
+    <aura:attribute Name="contactLastName" type="string"  access="public" />
+    <aura:attribute Name="contactTitle" type="string"  access="public" />
+    <aura:attribute Name="contactEmail" type="string"  access="public" />
+    <aura:attribute Name="contactPhone" type="string"  access="public" />
+    
+    <aura:attribute Name="dupAccountsList" type="List"  access="public" />
+    <aura:attribute Name="dupContactsList" type="List"  access="public" />
+    
+    <aura:attribute Name="dupeAccId" type="string"  access="public" />
+    <aura:attribute Name="dupeConId" type="string"  access="public" />
+    
+    <aura:attribute Name="NewAccount" type="boolean" default="true" access="public" /> 
+    <aura:attribute Name="NewContact" type="boolean" default="true" access="public" />
+    
+    <aura:attribute Name="AllowAccountDupes" type="boolean" default="true" access="public" /> 
+    <aura:attribute Name="AllowContactDupes" type="boolean" default="true" access="public" />
+    
+    
+    <aura:attribute Name="customObjects" type="LeadConversionController.customObjectWrapper[]"  access="public" /> 
+    <aura:attribute Name="customObjectsTest" type="LeadConversionController.customObjectWrapper[]"  access="public" /> 
+    
+    <aura:attribute Name="convertedAccid" type="String"  access="public" /> 
+    <aura:attribute Name="convertedConid" type="String"  access="public" /> 
+    <aura:attribute Name="convertedAccount" type="Account"  access="public" /> 
+    <aura:attribute Name="convertedContact" type="Contact"  access="public" /> 
+    
+    <aura:attribute Name="useFilters" type="boolean"  access="public" default="false"/> 
+    <aura:attribute Name="selectedFilter" type="string"  access="public" default="All" /> 
+    <aura:attribute Name="filters" type="List"  access="public" />
+    <aura:attribute Name="filterLabel" type="string"  access="public" />
+    
+    <aura:attribute Name="createdRecords" type="List"  access="public" />
+    <aura:attribute Name="notConverted" type="boolean"  access="public" default="true" />
+    
+    
+    
+    
+    
+    <aura:html tag="style">
+         .slds-modal__container{
+        width: 75%;
+        max-width: 70rem;
+        }
+        .modal-body{
+       
+        }
+        .customFooter{
+        display: inline !important;
+        }
+    </aura:html>
+    <ltng:require scripts="{!$Resource.jQueryForLeadConversion}" />
+    <!--Header-->
+    
+    
+    <!--loading spinner start-->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Loading spinner end-->
+    
+    
+    
+    
+    <form id="myForm">
+        <aura:if isTrue="{!v.notConverted}">
+            <div>
+                <div class="modal-header slds-docked-form-header slds-modal__header " style="border-bottom: none;">
+                    <h4 class="title slds-text-heading--medium" >Convert Lead</h4>
+                </div>
+                
+                
+                <aura:if isTrue="{!v.useFilters}">
+                    <div  class="contentdiv">
+                        <div  class="" > 
+                            <div class="" style="height: 100px;">
+                                <div class="col1">
+                                    
+                                    <lightning:select name="filterSelect" label="{!v.filterLabel}" value="{!v.selectedFilter}" onchange="{!c.reRenderCustomObjects}" disabled="{!v.lockFilter}">
+                                        <aura:iteration items="{!v.filters}" var="item">
+                                            <option value="{!item}">
+                                                {!item}
+                                            </option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if> 
+                
+                
+                <!--Content-->
+                
+                
+                
+                
+                
+                <div class="" >
+                    <div aura:id="content" class="contentdiv">
+                        <div  class="" >
+                            
+                            
+                            <aura:if isTrue="{!v.isAccountContactComplete}">
+                                <div class="slds-grid entitypanelbox" style="margin-top: 10px; padding: 10px">
+                                    <div class="col2">
+                                        <div class="slds-align_left slds-grid_vertical-align-center slds-m-left--medium">
+                                            <lightning:icon iconName="action:approval" alternativeText="Approved" title="Approved" class="slds-p-around_medium" />
+                                            &nbsp;&nbsp;&nbsp;Account Created
+                                        </div>
+                                    </div>
+                                    <div class="col4">
+                                        <div class="slds-align_left slds-grid_vertical-align-center slds-m-left--medium">
+                                            <lightning:recordViewForm
+                                                                      recordId="{!v.createdAccountId}"
+                                                                      objectApiName="Account"
+                                                                      class="min80"
+                                                                      >
+                                                <div class="slds-box">
+                                                    <lightning:outputField fieldName="Name" />
+                                                </div>
+                                                <p><a onclick="{!c.handleAccountLinkClick}">Open Record</a></p>
+                                            </lightning:recordViewForm>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid entitypanelbox" style="margin-top: 10px; padding: 10px">
+                                    <div class="col2">
+                                        <div class="slds-align_left slds-grid_vertical-align-center slds-m-left--medium">
+                                            <lightning:icon iconName="action:approval" alternativeText="Approved" title="Approved" class="slds-p-around_medium" />
+                                            &nbsp;&nbsp;&nbsp;Contact Created
+                                        </div>
+                                    </div>
+                                    <div class="col4">
+                                        <div class="slds-align_left slds-grid_vertical-align-center slds-m-left--medium">
+                                            <lightning:recordViewForm
+                                                                      recordId="{!v.createdContactId}"
+                                                                      objectApiName="Contact"
+                                                                      >
+                                                <div class="slds-box">
+                                                    <lightning:outputField fieldName="Name" />
+                                                </div>
+                                                <p><a onclick="{!c.handleContactLinkClick}">Open Record</a></p>
+                                            </lightning:recordViewForm>
+                                        </div>
+                                    </div>
+                                </div>
+                                <aura:set attribute="else">
+                                    
+                                    <div aura:id="shrinkedaccount" class="slds-grid invisible collapse entitypanelbox" style="height: 100px; padding: 10px">
+                                        <div class="col1">
+                                            <div style="cursor: pointer;" onclick="{!c.toggleaccount}">
+                                                <section class="slds-clearfix">
+                                                    <div class="slds-float--left" >
+                                                        <lightning:icon class="slds-hide" aura:id="shrinkicon" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates add"/>
+                                                        <lightning:icon class="slds-show" aura:id="expandicon" iconName="utility:chevronright" size="x-small" alternativeText="Indicates dash"/>
+                                                    </div>
+                                                    <div class="slds-m-left--large"><h3><a>Account</a></h3></div>
+                                                </section>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col2">
+                                            <b><lightning:input type="radio" label="Create New" name="AccountCreateShrink" value="Create New" checked="{!v.createNewAccount}" onchange="{!c.AccSelected}"/></b>
+                                            <div class="adjustspace">
+                                                <lightning:input aura:id="accname" name="AccountName" value="{!v.accountName}" type="text" onclick="{!c.expandaccount}"/>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col3">
+                                            <div class = "divisor">
+                                                <h1> -OR - </h1>
+                                            </div >
+                                            
+                                            
+                                        </div>
+                                        <div class="col4">
+                                            <b><lightning:input type="radio" label="Choose Existing" name="AccountCreateShrink" value="Choose Existing" checked="{!not(v.createNewAccount)}" onchange="{!c.AccSelected}"/></b>
+                                            <div class="slds-box_border matchPanelCollapsed">
+                                                <span class="uiOutputText">{!v.dupAccountsList.length} "Account" Matches Detected</span>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div aura:id="expandedaccount" class="slds-grid expand entitypanelbox"  style="padding: 10px" >
+                                        <div class="col1">
+                                            <div style="cursor: pointer;" onclick="{!c.toggleaccount}">
+                                                <section class="slds-clearfix">
+                                                    <div class="slds-float--left ">
+                                                        <lightning:icon class="slds-show" aura:id="articleOne" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates add"/>
+                                                        <lightning:icon class="slds-hide" aura:id="articleOne" iconName="utility:chevronright" size="x-small" alternativeText="Indicates dash"/>
+                                                    </div>
+                                                    <div class="slds-m-left--large"><h3><a>Account</a></h3></div>
+                                                </section>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col2">
+                                            <b><lightning:input type="radio" label="Create New" name="AccountCreate" value="Create New" checked="{!v.createNewAccount}" onclick="{!c.AccSelected}"/></b>
+                                            <div class="slds-box_border expandbox">
+                                                <lightning:input aura:id="accfullname" name="accountfullname" value="{!v.accountName}" label="Account Name" type="text" required="true"/>
+                                                
+                                                <lightning:input aura:id="BillingStreet1" name="BillingStreet" value="{!v.accBillingStreet}" label="Shipping Street" type="text" required="true"/>
+                                                <lightning:input aura:id="BillingCity" name="BillingCity" value="{!v.accBillingCity}" label="Shipping City" type="text" required="true"/>
+                                                <lightning:input aura:id="BillingState" name="BillingState" value="{!v.accBillingState}" label="Shipping State" type="text" />
+                                                <lightning:input aura:id="BillingPostalCode" name="BillingPostalCode" value="{!v.accBillingPostalCode}" label="Shipping Postal Code" type="text" required="true"/>
+                                                <lightning:input aura:id="BillingCountry" name="BillingCountry" value="{!v.accBillingCountry}" label="Shipping Country" type="text" required="true"/>
+                                                <lightning:input aura:id="accPhone" name="Phone" value="{!v.accPhone}" label="Phone" type="text" />
+                                                
+                                                <!--lightning:input aura:id="Fax" name="Fax" value="{!v.accFax}" label="Fax" type="text" />
+                                        <lightning:input aura:id="accWebsite" name="Phone" value="{!v.accWebsite}" label="Website" type="text" /-->
+                                                <!--aura:if isTrue="{!empty(v.AccountRecordTypes)}">
+                                            <aura:set attribute="else">
+                                                <lightning:select aura:id="AccountRecordType" label="Record Type"  name="Recordtype" value="{!v.AccountRecordType}"> 
+                                                    <aura:iteration items="{!v.AccountRecordTypes}" var="st">
+                                                        <option value="{!st}">{!st}</option>
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </aura:set>
+                                        </aura:if-->
+                                            </div> 
+                                        </div>
+                                        
+                                        
+                                        <div class="col3">
+                                            <div class = "divisor">
+                                                <h1> -OR - </h1>
+                                            </div >
+                                            <div class = "vertical-line"> 
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col4">
+                                            <b><lightning:input type="radio" label="Choose Existing" name="AccountCreate" value="Choose Existing" checked="{!not(v.createNewAccount)}" onclick="{!c.AccSelected}" /></b>
+                                            <label class="slds-form-element__label">
+                                                <span class="">Account Search</span>
+                                            </label>
+                                            <c:LookupCustom objectName="Account"
+                                                            field_API_text="Name,Customer_Number__c"
+                                                            field_API_val="Id"
+                                                            limit="6" 
+                                                            field_API_search="Name"
+                                                            lookupIcon="standard:account" 
+                                                            selItem="{!v.Account}"
+                                                            placeholder="Search for matching accounts"
+                                                            />
+                                            
+                                            <br/>
+                                            <div class="slds-box" style="background:white;">
+                                                <div style="overflow-y: scroll;overflow-x: hidden;max-height: 150px;">
+                                                    <div aura:id="AccountSelecteddiv" >
+                                                        <div class="title">{!v.dupAccountsList.length} "Account" Matches Detected</div>
+                                                        <aura:iteration items="{!v.dupAccountsList}" var="acc"> 
+                                                            <div class="slds-box" style="border:rgb(221, 219, 218) 1px solid;margin:1% 1% 1% 1%;background:white;">
+                                                                <b><lightning:input aura:id="{!acc.Id}" name="dupAccountsButtonGroup" label="{!acc.Name}" type="radio" options="{!acc.Name}" value="{!acc.Id}" onchange="{!c.dupeAccSelected}"/></b>
+                                                                <p style ="margin-left:24px">Account Name : {!acc.Name}</p>
+                                                                <p style ="margin-left:24px">Street Address : {!acc.BillingStreet}</p>
+                                                                
+                                                            </div> 
+                                                        </aura:iteration>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <div style="padding-top:1%;">
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <!--Shrinked Contact Div-->
+                                    <div aura:id="shrinkedcontact" class="slds-grid expand entitypanelbox" style="height: 100px; padding: 10px">
+                                        <div class="col1">
+                                            <div style="cursor: pointer;" onclick="{!c.togglecontact}">
+                                                <section class="slds-clearfix">
+                                                    <div class="slds-float--left ">
+                                                        <lightning:icon class="slds-hide" aura:id="articleOne" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates add"/>
+                                                        <lightning:icon class="slds-show" aura:id="articleOne" iconName="utility:chevronright" size="x-small" alternativeText="Indicates dash"/>
+                                                    </div>
+                                                    <div class="slds-m-left--large"><h3><a>Contact</a></h3></div>
+                                                </section>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col2">
+                                            <b><lightning:input type="radio" label="Create New" name="ContactCreateShrink" value="Create New"  checked="{!v.createNewContact}" onchange="{!c.ConSelected}"/></b>
+                                            <div class="adjustspace">
+                                                <lightning:input aura:id="confullname" name="coname" value="{!v.contactName}" type="text" onclick="{!c.expandcontact}" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col3">
+                                            <div class = "divisor">
+                                                <h1> -OR - </h1>
+                                            </div >
+                                            
+                                            
+                                        </div>
+                                        <div class="col4">
+                                            <b><lightning:input type="radio" label="Choose Existing" value="Choose Existing" name="ContactCreateShrink"  checked="{!not(v.createNewContact)}" onchange="{!c.ConSelected}"/></b>
+                                            <div class="slds-box_border matchPanelCollapsed">
+                                                <span class="uiOutputText">{!v.dupContactsList.length} "Contact" Matches Detected</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--Shrinked Contact Div -->
+                                    
+                                    <!--Expanded Contact Div -->
+                                    <div aura:id="expandedcontact" class="slds-grid invisible expand entitypanelbox"  style="padding: 10px">
+                                        <div class="col1">
+                                            <div style="cursor: pointer;" onclick="{!c.togglecontact}">
+                                                <section class="slds-clearfix">
+                                                    <div class="slds-float--left ">
+                                                        <lightning:icon class="slds-show" aura:id="articleOne" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates add"/>
+                                                        <lightning:icon class="slds-hide" aura:id="articleOne" iconName="utility:chevronright" size="x-small" alternativeText="Indicates dash"/>
+                                                    </div>
+                                                    <div class="slds-m-left--large"><h3><a>Contact</a></h3></div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="col2">
+                                            <b><lightning:input type="radio" label="Create New" name="ContactCreate" value="Create New"  checked="{!v.createNewContact}" onchange="{!c.ConSelected}" /></b>
+                                            <div class="slds-box_border expandbox">
+                                                <!--lightning:input aura:id="consalutation" name="contactsalutation" label="Salutation" type="text" / -->
+                                                <lightning:input aura:id="conFirstname" value="{!v.contactFirstName}" name="conFirstname" label="First Name" type="text" onchange="{!c.contactNameChanged}" />
+                                                <lightning:input aura:id="conLastname" value="{!v.contactLastName}" name="conLastname" label="Last Name" type="text" required="true" onchange="{!c.contactNameChanged}"/>
+                                                <lightning:input aura:id="conLastname" value="{!v.contactTitle}" name="contactTitle" label="Title" type="text"  />
+                                                <lightning:input aura:id="conLastname" value="{!v.contactEmail}" name="contactEmail" label="Email" type="Email"/>
+                                                <lightning:input aura:id="conLastname" value="{!v.contactPhone}" name="conPhone" label="Phone" type="Phone"  />
+                                                <!--<aura:if isTrue="{!empty(v.ContactRecordTypes)}">
+                                            <aura:set attribute="else">
+                                                <lightning:select aura:id="ContactRecordType" label="Record Type"  name="RecordtypeContact" value="{!v.ContactRecordType}"> 
+                                                    <aura:iteration items="{!v.ContactRecordTypes}" var="st">
+                                                        <option value="{!st}">{!st}</option>
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </aura:set>
+                                        </aura:if>-->
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col3">
+                                            <div class = "divisor">
+                                                <h1> -OR - </h1>
+                                            </div>
+                                            <div class = "vertical-line"> 
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        <div class="col4">
+                                            <b><lightning:input type="radio" label="Choose Existing" value="Choose Existing" name="ContactCreate"  checked="{!not(v.createNewContact)}" onchange="{!c.ConSelected}"/></b>
+                                            <label class="slds-form-element__label">
+                                                <span class="">Contact Search</span>
+                                            </label>                                            
+                                            <c:LookupCustom objectName="Contact"
+                                                            field_API_text="Email,Name,Account_Name__c,Account.Customer_number__c"
+                                                            field_API_val="Id"
+                                                            limit="6" 
+                                                            field_API_search="Name"
+                                                            lookupIcon="standard:contact" 
+                                                            selItem="{!v.contact}"
+                                                            placeholder="Search for matching contacts"
+                                                            />
+                                            
+                                            <br/>
+                                            <div class="slds-box" style="background:white;">
+                                                <div style="overflow-y: scroll;overflow-x: hidden;max-height: 150px;">
+                                                    <div aura:id="ContactSelecteddiv" >
+                                                        <div class="title">{!v.dupContactsList.length} "Contact" Matches Detected</div>
+                                                        <aura:iteration items="{!v.dupContactsList}" var="con"> 
+                                                            <div class="slds-box" style="border:rgb(221, 219, 218) 1px solid;margin:1% 1% 1% 1%;background:white;">
+                                                                <b><lightning:input aura:id="{!con.Id}" name="dupContactsButtonGroup" label="{!con.Name}" type="radio" options="{!con.Name}" value="{!con.Id}" onchange="{!c.dupeConSelected}"/></b>
+                                                                <p style ="margin-left:24px">Contact Name : {!con.Name}</p>
+                                                                <p style ="margin-left:24px">Email : {!con.Email}</p>
+                                                                
+                                                            </div> 
+                                                        </aura:iteration>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="ownerAndStatusSection">
+                                        <div class="forcePageBlockItemEdit">
+                                            
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr>
+                                                <span class="">Record Owner</span>
+                                            </label>
+                                            <c:LookupCustom aura:id="setUser" objectName="User"
+                                                            field_API_text="Name"
+                                                            field_API_val="Id"
+                                                            limit="4"
+                                                            field_API_search="Name"
+                                                            lookupIcon="standard:user"
+                                                            selItem="{!v.Userstring}"
+                                                            placeholder="Search for User"
+                                                            />
+                                        </div>
+                                        <div class="right">
+                                            <lightning:select aura:id="status" label="Converted Status"  name="status" required="true" value="{!v.Status}" >
+                                                <aura:iteration items="{!v.StatusList}" var="cus" indexVar="key">
+                                                    <option value="{!cus.value}" selected="{!cus.key==v.Status}" >{!cus.key}</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--Expanded Contact Div -->
+                                </aura:set>
+                            </aura:if>
+                            
+                            
+                            <!-- BEGIN Custom Objects -->
+                            <div aura:id="CustomObjectFormDiv" >
+                                <aura:iteration items="{!v.customObjects}" var="customObj">
+                                    <c:CustomObjectForLeadConversion cusObj="{!customObj}" aura:id="CustomObjectForm" >
+                                    </c:CustomObjectForLeadConversion>
+                                </aura:iteration>
+                            </div>
+                            <!-- END Custom Objects-->
+                        </div>
+                    </div>
+                    
+                    <aura:if isTrue="{! !v.isFullySubmitted}">
+                        <!--slds-docked-form-footer slds-modal__footer customFooter Footer-->
+                        <div class="slds-m-top_medium"  style="">
+                            <div class="slds-modal__footer" style="height:75px;">
+                                
+                            	<aura:if isTrue="{! v.errorMsg}">
+                                	<div style="float:left; margin-left:150px">
+                                    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                                        <span class="slds-assistive-text">error</span>
+                                        <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" title="Description of icon when needed">
+                                            <lightning:icon iconName="utility:error" alternativeText="Error!" title="no variant" />
+                                        </span>
+                                        <h2>An Error occurred. Scroll up to fill in any missing information.</h2>
+                                        <div class="slds-notify__close">
+                                            
+                                        </div>
+                                    </div>
+                                	</div>
+                                </aura:if>
+                                <div style="float:right;">
+                                   
+                                    <lightning:button label="Cancel"  onclick="{!c.cancel}" />
+                                    <lightning:button  variant="brand" name="Convert" label="Convert" onclick="{!c.convertLead}" />
+                                </div>
+                              
+                                
+                            </div>
+                        </div>
+                        
+                        <aura:set attribute="else">
+                            <!--slds-docked-form-footer slds-modal__footer customFooter Footer-->
+                            <div class="slds-m-top_medium"  style="">
+                                <div class="slds-modal__footer" style="height:75px;">
+                                    <div style="float:left; margin-left:130px">
+                                        <div class="slds-notify slds-notify_alert slds-alert_success" role="alert">
+                                            <span class="slds-assistive-text">error</span>
+                                            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" title="Description of icon when needed">
+                                              <lightning:icon iconName="utility:success" alternativeText="Success!" title="no variant" />                   
+                                            </span>
+                                            <h2>Conversion Completed Successfully. Scroll up to navigate to one of the new Records.</h2>
+                                            <div class="slds-notify__close">
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="float:right;">
+                                        <lightning:button label="Exit"  onclick="{!c.cancel}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </aura:set>
+                    </aura:if>
+                    
+                    
+                    
+                </div>
+            </div>   
+            
+            
+            <aura:set attribute="else">
+                <div>
+                    <div class="modal-header slds-docked-form-header slds-modal__header ">
+                        <h4 class="title slds-text-heading--medium" >Lead Converted</h4>
+                    </div>
+                    
+                    <div class="leadconvertheader">
+                        <div class="leadconverttitle">
+                            <span class="uiOutputText">Your lead has been converted</span>
+                        </div>
+                        <div class="leadconvertsubtitle">
+                            <span class="uiImage">
+                                <img  src="{!$Resource.LeadConvertSuccessFlag}" class="subtitle-image" alt="" style="height:100px;"/>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="convRecordDiv" style="display:flex;">
+                        <aura:iteration items="{!v.createdRecords}" var="recs" indexVar="key">
+                            <aura:if isTrue="{!recs.objName != 'Lead' }">
+                                <div class="containerConvertedItem">
+                                    <div class="headerConvertedItem slds-text-heading_large">{!recs.objName}</div>
+                                    <div class="bodyConvertedItem">
+                                        
+                                        <div class="slds-page-header">
+                                            <div class="slds-page-header__row">
+                                                <div class="slds-page-header__col-title">
+                                                    <div class="slds-media">
+                                                        <div class="slds-media__body">
+                                                            <div class="slds-page-header__name">
+                                                                <div class="slds-page-header__name-title">
+                                                                    <h1>
+                                                                        <span class="slds-page-header__title slds-truncate" title="{!recs.Name}">{!recs.Name}</span>
+                                                                    </h1>
+                                                                </div>
+                                                            </div>
+                                                            <p class="slds-page-header__name-meta"><a data-id="{!recs.Id}" href="javascript:void(0);" onclick="{!c.navigateToRecord}">{!recs.Name}</a></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </aura:if> 
+                        </aura:iteration>
+                    </div>
+                    
+                </div>
+            </aura:set>
+        </aura:if>
+        
+    </form>    
+</aura:component>

@@ -1,0 +1,41 @@
+.slds-col-space{
+    padding: 10px !important;
+}
+
+.slds-col-space-thin{
+    padding-top:10px !important;
+}
+
+.full-screen{
+    min-height:30vh;
+    overflow-y:auto;
+}
+
+.full-screen-2{
+    min-height:40vh;
+    min-width:80vh;
+    overflow-y:auto;
+}
+
+.column-padding >div >div{
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.helper-text{
+    position:relative;
+    margin-left:5px;
+    top:-.5vh;
+}
+
+.lookup-padding{
+    margin-top:20px;
+}
+.email-input{
+    margin-top:-15px;
+}
+
+.fixed-height{
+    max-height:65vh;
+    overflow-y:auto;
+}

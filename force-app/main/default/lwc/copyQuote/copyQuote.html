@@ -1,0 +1,392 @@
+<template>
+    <div class="qcHolder">
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+        <template if:true={loaded}>
+            <div if:false={ValidId}>
+                <div if:false={breakOut}>
+                    <h3 slot="title">
+                        <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Copy Quote
+                            Wizard</strong>
+                    </h3>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <lightning-combobox name="CopyToAccount"
+                                        label="Copy To Account (Primary bidder for quote you are about to create)"
+                                        placeholder="Please Select" options={accountList} value={accountId}
+                                        onchange={handleInputUpdate}>
+                                    </lightning-combobox>
+                                    <lightning-input name="overrideAccount" label="Override Account"
+                                        onchange={handleInputUpdate} checked={OverrideAccount} type="checkbox">
+                                    </lightning-input>
+                                    <div if:true={OverrideAccount}>
+                                        <c-lookup name="primaryBidderLookup" onsearch={handleAccountSearch}
+                                            scrollafternitems=10 label="Primary Bidder" placeholder="Search Accounts"
+                                            onselectionchange={handleLookupSelectionChange} selection={selectedAccount}>
+                                        </c-lookup>                                      
+                                    </div>
+                                </td>
+                                <td>
+                                    <lightning-combobox name="Contact" label="Contact" placeholder="Please Select"
+                                        options={contactList} value={contactId} onchange={handleInputUpdate}>
+                                    </lightning-combobox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning-input name="VersionName" value={versionDescription} label="Version Name"
+                                        onchange={handleInputUpdate} type="text"></lightning-input>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning-combobox name="type" label="Type" value={type}
+                                        placeholder="Please Select" options={typeList} onchange={handleInputUpdate}>
+                                    </lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-input name="newQuoteNumber" label="New Quote # (Create new Opportunity)"
+                                        onchange={handleInputUpdate} type="checkbox"></lightning-input>
+                                    <div if:true={newQuoteNumber}>
+                                        <lightning-input name="quoteName" label="Quote Name"
+                                            onchange={handleInputUpdate} type="text"></lightning-input>
+                                        <c-lookup name="accountLookup" onsearch={handleAccountSearch}
+                                            scrollafternitems=10 label="Account" placeholder="Search Accounts"
+                                            onselectionchange={handleLookupSelectionChange} selection={selectedAccount}>
+                                        </c-lookup>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-decoration: underline;"><strong>New Quote Revision # Settings</strong>
+                                </td>
+                                <td style="text-decoration: underline;"><strong>Re-price Options</strong></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning-input name="RevisionNumber" value={revision} label="Revision Number"
+                                        onchange={handleInputUpdate} type="text"></lightning-input>
+                                </td>
+                                <td>
+                                    <div>
+                                        <input style="float:left;" type="radio" onclick={handleInputUpdate}
+                                            name="pricingRadio" accesskey="1" id="resetPricing"
+                                            checked={resetPricingBool}>
+                                        <p>&nbsp;Reset Pricing (Set based on new customer price level)&nbsp;
+                                        </p>
+
+                                    </div>
+                                    <div>
+                                        <input style="float:left;" type="radio" onclick={handleInputUpdate}
+                                            name="pricingRadio" accesskey="2" id="keepUnitPrice"
+                                            checked={keepUnitPriceBool}>
+                                        <p>&nbsp;Keep Unit Price&nbsp;</p>
+                                    </div>
+                                    <div>
+                                        <input style="float:left;" type="radio" onclick={handleInputUpdate}
+                                            name="pricingRadio" accesskey="3" id="decreaseUnitPrice"
+                                            checked={decreaseUnitPriceBool}>
+                                        <p>&nbsp;Decrease Unit Price by Percent&nbsp;</p>
+                                        <lightning-input style="width: 50px;" name="decreasePercent"
+                                            onchange={handleInputUpdate} type="text">
+                                        </lightning-input>
+                                        <!-- <lightning-layout >
+                                        <lightning-layout-item>
+                                            <input style="float:left;" type="radio" onclick={handleInputUpdate}
+                                                name="pricingRadio" accesskey="3" id="decreaseUnitPrice">
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <p>&nbsp;Decrease Unit Price by Percent&nbsp;</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <lightning-input style="width: 50px;" name="decreasePercent"
+                                                onchange={handleInputUpdate} type="text">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout> -->
+                                    </div>
+                                    <div>
+                                        <input style="float:left;" type="radio" onclick={handleInputUpdate}
+                                            name="pricingRadio" accesskey="4" id="increaseUnitPrice"
+                                            checked={increaseUnitPriceBool}>
+                                        <p>&nbsp;Increase Unit Price by Percent&nbsp;</p>
+                                        <lightning-input style="width: 50px;" name="increasePercent"
+                                            onchange={handleInputUpdate} type="text">
+                                        </lightning-input>
+
+                                        <!-- <lightning-layout >
+                                        <lightning-layout-item>
+                                            <input style="float:left;" type="radio" onclick={handleInputUpdate}
+                                                name="pricingRadio" accesskey="4" id="increaseUnitPrice">
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <p>&nbsp;Increase Unit Price by Percent&nbsp;</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <lightning-input style="width: 50px;" name="increasePercent"
+                                                onchange={handleInputUpdate} type="text">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <div style="text-decoration: underline;"><strong>Select a Quote to base the Rev# on</strong></div>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                <thead>
+                    <tr>
+                        <th class="" scope="col">
+                            <div class="slds-truncate">
+                                <lightning-input type="checkbox" onchange={handleCheckAllChecked}>
+                                </lightning-input>
+                            </div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="QuoteNumber">Quote #</div>
+                        </th>
+                        <th if:false={isSignScape} class="" scope="col">
+                            <div class="slds-truncate" title="Color">Rev #</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Type">Type</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="AccountNumber">Account #</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="AccountName">Account</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="QuoteName">Quote Name</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Status">Status</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="VersionDesc">Version Desc</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="CreatedOn">Created On</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={quotes} for:item="quote">
+                        <tr accesskey={quote.Id} onclick={handleProductRowClick} key={quote.Id}>
+                            <td>
+                                <lightning-input type="checkbox" accesskey={quote.Id} onchange={handleOptionChecked}
+                                    checked={quote.Selected}>
+                                </lightning-input>
+                            </td>
+                            <td>{quote.Number}</td>
+                            <td>{quote.Rev}</td>
+                            <td>{quote.Type}</td>
+                            <td>{quote.AccountNumber}</td>
+                            <td>{quote.AccountName}</td>
+                            <td>{quote.QuoteName}</td>
+                            <td>{quote.Status}</td>
+                            <td>{quote.VersionDesc}</td>
+                            <td>{quote.CreatedOn}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table> -->
+                    <div style="text-decoration: underline;"><strong>Select Bidders to Copy to the new Quote</strong>
+                    </div>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">
+                                        <lightning-input type="checkbox" onchange={handleCheckAllBiddersChecked}>
+                                        </lightning-input>
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="AccountNumber">Acct #</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Account">Account</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Contact">Contact</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="PriceGroup">Price Group</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="BidType">Bid Type</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Status">Status</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Interiors">Interiors</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="QuoteType">Quote Type</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={bidderList} for:item="bidder">
+                                <tr accesskey={bidder.Id} key={bidder.Id}>
+                                    <td>
+                                        <lightning-input type="checkbox" accesskey={bidder.Id}
+                                            onchange={handleBidderChecked} checked={bidder.Selected}>
+                                        </lightning-input>
+                                    </td>
+                                    <td>{bidder.AccountNumber}</td>
+                                    <td>{bidder.Account}</td>
+                                    <td>{bidder.Contact}</td>
+                                    <td>{bidder.PriceGroup}</td>
+                                    <td>{bidder.BidType}</td>
+                                    <td>{bidder.Status}</td>
+                                    <td>{bidder.Interiors}</td>
+                                    <td>{bidder.QuoteType}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <div style="text-decoration: underline;"><strong>Select the Experlogix Configurations to
+                            Copy</strong>                        
+                    </div>
+                    <div style="color: red;"><strong>{missingAltMessage}</strong></div>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">
+                                        <lightning-input type="checkbox" onchange={handleCheckAllAltChecked}>
+                                        </lightning-input>
+                                    </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="AlternateName">Alternate Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="GroupName">Group Name</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={alternateList} for:item="alternate">
+                                <tr accesskey={alternate.AlternateId} key={alternate.AlternateId}>
+                                    <td>
+                                        <lightning-input type="checkbox" accesskey={alternate.AlternateId}
+                                            onchange={handleAltChecked} checked={alternate.Selected}>
+                                        </lightning-input>
+                                    </td>
+                                    <td>{alternate.Name}</td>
+                                    <td>{alternate.GroupName}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <lightning-button style="float: left; padding:10px;" variant="brand-outline" title="Close" 
+                        class="slds-m-left_x-small" onclick={closeQuickAction} label="Close">
+                    </lightning-button>
+                    <div if:true={canBreakOut}>
+                        <lightning-button style="float: right; padding:10px" if:false={ValidId} variant="brand-outline"
+                            title="Break Out" class="slds-m-left_x-small" onclick={handleBreakOutClick}
+                            label="Break Out">
+                        </lightning-button>
+                    </div>
+                    <lightning-button style="float: right; padding:10px" if:false={ValidId} variant="brand-outline"
+                        title="Copy Quote" class="slds-m-left_x-small" onclick={handleCopyQuoteClick}
+                        label="Copy Quote">
+                    </lightning-button>
+                </div>
+                <div if:true={breakOut}>
+                    <lightning-layout horizontal-align="left" multiple-rows>
+                        <lightning-input label="Alternate Name" id="altName" title="Alternate Name" name="alternateName"
+                            onchange={handleAltNameUpdate} type="text">
+                        </lightning-input>
+                        <lightning-button variant="brand-outline" title="Apply % to Selected"
+                            class="slds-m-left_x-small" onclick={handleApplyToSelectedOnClick}
+                            label="Apply To Selected">
+                        </lightning-button>
+                        <lightning-button variant="brand-outline" title="Uncheck All" class="slds-m-left_x-small"
+                            onclick={handleUncheckAll} label="Uncheck All">
+                        </lightning-button>
+                        <!-- <lightning-input label="Filter" id="filter" title="Filter"
+                    name="filter" onchange={handleFilterProducts} type="text">
+                </lightning-input> -->
+                    </lightning-layout>
+                    <div class="slds-box slds-theme_default" style="margin: 5px;">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">
+                                            <lightning-input type="checkbox" onchange={handleCheckAllChecked}>
+                                            </lightning-input>
+                                        </div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Product">Product</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Color">Color</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Qty">Qty</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Description">Description</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Alternate">Alternate</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={existingProductList} for:item="product">
+                                    <tr accesskey={product.Id} onclick={handleProductRowClick} key={product.Id}>
+                                        <td>
+                                            <lightning-input type="checkbox" accesskey={product.Id}
+                                                onchange={handleOptionChecked} checked={product.Selected}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>{product.Name}</td>
+                                        <td>{product.Color}</td>
+                                        <td>{product.Quantity}</td>
+                                        <td style="max-width:500px;white-space:pre-line;">{product.Description}</td>
+                                        <td>
+                                            <lightning-input name="AlternateName" accesskey={product.Id}
+                                                onchange={handleGridInputChange} type="text"
+                                                value={product.AlternateName}></lightning-input>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    <lightning-button style="float: right; padding:10px" if:false={ValidId} variant="brand-outline"
+                        title="Back" class="slds-m-left_x-small" onclick={handleBreakOutClickBack} label="Back">
+                    </lightning-button>
+                    <lightning-button style="float: right; padding:10px" if:false={ValidId} variant="brand-outline"
+                        title="Copy Quote" class="slds-m-left_x-small" onclick={handleCopyQuoteClick}
+                        label="Copy Quote">
+                    </lightning-button>
+                </div>
+            </div>
+            <lightning-button style="font-size: 30px;" if:true={ValidId} variant="Base" label="Click Here To View Quote"
+                onclick={viewRecord} value={QuoteId}>
+            </lightning-button>
+            <div style="font-size: 14px;" if:true={asyncSave}>
+                Experlogix save in progress, you will be notified when it finishes (Bell icon in the upper right
+                corner). You can still view your quote while save is in progress.
+            </div>
+            <h2 if:false={ValidId} style="color: rgb(104, 2, 2); padding:5px;">{Response}</h2>
+        </template>
+    </div>
+</template>

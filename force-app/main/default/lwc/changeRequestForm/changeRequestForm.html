@@ -1,0 +1,507 @@
+<template>
+    <template if:true={isAccount}>    
+        <div data-id="acc_fieldDiv" if:false={isContactPaneOpen}>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">
+                    Edit Account
+                </h2>
+                <table style="width:270px;">
+                    <tr>
+                        <td><b>Requires Finance Approval</b></td>
+                        <td style="background-color: #fcdfbd; width:50px; border-style: solid; border-width:1px;"></td>
+                    </tr>
+                    <tr style="height: 10px;">
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cannot be Edited</b></td>
+                        <td style="background-color: #dedede; width:50px; border-style: solid; border-width:1px;"></td>
+                    </tr>
+                    <tr style="height: 10px;">
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>Can Be Edited Without Approval</b></td>
+                        <td style="background-color: white; width:50px; border-style: solid; border-width:1px;"></td>
+                    </tr>
+                </table>
+            </header>            
+            <lightning-accordion allow-multiple-sections-open="true" active-section-name="accgeneral">
+                <lightning-accordion-section name="accgeneral" label="General">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">                       
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                                <lightning-input type="text" name="acc_AccountName" label="Name" value={accountName} data-id="acc_AccountName"
+                                    onchange={handleInputChange} style="width:100%;">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12" style="display:flex;">
+                                <lightning-combobox name="acc_recordType" label="Account Record Type" value={recordType} accesskey={recordTypeName}
+                                    options={recordTypeList} onchange={handleInputChange} data-id="acc_recordType" style="width:100%;">
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_formerName" label="AKA / Former Name" value={formerName} data-id="acc_formerName" class={classList.formerName} 
+                                    onchange={handleInputChange} field-level-help="Alternate Name, Former name or abbreviation for this Account.">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">                  
+                                <lightning-combobox name="acc_marketSegment" label="Market Segment" value={marketSegment} data-id="acc_marketSegment"
+                                    options={marketSegmentList} onchange={handleInputChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <div data-id="acc_parentAccount">
+                                    <c-lookup value={parentAccount} name="acc_parentAccount" onsearch={handleParentAccountSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Parent Account"
+                                        placeholder="Search Parent Accounts..." onselectionchange={handleLookupSelectionChange}
+                                        style="width:100%;" selection={parentAccountSelection} >
+                                    </c-lookup>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_subSegment" label="Sub-Segment" value={subSegment}
+                                    options={subSegmentList} onchange={handleInputChange} data-id="acc_subSegment">
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_CustomerNumber" label="Customer Number" value={customerNumber} data-id="acc_CustomerNumber" 
+                                    onchange={handleInputChange} field-level-help="ID from External System, ERP, or Other.">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_arcFac" label="ARC/FAC" value={arcFac} data-id="acc_arcFac"
+                                    options={arcFacList} onchange={handleInputChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_dodgeCompanyId" label="Dodge Company ID" value={dodgeCompanyID} data-id="acc_dodgeCompanyId"
+                                    onchange={handleInputChange} field-level-help="External ID for Dodge Companies.">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_category" label="Category" value={category} data-id="acc_category"
+                                    options={categoryList} onchange={handleInputChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_inactive" label="Inactive" value={inactive} data-id="acc_inactive"
+                                    onchange={handleInputChange} type="checkbox">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_level" label="Level (Customer Status Accounts With Market Segment Change Requires Approval)" value={level} data-id="acc_level"
+                                    options={levelList} onchange={handleInputChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_cia" label="CIA?" checked={cia} data-id="acc_cia"
+                                    onchange={handleInputChange} type="checkbox" field-level-help="Critical Impact Accounts are Accounts that are being Nurtured to bring up to the Key or National Account level.">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_nationalTerritory" label="National Territory (Customer Status Accounts With Market Segment Change Requires Approval)" value={nationalTerritory}
+                                    options={nationalTerritoryList} onchange={handleInputChange} data-id="acc_nationalTerritory">
+                                </lightning-combobox>
+                            </div>
+                        </div> 
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_syncGPOPricing" label="Sync GPO Pricing" checked={syncGPOPricing}
+                                    onchange={handleInputChange} type="checkbox" data-id="acc_syncGPOPricing">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <c-lookup value={territory} name="acc_territory" onsearch={handleTerritorySearch}
+                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Territory"
+                                    placeholder="Search Territories..." onselectionchange={handleLookupSelectionChange}
+                                    style="width:100%;" selection={territorySelection} data-id="acc_territory">
+                                </c-lookup>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_syncPriceLevel" label="Sync Price Level" checked={syncPriceLevel} data-id="acc_syncPriceLevel" 
+                                    onchange={handleInputChange} type="checkbox" field-level-help="Checking this box will sync the Price Level to all Accounts linked under this account.">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_priceLevel" label="Price Level" value={priceLevel}
+                                    options={priceLevelList} onchange={handleInputChange} data-id="acc_priceLevel">
+                                </lightning-combobox>
+                            </div>
+                        </div>   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_lockPriceLevel" label="Lock Price Level" checked={lockPriceLevel} data-id="acc_lockPriceLevel" 
+                                onchange={handleInputChange} type="checkbox" field-level-help="If checked, the Price Level manually selected overrides the Market & Sub Segment's Price Level.">
+                            </lightning-input>
+                            </div>
+                        </div>                                  
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="phoneAndWebsite" label="Phone and Website">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-button style="float: left; padding:10px;" variant="brand" title="Sync to Contact Addresses / Phone Numbers"
+                                    class="slds-m-left_x-small" onclick={openContactWindow} label="Sync to Contact Addresses / Phone Numbers">
+                                </lightning-button>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_phoneNumber" label="Phone Number" value={phoneNumber} 
+                                    onchange={handleInputChange} data-id="acc_phoneNumber">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_website" label="Website" value={website} 
+                                    onchange={handleInputChange} data-id="acc_website">
+                                </lightning-input>
+                            </div>
+                        </div> 
+                    </div> 
+                </lightning-accordion-section>
+                <lightning-accordion-section name="creditStatus" label="Credit Status">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_balance" label="Balance" value={balance} data-id="acc_balance" 
+                                    onchange={handleInputChange} field-level-help="Known Account Balance.">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_creditHold" label="Credit Hold" checked={creditHold} data-id="acc_creditHold"  
+                                    onchange={handleInputChange} type="checkbox" field-level-help="Used to indicate if a customer is on credit hold.">
+                                </lightning-input>
+                            </div>
+                        </div> 
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_creditApplicationReceived" label="Credit Application Received" value={creditApplicationReceived} 
+                                    onchange={handleInputChange} type="date" data-id="acc_creditApplicationReceived">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_creditLimit" label="Credit Limit" value={creditLimit} 
+                                    onchange={handleInputChange} field-level-help="Customer's credit limit." data-id="acc_creditLimit">
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_availableCredit" label="Available Credit" value={availableCredit} 
+                                    onchange={handleInputChange} data-id="acc_availableCredit">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_paymentTerms" label="Payment Terms" value={paymentTerms}
+                                        options={paymentTermsList} onchange={handleInputChange} data-id="acc_paymentTerms">
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_numberOfOpenOrders" label="# of Open Orders" value={numberOfOpenOrders} 
+                                    onchange={handleInputChange} data-id="acc_numberOfOpenOrders">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_hardCopyPORequired" label="Hard Copy PO Required" value={hardCopyPORequired} checked={hardCopyPORequired}  
+                                    onchange={handleInputChange} type="checkbox" data-id="acc_hardCopyPORequired">
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_openOrderValue" label="Open Order Value" value={openOrderValue} 
+                                    onchange={handleInputChange}  data-id="acc_openOrderValue">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_netsuiteAddDate" label="NetSuite Add Date" value={netsuiteAddDate} 
+                                    onchange={handleInputChange} type="date" data-id="acc_netsuiteAddDate">
+                                </lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="keydates" label="Key Dates">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_lastCallDate" label="Last Call Date" value={lastCallDate} 
+                                    onchange={handleInputChange} type="date" data-id="acc_lastCallDate">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_lastCallOrVisitDate" label="Last Call or Visit Date" value={lastCallOrVisitDate} 
+                                    onchange={handleInputChange} type="date" data-id="acc_lastCallOrVisitDate">
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_lastVisitDate" label="Last Visit Date" value={lastVisitDate} 
+                                    onchange={handleInputChange} type="date" data-id="acc_lastVisitDate">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_lastSampleRequestDate" label="Last Sample Request Date" value={lastSampleRequestDate} 
+                                    onchange={handleInputChange} type="date" data-id="acc_lastSampleRequestDate">
+                                </lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="description" label="Description">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_description" label="Description" value={description} 
+                                    onchange={handleInputChange} data-id="acc_description">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="inproFinanceTeam" label="Inpro Finance Team">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <c-lookup value={collector} name="acc_collector" onsearch={handleCollectorSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Collector"
+                                        placeholder="Search Collectors..." onselectionchange={handleLookupSelectionChange}
+                                        style="width:100%;" selection={collectorSelection} data-id="acc_collector">
+                                    </c-lookup>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_salesforceMapsOverridden" label="Salesforce Maps Overriden" checked={salesforceMapsOverridden} 
+                                    onchange={handleInputChange} type="checkbox" data-id="acc_salesforceMapsOverridden">
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_invoiceEmail" label="Invoice Email" value={invoiceEmail} 
+                                    onchange={handleInputChange} data-id="acc_invoiceEmail">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="shippingAddress" label="Shipping Address">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-button style="float: left; padding:10px;" variant="brand" title="Sync to Contact Addresses / Phone Numbers"
+                                    class="slds-m-left_x-small" onclick={openContactWindow} label="Sync to Contact Addresses / Phone Numbers">
+                                </lightning-button>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-textarea name="acc_shippingStreetAddress" label="Shipping Street" value={shippingStreetAddress} 
+                                    onchange={handleInputChange} data-id="acc_shippingStreetAddress">
+                                </lightning-textarea>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_shippingCity" label="Shipping City" value={shippingCity} 
+                                    onchange={handleInputChange} data-id="acc_shippingCity">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_shippingState" label="Shipping State" value={shippingState}
+                                        options={shippingStateList} onchange={handleInputChange} data-id="acc_shippingState">
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_shippingZipCode" label="Shipping Zip/Postal Code" value={shippingZipCode} 
+                                    onchange={handleInputChange} data-id="acc_shippingZipCode" onfocusout={lookupZipCode}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_shippingCountry" label="Shipping Country" value={shippingCountry}
+                                        options={shippingCountryList} onchange={handleInputChange} data-id="acc_shippingCountry">
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="billingAddress" label="Billing Address">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">   
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-textarea name="acc_billingStreetAddress" label="Billing Street" value={billingStreetAddress} 
+                                    onchange={handleInputChange} data-id="acc_billingStreetAddress">
+                                </lightning-textarea>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_billingCity" label="Billing City" value={billingCity} 
+                                    onchange={handleInputChange} data-id="acc_billingCity">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_billingState" label="Billing State" value={billingState}
+                                        options={billingStateList} onchange={handleInputChange} data-id="acc_billingState">
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_billingZipCode" label="Billing Zip/Postal Code" value={billingZipCode} 
+                                    onchange={handleInputChange} data-id="acc_billingZipCode" onfocusout={lookupZipCode}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-combobox name="acc_billingCountry" label="Billing Country" value={billingCountry}
+                                        options={billingCountryList} onchange={handleInputChange} data-id="acc_billingCountry">
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="onboardingInformation" label="Onboarding Information">
+                    <div class="slds-p-around_medium slds-is-relative column-padding fixed-height">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="acc_vatNumber" label="V.A.T. Number" value={vatNumber} 
+                                    onchange={handleInputChange} data-id="acc_vatNumber">
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">                           
+                                <c-lookup value={pointOfContact} name="acc_pointOfContact" onsearch={handlePointOfContactSearch}
+                                        secondary-search-term={secondarySearchTerm} scrollafternitems=10 label="Point of Contact"
+                                        placeholder="Search Contacts..." onselectionchange={handleLookupSelectionChange}
+                                        style="width:100%;" selection={pointOfContactSelection} data-id="acc_pointOfContact">
+                                </c-lookup>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>   
+            <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+                <lightning-button style="float: left; padding:10px;" variant="brand" title="Save"
+                    class="slds-m-left_x-small" onclick={handleSave} label="Save">
+                </lightning-button>
+                <lightning-button style="float: left; padding:10px;" variant="brand" title="Cancel"
+                    class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+                </lightning-button>                        
+            </footer>                  
+        </div> 
+        <div if:true={isContactPaneOpen} style="padding:10px;" data-id="acc_contactPane">
+            <lightning-button label="Confirm Selections" onclick={confirmContactSelection} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button label="Cancel" onclick={closeContactWindow} style="padding:10px;" class="slds-m-right_x-small"></lightning-button>           
+            <br/><br/>
+            <div class="slds-col slds-size_6-of-12">
+                <lightning-input name="chk_syncContactAddress" label="Sync Account Shipping Address to Selected Contacts" type="checkbox"
+                    onchange={handleInputChange} checked={syncContactAddress}>
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <lightning-input name="chk_syncContactPhone" label="Sync Account Phone Number to Selected Contacts" type="checkbox"
+                    onchange={handleInputChange} checked={syncContactPhone}>
+                </lightning-input>
+            </div>
+            <br/>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                <thead>
+                    <tr>
+                        <th class="" scope="col">
+                            <div class="slds-truncate">
+                                <lightning-input type="checkbox"
+                                    onchange={handleCheckAllChecked}>
+                                </lightning-input>
+                            </div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Phone">Phone</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Street">Street</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="City">City</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="State">State</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Zip">Zip</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Country">Country</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={contactList} for:item="contact">
+                        <tr key={contact.Id}>
+                            <td>
+                                <lightning-input type="checkbox" accesskey={contact.Id}
+                                    onchange={handleOptionChecked} checked={contact.Selected}>
+                                </lightning-input>
+                            </td>
+                            <td>{contact.Name}</td>
+                            <td>{contact.Phone}</td>
+                            <td>{contact.MailingStreet}</td>
+                            <td>{contact.MailingCity}</td>
+                            <td>{contact.MailingState}</td>
+                            <td>{contact.MailingPostalCode}</td>
+                            <td>{contact.MailingCountry}</td>                         
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>           
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+        </template>        
+    </template>
+         
+</template>

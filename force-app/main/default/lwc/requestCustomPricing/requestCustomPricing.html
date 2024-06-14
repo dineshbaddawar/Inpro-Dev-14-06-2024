@@ -1,0 +1,85 @@
+<template>
+    <div class="qcHolder">
+        <template if:true={loaded}>
+            <div if:false={showError}>
+                <h3 slot="title">
+                    <lightning-icon style="padding: 5px;" icon-name="utility:save" alternative-text="Save" size="Medium"
+                        title="Save" onclick={createAsyncTask} class="pointer"></lightning-icon>
+                    &nbsp;<strong>Request Custom Pricing</strong>
+                </h3>
+                <!-- Define table structure -->
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                    <thead>
+                        <tr>
+                            <th class="" scope="col">
+
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="AlternateName">Alternate Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="ItemNumber">Item Number</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Desc1">Desc 1</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Desc2">Desc 2</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Custom Pricing Requested">Custom Pricing Requested
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Custom Pricing Requested On">Custom Pricing Requested
+                                    On</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- Loop through groups -->
+                    <tbody>
+                        <template for:each={QuoteProductList} for:item="product">
+                            <tr key={product.Id}>
+                                <td>
+                                    <lightning-input type="checkbox" accesskey={product.Id}
+                                        onchange={handleOptionChecked} checked={product.Selected}>
+                                    </lightning-input>
+                                </td>
+                                <td>
+                                    {product.Alternate_Name__c}
+                                </td>
+                                <td>
+                                    {product.Item_Number__c}
+                                </td>
+                                <td>
+                                    {product.Description}
+                                </td>
+                                <td>
+                                    {product.Description_2__c}
+                                </td>
+                                <td>
+                                    {product.Custom_Pricing_Requested__c}
+                                </td>
+                                <td>
+                                    {product.Customer_Priced_On__c}
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div style="padding: 15px; float:right;">
+                    <lightning-button style="padding: 5px;" label="Reset Custom Pricing" onclick={resetCustomPricing}>
+                    </lightning-button>
+                </div>
+            </div>
+            <div style="color:red; padding: 10px;" if:true={showError}>
+                {errorMessage}
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+            </div>
+        </template>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+    </div>
+</template>

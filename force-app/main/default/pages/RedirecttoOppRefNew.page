@@ -1,0 +1,33 @@
+<apex:page standardcontroller="Opportunity_Referral__c" recordSetVar="listofRef" id="pid" sidebar="false" showHeader="false">
+    <script language="JavaScript1.2" src="/js/functions.js"></script>
+    <script src="/soap/ajax/29.0/connection.js" type="text/javascript"></script>
+    <apex:includeScript value="/soap/ajax/32.0/connection.js"/> 
+    <apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js" target="_blank" />
+    <apex:includeScript value="/soap/ajax/28.0/connection.js"/>
+        <apex:includeScript value="/soap/ajax/28.0/apex.js"/>
+            
+            <script>
+            window.onload=function()
+        { 
+             var BaseURL=document.URL;
+             var Surl = BaseURL.split("1&id=")[1];
+             var spliturl = Surl.split("&core.apexpages")[0];
+             var opptid =spliturl.split("&isdtp=")[0];
+            // alert('Opptid --->'+opptid);
+            if('{!$User.Id}'== '{!Opportunity_Referral__c.ConstructionProject__r.OwnerId}'||'{!$Profile.Name}' == 'System Administrator' )
+            {
+                if ('{!$User.ContactId}' == '') { 
+                    window.parent.location.href = "/apex/OppRefNew?oppid="+opptid;
+                }
+                else{
+                    window.parent.location.href = "/Agents/apex/OppRefNew?oppid="+opptid;
+                }
+            }
+            else
+            {
+                alert('You can only refer Opportunities that you own personally. This Opportunity is owned by someone other than you.');
+            }
+        }
+        </script>
+</apex:page>

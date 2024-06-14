@@ -1,0 +1,577 @@
+<apex:page renderAs="PDF" standardController="Quote" extensions="IPC255Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+  <apex:outputText rendered="{!BlankForm == true}">
+<html>
+    
+    <head>
+      <style>
+        @page {
+          margin-top: 2.2cm;
+          margin-bottom: 2.2cm;
+          margin-left: 1cm;
+          margin-right: 1cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+          border-bottom: 1px solid black;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+          
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <table style="width:100%">
+          <tr>
+            <td>
+              <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+            </td>
+            <td style="text-align: right;">
+                Measurement Form
+              <div style="text-align: right; font-weight:bold;">
+                <strong>140D Flush Mount End Wall Protectors</strong>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <div style="width:100%;">
+          <table style="width:100%;">
+            <tr>
+              <td style="width:15%">
+                <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+              </td>
+              <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+              <td style="width:15%">IPC.255/Rev.5</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <apex:form style="font-family: sans-serif; font-size: 9pt;">
+       
+        <p style="padding-left: 6pt; text-align: left;">
+          Please complete the following information based on field verified dimensions. Use one order form per size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+        </p>
+
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+            <tr>
+              <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+              <td style="width: 20%; border: 1px solid black;"></td>
+              <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+              <td style="width: 35%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+              <td style="width: 20%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+              </td>
+              <td style="width: 20%; border: 1px solid black;">Project Name</td>
+              <td style="width: 35%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 25%; border: 1px solid black;">Company Name</td>
+              <td style="width: 20%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+              </td>
+              <td style="width: 20%; border: 1px solid black;">Account #</td>
+              <td style="width: 35%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+              </td>
+            </tr>
+          </table>
+
+          <table style="width:100%;">
+            <tr>
+              <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img  src="{!$Resource.cf_ipc255_flushmountendwallprotectors}" alt="flushmountendwallprotectors" width="500" height="280"/>
+              </td>
+            </tr>
+        </table>
+
+          <table>
+            <tr>
+                <td style="width:15%;">End Wall Height:</td>
+                <td style="width:13%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            {!isMetricEndWallHeight1}<apex:outputText rendered="{!isMetric == true}">
+                            </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                             '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:14%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            {!isMetricEndWallHeight2}<apex:outputText rendered="{!isMetric == true}">
+                            </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                             '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:14%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            {!isMetricEndWallHeight3}<apex:outputText rendered="{!isMetric == true}">
+                            </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                             '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:11%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            {!isMetricEndWallHeight4}<apex:outputText rendered="{!isMetric == true}">
+                            </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                             '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:15%;text-align :right">Color Name:</td>
+                <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                           
+                            
+                        
+            </tr>
+              <tr>
+                  <td colspan ='5'></td>
+                  <td style="width:15%;text-align :right">Color #:</td>
+                <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+              </tr>
+        </table>
+          <table>
+              <tr>
+                  <td style="width:10%;text-align :left">Quantity:</td>
+                  <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:10%;"></td>
+                  <td style="width:18%;">Stud Size, Width {!isMetricExperssion}</td>
+                  <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:10%;"></td>
+              </tr>
+              
+          </table>
+          
+          <table>
+              <tr>
+                  <td style="width:30%;text-align :left">Drywall Thickness Layers (List all):</td>
+                  <td style="width:30%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:35%;">{!isMetricDrywallThickness}</td>
+                  <td style="width:5%;"></td>
+                  
+              </tr>
+              
+          </table>
+          <table>
+              <tr>
+                  <td style="width:20%;text-align :left">End Wall Width {!isMetricExperssion}</td>
+                  <td style="width:40%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:40%;"></td>
+              </tr>
+              <tr>
+                  <td colspan ='3' style="text-align :left;font-size:10px;Padding-top:-20px">(Out/Out of Drywall: Stud width plus the sum of all drywall thickness layers)</td>
+              </tr>
+              
+          </table>
+          <br/>
+          <span>*Note:</span>
+				<li>Max End Wall Height of 10'</li> 
+				<li>Mounting Hardware Included</li> 
+				<li>Min. 5/8 in. Drywall Required</li> 
+				<li>End Wall Width Min. 3¾" Max 12"</li> 
+				<li>Final width is 1/8 in. wider than end wall width for movement/expansion</li> 
+				<li>Tolerances are +/- 1/16'</li> 
+                
+                <br/>
+                <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;">
+                            <b>FOR INPRO USE ONLY</b>
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Customer Order #:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Inpro Drawing: N/A
+                        </td>
+                        <td style="border: 1px solid black;padding:6px;">
+                            Inpro #:
+                        </td>
+                    </tr>            
+                </table>
+          
+    </apex:form>
+    </body>
+    </html>
+</apex:outputText>
+
+
+<apex:outputText rendered="{!BlankForm == false}">
+<html>
+    <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+    <head>
+      <style>
+        @page {
+          margin-top: 2.2cm;
+          margin-bottom: 2.2cm;
+          margin-left: 1cm;
+          margin-right: 1cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+          border-bottom: 1px solid black;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+          
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <table style="width:100%">
+          <tr>
+            <td>
+              <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+            </td>
+            <td style="text-align: right;">
+                Measurement Form
+              <div style="text-align: right; font-weight:bold;">
+                <strong>140D Flush Mount End Wall Protectors</strong>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <div style="width:100%;">
+          <table style="width:100%;">
+            <tr>
+              <td style="width:15%">
+                <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+              </td>
+              <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+              <td style="width:15%">IPC.255/Rev.5</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <apex:form style="font-family: sans-serif; font-size: 9pt;">
+       
+        <p style="padding-left: 6pt; text-align: left;">
+          Please complete the following information based on field verified dimensions. Use one order form per size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+        </p>
+
+        <!--Header Table-->
+        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+            <tr>
+              <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+              <td style="width: 20%; border: 1px solid black;"></td>
+              <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+              <td style="width: 35%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+              <td style="width: 20%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+              </td>
+              <td style="width: 20%; border: 1px solid black;">Project Name</td>
+              <td style="width: 35%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 25%; border: 1px solid black;">Company Name</td>
+              <td style="width: 20%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+              </td>
+              <td style="width: 20%; border: 1px solid black;">Account #</td>
+              <td style="width: 35%; border: 1px solid black;">
+                <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+              </td>
+            </tr>
+          </table>
+
+          <table style="width:100%;">
+            <tr>
+              <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img  src="{!$Resource.cf_ipc255_flushmountendwallprotectors}" alt="flushmountendwallprotectors" width="500" height="280"/>
+              </td>
+            </tr>
+        </table>
+
+          <table>
+            <tr>
+                <td style="width:15%;">End Wall Height:</td>
+                <td style="width:13%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WallHeight1}">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                          {!isMetricEndWallHeight1}<apex:outputText rendered="{!isMetric == true}">
+                             </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                              '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:14%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WallHeight2}">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                          {!isMetricEndWallHeight2}<apex:outputText rendered="{!isMetric == true}">
+                        </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                         '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:14%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WallHeight3}">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            {!isMetricEndWallHeight3}<apex:outputText rendered="{!isMetric == true}">
+                            </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                             '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:11%">
+                    <div style="display:inline-block;width:10%;margin-left:30px;text-align :left">
+                        <div
+                             style="width:20px; height:20px;  border: 1px solid #333; cursor: pointer;background:#{!quoteLine.WallHeight4}">
+                        </div>
+                        <div style="padding-left:25px;margin-top:-18px">
+                            {!isMetricEndWallHeight4}<apex:outputText rendered="{!isMetric == true}">
+                            </apex:outputText><apex:outputText rendered="{!isMetric == false}">
+                             '</apex:outputText>
+                        </div>
+                        
+                    </div>
+                </td>
+                <td style="width:15%;text-align :right">Color Name:</td>
+                <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.colorName}</div>
+                  </td>
+                           
+                            
+                        
+            </tr>
+              <tr>
+                  <td colspan ='5'></td>
+                  <td style="width:15%;text-align :right">Color #:</td>
+                <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.colorNumber}</div>
+                  </td>
+              </tr>
+        </table>
+          <table>
+              <tr>
+                  <td style="width:10%;text-align :left">Quantity:</td>
+                  <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Quantity}</div>
+                  </td>
+                  <td style="width:10%;"></td>
+                  <td style="width:18%;">Stud Size, Width {!isMetricExperssion}</td>
+                  <td style="width:18%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:10%;"></td>
+              </tr>
+              
+          </table>
+          
+          <table>
+              <tr>
+                  <td style="width:30%;text-align :left">Drywall Thickness Layers (List all):</td>
+                  <td style="width:30%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:35%;">{!isMetricDrywallThickness}</td>
+                  <td style="width:5%;"></td>
+                  
+              </tr>
+              
+          </table>
+          <table>
+              <tr>
+                  <td style="width:20%;text-align :left">End Wall Width {!isMetricExperssion}</td>
+                  <td style="width:40%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                  </td>
+                  <td style="width:40%;"></td>
+              </tr>
+              <tr>
+                  <td colspan ='3' style="text-align :left;font-size:10px;Padding-top:-20px">(Out/Out of Drywall: Stud width plus the sum of all drywall thickness layers)</td>
+              </tr>
+              
+          </table>
+          <br/>
+          <span>*Note:</span>
+				<li>Max End Wall Height of 10'</li> 
+				<li>Mounting Hardware Included</li> 
+				<li>Min. 5/8 in. Drywall Required</li> 
+				<li>End Wall Width Min. 3¾" Max 12"</li> 
+				<li>Final width is 1/8 in. wider than end wall width for movement/expansion</li> 
+				<li>Tolerances are +/- 1/16'</li> 
+                
+                <br/>
+                <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;">
+                            <b>FOR INPRO USE ONLY</b>
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Customer Order #:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Inpro Drawing: N/A
+                        </td>
+                        <td style="border: 1px solid black;padding:6px;">
+                            Inpro #:
+                        </td>
+                    </tr>            
+                </table>
+          
+    </apex:form>
+    </body>
+</apex:repeat>
+    </html>
+</apex:outputText>
+</apex:page>

@@ -1,0 +1,16 @@
+<apex:page standardController="RCA__c" recordSetVar="risks">
+    <apex:includeLightning />
+    <div id="Con" />
+    <script>
+        $Lightning.use("c:rcaCreateAuraApp", function() {
+            $Lightning.createComponent(
+                "c:rcaCreate",
+                {},
+                "Con",
+                function(cmp) {
+                    console.log("Component is created!");
+                    console.log(cmp);
+                });
+            });        
+      </script>
+</apex:page>

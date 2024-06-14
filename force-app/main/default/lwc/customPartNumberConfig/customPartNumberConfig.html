@@ -1,0 +1,106 @@
+<template>
+    <div class="qcHolder">
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                <template if:true={isLocked}>Manage Custom Part Numbers (TASK COMPLETE)</template>
+                <template if:false={isLocked}>Manage Custom Part Numbers</template>
+            </h2>
+        </header>
+        <div class="slds-p-around_medium slds-is-relative">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+            </template>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_12-of-12">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <tr>
+                            <td>
+                                <lightning-button variant="base" data-id="ItemNumber" label="Item Number" icon-name="" icon-position="right"></lightning-button>
+                            </td>
+                            <td>
+                                <lightning-button variant="base" data-id="Description" label="Description" icon-name="" icon-position="right"></lightning-button>
+                            </td>
+                            <td>
+                                <lightning-button variant="base" data-id="Description2" label="Description 2" icon-name="" icon-position="right"></lightning-button>
+                            </td>
+                            <td>
+                                <lightning-button variant="base" data-id="Note" label="Note" icon-name="" icon-position="right"></lightning-button>
+                            </td>
+                            <td>
+                                <lightning-button variant="base" data-id="AltName" label="Alt Name" icon-name="" icon-position="right"></lightning-button>
+                            </td>
+                            <td>
+                                <template if:true={isSignScape}>
+                                    <lightning-button variant="base" data-id="CustomPartNumber" label="Details" icon-name="" icon-position="right"></lightning-button>
+                                </template>
+                                <template if:false={isSignScape}>
+                                    <lightning-button variant="base" data-id="CustomPartNumber" label="Custom Part #" icon-name="" icon-position="right"></lightning-button>
+                                </template>
+                                
+                            </td>
+                            <td></td>
+                        </tr>
+                        <template for:each={productList} for:item="product">
+                            <tr accesskey={product.Id} key={product.Id}>
+                                <td>{product.Item_Number__c}</td>
+                                <td>{product.Description}</td>
+                                <td>{product.Description_2__c}</td>
+                                <td>{product.Note__c}</td>
+                                <td>{product.Alternate_Name__c}</td>
+                                <td>
+                                    <template if:false={isSignScape}>
+                                        <template if:false={isLocked}>
+                                            <lightning-input type="text" value={product.Custom_Part_Number__c} accesskey={product.Id} onchange={handleCustomInput}></lightning-input>
+                                        </template>
+                                        <template if:true={isLocked}>
+                                            {product.Custom_Part_Number__c}
+                                        </template>
+                                    </template>
+                                    <template if:true={isSignScape}>
+                                        <lightning-button variant="brand-outline" title="Open" class="slds-m-left_x-small" accesskey={product.Id} onclick={handleSelect} label="Open">
+
+                                        </lightning-button>
+                                    </template>
+                                </td>
+                                <td>
+                                    <template if:true={product.isLoaded}>
+                                        <table class="slds-table">
+                                            <tr><td>Custom Part #</td></tr>
+                                            <tr>
+                                                <td><lightning-input type="text" value={product.Custom_Part_Number__c} accesskey={product.Id} onchange={handleCustomInput}></lightning-input></td>
+                                            </tr>
+                                            <tr><td>Material Allocation Detail</td></tr>
+                                            <tr>
+                                                <td><lightning-textarea disabled="disabled" value={product.Material_Allocation_Note__c}></lightning-textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <template if:true={product.imageLoaded}>
+                                                        <div style="text-align: center;">
+                                                            <img style="padding: 100px;" src={product.imageData} />
+                                                        </div>
+                                                    </template>
+                                                    <template if:false={product.imageLoaded}>
+                                                        No Image Found
+                                                    </template>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
+                    </table>
+                </div>
+                
+                <div class="slds-col slds-size_12-of-12">
+                    <template if:false={isLocked}>
+                        <lightning-button style="float: right; padding:10px" variant="brand-outline"
+                            title="Save" class="slds-m-left_x-small" onclick={handleSave} label="Save">
+                        </lightning-button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

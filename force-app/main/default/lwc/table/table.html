@@ -1,0 +1,115 @@
+<template>
+    <div class="slds-grid slds-wrap">
+        <template if:true={enableTopBar}>
+            <div class="slds-col slds-size_12-of-12" style="background-color:rgb(243,243,243);display:flex;padding:15px;">
+                <template if:true={enableUpload}>
+                    <lightning-file-upload name="fileUploader" 
+                        record-id={recordId} 
+                        onuploadfinished={uploadFunction} multiple>
+                    </lightning-file-upload>
+                </template>
+                <lightning-input label="Search" style="margin-left:5px;"
+                    id="searchFiles2" title="Search" name="Search" onchange={handleSearch}
+                    value={searchValue} type="text">
+                </lightning-input>
+                <template if:true={selectMultiple}>
+                    <template if:true={isSelectActive}>
+                        <lightning-button variant="brand" title={selectText}
+                            class="slds-m-left_x-small" onclick={handleSelectFunctionCall} style="margin-top:22px;" label={selectText}>
+                        </lightning-button>
+                    </template>
+                    <template if:false={isSelectActive}>
+                        <lightning-button variant="brand-outline" title={selectText} disabled="disabled"
+                            class="slds-m-left_x-small" style="margin-top:22px;"  label={selectText}>
+                        </lightning-button>
+                    </template>
+                </template>
+                <lightning-button-icon icon-name="utility:back" 
+                    onclick={handlePageChange} name="Back" alternative-text="Back" title="Back" style="margin-top:22px;margin-left:20px;">
+                </lightning-button-icon>
+                <lightning-combobox
+                    name="pageCurrent"
+                    value={currentPage}
+                    label="Page"
+                    options={pageLibrary}
+                    onchange={handlePageChange}
+                    placeholder={currentPage}
+                    style="width:80px;">
+                </lightning-combobox>
+                <lightning-button-icon icon-name="utility:forward" 
+                    onclick={handlePageChange} name="Next" alternative-text="Next" title="Next" style="margin-top:22px;">
+                </lightning-button-icon>
+                <p style="margin-top:27px;font-size:medium;margin-left:10px;margin-right:10px;">Page <b>{currentPage}</b> / <b>{maxPage}</b></p>
+                <template for:each={pageButtons} for:item="pageSize">
+                    <lightning-button style="margin-top:22px;" key={pageSize}
+                        variant="brand-outline" name={pageSize} class="page-size slds-m-left_x-small" onclick={handlePageSizeChange} label={pageSize}>
+                    </lightning-button>
+                </template>
+                <lightning-button style="margin-top:22px;"
+                    variant="brand-outline" name="10000" class="page-size slds-m-left_x-small" onclick={handlePageSizeChange} label="ALL">
+                </lightning-button>
+                <p style="margin-top:27px;font-size:medium;margin-left:10px;margin-right:10px;">Total Records: <b>{recordCount}</b></p>
+            </div>
+        </template>
+        <div class="slds-col slds-size_12-of-12 sticky-table" style="overflow-x:scroll;">
+            <template if:true={dataLoaded}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" >
+                    <tr class="slds-table-header sticky-header">
+                        <template for:each={columns} for:item="column">
+                            <th key={column.fieldName} style={column.style}>
+                                <template if:true={selectMultiple}>
+                                    <template if:true={column.isSelect}>
+                                        <lightning-input type="checkbox" variant="brand" value="all" onclick={handleRowSelect} style={column.style}></lightning-input>
+                                    </template>
+                                </template>
+                                <template if:false={column.isSelect}>
+                                    <lightning-button variant="base" class={column.class} data-key={column.fieldName} data-id={column.fieldName} onclick={handleSort} label={column.label} icon-position="right"></lightning-button>
+                                        <template if:true={resizable}>
+                                            <span class="resize-handle"></span>
+                                        </template>
+                                </template>
+                                
+                            </th>
+                        </template>
+                    </tr>
+                    <template for:each={pagedRecords} for:item="item">
+                        <tr accesskey={item.RowId} key={item.RowId} >
+                            <template for:each={item.values} for:item="field">
+                                <td key={field.key} style={field.style} >
+                                    <template if:true={field.isIcon}>
+                                        <lightning-icon icon-name={field.value}></lightning-icon>
+                                    </template>
+                                    <template if:true={field.isUrl}>
+                                        <a href={field.url} target={field.target} style="white-space:break-spaces;">
+                                            {field.value}
+                                        </a>
+                                    </template>
+                                    <template if:true={field.isValue}>
+                                        {field.value}
+                                    </template>
+                                    <template if:true={field.isSelect}>
+                                        <lightning-input type="checkbox" checked={item.Selected} variant="brand" value={item.Id} access-key={item.RowId} onclick={handleRowSelect}></lightning-input>
+                                    </template>
+                                    <template if:true={field.isAction}>
+                                        <template for:each={item.Actions} for:item="action">
+                                            <template if:true={action.isCheckbox}>
+                                                <lightning-input type="checkbox" checked={action.checked} variant={action.variant} value={item.RowId} key={item.RowId} label={action.label} onclick={action.onclick} style={action.style}></lightning-input>
+                                            </template>
+                                            <template if:true={action.isButton}>
+                                                <lightning-button-icon variant={action.variant} key={item.RowId} label={action.label} onclick={action.onclick} style={action.style}></lightning-button-icon>
+                                            </template>
+                                            <template if:true={action.isButtonIcon}>
+                                                <lightning-button-icon variant={action.variant} key={item.RowId} icon-name={action.iconName} onclick={action.onclick} style={action.style}></lightning-button-icon>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </td>
+                            </template>
+                            
+                        </tr>
+                    </template>
+                </table>
+            </template>
+        </div>
+    </div>
+</template>

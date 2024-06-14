@@ -1,0 +1,28 @@
+.slds-modal__container {
+  min-width: unset;
+  max-width: unset;
+ }
+
+ .modal-delete {
+   width: 25%;
+ }
+
+ .resultbox {
+   z-index: 100;
+ }
+
+ .resultbox-open {
+    border: '1px solid black';
+ }
+
+ .resultbox-closed {
+    border: 0px;
+ }
+
+ .spinner {
+   margin: 20rem;
+ }
+
+ .create-message {
+   padding: 10px 0;
+ }

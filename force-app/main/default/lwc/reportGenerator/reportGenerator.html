@@ -1,0 +1,72 @@
+<template> 
+    <div style="background-color:white; padding:10px;">
+        <h3 slot="title" >       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Report Viewer</strong>
+        </h3>
+        <lightning-combobox 
+                name="lcb_reportSelection"
+                label="Report"
+                value={selectedReport}
+                placeholder="Select Report..."
+                options={reportOptions}
+                onchange={handleInputOnChange}>
+        </lightning-combobox>
+        <br/>
+        <lightning-button style="margin-left:0px;" variant="brand-outline" title="Run Report" class="slds-m-left_x-small" onclick={runSelectedReport}  label="Run Report"></lightning-button>   
+    </div>
+    <br/><br/>
+    <div style="background-color:white;">
+        <lightning-accordion allow-multiple-sections-open="true" active-section-name="ReportData">
+            <lightning-accordion-section name="ReportFilters" label="Report Filters">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <lightning-input name="li_itemNumber" data-id="li_itemNumber" label="Item Number" onchange={handleInputOnChange} style="padding-right: 10px;"></lightning-input>  
+                        </td>
+                        <td>
+                            <lightning-input name="li_documentNumber" data-id="li_documentNumber" label="Document Number (i.e. Order Number, Invoice Number, Credit Memo Number)" onchange={handleInputOnChange} style="padding-right: 10px;"></lightning-input>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <lightning-input name="li_startDate" data-id="li_startDate" label="Start Date" onchange={handleInputOnChange} style="padding-right: 10px;" type="date"></lightning-input>    
+                        </td>
+                        <td>
+                            <lightning-input name="li_endDate" data-id="li_endDate" label="End Date" onchange={handleInputOnChange} style="padding-right: 10px;" type="date"></lightning-input>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <lightning-dual-listbox name="dl_division" data-id="dl_division" label="Division" options={divisions} onchange={handleInputOnChange}></lightning-dual-listbox>  
+                        </td>
+                        <td>
+                            <lightning-dual-listbox name="dl_location" data-id="dl_location" label="Location" options={locations} onchange={handleInputOnChange}></lightning-dual-listbox> 
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td>
+                            <lightning-input name="li_customerNumber" data-id="li_customerNumber" label="Customer Number" onchange={handleInputOnChange} style="padding-right: 10px;"></lightning-input> 
+                        </td>
+                        <td></td>
+                    </tr>                 
+                </table>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="ReportData" label="Report Data">
+                <lightning-button style="margin-left:0px; padding:10px;" variant="brand-outline" title="Download Data as CSV" class="slds-m-left_x-small" onclick={downloadCSVFile}  label="Download Data as CSV"></lightning-button>               
+                <br/><br/>
+                <lightning-datatable
+                    key-field="id"
+                    data={reportData}
+                    columns={reportColumns}>
+                </lightning-datatable>    
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </div>
+    <br/><br/>
+    <!-- <div if:false={reportReadyForDownload}>
+        <lightning-button style="margin-left:0px;" variant="brand-outline" title="Download PDF" class="slds-m-left_x-small" onclick={downloadPDF}  label="Download PDF"></lightning-button>    
+    </div>  -->
+    <template if:false={loaded}>
+        <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+    </template>
+</template>

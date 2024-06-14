@@ -1,0 +1,53 @@
+<template>
+    <div class="qcHolder">
+        <template if:true={loaded}>
+            <div if:false={showError}>
+                <div if:false={uploaded}>
+                    <h3 slot="title">
+                        <lightning-icon style="padding:5px;" icon-name="utility:save" alternative-text="Save"
+                            size="medium" title="Save" onclick={uploadImage} class="pointer"></lightning-icon>
+                        &nbsp;<strong>Upload Custom Image</strong>
+                    </h3>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="noteTextArea">
+                                        <h1><strong>Material Allocation Detail</strong></h1>
+                                        <lightning-textarea name="notes" value={notes} onchange={handleInput}></lightning-textarea>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div if:false={fileUploaded}>
+                                        <h1><strong>Select a file to upload</strong></h1>
+                                        <!-- <input  onchange={fileUploaded} type="file" accept=".xls,.xlsx"></input> -->
+                                        <lightning-file-upload label="Attach Estimate" name="fileUploader"
+                                            accept={acceptedFormats} record-id={recordId}
+                                            onuploadfinished={handleUploadFinished}>
+                                        </lightning-file-upload>
+                                    </div>
+                                    <div if:true={fileUploaded}>
+                                        <p>{FileName}</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <img style="padding: 100px;" src={imageData} />
+                                        <a if:true={imageLoaded} download='sign.png' href={imageData}>Save Image</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div if:true={showError}>
+                {errorMessage}
+            </div>
+        </template>
+        <lightning-button style="padding: 10px;float:right;" title="Cancel" variant="brand"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+    </div>
+</template>

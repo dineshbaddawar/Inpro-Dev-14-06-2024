@@ -1,0 +1,676 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC092Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    
+                    
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" >IPC.092/Rev.4</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        Corner Guard - Custom Gold Titanium
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        <div style="font-size:13px">
+                        
+            <!--Header-->
+            <div> 
+                <p style="padding-left: 8pt;;text-align: left;padding-top:25px">
+                    <br/>
+                    Please complete the following information based on field verified dimensions.
+                    Use one order form per size. 
+                    Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your order. 
+                    Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                </p>
+            </div>
+            
+            <!--Header Table-->
+           <!--Header Table-->
+           <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                </td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                </td>
+                <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                    <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                </td>
+            </tr>
+            
+        </table>
+            
+            <!-- Material Table -->
+            <table style="width:20%; padding-left:5px; ">
+                <tr>
+                    <td style="white-space: nowrap; padding-right: 10px;font-weight: normal;"><label for="qty">Material:</label></td>
+                    <td style="width:70px; white-space: nowrap;">
+                        <div style="text-align:center; display: inline-block; width: 65%; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                            
+                        </div>
+                    </td>
+                    <td style="white-space: nowrap; padding-left:50px;font-weight: normal;"><label>Material Thickness:</label></td>
+                    <td style="width:70%; white-space: nowrap;">
+                        <div style="text-align:center; display: inline-block; width:155px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                            <span style="word-break: break-all;">
+                               
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Color Table -->
+            <table style="width:20%; padding-left:5px; ">
+                <tr>
+                    <td style="white-space: nowrap; padding-right: 10px;font-weight: normal;"><label for="qty">Color Name:</label></td>
+                    <td style="width:70px; white-space: nowrap;">
+                        <div style="text-align:center; display: inline-block; width: 155%; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                           
+                        </div>
+                    </td>
+                    <td style="white-space: nowrap; padding-left: 100px;font-weight: normal;"><label for="qty">Color #:</label></td>
+                    <td style="width:70%; white-space: nowrap;">
+                        <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                           
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+
+            <table style="border-collapse: collapse;padding-left:5px;width:50%" >
+             <tr style="padding: 10px;padding-left:5px; padding-top:2px;">
+                 <td style="padding-left:5px; padding-top:5px; padding-bottom:5px;">Peel &amp; Stick Adhesive:</td>
+                 <td>
+                 
+                     <div style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                     </div>
+
+                     <div style="margin-left:0px;margin-top:5px;">&nbsp;&nbsp;No &nbsp;&nbsp;&nbsp;&nbsp;</div>
+                 </td>
+                 <td  colSpan="5">
+                     <div
+                          style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                     </div>
+                     <div style="margin-left:5px;margin-top:5px;"> &nbsp; &nbsp;Yes </div>
+                    
+                 </td>
+                 
+             </tr>
+  
+         </table>
+            <!-- Quantity Table -->
+            <table style="width:50%; padding-left:5px;pading-top:20px ">
+                <tr>
+                    <td style="white-space: nowrap;font-weight: normal;"><label for="qty">Quantity:</label></td>
+                    <td style="width:70%; white-space: nowrap;">
+                        <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 20px;">
+                           
+                        </div>
+                    </td>
+                </tr>
+            </table>
+           <br/>
+          
+            
+            <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+            
+            
+            <!--Horizontal and Vertical Images-->
+            <div>
+                <p style="text-align: center;">
+                    SELECT ONE <b>AS PRODUCT IS VIEWED ON DOOR OR WALL</b> <br/>
+                   
+                </p>
+                <p style="text-align: center;">
+                 {!isMetricExperssionisProductView}
+                </p>
+                <table style="border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:140px">
+                            <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer; background:"></div>
+                            <div style="padding-left:15px;margin-top:-20px"><b>Standard - Vertical Grain</b></div>
+                        </td>
+                        
+                        <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:140px">
+                            <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer; background:"></div>
+                            <div style="padding-left:15px;margin-top:-20px"><b>Custom - Horizontal Grain</b></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <table style="width:100%; border-collapse: collapse;">
+                <tr>
+                    <td></td>
+                    <td style="padding: 20px;" rowSpan="5">
+                        <img Style="width:150px;" src="{!$Resource.cf_ipc092_verticalgraindirectionnoedges1}" alt="HeaderImage" />
+                    </td>
+                    <td style="padding: 20px;" rowSpan="5">
+                        <img Style="width:150px;" src="{!$Resource.cf_ipc092_horizontalgraindirectionnoedges1}" alt="HeaderImage" />
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="padding-top:50px">
+                        <div>
+                            Height: <span style="text-align:center; display: inline-block; width:60px; border: none;  border-bottom: 2px solid #999;">
+                                
+                             </span> 
+                            <br/>
+                        </div>
+                    </td>
+                    <td style="padding-top:50px">
+                        <div>
+                            Height:   <span style="text-align:center; display: inline-block; width:60px; border: none;  border-bottom: 2px solid #999;">
+                                 
+                             </span>
+                            <br/>
+                        </div>
+                    </td>     
+                </tr>
+                <tr>
+                    <td style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!isMetricExperssionisWidthHeight} </td>
+                    <td style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!isMetricExperssionisWidthHeight} </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            
+            <!-- width Table -->
+            <table style="width:20%; padding-left:5px; ">
+                <tr>
+                    <td style="padding-left:120px"><label >Width:</label></td>
+                    <td>
+                        <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none;">
+                           
+                        </div>
+                    </td>
+                    <td  style="padding-left:170px"><label>Width:</label></td>
+                    <td>
+                        <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none;">
+                            
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left:170px;font-size:11px;" colspan="2"><label >&nbsp;&nbsp;{!isMetricExperssionisWidthHeight}  </label></td>
+                    <td style="padding-left:170px;font-size:11px;" colspan="2"><label >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!isMetricExperssionisWidthHeight} </label></td>
+                </tr>
+            </table>
+            
+            
+            <p style="border-collapse: collapse;padding-left:5px;">
+             All edges are beveled on kickplates
+            </p>
+            <br />
+      
+
+            <div style="page-break-after: auto;padding-top:20px;margin-top:0px;font-size:10px">
+             <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                 <tr>
+                     <td style="border: 1px solid black; padding:6px;">
+                         <b>FOR INPRO USE ONLY</b>
+                     </td>
+                     <td style="border: 1px solid black; padding:6px;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                     </td>
+                     <td style="border: 1px solid black; padding:6px;">
+                         Customer Order #:
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border: 1px solid black; padding:6px;">
+                         Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                     </td>
+                     <td style="border: 1px solid black; padding:6px;">
+                         Inpro Drawing: N/A
+                     </td>
+                     <td style="border: 1px solid black;padding:6px;">
+                         Inpro #:
+                     </td>
+                 </tr>            
+             </table>
+         </div>
+    
+</div>
+        
+    </apex:outputText>
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    1.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 2px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" >IPC.092/Rev.4</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        Rigid PVC Kickplates w/
+                                    </div>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        Woodland or Elements Patterns
+                                    </div>
+                                    
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        
+        <apex:form >
+
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                <div style="font-size:13px">
+                        
+                             <!--Header-->
+                             <div> 
+                                 <p style="padding-left: 8pt;;text-align: left;padding-top:25px">
+                                     <br/>
+                                     Please complete the following information based on field verified dimensions.
+                                     Use one order form per size. 
+                                     Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your order. 
+                                     Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                                 </p>
+                             </div>
+                             
+                             <!--Header Table-->
+                             <table style="width:100%; border-collapse: collapse; border: 2px solid black;">
+                                 <tr>
+                                     <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                                     <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                                     <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                                     <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                                         <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                                     <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                         <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                                     </td>
+                                     <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                                     <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                                         <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                                     <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                         <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                                     </td>
+                                     <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                                     <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                                         <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                                     </td>
+                                 </tr>
+                                 
+                             </table>
+                             
+                             <!-- Material Table -->
+                             <table style="width:20%; padding-left:5px; ">
+                                 <tr>
+                                     <td style="white-space: nowrap; padding-right: 10px;font-weight: normal;"><label for="qty">Material:</label></td>
+                                     <td style="width:70px; white-space: nowrap;">
+                                         <div style="text-align:center; display: inline-block; width: 65%; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                                             
+                                         </div>
+                                     </td>
+                                     <td style="white-space: nowrap; padding-left:50px;font-weight: normal;"><label>Material Thickness:</label></td>
+                                     <td style="width:70%; white-space: nowrap;">
+                                         <div style="text-align:center; display: inline-block; width:155px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                                             <span style="word-break: break-all;">{!quoteLine.isDescription}</span>
+                                         </div>
+                                     </td>
+                                 </tr>
+                             </table>
+                             
+                             <!-- Color Table -->
+                             <table style="width:20%; padding-left:5px; ">
+                                 <tr>
+                                     <td style="white-space: nowrap; padding-right: 10px;font-weight: normal;"><label for="qty">Color Name:</label></td>
+                                     <td style="width:70px; white-space: nowrap;">
+                                         <div style="text-align:center; display: inline-block; width: 155%; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                                             {!quoteLine.colorName}
+                                         </div>
+                                     </td>
+                                     <td style="white-space: nowrap; padding-left: 100px;font-weight: normal;"><label for="qty">Color #:</label></td>
+                                     <td style="width:70%; white-space: nowrap;">
+                                         <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 10px;">
+                                             {!quoteLine.colorNumber}
+                                         </div>
+                                     </td>
+                                 </tr>
+                             </table>
+                             
+
+                             <table style="border-collapse: collapse;padding-left:5px;width:50%" >
+                              <tr style="padding: 10px;padding-left:5px; padding-top:2px;">
+                                  <td style="padding-left:5px; padding-top:5px; padding-bottom:5px;">Peel &amp; Stick Adhesive:</td>
+                                  <td>
+                                    <apex:variable var="description" value="{!LOWER(quoteLine.isDescription)}"/>
+                                      <div style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.isNoCheckTrue}">
+                                      </div>
+
+                                      <div style="margin-left:0px;margin-top:5px;">&nbsp;&nbsp;No &nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                  </td>
+                                  <td  colSpan="5">
+                                      <div
+                                           style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.isYesCheckTrue}">
+                                      </div>
+                                      <div style="margin-left:5px;margin-top:5px;"> &nbsp; &nbsp;Yes </div>
+                                     
+                                  </td>
+                                  
+                              </tr>
+                   
+                          </table>
+                             <!-- Quantity Table -->
+                             <table style="width:50%; padding-left:5px;pading-top:20px ">
+                                 <tr>
+                                     <td style="white-space: nowrap;font-weight: normal;"><label for="qty">Quantity:</label></td>
+                                     <td style="width:70%; white-space: nowrap;">
+                                         <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 10px; margin-right: 20px;">
+                                             {!Text(quoteLine.quoteLineItem.Quantity)}
+                                         </div>
+                                     </td>
+                                 </tr>
+                             </table>
+                            <br/>
+                           
+                             
+                             <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                             
+                             
+                             <!--Horizontal and Vertical Images-->
+                             <div>
+                                 <p style="text-align: center;">
+                                     SELECT ONE <b>AS PRODUCT IS VIEWED ON DOOR OR WALL</b> <br/>
+                                    
+                                 </p>
+                                 <p style="text-align: center;">
+                                  {!isMetricExperssionisProductView}
+                                 </p>
+                                 <table style="border-collapse: collapse;">
+                                     <tr>
+                                         <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:140px">
+                                             <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer; background:"></div>
+                                             <div style="padding-left:15px;margin-top:-20px"><b>Standard - Vertical Grain</b></div>
+                                         </td>
+                                         
+                                         <td style="padding: 10px; text-align: center; vertical-align: middle;padding-left:140px">
+                                             <div style="width: 20px; height: 20px; border: 1px solid #333; cursor: pointer; background:"></div>
+                                             <div style="padding-left:15px;margin-top:-20px"><b>Custom - Horizontal Grain</b></div>
+                                         </td>
+                                     </tr>
+                                 </table>
+                             </div>
+                             
+                             <table style="width:100%; border-collapse: collapse;">
+                                 <tr>
+                                     <td></td>
+                                     <td style="padding: 20px;" rowSpan="5">
+                                         <img Style="width:150px;" src="{!$Resource.cf_ipc092_verticalgraindirectionnoedges1}" alt="HeaderImage" />
+                                     </td>
+                                     <td style="padding: 20px;" rowSpan="5">
+                                         <img Style="width:150px;" src="{!$Resource.cf_ipc092_horizontalgraindirectionnoedges1}" alt="HeaderImage" />
+                                     </td>
+                                     <td></td>
+                                 </tr>
+                                 <tr>
+                                     <td></td>
+                                     <td></td>
+                                 </tr>
+                                 <tr>
+                                     <td style="padding-top:50px">
+                                         <div>
+                                             Height: <span style="text-align:center; display: inline-block; width:60px; border: none;  border-bottom: 2px solid #999;">
+                                                 
+                                              </span> 
+                                             <br/>
+                                         </div>
+                                     </td>
+                                     <td style="padding-top:50px">
+                                         <div>
+                                             Height:   <span style="text-align:center; display: inline-block; width:60px; border: none;  border-bottom: 2px solid #999;">
+                                                  
+                                              </span>
+                                             <br/>
+                                         </div>
+                                     </td>     
+                                 </tr>
+                                 <tr>
+                                     <td style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!isMetricExperssionisWidthHeight} </td>
+                                     <td style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!isMetricExperssionisWidthHeight} </td>
+                                 </tr>
+                                 <tr>
+                                     <td></td>
+                                     <td></td>
+                                 </tr>
+                             </table>
+                             
+                             <!-- width Table -->
+                             <table style="width:20%; padding-left:5px; ">
+                                 <tr>
+                                     <td style="padding-left:120px"><label >Width:</label></td>
+                                     <td>
+                                         <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none;">
+                                            
+                                         </div>
+                                     </td>
+                                     <td  style="padding-left:170px"><label>Width:</label></td>
+                                     <td>
+                                         <div style="text-align:center; display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none;">
+                                             
+                                         </div>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td style="padding-left:170px;font-size:11px;" colspan="2"><label >&nbsp;&nbsp;{!isMetricExperssionisWidthHeight}  </label></td>
+                                     <td style="padding-left:170px;font-size:11px;" colspan="2"><label >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!isMetricExperssionisWidthHeight} </label></td>
+                                 </tr>
+                             </table>
+                             
+                             
+                             <p style="border-collapse: collapse;padding-left:5px;">
+                              All edges are beveled on kickplates
+                             </p>
+                             <br />
+                       
+
+                             <div style="page-break-after: auto;padding-top:20px;margin-top:0px;font-size:10px">
+                              <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                                  <tr>
+                                      <td style="border: 1px solid black; padding:6px;">
+                                          <b>FOR INPRO USE ONLY</b>
+                                      </td>
+                                      <td style="border: 1px solid black; padding:6px;">
+                                          {!customForm.quoteRecord.Inside_Rep__c}
+                                      </td>
+                                      <td style="border: 1px solid black; padding:6px;">
+                                          Customer Order #:
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td style="border: 1px solid black; padding:6px;">
+                                          Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                                      </td>
+                                      <td style="border: 1px solid black; padding:6px;">
+                                          Inpro Drawing: N/A
+                                      </td>
+                                      <td style="border: 1px solid black;padding:6px;">
+                                          Inpro #:
+                                      </td>
+                                  </tr>            
+                              </table>
+                          </div>
+                     
+                </div>
+            </apex:repeat>
+        </apex:form>
+    </apex:outputText>
+    
+</apex:page>

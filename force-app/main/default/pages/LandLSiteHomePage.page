@@ -1,0 +1,882 @@
+<apex:page controller="LunchandlearnController" action="{!pageLoadFunction}" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" cache="false">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en" ng-app="myApp" ng-controller="myCtrl">
+        <script src="{!URLFOR($Resource.JQueryversions3)}"></script>
+        <script src="{!URLFOR($Resource.bootstrapMin)}"></script>
+        <script src="{!URLFOR($Resource.icons)}"></script>
+        <link rel="stylesheet" href="{!URLFOR($Resource.bootstrapMinCSS)}"/>
+            
+            <meta charset="utf-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+                    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+                        
+                        <apex:stylesheet value="{!URLFOR($Resource.MobileAngularFiles, 'MobileAngular/mobile-angular-ui-base.min.css')}" />
+                            <script src="{!URLFOR($Resource.MobileAngularFiles, 'MobileAngular/angular.min.js')}"></script>
+        <script src="{!URLFOR($Resource.MobileAngularFiles, 'MobileAngular/mobile-angular-ui.min.js')}"></script>
+        <script src="{!URLFOR($Resource.MobileAngularFiles, 'MobileAngular/mobile-angular-ui.gestures.min.js')}"></script>
+        <script>
+        angular.module('myApp', ['mobile-angular-ui']);
+        </script>
+        <style>
+            .modal-dialog {
+            margin: auto !important;
+            padding-top: 15% !important;
+            width: 60% !important;
+            }
+            
+            body {
+            overflow-y: auto;
+            }
+            
+            .popup {
+            background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding: 40px;
+            position: absolute;
+            /* These are the 3 css properties you will need to change so the popup 
+            displays in the center of the screen. First set the width. Then set 
+            margin-left to negative half of what the width is. You can add 
+            the height property for a fixed size pop up if you want.*/
+            width: 500px;
+            margin-left: -250px;
+            top: 100px;
+            
+            
+            
+            border-radius: 14px;
+            border-color: lightgrey;
+            
+            }
+            
+            
+            input[type=checkbox],
+            input[type=radio] {
+            margin: 4px 0 0;
+            margin-top: 5px;
+            line-height: normal;
+            width: 16px;
+            height: 16px;
+            
+            }
+            
+            .popupBg {
+            background-color: black;
+            opacity: 0.20;
+            filter: alpha(opacity=20);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+            }
+            
+            
+            
+            
+            
+            .modalfooter {
+            padding: 1px 10px;
+            background-color: hsla(0, 0%, 100%, 0.49);
+            color: white;
+            }
+            
+            
+            
+            h2 {
+            color: #4296ed;
+            
+            }
+            
+            .tableStyle {
+            margin-top: 20px;
+            margin-left: 308px;
+            width: 46%;
+            
+            }
+            
+            .uiButton.btn {
+            background-color: #0680C3;
+            color: white;
+            
+            }
+            
+            .buttonStyle {
+            background-color: #0680c3;
+            color: white;
+            margin-left: 41%;
+            margin-top: 6px;
+            
+            
+            }
+            
+            .columnStyle {
+            display: inline-block;
+            color: rgb(84, 105, 141);
+            font-size: .75rem;
+            line-height: 1.5;
+            margin-right: .75rem;
+            margin-bottom: 25px;
+            width: 60%;
+            
+            
+            }
+            
+            
+            .custom1 table {
+            width: 40% !Important;
+            }
+            
+            table,
+            thead,
+            tbody,
+            tfoot,
+            tr,
+            td,
+            th {
+            text-align: left;
+            margin: auto;
+            padding: .5rem;
+            border: 1px solid #fff;
+            width: 50%;
+            }
+            
+            table {
+            display: table;
+            width: 50%;
+            }
+            
+            tr {
+            display: table-row;
+            }
+            
+            thead {
+            display: table-header-group;
+            }
+            
+            tbody {
+            display: table-row-group;
+            }
+            
+            tfoot {
+            display: table-footer-group;
+            }
+            
+            .col {
+            display: table-column;
+            }
+            
+            .colgroup {
+            display: table-column-group;
+            }
+            
+            td,
+            th {
+            display: table-cell;
+            width: 50%;
+            }
+            
+            .caption {
+            display: table-caption;
+            }
+            
+            table {
+            background: #fff;
+            margin: auto;
+            border: none;
+            margin-bottom: 1rem;
+            }
+            
+            th {
+            font-weight: 700;
+            border: 1px solid #fff;
+            }
+            
+            th:nth-child(odd) {
+            border-right: none;
+            }
+            
+            td {
+            font-weight: 300;
+            border: 1px solid #fff;
+            border-top: none;
+            }
+            
+            td:nth-child(odd) {
+            border-right: none;
+            }
+            
+            .aa_htmlTable {
+            padding: 5rem;
+            display: table;
+            width: 100% !important;
+            height: 100vh;
+            vertical-align: middle;
+            }
+            
+            
+            
+            .txt {
+            font-size: x-large;
+            text-align: center;
+            color: #68b1f1;
+            margin-top: 30px;
+            text-transform: capitalize;
+            font-family: sans-serif;
+            margin-bottom: 20px;
+            }
+            
+            .input {
+            width: 100%;
+            height: 30px;
+            }
+            
+            .btnt {
+            width: 20%;
+            position: relative;
+            display: block;
+            
+            border-width: 0;
+            outline: none;
+            height: 35px;
+            border-radius: 5px;
+            
+            
+            text-align: center;
+            font-size: 0.95rem;
+            background-color: #4296ed;
+            border: 1px solid #4296ed;
+            color: #fff;
+            }
+            
+            @media screen and (max-width: 800px) {
+            .modal-dialog {
+            margin: auto !important;
+            padding-top: 15% !important;
+            width: 80% !important;
+            }
+            table {
+            display: table;
+            width: 90%;
+            }
+            .txt {
+            font-size: xx-large;
+            text-align: center;
+            color: #68b1f1;
+            margin-top: 40px;
+            text-transform: capitalize;
+            font-family: sans-serif;
+            margin-bottom: 30px;
+            }
+            h2 {
+            color: #4296ed;
+            padding-right: 0px;
+            }
+            .btnt {
+            width: 50%;
+            }
+            .custom1 table {
+            width: 60% !Important;
+            }
+            .container {
+            padding: 15px !Important;
+            }
+            
+            .popup {
+            background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding: 40px;
+            position: absolute;
+            width: 293px;
+            margin-left: -187px;
+            top: 100px;
+            border-radius: 14px;
+            border-color: lightgrey;
+            
+            }
+            
+            }
+            
+            .overflow {
+            overflow: scroll;
+            
+            
+            }
+            
+            .text-right-01 {
+            text-align: left;
+            }
+            
+            @media only screen and (max-width: 767px) {
+            .text-right-01 {
+            text-align: left;
+            }
+            }
+            
+            .customTooltip {
+            position: relative;
+            display: inline-block;
+            }
+            
+            /* Tooltip text */
+            .customTooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 6px;
+            font-weight: 100;
+            
+            position: absolute;
+            z-index: 1;
+            
+            width: 200px;
+            top: 100%;
+            left: 50%;
+            margin-left: -100px;
+            }
+            
+            
+            .customTooltip:hover .tooltiptext {
+            visibility: visible;
+            }
+            
+        </style>
+        <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip({ container: 'body'});   
+        });
+        </script>
+        
+        
+        <div id='mainDiv' style="{!IF(!statusbool, 'display:block', 'display:none')}">
+            
+            
+            <body>
+                <div>
+                    
+                    <div align="center">
+                        <div style= "text-align: center;">
+                            <h2 styleclass=""><br/>Participant Registration </h2>
+                        </div>    
+                        <table align="center" styleclass="ResourceStyle">
+                            <tr>
+                                <td>
+                                    <img src="{!companyLogo}" height="55"/>
+                                </td>
+                                
+                                <td>
+                                    <img src="{!educationLogo}" height="90"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <div>
+                            <table styleclass="custom1">
+                                <tr>
+                                    <td>
+                                        <label styleclass=""> Provider</label>
+                                    </td>
+                                    <td>
+                                        {!Provider_Name}
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label styleclass=""> Provider Number</label>
+                                    </td>
+                                    <td>
+                                        <apex:outputLabel rendered="{!if( AIA != NULL ,TRUE,FALSE)}" style=" font-weight: normal;" value="AIA-{!Provider_Number_AIA}"></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!if( AIA != NULL && (GBCI != NULL || IDCEC != NULL ) ,TRUE,FALSE)}" style=" font-weight: normal;" value=","></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!if( GBCI != NULL ,TRUE,FALSE)}" style=" font-weight: normal;" value="GBCI-{!Provider_Number_GBCI}"></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!if( GBCI != NULL && IDCEC != NULL  ,TRUE,FALSE)}" style=" font-weight: normal;" value=","></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!if( IDCEC != NULL ,TRUE,FALSE)}" style=" font-weight: normal;" value="IDCEC-{!Provider_Number_IDCEC}"></apex:outputLabel>
+                                        <!--AIA-{!Provider_Number_AIA},GBCI-{!Provider_Number_GBCI},IDCEC-{!Provider_Number_IDCEC}-->
+                                    </td>
+                                    
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <label styleclass=""> Course Name</label>
+                                    </td>
+                                    <td>
+                                        {!courseName}
+                                        
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label styleclass=""> Course Id</label>
+                                    </td>
+                                    <td>
+                                        {!courseId}
+                                        
+                                    </td>
+                                    
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <label styleclass=""> Date</label>
+                                    </td>
+                                    <td>
+                                        {!todayDate}
+                                    </td>
+                                    
+                                </tr>
+                                
+                            </table>
+                            
+                            
+                        </div>
+                        
+                        <div>
+                            
+                            
+                            
+                            <!--###################################################################### -->
+                            
+                            <div align="left">
+                                
+                                <!--###################################################################### -->
+                                <div class="container"  style ="padding:0px;"  >
+                                    
+                                    
+                                    <!--###################################################################### -->
+                                    <form class="form-horizontal" role="form">
+                                        <div class="row">
+                                            <div class="col-sm-3" ></div>
+                                            <div class="col-sm-7" style="">
+                                                <div class="form-group">
+                                                    <label for="inputName3" class="col-sm-4 control-label">First Name</label>
+                                                    <div class="col-sm-5">
+                                                        <input type="text"  ng-model="fName" name="fName" class="form-control" />
+                                                        <span id="fNamerequired" style="color: red;display: none;">The First Name is Required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2" style=""></div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-3" ></div>
+                                            <div class="col-sm-7" style="">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 control-label">Last Name</label>
+                                                    <div class="col-sm-5">
+                                                        <input type="text"  ng-model="lastName" name="lastName" class="form-control" />
+                                                        <span style="color: red;" ng-show="registration.lastName.$touched && registration.lastName.$invalid" class="ng-hide">*</span>
+                                                        <span id="lastNamerequired" style="color: red;display: none;">The Last Name is Required..</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2" style=""></div>
+                                        </div>
+                                       
+                                        <apex:outputPanel rendered="{! AIA != null}">
+                                            <div class="row">
+                                                <div class="col-sm-3" ></div>
+                                                <div class="col-sm-7" style="">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 control-label">AIA Membership Number</label>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" id="AIAMemberNumber" ng-model="NumName" name="NumName" ng-required="AIAName == 'Yes'" class="form-control" />
+                                                            
+                                                            <!--span style="color: red;" ng-show="AIAName=='true' && registration.NumName.$invalid" class="ng-hide">Enter the AIA Member Number.</span-->
+                                                            <span id="AIAMemberrequired" style="color: red;display: none;">Enter a Valid AIA Member Number.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2" style=""></div>
+                                            </div>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!GBCI!=null}">
+                                            <div class="row">
+                                                <div class="col-sm-3" ></div>
+                                                <div class="col-sm-7" style="">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 control-label">GBCI Membership Number</label>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" id="GBCINumber1"  ng-model="GBCINumber" name="GBCINumber" class="form-control" />
+                                                            <span id="GBCINumberDup" style="color: red;display: none;">Enter a Valid GBCI Member Number.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2" style=""></div>
+                                            </div>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!IDCEC !=null}">
+                                            <div class="row">
+                                                <div class="col-sm-3" ></div>
+                                                <div class="col-sm-7" style="">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 control-label">IDCEC Membership Number</label>
+                                                        
+                                                        <div class="col-sm-5">
+                                                            <input type="text" id="IDCECNumber1" ng-model="IDCECNumber" name="IDCECNumber" class="form-control" />
+                                                            <span id="IDCECNumberDup" style="color: red;display: none;">Enter the IDCEC Member Number.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2" style=""></div>
+                                            </div>
+                                        </apex:outputPanel>
+                                        
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-3" ></div>
+                                            <div class="col-sm-7" style="">
+                                                
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 control-label">Email Address</label>
+                                                    <div class="col-sm-5">
+                                                        <input type="text" ng-model="EName" name="EName" class="form-control" id="EName" />
+                                                        <span id="ENamerequired1" style="color:red;" class="error">Invalid email!</span>
+                                                        <span id="emailforspec" style="color: red;display: none;">We must have a valid email address.</span>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-sm-2" style=""></div>
+                                        </div>
+                                        <apex:outputPanel rendered="{!AccountIdx!=null}">
+                                            <apex:outputPanel rendered="{!AccountIdx!=null}">
+                                                
+                                            </apex:outputPanel>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!AccountIdx==null}">
+                                            <div class="row">
+                                                <div class="col-sm-3" ></div>
+                                                <div class="col-sm-7" style="">
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 control-label">Company Name:</label>
+                                                        <div class="col-sm-5">
+                                                            
+                                                            <input type="text"   id="CompanyName" ng-model="CompanyName" name="CompanyName"  class="form-control"/>
+                                                            
+                                                            <span  id="CompanyNamerequired"  style="color: red;display: none;">Please Enter the Company Name</span>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="col-sm-2" style=""></div>
+                                            </div>
+                                        </apex:outputPanel>
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-3" ></div>
+                                            <div class="col-sm-7" style="">
+                                                
+                                                <div class="form-group">
+                                                    <div for="OptIn" class="col-sm-4 customTooltip" style="line-height: 20px;font-weight: 600;">
+                                                        Please include me in educational emails on product features, applications, and new releases.
+                                                        <span class="tooltiptext">{!tooltipText}</span>
+                                                    </div>
+                                                        
+                                                    <div class="col-sm-5">
+                                                        <input type="checkbox" ng-model="OptIn" name="OptIn" class="form-control" id="OptIn" ng-checked="true"/>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-sm-2" style=""></div>
+                                        </div>
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-3" ></div>
+                                            <div class="col-sm-7" style="">
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-4 col-sm-5">
+                                                        <button type="button" class="btn btn-primary btn-block" ng-click="toggle()">I Attended </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2" style=""></div>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                            <br/><br/>    
+                            
+                        </div>
+                    </div>  
+                </div>
+                <apex:slds />
+                <div>
+                    
+                    <div id="popupdiv" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p> As part of our efforts to be as sustainable as possible, we do not print or snail-mail certificates.If you would like a certificate of completion, please provide your email address.
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" ng-click="closePOPUP()">Add Email Address</button><br/>
+                                    <a id="theLink" name="Submit without Email" ng-click="save45()">Submit without Email</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <apex:form >
+                    
+                    <apex:actionFunction name="saveMethod" action="{!CreateNewContact}" oncomplete="reloadbefore12();">
+                        <apex:param name="Email" value="" />
+                        <apex:param name="firstname" value="" />
+                        <apex:param name="lastname" value="" />
+                        <apex:param name="companyName" value="" />
+                        <apex:param name="NumName" value="" />
+                        <apex:param name="AIAName" value="" />
+                        <apex:param name="Enrollme" value="" />
+                        <apex:param name="GBCINumber" value="" />
+                        <apex:param name="IDCECNumber" value="" />
+                        <apex:param name="lOptin" value="" />
+                    </apex:actionFunction>
+                    <apex:actionFunction name="saveMethod1" action="{!CreateNewContact}" oncomplete="reloadbefore12();">
+                        <apex:param name="Email" value="" />
+                        <apex:param name="firstname" value="" />
+                        <apex:param name="lastname" value="" />
+                        <apex:param name="companyName" value="" />
+                        <apex:param name="NumName" value="" />
+                        <apex:param name="AIAName" value="" />
+                        <apex:param name="Enrollme" value="" />
+                        <apex:param name="GBCINumber" value="" />
+                        <apex:param name="IDCECNumber" value="" />
+                    </apex:actionFunction>
+                </apex:form>
+                
+                
+                <script>
+                debugger;
+                var aid = "{!AccountIdx}";
+                $('#popupdiv')[0].style.display = 'none';
+                //  $('#AIAMemberrequired')[0].style.display = 'none';
+                $('#fNamerequired')[0].style.display = 'none';
+                $('#lastNamerequired')[0].style.display = 'none';
+                
+                if (aid == '' || aid == null)
+                    $('#CompanyNamerequired')[0].style.display = 'none';
+                $('#ENamerequired1')[0].style.display = 'none';
+                
+                var app = angular.module('myApp', []);
+                
+                app.controller('myCtrl', ["$scope", function($scope) {
+                    
+                    $scope.languages = [
+                        { language: "--SELECT--", i18n: ""},
+                        { language: "Yes", i18n : "Yes" },
+                        { language: "No", i18n : "No" }
+                    ];
+                    
+                    $scope.selectedlanguage = $scope.languages[0];
+                    
+                    $scope.closePOPUP = function() {
+                        //  $('#popupdiv')[0].style.display = 'none';
+                        
+                        $('#popupdiv').modal('hide');
+                    };
+                    $scope.save45 = function() {
+                        debugger;
+                        $('#popupdiv').modal('hide');
+                        saveMethod1($scope.EName, $scope.fName, $scope.lastName, $scope.CompanyName, $scope.NumName,$scope.selectedlanguage.i18n,$scope.Enroll,$scope.GBCINumber,$scope.IDCECNumber);
+                        $("#messageDiv").show();
+                        $("#mainDiv").hide();
+                        
+                    };
+                    
+                    $scope.toggle = function() {
+                        console.log($scope.selectedlanguage.i18n);
+                        //    $('#AIAMemberrequired')[0].style.display = 'none';
+                        $('#fNamerequired')[0].style.display = 'none';
+                        $('#lastNamerequired')[0].style.display = 'none';
+                        if( {!AIA != null})
+                            $('#AIAMemberrequired')[0].style.display = 'none';
+                        if( {!GBCI != null})
+                            $('#GBCINumberDup')[0].style.display = 'none';
+                        if( {!IDCEC != null})
+                            $('#IDCECNumberDup')[0].style.display = 'none';
+                        
+                        $('#emailforspec')[0].style.display = 'none';
+                        console.log($scope.GBCINumber);
+                        if( {!AIA != null})
+                            var aia=document.getElementById('AIAMemberNumber').value;
+                        if( {!GBCI != null})
+                            var gbci=document.getElementById('GBCINumber1').value;
+                        if( {!IDCEC != null})
+                            var idcec=document.getElementById('IDCECNumber1').value;
+                        
+                        if (aid == '' || aid == null)
+                            $('#CompanyNamerequired')[0].style.display = 'none';
+                        if ($scope.fName == null || $scope.fName == undefined) {
+                            
+                            $('#fNamerequired')[0].style.display = 'block';
+                        } else if ($scope.lastName == undefined) {
+                            
+                            $('#lastNamerequired')[0].style.display = 'block';
+                        }  else if (($scope.NumName == undefined || $scope.NumName == null) && $scope.selectedlanguage.i18n == 'Yes') {
+                            
+                            
+                            $('#AIAMemberrequired')[0].style.display = 'block';
+                        } else if ((aid == '' || aid == null) && ($scope.CompanyName == null || $scope.CompanyName == undefined)) {
+                            $('#CompanyNamerequired')[0].style.display = 'block';
+                        } else if($('#Enroll').is(':checked') && ($scope.EName == null || $scope.EName == undefined)){
+                            $('#emailforspec')[0].style.display = 'block';
+                            
+                        } 
+                        /*
+                            else if(({!AIA != null}) && (aia == undefined || aia == null || aia == "")){
+                                $('#AIAMemberrequired')[0].style.display = 'block';            
+                          }
+                       
+                        else if(({!GBCI != null}) && (gbci == undefined || gbci == null || gbci == "" ||  (!gbci.match(/^\d+/)) )){
+                                $('#GBCINumberDup')[0].style.display = 'block';            
+                          }
+                        
+                        else if(({!IDCEC != null}) && (idcec == undefined || idcec == null || idcec == "" || (! idcec.match(/^\d+/))  )){
+                                $('#IDCECNumberDup')[0].style.display = 'block';            
+                          }
+                        
+                        */
+                        
+                            else if ($scope.EName == null || $scope.EName == undefined || $scope.EName==''||$scope.EName=="") {
+                                // $('#popupdiv')[0].style.display = 'block';
+                                $('#popupdiv').modal('show');
+                            }
+                                else  {
+                                    
+                                    if ($scope.EName != null )
+                                    {
+                                        
+                                        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                                        var emailvalue=$scope.EName;
+                                        if (!filter.test(emailvalue)) {
+                                            $('#ENamerequired1')[0].style.display = 'block';
+                                            
+                                        }
+                                        else{
+                                            //var optinLandL= ($scope.OptIn).toString();
+                                            debugger;
+                                            saveMethod($scope.EName, $scope.fName, $scope.lastName, $scope.CompanyName,$scope.NumName, $scope.selectedlanguage.i18n,$scope.Enroll,$scope.GBCINumber,$scope.IDCECNumber,$('#OptIn').prop("checked"));
+                                            
+                                            $("#messageDiv").show();
+                                            $("#mainDiv").hide();
+                                            
+                                        }
+                                        
+                                    }}
+                    };
+                    $scope.reloadbefore12= function() {
+                        
+                        $("#messageDiv").show();
+                        $("#mainDiv").hide();
+                        
+                    } ;
+                    $scope.reloadbefore = function() {
+                        
+                        // $("#mainDiv").show();
+                        $("#messageDiv").hide();
+                        location.reload();
+                    };
+                }]);
+                </script>
+            </body>
+        </div>
+        
+        <div id='messageDiv' style="display:none;" align="center">
+            <div align="center">
+                <br/>
+                <h2 >Thanks for Attending! </h2>
+            </div>
+            <div align="center">
+                <table align="center" style="padding:10px;">
+                    <tr>
+                        <td>
+                            <img src="{!companyLogo}" height="60"  style="float:left;margin-right:5px;"/>
+                        </td>
+                        <td style="">
+                            <img src="{!educationLogo}" height="90"  style="float:right;margin-left:5px;"/></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="text-align: center;">
+                            <img src="{!checkMark}" height="75"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;font-size: 1.3rem;">
+                            Thank you for signing up to attend our AIA-approved continuing education course. After completion of the course you will receive an email with your Certificate of Completion and for those who are members of the AIA, we will submit the course credit on your behalf.
+                            <div style="margin-top: 40px;">
+                                <!--button type="button" style="vertical-align: middle;background-color: #0070d2;border: 1px solid #0070d2;color: #fff;"   ng-click="reloadbefore()">Done-Reset for next Participant</button-->
+                                <form >
+                                    <button type="button" class="btn btn-primary btn-block" ng-click="reloadbefore()" >Next Attendee </button>
+                                </form> </div> 
+                        </td>
+                    </tr>
+                    
+                </table>
+                
+            </div>                     
+        </div>
+        <div style="display:none;"> 
+        </div>
+        
+        <div style="{!IF(!statusbool, 'display:none', 'display:block')}">
+            <div style="padding-top: 40px;">
+                <div style="
+                            text-align: center;">  <h2 styleclass=""><br/>Participant Registration </h2> </div>
+                
+                <table align="center" style="padding:10px;">
+                    <tr>
+                        <td>
+                            <img src="{!companyLogo}"  height="60"  style="float:left;margin-right:5px;"/>
+                        </td>
+                        <td style="">
+                            <img src="{!educationLogo}" height="90"  style="float:right;margin-left:5px;"/></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div style="width: 100%;padding-top: 82px;text-align: center;">
+                <table >
+                    <tr>
+                        <td style="text-align: center;">
+                            <!-- <img src="/resource/1505974138000/errorImage" height="27"/>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <div style="    color: #4296ed;font-size: 1.5em;font-weight: bold;text-align: center;"> 
+                                Sorry, this course has been completed and registration is no longer live. If you attended and failed to register, please contact your Instructor: {!instructor} at <a href="mailto:{!instructorEmail}">{!instructorEmail}</a>
+.
+                            </div>
+                        </td>
+                    </tr>
+                </table>  
+            </div>
+        </div>
+    </html>
+</apex:page>

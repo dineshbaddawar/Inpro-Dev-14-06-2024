@@ -1,0 +1,145 @@
+<template>
+    <lightning-card>
+        <div class="slds-m-around_medium">
+            <div if:false={loaded}>
+                <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+            </div>
+            <div if:true={loaded}>
+                
+                <h2><strong>ERP Items</strong></h2>
+                <table id="ErpItems" style="padding-top: 10px;"
+                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                    <tr>
+                        <td>
+                            <lightning-button variant="base" data-id="Line" onclick={handleSort} label="Line Number"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-key="SequenceNumber" data-id="SequenceNumber"
+                                onclick={handleSort} label="Sequence Number" icon-name="" icon-position="right">
+                            </lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-key="ItemNumber" data-id="ItemNumber"
+                                onclick={handleSort} label="ItemNumber" icon-name="" icon-position="right">
+                            </lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-key="Item" data-id="Item" onclick={handleSort}
+                                label="Unit Price" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-id="Unit Price" onclick={handleSort}
+                                label="Unit Weight" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-id="Quantity" onclick={handleSort} label="Qty To Ship"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                    </tr>
+                    <template for:each={erpItemList} for:item="item">
+                        <tr accesskey={item.Id} key={item.Id}>
+                            <td>
+                                {item.LineNumber}
+                            </td>
+                            <td>
+                                {item.SeqNo}
+                            </td>
+                            <td>
+                                {item.ItemNumber}
+                            </td>
+                            <td>
+                                {item.UnitPrice}
+                            </td>
+                            <td>
+                                {item.UnitWeight}
+                            </td>
+                            <td>
+                                {item.QtyToShip}
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+                <lightning-button style="margin: 10px;" label="Add Line Item" onclick={addLineItem}></lightning-button>
+                <h2><strong>ASN/Invoice</strong></h2>
+                <table id="ediItems" style="padding-top: 10px;"
+                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                    <tr>
+                        <td>
+                            <lightning-button variant="base" data-id="Line" onclick={handleSort} label="Line Number"
+                                icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-key="Item" data-id="Item" onclick={handleSort}
+                                label="Buyer Part Number" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-key="Item" data-id="Item" onclick={handleSort}
+                                label="Vendor Part Number" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-key="Item" data-id="Item" onclick={handleSort}
+                                label="Purchase Price" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-id="Unit Price" onclick={handleSort}
+                                label="Unit Price" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-id="Quantity" onclick={handleSort}
+                                label="Order Quantity" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-id="Quantity" onclick={handleSort}
+                                label="Ship Quantity" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td>
+                            <lightning-button variant="base" data-id="Description" onclick={handleSort}
+                                label="Description" icon-name="" icon-position="right"></lightning-button>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <template for:each={itemList} for:item="item">
+                        <tr accesskey={item.LineNumber} key={item.LineNumber}>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="LineNumber"
+                                    value={item.LineNumber}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="BuyerPartNumber"
+                                    value={item.BuyerPartNumber}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="VendorPartNumber"
+                                    value={item.VendorPartNumber}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="PurchasePrice"
+                                    value={item.PurchasePrice}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="UnitPrice"
+                                    value={item.UnitPrice}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="OrderQuantity"
+                                    value={item.OrderQuantity}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="ShipQuantity"
+                                    value={item.ShipQuantity}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input accesskey={item.LineNumber} onchange={handleItemUpdate} name="Description"
+                                    value={item.Description}></lightning-input>
+                            </td>
+                            <td><lightning-button label="Remove" accesskey={item.LineNumber} onclick={handleRemoveItem} ></lightning-button></td>
+                        </tr>
+                    </template>
+                </table>
+                <br>
+                <lightning-button onclick={submit} label="Submit"></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

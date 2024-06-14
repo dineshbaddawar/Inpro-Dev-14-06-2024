@@ -1,0 +1,381 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                    <h3 style="padding:5px; font-size:22px;" slot="title">
+                        <lightning-icon  icon-name="utility:save" alternative-text="Save Config" size="medium"
+                            title="Save Config" onclick={saveConfig} class="pointer"></lightning-icon>
+                            <lightning-icon  icon-name="utility:cancel_file_request" alternative-text="Save and Close" size="medium"
+                            title="Save and Close" onclick={saveConfigClose} class="pointer"></lightning-icon>                            
+                        &nbsp;<strong>Quick Config</strong>
+                    </h3>
+                    <lightning-layout vertical-align="space">
+                        <lightning-layout-item>
+                            <div style="width: 150px;">
+                                <div style="padding:5px;">
+                                    <h2 style="font-weight:bold; font-size:18px">Alternates</h2>
+                                </div>
+                                <div style="padding:5px;">
+                                    <lightning-icon style="padding: 2px;" icon-name="utility:add" alternative-text="New New Alternate"
+                                        size="medium" title="Add New Alternate" onclick={addNewAlternate}
+                                        class="pointer">
+                                    </lightning-icon>
+                                    <lightning-icon style="padding: 2px;" icon-name="utility:copy" alternative-text="Duplicate Alternate"
+                                        size="medium" title="Duplicate Alternate" onclick={copyAlternate}
+                                        class="pointer">
+                                    </lightning-icon>
+                                    <lightning-icon style="padding: 2px;" icon-name="utility:edit" alternative-text="Rename Alternate"
+                                        size="medium" title="Rename Alternate" onclick={renameAlternate} class="pointer">
+                                    </lightning-icon>
+                                </div>
+                                <lightning-vertical-navigation onselect={handleSelected} selected-item={selectedItem}>
+                                    <lightning-vertical-navigation-section>
+                                        <template for:each={alternateList} for:item="alt">
+                                            <lightning-vertical-navigation-item name={alt.AlternateId}
+                                                key={alt.AlternateId} label={alt.AlternateName}>
+                                            </lightning-vertical-navigation-item>
+                                        </template>
+                                    </lightning-vertical-navigation-section>
+                                </lightning-vertical-navigation>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item style="width:100%">
+                            <!-- begin top Inputs -->
+                            <lightning-layout horizontal-align="space" multiple-rows>
+                                <table class="quickConfigCustomTable">
+                                    <tbody>
+                                        <tr if:true={isSignScape}
+                                            style="border-color: dimgrey; border: solid; border-bottom:none;">
+                                            <td style="width:200px">
+                                                 <lightning-button variant="brand-outline" title="Clear Defaults"
+                                                    class="slds-m-left_x-small" onclick={handleClearDefaultsClick}
+                                                    label="Clear Defaults">
+                                                </lightning-button>
+                                            </td>
+                                            <td>
+                                                <c-lookup name="bpColorCode" onsearch={handleColorSearch}
+                                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                    label="Backplate Color" placeholder="Search Colors"
+                                                    onselectionchange={handleLookupSelectionChange}  >
+                                                </c-lookup>
+                                            </td>
+                                            <td>
+                                                <c-lookup name="txColorCode" onsearch={handleColorSearch}
+                                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                    label="Text Color" placeholder="Search Colors"
+                                                    onselectionchange={handleLookupSelectionChange}>
+                                                </c-lookup>
+                                            </td>
+                                            <td>
+                                                <c-lookup name="fpColorCode" onsearch={handleColorSearch}
+                                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                    label="Face Color" placeholder="Search Colors"
+                                                    onselectionchange={handleLookupSelectionChange}  >
+                                                </c-lookup>
+                                            </td>
+                                        </tr>
+                                        <tr if:true={isSignScape}
+                                            style="border-color: dimgrey; border: solid; border-top:none; border-bottom:none;">
+                                            <td>
+                                                
+                                                <lightning-button variant="brand-outline" title="Bulk Edit Selected"
+                                                class="slds-m-left_x-small" onclick={handleBulkEditClick}
+                                                label="Bulk Edit Selected">
+                                            </lightning-button>
+                                            </td>
+                                            <td>
+                                                <lightning-combobox name="MountingType" label="Mounting Type"
+                                                    placeholder="Select Option" options={mountingTypes} onchange={handleFormInputChange} value={MountingTypeSelection} >
+                                                </lightning-combobox>
+                                            </td>
+                                            <td>
+                                                <c-lookup name="acColorCode" onsearch={handleColorSearch}
+                                                    secondary-search-term={secondarySearchTerm} scrollafternitems=10
+                                                    label="Border/Accent Line" placeholder="Search Border/Accent"
+                                                    onselectionchange={handleLookupSelectionChange}>
+                                                </c-lookup>
+                                            </td>
+                                            <td>
+                                                <lightning-combobox name="FontSize" label="Font Size"
+                                                    placeholder="Select Option" options={fontSizes} onchange={handleFormInputChange}>
+                                                </lightning-combobox>
+                                            </td>
+                                        </tr>
+                                        <tr if:true={isSignScape}
+                                            style="border-color: dimgrey; border: solid; border-top:none;">
+                                            <td>
+                                                <lightning-button variant="brand-outline" title="Delete Selected"
+                                                    class="slds-m-left_x-small" onclick={handleDeleteSelectedClick}
+                                                    label="Delete Selected" >
+                                                </lightning-button>
+                                            </td>
+                                            <td>
+                                                <lightning-combobox name="FontType" label="Font Type"
+                                                    placeholder="Select Option" options={fontTypes} onchange={handleFormInputChange}>
+                                                </lightning-combobox>
+                                            </td>
+                                            <td>
+                                                <lightning-combobox name="HorizontalAlign"
+                                                    label="Horizontal Justification" placeholder="Select Option"
+                                                    options={horizontalJustifications} onchange={handleFormInputChange}></lightning-combobox>
+                                            </td>
+                                            <td>
+                                                <lightning-combobox name="VerticalAlign"
+                                                    label="Vertical Justification" placeholder="Select Option"
+                                                    options={verticalJustifications} onchange={handleFormInputChange}></lightning-combobox>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <c-lookup name="Name" onsearch={handleProductSearch}
+                                                    scrollafternitems=10 label="Products" placeholder="Search Products"
+                                                    onselectionchange={handleLookupSelectionChange}   selection={selectedProduct} >
+                                                </c-lookup>
+                                            </td>
+                                            <td if:false={isSignScape}>
+                                                <c-lookup name="Color" onsearch={handleColorSearch}
+                                                    secondary-search-term={secondarySearchTerm}  scrollafternitems=10
+                                                    label="Colors" placeholder="Search Colors"
+                                                    onselectionchange={handleLookupSelectionChange}   selection={selectedColor}>
+                                                </c-lookup>
+                                            </td>
+                                            <td>
+                                                <lightning-input data-id="reset" class="resetInput" label="Quantity" id="productQty" title="Qty"
+                                                    name="Quantity" onchange={handleFormInputChange} value={selectedQty}  type="text">
+                                                </lightning-input>
+                                            </td>
+                                            <td>
+                                                <!-- <label for="productDescription">Note:</label> -->
+                                                <lightning-input data-id="reset" class="resetInput" label="Notes" id="productDescription"
+                                                    title="Description" name="Description" 
+                                                    onchange={handleFormInputChange} value={selectedNotes} type="text">
+                                                </lightning-input>
+                                            </td>
+                                            <td>                                                
+                                                <lightning-button style="padding: 5px;" label="Add" onclick={addNewRow}>
+                                                </lightning-button>
+                                                <!-- <lightning-icon icon-name="action:new" alternative-text="Add Row"
+                                                    size="small" title="Add Row" onclick={addNewRow} class="pointer">
+                                                </lightning-icon> -->
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </lightning-layout>
+                            <!-- end top Inputs -->
+
+                            <!-- begin data Grid -->
+                            <div class="slds-box slds-theme_default" style="margin: 5px;">
+                                <table
+                                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                    <thead>
+                                        <tr if:true={isSignScape}>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate">
+                                                    <lightning-input type="checkbox" onchange={handleCheckAllChecked}>
+                                                    </lightning-input>
+                                                </div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Product">Product</div>
+                                            </th>
+                                            <th if:false={isSignScape} class="" scope="col">
+                                                <div class="slds-truncate" title="Color">Color</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Qty">Qty</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Note">Note</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={existingProductList} for:item="product">
+                                            <tr accesskey={product.Id} onclick={handleProductRowClick} key={product.Id}>
+                                                <td if:true={isSignScape}>
+                                                    <lightning-input type="checkbox" accesskey={product.Id}
+                                                        onchange={handleOptionChecked} checked={product.Selected}>
+                                                    </lightning-input>
+                                                </td>
+                                                <td>{product.Name}</td>
+                                                <td if:false={isSignScape}>
+                                                    <!-- <input name="Color" accesskey={product.Id} onchange={handleGridInputChange}
+                                            type="text" value={product.Color}> -->
+                                                    <c-lookup name="Color" accesskey={product.Id}
+                                                        onsearch={handleColorSearch} selection={product.ColorLookup}
+                                                        secondary-search-term={product.ColorPalette}
+                                                        scrollafternitems=10 label="Colors" placeholder="Search Colors"
+                                                        onselectionchange={handleGridLookupSelectionChange}>
+                                                    </c-lookup>
+                                                </td>
+                                                <td>
+                                                    <lightning-input name="Quantity" accesskey={product.Id}
+                                                        onchange={handleGridInputChange} type="text"
+                                                        value={product.Quantity}> </lightning-input>
+                                                </td>
+                                                <td>
+                                                    <lightning-input name="Description" accesskey={product.Id}
+                                                        onchange={handleGridInputChange} type="text"
+                                                        value={product.Description}></lightning-input>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-p-top_medium">
+                                                        <lightning-icon icon-name="utility:copy" access-key={product.Id}
+                                                            id={product.Id} alternative-text="Duplicate" size="small"
+                                                            title="Duplicate" onclick={copyRow} class="pointer">
+                                                        </lightning-icon>
+                                                        <lightning-icon icon-name="utility:delete"
+                                                            access-key={product.Id} id={product.Id}
+                                                            alternative-text="Delete Row" size="small"
+                                                            title="Delete Row" onclick={removeRow} class="pointer">
+                                                        </lightning-icon>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- This is the detail section of signscape options -->
+                                            <template if:true={product.Checked}>
+                                                <tr if:true={isSignScape} key={product.Id}>
+                                                    <td colspan="5">
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    <c-lookup name="bpColorCode"
+                                                                        accesskey={product.Id}
+                                                                        onsearch={handleColorSearch}
+                                                                        selection={product.bpColorCodeLookup}
+                                                                        secondary-search-term={product.bpColorPallette}
+                                                                        scrollafternitems=10 label="Backplate Color"
+                                                                        placeholder="Search Colors"
+                                                                        onselectionchange={handleGridLookupSelectionChange}>
+                                                                    </c-lookup>
+                                                                    <!-- {product.bpColorCode} -->
+                                                                    {product.bpColorPallette}                                                                    
+                                                                </td>
+                                                                <td>
+                                                                    <c-lookup name="txColorCode" accesskey={product.Id}
+                                                                        onsearch={handleColorSearch}
+                                                                        selection={product.txColorCodeLookup}
+                                                                        secondary-search-term={product.txColorPallette}
+                                                                        scrollafternitems=10 label="Text Color"
+                                                                        placeholder="Search Colors"
+                                                                        onselectionchange={handleGridLookupSelectionChange}>
+                                                                    </c-lookup>
+                                                                    <!-- {product.txColorCode} -->
+                                                                    {product.txColorPallette}
+                                                                </td>
+                                                                <td>
+                                                                    <c-lookup name="fpColorCode" accesskey={product.Id}
+                                                                        onsearch={handleColorSearch}
+                                                                        selection={product.fpColorCodeLookup}
+                                                                        secondary-search-term={product.fpColorPallette}
+                                                                        scrollafternitems=10 label="Face Color"
+                                                                        placeholder="Search Colors"
+                                                                        onselectionchange={handleGridLookupSelectionChange}>
+                                                                    </c-lookup>
+                                                                    <!-- {product.fpColorCode} -->
+                                                                    {product.fpColorPallette}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>                                                                    
+                                                                    <lightning-combobox name="MountingType"
+                                                                    accesskey={product.Id}
+                                                                        label="Mounting Type"
+                                                                        placeholder="Select Option"
+                                                                        options={mountingTypes}
+                                                                        value={product.MountingType}
+                                                                        onchange={handleGridInputChange}
+                                                                        ></lightning-combobox>
+                                                                        <!-- {product.MountingType} -->
+                                                                </td>
+                                                                <td>
+                                                                    <c-lookup name="AccentColor"
+                                                                        accesskey={product.Id}
+                                                                        onsearch={handleColorSearch}
+                                                                        selection={product.AccentColorLookup}                                                                        
+                                                                        scrollafternitems=10 label="Border/Accent Line"
+                                                                        placeholder="Search Border/Accent"
+                                                                        onselectionchange={handleGridLookupSelectionChange}>
+                                                                    </c-lookup>
+                                                                    {product.acColorCode}
+                                                                    {product.AccentColor}
+                                                                </td>
+                                                                <td>
+                                                                    <lightning-combobox name="FontSize" 
+                                                                        accesskey={product.Id}
+                                                                        label="Font Size"
+                                                                        placeholder="Select Option"
+                                                                        options={fontSizes}
+                                                                        value={product.FontSize}
+                                                                        onchange={handleGridInputChange}
+                                                                        ></lightning-combobox>
+                                                                        <!-- {product.FontSize} -->
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <lightning-combobox name="FontType" 
+                                                                        accesskey={product.Id}
+                                                                        label="Font Type" 
+                                                                        placeholder="Select Option"
+                                                                        options={fontTypes}
+                                                                         value={product.FontType}
+                                                                         onchange={handleGridInputChange}
+                                                                         >
+                                                                        </lightning-combobox>
+                                                                        <!-- {product.FontType} -->
+                                                                </td>
+                                                                <td>
+                                                                    <lightning-combobox name="HorizontalAlign" 
+                                                                        accesskey={product.Id}
+                                                                        label="Horizontal Justification"
+                                                                        placeholder="Select Option"
+                                                                        options={horizontalJustifications}
+                                                                        value={product.HorizontalAlign}
+                                                                        onchange={handleGridInputChange}
+                                                                        >
+                                                                    </lightning-combobox>
+                                                                    <!-- {product.HorizontalAlign} -->
+                                                                </td>
+                                                                <td>
+                                                                    <lightning-combobox name="VerticalAlign" 
+                                                                        accesskey={product.Id}
+                                                                        label="Vertical Justification"
+                                                                        placeholder="Select Option"
+                                                                        options={verticalJustifications}
+                                                                        value={product.VerticalAlign} 
+                                                                        onchange={handleGridInputChange}
+                                                                        >
+                                                                    </lightning-combobox>
+                                                                    <!-- {product.VerticalAlign} -->
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end data grid-->
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

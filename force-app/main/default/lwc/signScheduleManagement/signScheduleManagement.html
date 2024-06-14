@@ -1,0 +1,565 @@
+<template>
+    <div class="qcHolder">
+        <template if:true={loaded}>
+            <div if:false={showSignProComplete}>
+                <div if:false={showError}>
+                    <div if:true={startScreen}>
+                        <h3 style="padding:5px;" slot="title">
+                            <strong> Sign Schedule Manager</strong>
+                        </h3>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <tr>
+                                <td>
+                                    <lightning-button style="padding: 5px;" label="Import XLS Sign Schedule"
+                                        onclick={handleImportSchedule}>
+                                    </lightning-button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning-button style="padding: 5px;" label="Export XLS Sign Schedule"
+                                        onclick={handleExportSchedule}>
+                                    </lightning-button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning-button style="padding: 5px;" label="Manually Edit Sign Schedule"
+                                        onclick={handleEditSignSchedule}>
+                                    </lightning-button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning-button style="padding: 5px;" label="Export Sign Pro"
+                                        onclick={handleExportSignPro}>
+                                    </lightning-button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div if:true={importSignSchedule}>
+                        <h3 style="padding:5px;" slot="title">
+                            <lightning-icon icon-name="utility:save" alternative-text="Save Config" size="medium"
+                                title="Save Config" onclick={importSchedule} class="pointer"></lightning-icon>
+                            &nbsp;Sign Schedule Manager
+                        </h3>
+
+                        <div style="padding: 5px;" if:false={fileUploaded}>
+                            <lightning-file-upload label="Attach Sign Schedule" name="fileUploader"
+                                accept={acceptedFormats} record-id={recordId} onuploadfinished={handleUploadFinished}>
+                            </lightning-file-upload>
+                        </div>
+                        <div style="padding: 5px;" if:true={fileUploaded}>
+                            <p>{FileName}</p>
+                        </div>
+                    </div>
+                    <div if:true={exportSignSchedule}>
+                        <h3 style="padding:5px;" slot="title">
+                            <lightning-icon icon-name="utility:save" alternative-text="Save Config" size="medium"
+                                title="Save Config" onclick={exportSchedule} class="pointer"></lightning-icon>
+                            &nbsp;Sign Schedule Manager
+                        </h3>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="AlternateName">Alternate Name</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <!-- Loop through alternates -->
+                            <template for:each={alternateList} for:item="alternate">
+                                <tbody key={alternate.Id}>
+                                    <tr>
+                                        <td>
+                                            <lightning-input class="slds-p-left_xx-large" type="checkbox"
+                                                onchange={handleExportAltBoxOnChange} checked={alternate.Selected}
+                                                access-key={alternate.Id} data-id="checkbox">
+                                            </lightning-input>
+                                        </td>
+                                        <td>{alternate.Name}</td>
+                                    </tr>
+                                </tbody>
+                            </template>
+                        </table>
+                        <a style="padding:5px;" if:true={fileDownloaded} href={downloadLink}
+                            download="SignSchedule.xls">Download File</a>
+                    </div>
+                    <div if:true={editSignSchedule}>
+                        <div if:false={assignOptions}>
+                            <div if:false={assignFonts}>
+                                <div if:false={renderImage}>
+                                    <h3 style="padding:5px;" slot="title">
+                                        <lightning-icon icon-name="utility:save" alternative-text="Save Config"
+                                            size="medium" title="Save Config" onclick={saveConfig} class="pointer">
+                                        </lightning-icon>
+                                        &nbsp;Sign Schedule Manager
+                                    </h3>
+                                    <div style="padding:10px;">
+                                        <lightning-button style="padding: 5px;" label="Blank Lines"
+                                            onclick={handleBlankLines}>
+                                        </lightning-button>
+                                        <lightning-button style="padding: 5px;" label="Assign Options"
+                                            onclick={handleAssignOptions}>
+                                        </lightning-button>
+                                        <!-- <lightning-button style="padding: 5px;" label="Assign Fonts"
+                                        onclick={handleAssignFonts}>
+                                    </lightning-button> -->
+                                        <!-- <lightning-button style="padding: 5px;" label="Spell Check"
+                                        onclick={handleSpellCheck}>
+                                    </lightning-button> -->
+                                        <lightning-button style="padding: 5px;" label="Delete Selected"
+                                            onclick={handleDeleteSelected}>
+                                        </lightning-button>
+                                    </div>
+                                    <table
+                                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                        <tr>
+                                            <td>
+                                                <lightning-combobox name="alternateComboBox" label="Select an Alternate"
+                                                    placeholder="Select Alternate" options={alternateOptionList}
+                                                    onchange={handleAlternateComboBoxOnchange} value={alternateId}>
+                                                </lightning-combobox>
+                                            </td>
+                                            <td>
+                                                <lightning-combobox name="productComboBox" label="Select a Product"
+                                                    placeholder="Select Product" options={productOptionList}
+                                                    onchange={handleProductComboBoxOnchange} value={selectedProductId}>
+                                                </lightning-combobox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="slds-box slds-theme_default" style="margin: 5px;">
+                                        <table style="overflow-x: scroll;"
+                                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate">
+                                                            <lightning-input type="checkbox"
+                                                                onchange={handleCheckAllChecked}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                    </th>
+                                                    <th>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 1">Line 1</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 2">Line 2</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 3">Line 3</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 4">Line 4</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 5">Line 5</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 6">Line 6</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 7">Line 7</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 8">Line 8</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 9">Line 9</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 10">Line 10</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 11">Line 11</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 12">Line 12</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 13">Line 13</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 14">Line 14</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 15">Line 15</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 16">Line 16</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 17">Line 17</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 18">Line 18</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 19">Line 19</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Line 20">Line 20</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={currentSignSchedule} for:item="product">
+                                                    <tr accesskey={product.Id} key={product.Id}>
+                                                        <td>
+                                                            <lightning-input  type="checkbox" accesskey={product.Id}
+                                                                onchange={handleOptionChecked}
+                                                                checked={product.Selected}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-icon icon-name="action:delete"
+                                                                access-key={product.Id} id={product.Id}
+                                                                alternative-text="Delete Row" size="small"
+                                                                title="Delete Row" onclick={removeRow} class="pointer">
+                                                            </lightning-icon>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-button accesskey={product.Id}
+                                                                style="padding: 5px;" label="View Rendering"
+                                                                onclick={handleViewImage}>
+                                                            </lightning-button>
+                                                        </td>
+                                                        <td style="width:250px;" class={product.Line1Class}>
+                                                            <lightning-input  type="text" name="Line1"
+                                                                accesskey={product.Id} onchange={handleGridInputChange}
+                                                                value={product.Line1} onfocus={handleGridInputOnFocus}>
+                                                            </lightning-input>
+
+                                                        </td>
+                                                        <td style="width:250px;">
+                                                            <lightning-input name="Line2" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line2} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line2Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td style="width:250px;">
+                                                            <lightning-input name="Line3" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line3} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line3Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td style="width:250px;">
+                                                            <lightning-input name="Line4" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line4} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line4Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td style="width:250px;">
+                                                            <lightning-input name="Line5" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line5} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line5Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line6" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line6} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line6Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line7" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line7} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line7Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line8" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line8} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line8Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line9" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line9} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line9Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line10" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line10} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line10Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line11" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line11} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line11Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line12" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line12} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line12Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line13" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line13} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line13Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line14" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line14} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line14Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line15" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line15} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line15Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line16" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line16} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line16Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line17" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line17} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line17Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line18" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line18} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line18Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line19" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line19} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line19Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                        <td>
+                                                            <lightning-input name="Line20" accesskey={product.Id}
+                                                                onchange={handleGridInputChange} type="text"
+                                                                value={product.Line20} onfocus={handleGridInputOnFocus}
+                                                                class={product.Line20Class}>
+                                                            </lightning-input>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div if:true={assignOptions} style="padding: 20px;">
+                            <lightning-combobox name="optionComboBox" label="Select an Option"
+                                placeholder="Select Option" options={optionsList}
+                                onchange={handleOptionComboBoxOnchange} value={selectedOptionValue}>
+                            </lightning-combobox>
+                            <table>
+                                <tr>
+                                    <td style="width:100px;">
+                                        <lightning-input type="checkbox" label="Line 1" accesskey="Line1"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 2" accesskey="Line2"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 3" accesskey="Line3"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 4" accesskey="Line4"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 5" accesskey="Line5"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 6" accesskey="Line6"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 7" accesskey="Line7"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 8" accesskey="Line8"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 9" accesskey="Line9"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 10" accesskey="Line10"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                    </td>
+                                    <td>
+                                        <lightning-input type="checkbox" label="Line 11" accesskey="Line11"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 12" accesskey="Line12"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 13" accesskey="Line13"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 14" accesskey="Line14"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 15" accesskey="Line15"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 16" accesskey="Line16"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 17" accesskey="Line17"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 18" accesskey="Line18"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 19" accesskey="Line19"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                        <lightning-input type="checkbox" label="Line 20" accesskey="Line20"
+                                            onchange={handleAssignOptionChecked}></lightning-input>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style="padding: 10px;">
+                                <lightning-button style="padding: 10px;" label="Finish" onclick={handleAssignFinish}>
+                                </lightning-button>
+                                <lightning-button style="padding: 10px;" label="Back" onclick={handleAssignCancel}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                        <div if:true={assignFonts} style="padding: 20px;">
+                            <h1>Unchecked will default to Font 1, checked will set to Font 2</h1>
+                            <table>
+                                <template for:each={fontObjectContainer} for:item="font">
+                                    <tr key={font.Line1Font}>
+                                        <td style="width:100px;">
+                                            <lightning-input checked={font.Line1Font} type="checkbox" label="Line 1"
+                                                accesskey="Line1" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line2Font} type="checkbox" label="Line 2"
+                                                accesskey="Line2" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line3Font} type="checkbox" label="Line 3"
+                                                accesskey="Line3" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line4Font} type="checkbox" label="Line 4"
+                                                accesskey="Line4" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line5Font} type="checkbox" label="Line 5"
+                                                accesskey="Line5" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line6Font} type="checkbox" label="Line 6"
+                                                accesskey="Line6" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line7Font} type="checkbox" label="Line 7"
+                                                accesskey="Line7" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line8Font} type="checkbox" label="Line 8"
+                                                accesskey="Line8" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line9Font} type="checkbox" label="Line 9"
+                                                accesskey="Line9" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line10Font} type="checkbox" label="Line 10"
+                                                accesskey="Line10" onchange={handleAssignFontChecked}></lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-input checked={font.Line11Font} type="checkbox" label="Line 11"
+                                                accesskey="Line11" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line12Font} type="checkbox" label="Line 12"
+                                                accesskey="Line12" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line13Font} type="checkbox" label="Line 13"
+                                                accesskey="Line13" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line14Font} type="checkbox" label="Line 14"
+                                                accesskey="Line14" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line15Font} type="checkbox" label="Line 15"
+                                                accesskey="Line15" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line16Font} type="checkbox" label="Line 16"
+                                                accesskey="Line16" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line17Font} type="checkbox" label="Line 17"
+                                                accesskey="Line17" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line18Font} type="checkbox" label="Line 18"
+                                                accesskey="Line18" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line19Font} type="checkbox" label="Line 19"
+                                                accesskey="Line19" onchange={handleAssignFontChecked}></lightning-input>
+                                            <lightning-input checked={font.Line20Font} type="checkbox" label="Line 20"
+                                                accesskey="Line20" onchange={handleAssignFontChecked}></lightning-input>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </table>
+                            <div style="padding: 10px;">
+                                <lightning-button style="padding: 10px;" label="Finish"
+                                    onclick={handleAssignFontsFinish}>
+                                </lightning-button>
+                                <lightning-button style="padding: 10px;" label="Back" onclick={handleAssignCancel}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                        <div style="text-align: center;" if:true={renderImage}>
+                            <img style="padding: 100px;" src={imageData} />
+                            <lightning-button style="padding: 10px;" label="Back" onclick={handleAssignCancel}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                    <div if:true={exportSignPro}>
+                        <h3 style="padding:5px;" slot="title">
+                            <lightning-icon icon-name="utility:save" alternative-text="Save Sign Pro" size="medium"
+                                title="Save Sign Pro" onclick={saveSignPro} class="pointer"></lightning-icon>
+                            &nbsp;Sign Schedule Manager
+                        </h3>
+                        <lightning-input class="slds-p-left_xx-large" label="Include Notes?" type="checkbox"
+                            onchange={handleIncludeNotesChange} checked={includesNotes}>
+                        </lightning-input>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="AlternateName">Alternate Name</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <!-- Loop through alternates -->
+                            <template for:each={alternateList} for:item="alternate">
+                                <tbody key={alternate.Id}>
+                                    <tr>
+                                        <td>
+                                            <lightning-input class="slds-p-left_xx-large" type="checkbox"
+                                                onchange={handleExportAltBoxOnChange} checked={alternate.Selected}
+                                                access-key={alternate.Id} data-id="checkbox">
+                                            </lightning-input>
+                                        </td>
+                                        <td>{alternate.Name}</td>
+                                    </tr>
+                                </tbody>
+                            </template>
+                        </table>
+                        <a style="padding:5px;" if:true={fileDownloaded} href={downloadLink}
+                            download="SignPro.pdf">Download File</a>
+                    </div>
+                    <div style="padding: 10px;">
+                        <lightning-button style="padding: 10px;" label="Cancel" onclick={handleCancel}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div style="color:green; padding: 10px;" if:true={showSignProComplete}>
+              <b> ATTENTION PLEASE READ:</b> {errorMessage}
+            </div>
+            <div style="color:red; padding: 10px;" if:true={showError}>
+                {errorMessage}
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+            </div>
+        </template>
+        <template if:false={loaded}>
+            <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+    </div>
+</template>

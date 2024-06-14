@@ -1,0 +1,134 @@
+<aura:component controller ="QuoteAndBidController" implements="lightning:availableForFlowScreens" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- Get the script text from the flow -->    
+    <aura:attribute name="pdfUrl" type="String" />
+    <aura:attribute name="quoteId" type="String"  />
+    <aura:attribute name="grandTotal" type="String"  />
+    <aura:attribute name="grandTotalWithTax" type="String"  />
+    <aura:attribute name="email" type="String"  />
+    
+    <aura:attribute name="contactName" type="String"  />
+    <aura:attribute name="contactEmail" type="String"  />
+    <aura:attribute name="contactPhone" type="String"  />
+     <aura:attribute name="contactFax" type="String"  />
+    <aura:attribute name="toAddress" type="String"  />
+    <aura:attribute name="ccAddress" type="String"  />
+    <aura:attribute name="bccAddress" type="String"  />
+    <aura:attribute name="emailSubject" type="String"  />
+    
+    <aura:attribute name="hideQtys" type="String"  />
+    <aura:attribute name="PONumber" type="String"  />
+    <aura:attribute name="shipToAddress" type="String"  />
+    <aura:attribute name="paymentTerms" type="String"  />
+    <aura:attribute name="jobReference" type="String"  />
+    <aura:attribute name="ourReference" type="String"  />
+    <aura:attribute name="creditType" type="String"  />
+    <aura:attribute name="shppingTerms" type="String"  />
+    <aura:attribute name="shipTo" type="object"  />
+     <aura:attribute name="submittalVersion" type="boolean"  />
+	
+	<aura:attribute name="material" type="String"  />    
+    
+    <aura:attribute name="documentType" type="String"  />
+    <aura:attribute name="formType" type="String"  />
+    <aura:attribute name="taxable" type="boolean"  />
+    <aura:attribute name="displayInMetric" type="boolean"  />
+    <aura:attribute name="printGrandTotal" type="boolean"  />
+    <aura:attribute name="isInternal" type="boolean" default="true"  />
+    <aura:attribute name="previewOrEmail" type="String"  />
+    <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    <!--aura:attribute name="alternates" type="List" /-->
+    
+    <aura:attribute name="AlternateList" type="Alternate__c[]" />
+    <aura:attribute name="QuoteBidderList" type="Quote_Bidder__c[]" />
+    <aura:attribute name="value" type="String" />
+    <aura:attribute name="emailBody" type="String" />
+
+    <!--New Attributes-->
+    <aura:attribute name="bccSelectedContacts" type="String" />
+    <aura:attribute name="ccSelectedContacts" type="String" />
+    <aura:attribute name="toSelectedContacts" type="String" />
+    <aura:attribute name="subject" type="String" />
+    <aura:attribute name="selectedFiles" type="String" />
+
+    <aura:attribute name="showSendEmail" type="Boolean" default="false" />
+    
+
+
+    <!--  QuoteId:{!v.quoteId}
+    <br/>
+    Email:{!v.email}<br/>
+    Pdf Url: {!v.pdfUrl}<br/>
+    {!v.AlternateList}
+    Alternate:<br/>
+    <aura:iteration items="{!v.AlternateList}" var="item">
+        {!item.Id}{!item.Name}: {!item.Name__c} <br/>
+    </aura:iteration>
+    DocumentType: {!v.documentType}<br/>
+    FormType: {!v.formType}<br/>
+    Taxable:{!v.taxable}<br/>
+    Print Grand Total:{!v.printGrandTotal}<br/>
+    Display in Metric:{!v.displayInMetric}<br/>
+    previewOrEmail{!v.previewOrEmail}<br/>
+    Bidder:{!v.QuoteBidderList}
+    
+    <aura:iteration items="{!v.QuoteBidderList}" var="item">
+        {!item.Id}:{!item.Name} <br/>
+    </aura:iteration>
+{!v.grandTotalWithTax}tax  {!v.grandTotal}
+!-->
+
+<aura:if isTrue="{! and(v.showSendEmail, !v.isInternal)}">
+    
+    <div aura:id="spinnerId" class="slds-spinner_container">
+        <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+
+    <aura:set attribute="else">
+
+        <aura:if isTrue="{!v.isInternal}">
+            <lightning:button label="Preview Quote Document" aura:id="Participate_Yes" 
+                            variant="neutral" onclick="{!c.handleChange}"/>
+        </aura:if>
+        
+        <aura:if isTrue="{! !v.isInternal}">
+            
+            <lightning:button label="Preview Quote Document" aura:id="" 
+                            variant="neutral" onclick="{!c.handleChange}"/>
+            
+            <aura:if isTrue="{! v.showSendEmail}">                          
+                <lightning:button label="Send Email" aura:id="" 
+                            variant="brand" onclick="{!c.sendEmailwithFlowParam}"/>
+            </aura:if>
+             
+        </aura:if>
+        <!-- Buttons for the agent to click, according to the customer’s response -->
+        <div class="slds-p-top_large slds-p-bottom_large">
+            <!--aura:if isTrue="{! !v.isInternal}">
+                <lightning:inputRichText label="Email Body" value="{!v.emailBody}" placeholder="Email Body..."/>
+            </aura:if>
+            <br/-->
+            <div style="float:right">
+                
+                <br/>
+            </div>
+            <aura:if isTrue="{!v.Spinner}">
+                <div aura:id="spinnerId" class="slds-spinner_container">
+                    <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+    </aura:set>
+</aura:if>
+    
+</aura:component>

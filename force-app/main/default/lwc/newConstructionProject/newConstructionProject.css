@@ -1,0 +1,19 @@
+.column-padding >div >div{
+    padding-left:10px;
+    padding-right:10px;
+}
+
+:host {
+    --sds-c-textarea-sizing-min-height: 240px;
+ }
+
+ .fixed-height{
+    max-height:65vh;
+    overflow-y:auto;
+}
+
+.addressType{
+    border-top:1px solid gray;
+    margin-top:20px;
+    padding-top:10px;
+}

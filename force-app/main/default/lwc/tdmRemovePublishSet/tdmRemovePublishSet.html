@@ -1,0 +1,18 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

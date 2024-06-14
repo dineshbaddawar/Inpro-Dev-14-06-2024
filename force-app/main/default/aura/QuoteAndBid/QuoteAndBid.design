@@ -1,0 +1,47 @@
+<design:component>
+    <design:attribute name="pdfUrl" label="PDF URL"  description="PDF URL" />
+    <design:attribute name="quoteId" label="Quote Id" description="Quote Id" />
+    <design:attribute name="email" label="Email" description="Email" />
+    <design:attribute name="QuoteBidderList" label="Quote Bidder" description="Quote Bidder" />
+    <design:attribute name="AlternateList" label="Alternates" description="Alternates" />
+    <design:attribute name="documentType" label="Document Type" description="Document Type" />
+    <design:attribute name="formType" label="Form Type" description="Form Type" />
+    <design:attribute name="taxable" label="Taxable" description="Taxable" />
+    <design:attribute name="displayInMetric" label="Display In Metric" description="Display In Metric" />
+    <design:attribute name="previewOrEmail" label="Preview or Email" description="Preview or Email" />
+    <design:attribute name="printGrandTotal" label="Print Grand Total" description="Print Grand Total" />
+    <design:attribute name="grandTotal" label="Grand Total" description="Grand Total" />
+    <design:attribute name="grandTotalWithTax" label="Grand Total With Tax" description="Grand Total With Tax"/>
+    
+    <design:attribute name="contactName" label="Contact Name" description="Quote Contact Name"/>
+    <design:attribute name="contactEmail" label="Contact Email" description="Contact Email"/>
+     <design:attribute name="contactFax" label="Contact Fax" description="Contact Fax"/>
+    <design:attribute name="contactPhone" label="Contact Phone" description="Contact Phone"/>
+    <design:attribute name="toAddress" label="TO Address" description="TO Address"/>
+    <design:attribute name="ccAddress" label="CC Address" description="CC Address"/>
+    <design:attribute name="bccAddress" label="BCC Address" description="BCC Address"/>
+    <design:attribute name="emailSubject" label="Email Subject" description="Email Subject"/>
+    <design:attribute name="emailBody" label="Email Body" description="Email Body"/>
+    <design:attribute name="hideQtys" label="Hide Qtys" description="Hide Qtys"/>
+    <design:attribute name="PONumber" label="PO Number" description="PO Number"/>
+    <design:attribute name="shipToAddress" label="Ship To Address" description="Ship To Address"/>
+    <design:attribute name="paymentTerms" label="Payment Terms" description="Payment Terms"/>
+    <design:attribute name="jobReference" label="Job Reference" description="Job Reference"/>
+    <design:attribute name="creditType" label="creditType" description="Credit Type"/>
+    <design:attribute name="ourReference" label="Our Reference" description="Our Reference"/>
+    <design:attribute name="shppingTerms" label="Shpping Terms" description="Shpping Terms"/>
+    
+    <!--design:attribute name="shipTo" label="Ship To" description="Ship To"/-->
+    
+     <design:attribute name="material" label="Material" description="Material"/>
+     <design:attribute name="submittalVersion" label="Submittal Version" description="Submittal Version"/>
+
+     <design:attribute name="bccSelectedContacts" label="bccSelectedContacts" description="Selected bccSelectedContacts"/>
+     <design:attribute name="ccSelectedContacts" label="Selected ccSelectedContacts" description="Selected  ccSelectedContacts"/>
+     <design:attribute name="toSelectedContacts" label="Selected toSelectedContacts" description="Selected toSelectedContacts"/>
+     <design:attribute name="subject" label="Selected subject" description="Selected subject"/>
+     <design:attribute name="selectedFiles" label="Selected selectedFiles" description="Selected selectedFiles"/>
+
+     <design:attribute name="showSendEmail" label="showSendEmail" description="showSendEmail"/>
+     
+</design:component>

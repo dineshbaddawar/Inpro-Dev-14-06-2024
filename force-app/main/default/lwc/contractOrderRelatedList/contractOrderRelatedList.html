@@ -1,0 +1,35 @@
+<template>
+    <div class="slds-page-header slds-page-header_record-home">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title" style="padding-bottom:10px;">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="standard:opportunity" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                          <a href="#" class="slds-card__header-link slds-truncate" title="Orders">
+                            <span>Orders ({OrderCount})</span>
+                          </a>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <template if:true={hasData}>
+            <div class="slds-grid slds-page-header__row slds-page-header__row_gutters">
+                <div class="slds-page-header__col-details-override">
+                    <lightning-datatable key-field="Id"
+                                    data={data}
+                                    columns={columns}
+                                    hide-checkbox-column="true"
+                                    sorted-by={sortBy}
+                                    sorted-direction={sortDirection}
+                                    onsort={doSorting}>
+                    </lightning-datatable>
+                </div>
+            </div>            
+        </template>
+        
+    </div>
+</template>

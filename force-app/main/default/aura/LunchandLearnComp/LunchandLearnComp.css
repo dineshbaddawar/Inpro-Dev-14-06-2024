@@ -1,0 +1,52 @@
+.THIS .heading {
+  text-align : center;
+  color : #4682B4;  
+    Font-size : 28px;
+    Font-style : bold;
+}
+.THIS body{
+    background:white;
+}
+.THIS .head td{
+   float:left !important;
+}
+.THIS .cust{
+    height: 20px !important;
+    outline: none;
+    border: 1px solid #417fd3;
+    border-radius: 2px;
+    padding: 10px;
+}
+.THIS .customDate{
+    width: 30%;
+    margin-bottom: 19px;
+    margin-top: 9px;
+    margin-left: 14px;
+}
+.THIS#ErrorMsg{
+   display:none;
+        height: 4rem;
+    position: absolute;
+    margin-left: 22%;
+    margin-top: 11%;
+    top: 0 !important;
+}
+.THIS .divmargin{
+    margin: 0 auto;
+}
+.THIS .locationMargin{
+    margin: 0 auto;
+    padding-left: 3%;
+}
+@media (max-width: 600px) {
+    .THIS .tblLabel{
+        white-space:pre-line;
+    }
+    .THIS .mediaWidth{
+       min-width:20rem;
+        Font-size : 1rem;
+    }
+    .THIS .medialbl{
+        Font-size : 1rem;
+    }
+}

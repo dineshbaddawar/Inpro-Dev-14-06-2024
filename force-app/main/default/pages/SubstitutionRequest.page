@@ -1,0 +1,498 @@
+<apex:page id="pg" controller="SubstitutionRequestController" standardStylesheets="true">
+    
+    <head>
+        <apex:includeScript value="{!URLFOR($Resource.JQueryandEasy, 'jquery-3.2.1.min.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.JQueryandEasy, 'easyPaginate.js')}" />
+        <style type="text/css">
+            /* #downloadSupportingDocBtn{
+            font: 400 13.3333px Arial;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            color: #333333;
+            padding: 1px 6px;
+            border-top: 1px solid #333333;
+            border-right: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+            border-left: 1px solid #333333;
+            } */
+            
+        </style>
+    </head>
+    <script>
+    //this is only the code for printing the page
+    function fun() {
+        debugger;
+        document.getElementById("dvid").style.display = 'block';
+        document.getElementById('sbtn').style.display = 'none';
+        document.getElementById('cbtn').style.display = 'none';
+        //document.getElementById('dbtn').style.display = 'none';
+        document.getElementById('mebtn').style.display = 'none';
+        document.getElementById('downloadSupportingDocBtn').style.display = 'none';
+        send('Architect');
+    }
+    function sendToUser() {
+        debugger;
+        document.getElementById("dvid").style.display = 'block';
+        document.getElementById('sbtn').style.display = 'none';
+        document.getElementById('cbtn').style.display = 'none';
+        //document.getElementById('dbtn').style.display = 'none';
+        document.getElementById('mebtn').style.display = 'none';
+        document.getElementById('downloadSupportingDocBtn').style.display = 'none';
+        send('User');
+    }
+    function cancel() {
+        Cancel();
+    }
+    
+    function dislink(url) {
+        if ((typeof sforce != 'undefined') && (sforce != null)) {
+            // Salesforce1 navigation            
+            sforce.one.navigateToURL(url);
+        } else {
+            // open in new window
+            window.open(url, '_blank');
+        }
+        
+        //if({! $User.UIThemeDisplayed == 'Theme3' })
+        //alert('---done');
+        document.getElementById("dvid").style.display = 'block';
+        document.getElementById("dv").style.display = 'block';
+    }
+    
+    window.onload = function () {
+        var msg = '{!errormsg}';
+        if (msg != '') {
+            alert(msg);
+            window.top.location = '/{!objConstruction.id}';
+        }
+        //document.getElementById("dv").style.display = 'none';
+    }
+    
+    function initialLoad() {
+        var msg = '{!errormsg}';
+        if (msg != '') {
+            alert(msg);
+            window.top.location = '/{!objConstruction.id}';
+        }
+        //document.getElementById("dv").style.display = 'none';
+    }
+    
+    function CoverDoc() {
+        debugger;
+        document.getElementById("dvid").style.display = 'none';
+        document.getElementById('downloadSupportingDocBtn').style.display='none';
+        coverDoc();
+        //document.getElementById("dv").style.display = 'block'; 
+    }
+    
+    function downloadSupportingDocjs(){
+        downloadSupportingDoc();
+    }
+    
+    function toggleCheckAll(val) {
+        var inVal = document.getElementById('pg:fm:totid').value;
+        if (document.getElementById('checkAllBox').checked == true) {
+            for (var i = 0; i <= inVal - 1; i++) {
+                document.getElementById('pg:fm:subrequestpbid:subrequestpbtableid:' + i + ':checkid').checked = true;
+            }
+        } else if (document.getElementById('checkAllBox').checked == false) {
+            for (var i = 0; i <= inVal - 1; i++) {
+                document.getElementById('pg:fm:subrequestpbid:subrequestpbtableid:' + i + ':checkid').checked = false;
+            }
+        }
+    }
+    
+    function CheckChildAll() {
+        var inVal = document.getElementById('pg:fm:totid').value;
+        var Count = 0;
+        var icount = 0;
+        for (var i = 0; i <= inVal - 1; i++) {
+            if (document.getElementById('pg:fm:subrequestpbid:subrequestpbtableid:' + i + ':checkid').checked == false) {
+                Count++;
+            } else if (document.getElementById('pg:fm:subrequestpbid:subrequestpbtableid:' + i + ':checkid').checked == true) {
+                icount++;
+            }
+        }
+        if (Count != inVal) {
+            document.getElementById('checkAllBox').checked = false;
+        }
+        if (icount == inVal) {
+            document.getElementById('checkAllBox').checked = true;
+        }
+    }    
+    </script>
+    
+    <apex:form id="fm">
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:outputPanel rendered="{!showSubstitutionReq}">
+            
+            <body>
+                <div align="center" id="dvid">
+                    <input type="button" class="slds-button" id="mebtn" value="Send To Me" onclick="sendToUser();" /> &nbsp;&nbsp;
+                    <input type="button" class="slds-button" id="sbtn" value="Send To Architect" onclick="fun();" /> &nbsp;&nbsp;
+                    <apex:actionfunction name="send" action="{!SendEmailToArchitect}" rerender="none">
+                        <apex:param name="emailTo" value=""/>
+                    </apex:actionfunction>
+                    <!-- <input type="button" value="Download" id="dbtn" onclick="CoverDoc();" class="slds-button" /> -->
+                    <input type="button" id="cbtn" value="Cancel" onclick="cancel();" class="slds-button" /> &nbsp;&nbsp;
+                    <input type="button" id="downloadSupportingDocBtn" value="Download Supporting Documents" onclick="downloadSupportingDocjs();" class="slds-button" target="_blank"/>
+                    <!--<a id="downloadSupportingDocBtn" href="{!supportingDocumentsLink}">Download Supporting Documents</a>-->
+                </div>
+                
+                <apex:actionfunction name="Cancel" action="{!cancel}" />
+                <apex:actionfunction name="coverDoc" action="{!InsertCoverDoc}" rerender="easyPaginate" oncomplete="dislink('{!url}')" />
+                <apex:actionfunction name="downloadSupportingDoc" action="{!downloadSupportingDocuments}" />
+                
+                <script>
+                $('#easyPaginate').easyPaginate({
+                    paginateElement: '.maindiv',
+                    elementsPerPage: 1,
+                    effect: 'climb'
+                });
+                
+                $(".easyPaginateNav").find("[href]").css("padding", "5px");
+                </script>
+                <!--<apex:outputPanel rendered="{!$User.UIThemeDisplayed =='Theme4d'}">
+<apex:slds />
+</apex:outputPanel>-->
+                
+                <div id="easyPaginate">
+                    <apex:variable var="i" value="{!0}" />
+                    <apex:repeat value="{!selectedSubLineWrappers}" var="subreq">
+                        <apex:outputPanel rendered="{!i!=0}">
+                            <div id="dv" style="page-break-after:always;"></div>
+                            <br/>
+                        </apex:outputPanel>
+                        <apex:variable var="i" value="{!i+1}" />
+                        <div class="maindiv" style=" width:99%;font-family:Arial, Helvetica, sans-serif;font-size:11px;background:#f8f8f8;float: left;padding: 3px 10px 1px;border-bottom:1px solid #ddd;">
+                            <apex:outputPanel rendered="{!isViewDocuments}">
+                                <div id="dv" style="background:#f8f8f8;float: left;width: 99%; border-top:1px solid #ddd;">
+                                    <apex:outputtext rendered="{!subreq.wrapDocList.size>0}" value="{!DownloadText}" />
+                                    <apex:repeat value="{!subreq.wrapDocList}" var="objDoc" id="rpt">
+                                        <apex:outputPanel style="float:left;width:100%; padding:2px 0px;">
+                                            <b>
+                                                <apex:outputtext style="font-size: 12px;" value="{!objDoc.docname}" />
+                                            </b>&nbsp;&nbsp;
+                                            <apex:outputLink style="font-size: 12px;" value="/servlet/servlet.FileDownload?file={!objDoc.Docid}" target="_blank"> {!objDoc.DocUniqName}
+                                            </apex:outputLink>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                </div>
+                            </apex:outputPanel>
+                            
+                            <div class="header" style="float:right;text-align:right;font-family:Arial, Helvetica, sans-serif;">
+                                <label style="font-size:16px;">
+                                    <b>SUBSTITUTION REQUEST</b>
+                                </label>
+                                <br/>
+                                <label style="font-size:14px;">(During the Bidding/Negotiating Stage)</label>
+                                <br/>
+                            </div>
+                            <div class="block1" style="border-top:solid 3px #333;float:left;width:100%;margin-top:5px;">
+                                <table cellspacing="0" width="100%">
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="7%">Project:</td>
+                                        <td width="32%" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.name} </td>
+                                        <td width="5%">&nbsp;</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="18%">Substitution Request Number:</td>
+                                        <td style="vertical-align:bottom;border-bottom: solid 1px #333; padding-top:10px;"
+                                            class="uline" width="30%"> {!subreq.subRequestRec.Name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.City__c}, {!objConstruction.State__c}</td>
+                                        <td>&nbsp;</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">From:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!$User.FirstName} {!$User.lastName}, {!$User.companyname} </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">To:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.Architect_Contact__r.FirstName} {!objConstruction.Architect_Contact__r.LastName},
+                                            {!objConstruction.Architect_Contact__r.Account.name}</td>
+                                        <td>&nbsp;</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Date:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                                <apex:param value="{!today()}" /></apex:outputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">&nbsp;</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            {!objConstruction.Architect_Contact__r.email}, {!objConstruction.Architect_Contact__r.phone}</td>
+                                        <td>&nbsp;</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">A/E Project Number:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.A_E_Project_Number__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Re:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            {!subreq.subRequestRec.Project_Specification_Title__c} </td>
+                                        <td>&nbsp;</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Contract For:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.Project_Owner_Company__r.Name}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="block1" style="border-top:solid 3px #333;float:left;width:100%;margin-top:5px;">
+                                <table cellspacing="0" width="100%">
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="15%">Specification Title:</td>
+                                        <td width="30%" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.subRequestRec.Project_Specification_Title__c} </td>
+                                        <td width="5%">&nbsp;</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="8%">Description:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;"
+                                            width="30%"> {!LEFT(subreq.subRequestRec.Project_Specification_Description__c,45)} </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td style="vertical-align:bottom; padding-top:10px;" width="15%">Section:</td>
+                                                    <td width="40%" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.subRequestRec.Project_Specification_Section_Number__c}</td>
+                                                    <td style="vertical-align:bottom; padding-top:10px;" width="10%">Page:</td>
+                                                    <td width="30%" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.subRequestRec.Project_Specification_Page_Number__c}</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Article/Paragraph:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.subRequestRec.Project_Specification_Article_Paragraph__c}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="block1" style="border-top:solid 3px #333;float:left;width:100%;margin-top:5px;">
+                                <!-- 
+<table cellspacing="0" width="100%">
+<tr>
+<td style="vertical-align:bottom; padding-top:10px;" width="20%">Proposed Substitution:</td> <td colspan="4" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;"> <apex:outputLabel rendered="{!IF(subreq.subRequestRec.Bostik_Substitute_Product_2__c != null, true,false)}"> , </apex:outputLabel> {!subreq.subRequestRec.Bostik_Substitute_Product_2__r.Name} </td> 
+</tr>
+<tr>
+<td style="vertical-align:bottom; padding-top:10px;">Manufacturer:</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">Bostik Inc.</td> <td style="vertical-align:bottom; padding-top:10px;" align="right">Address: &nbsp;</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;"></td> <td style="vertical-align:bottom; padding-top:10px;" align="right">Phone: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">(414) 774-2250</td>
+</tr>
+<tr>
+<td style="vertical-align:bottom; padding-top:10px;">Trade Name:</td> <td colspan="3" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;"> Bostik   <apex:outputLabel rendered="{!IF(subreq.subRequestRec.Bostik_Substitute_Product_2__c != null, true,false)}"> , Bostik </apex:outputLabel> {!subreq.subRequestRec.Bostik_Substitute_Product_2__r.Name} </td>
+<td style="vertical-align:bottom; padding-top:10px;" align="right"> Model No.: &nbsp;</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">&nbsp;</td>
+</tr>
+</table>
+-->
+                                
+                                <table cellspacing="0" width="100%">
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="20%">Proposed Substitution:</td>
+                                        <td colspan="4" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            {!subreq.subRequestRec.Substitute_Product_1__r.Name}
+                                            <apex:outputLabel rendered="{!IF(subreq.subRequestRec.Substitute_Product_2__c != null, true,false)}">
+                                                , </apex:outputLabel> {!subreq.subRequestRec.Substitute_Product_2__r.Name} </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Manufacturer:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!CompName}</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" align="right">Address: &nbsp; </td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            {!CompAddress}
+                                            <br/> {!CompCityStateZip}
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" align="right">Phone: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            {!CompPhone} </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Trade Name:</td>
+                                        <td colspan="3" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            {!subreq.subRequestRec.Substitute_Product_1__r.Name}
+                                            <apex:outputLabel rendered="{!IF(subreq.subRequestRec.Substitute_Product_2__c != null, true,false)}">
+                                                , Hunley Group </apex:outputLabel> {!subreq.subRequestRec.Substitute_Product_2__r.Name}
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" align="right"> Model No.: &nbsp;</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">&nbsp;
+                                            <!--570 687 4572-->N/A</td>
+                                    </tr>
+                                </table>
+                                <p>Attached data includes product description, specifications, drawings, photographs, and performance
+                                    and test data adequate for evaluation of the request; applicable portions of the data
+                                    are clearly identified.</p>
+                                <p>Attached data also includes a description of changes to the Contract Documents that the proposed
+                                    substitution will require for its proper installation.</p>
+                            </div>
+                            <div class="block1" style="border-top:solid 3px #333;float:left;width:100%;margin-top:5px;">
+                                <label>
+                                    <b>The Undersigned certifies:</b>
+                                </label>
+                                <ul style="padding:0px;">
+                                    <li>Proposed substitution has been fully investigated and determined to be equal or superior
+                                        in all respects to specified product.</li>
+                                    <li>Same warranty will be furnished for proposed substitution as for specified product.</li>
+                                    <li>Same maintenance service and source of replacement parts, as applicable, is available.</li>
+                                    <li>Proposed substitution will have no adverse effect on other trades and will not affect
+                                        or delay progress schedule.</li>
+                                    <li>Proposed substitution does not affect dimensions and functional clearances.</li>
+                                </ul>
+                            </div>
+                            <div class="block1" style="border-top:solid 3px #333;float:left;width:100%;margin-top:5px;">
+                                <table cellspacing="0" width="100%">
+                                    <!--<tr>
+<td style="vertical-align:bottom; padding-top:10px;" width="10%"> Submitted by:</td> <td width="90%" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;"> {!objConstruction.Owner.Name} </td> 
+</tr>
+<tr>
+<td style="vertical-align:bottom; padding-top:10px;">Signed by:</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.Owner.Name} </td> 
+</tr>
+<tr>
+<td style="vertical-align:bottom; padding-top:10px;">Firm:</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.OwnerCompanyName__c}</td> 
+</tr>
+<tr>
+<td style="vertical-align:bottom; padding-top:10px;">Address:</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.OwnerStreet__c}</td> 
+</tr>
+<tr>
+<td>&nbsp;</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.Owner_City__c}, {!objConstruction.OwnerState__c}  {!objConstruction.OwnerPostalCode__c}</td>                       
+</tr>
+<tr>
+<td style="vertical-align:bottom; padding-top:10px;">Telephone:</td> <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!objConstruction.Owner.Phone}, {!objConstruction.Owner.Email} </td> 
+</tr>-->
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="10%"> Submitted by:</td>
+                                        <td width="90%" class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">
+                                            {!subreq.signer.FirstName} {!subreq.signer.LastName} </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Signed by:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.signer.FirstName} {!subreq.signer.LastName} </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Firm:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.signer.CompanyName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Address:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.signer.Street}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.signer.City}, {!subreq.signer.State} {!subreq.signer.PostalCode}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Telephone:</td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">{!subreq.signer.Phone }, {!subreq.signer.Email} </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="block1" style="border-top:solid 3px #333;float:left;width:100%;margin-top:5px;">
+                                <label>
+                                    <b>A/E' s REVIEW AND ACTION</b>
+                                </label>
+                                <table cellspacing="0" width="100%">
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="97%"> Substitution approved - Make submittals in accordance with Specification Substitution
+                                            Procedures.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="97%"> Substitution approved as noted - Make submittals in accordance with Specification
+                                            Substitution Procedures.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="97%"> Substitution rejected - Use specified materials.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="97%"> Substitution Request received too late - Use specified materials.</td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <label>
+                                    <b>Signed by:</b>
+                                </label>
+                                <label style="padding-left:560px;">
+                                    <b>Date:</b>
+                                </label>
+                            </div>
+                            <div class="block1" style="border-top:solid 3px #333;float:left;width:100%;">
+                                <table cellspacing="0" width="100%">
+                                    <tr>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="18%">Supporting Data Attached:</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Drawings</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Product Data</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Samples</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Tests</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td style="vertical-align:bottom; padding-top:10px;">Reports</td>
+                                        <td style="vertical-align:bottom; padding-top:10px;" width="3%">
+                                            <apex:image url="{!$Resource.CheckBox}" width="10" height="10" />
+                                        </td>
+                                        <td class="uline" style="border-bottom: solid 1px #333;vertical-align:bottom; padding-top:10px;">&nbsp;&nbsp;&nbsp;</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </apex:repeat>
+                </div>
+            </body>
+        </apex:outputPanel>
+        <!--
+<apex:outputPanel rendered="{!showSubstitutionReq}" id="nosubs">
+<br/><br/>
+<b>
+<apex:outputLabel style="font-size:18px;">Sorry there are no Substitution Requests under this Construction Project.
+</apex:outputLabel> </b>
+</apex:outputPanel> 
+-->
+        <div>
+            <apex:outputPanel rendered="{!!showSubstitutionReq}" id="panelid">
+                <apex:pageBlock id="subrequestpbid" Title="{!IF(subRequestWrapList != NULL && subRequestWrapList.size > 0,'Please select which product categories you wish to submit ','')} "
+                                rendered="{!IF(subRequestWrapList != NULL && subRequestWrapList.size > 0,true,false)}">
+                    <!--   <b><apex:outputLabel style="font-size:18px;">Please select which product categories you wish to submit </apex:outputLabel> </b> -->
+                    <apex:pageBlockTable value="{!subRequestWrapList}" var="l" id="subrequestpbtableid" rendered="{!IF(subRequestWrapList != NULL && subRequestWrapList.size > 0,true,false)}">
+                        <apex:column >
+                            <apex:facet name="header">
+                                <input type="checkbox" id="checkAllBox" onclick="toggleCheckAll(this)" checked="checked" />
+                            </apex:facet>
+                            <apex:inputCheckbox value="{!l.isSelected}" id="checkid" onclick="CheckChildAll()" />
+                        </apex:column>
+                        <!--<apex:column value="{!l.subRequestRec.Name}"/>-->
+                        <apex:column value="{!l.subRequestRec.Product_FamilyG__c}" />
+                        <apex:column value="{!l.subRequestRec.Specification_Status__c}" />
+                        <!--<apex:column value="{!l.subRequestRec.Substitution_Status__c}"/>-->
+                        <!--<apex:column value="{!l.subRequestRec.ANSI_Category__c}"/>-->
+                        <!--apex:column value="{!l.subRequestRec.Competors_Product_to_be_Substituted__c}"/-->
+                        <apex:column value="{!l.subRequestRec.Competitors_Listed_All__c}" />
+                        <apex:column value="{!l.subRequestRec.Competing_Product_Basis_of_Design__c}" />
+                        <apex:column value="{!l.subRequestRec.Substitute_Product_1__c}" />
+                        <!--apex:column value="{!l.subRequestRec.Substitute_Product_2__c}"/-->
+                        <!--apex:column value="{!l.subRequestRec.Project_Specification_Section_Number__c}"/-->
+                    </apex:pageBlockTable>
+                    
+                    <apex:pageBlockButtons location="bottom">
+                        <apex:commandButton value="Generate Substitution Documentation" action="{!showSubstitutionPage}" rerender="fm" disabled="{!IF(subRequestWrapList != NULL && subRequestWrapList.size > 0,false,true)}"
+                                            />
+                        <apex:commandButton value="Cancel" action="{!cancel}" />
+                    </apex:pageBlockButtons>
+                </apex:pageBlock>
+            </apex:outputPanel>
+        </div>
+        <apex:inputtext value="{!totSubReqCount}" id="totid" style="display:none" />
+    </apex:form>
+</apex:page>

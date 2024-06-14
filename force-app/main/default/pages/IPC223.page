@@ -1,0 +1,577 @@
+<apex:page renderAs="PDF" standardController="Quote" extensions="IPC223Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+  <apex:outputText rendered="{!BlankForm == false}">
+  <html>
+    <head>
+      <style>
+        @page {
+          margin-top: 1.2cm;
+          margin-bottom: 1.5cm;
+          margin-left: 1cm;
+          margin-right: 1cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+          text-align: right;
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div style="width:100%;">
+            <table style="width:100%;">
+              <tr>
+                <td style="width:15%">
+                  <!-- Empty cell for layout -->
+                </td>
+                <td style="width:70%"></td>
+                <td><label for="qty">Page</label></td>
+                <td style="width:7%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <span class="pagenumber"></span>
+                    </div>
+                </td>
+                <td><label for="qty">of</label></td>
+                <td style="width:8%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <span class="pagecount"></span>
+                    </div>
+                </td>
+              </tr>
+            </table>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div style="width:100%;">
+          <table style="width:100%;">
+            <tr>
+              <td style="width:85%"></td>
+              <td style="width:15%">IPC.223/Rev.3</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  
+      <apex:form style="font-family: sans-serif; font-size: 8pt;">
+        <table style="width:100%">
+            <tr>
+              <td>
+                <img src="{!$Resource.cf_ipc223_Clickezelogo}" alt="Clickezelogo" width="190" height="90" />
+              </td>
+              <td style="text-align: center;">
+                  S80 W18766 Apollo Drive<br/>
+                  Muskego, WI 53150<br/>
+                  PH: 800-222-5556   Fax: 888-715-8407
+              </td>
+              <td style="text-align: right;">
+                  <img src="{!$Resource.cf_ipc223_InproLogo}" alt="InproLogo" width="140" height="70"/>
+              </td>
+            </tr>
+        </table>
+        <h3 style="text-align:center"> BEDSPREAD MEASURE FORM</h3>
+        <div style="width:35%">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:32%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
+                    <td style="width:20%">
+                        <div
+                            style=" display: inline-block; width: 95%; border: none; outline: none;">
+                            <!-- Empty div for layout -->
+                        </div>
+                    </td>
+                    <td style="width:32%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote #</td>
+                    <td style="width:20%">
+                        <div
+                            style=" display: inline-block; width: 95%; border: none; outline: none;">
+                            {!customForm.quoteRecord.QuoteNumber} 
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <table style="width:100%">
+            <tr>
+                <td style="width:4%"> <label for="qty">Date:</label></td>
+                <td style="width:38%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                    </div>
+                </td>
+                <td style="width:26%"> <label for="qty"> Customer Account Number:</label></td>
+                <td style="width:32%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:5%"> <label for="qty">Contact:</label></td>
+                <td style="width:35%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                    </div>
+                </td>
+                <td style="width:12%"> <label for="qty"> Sales Rep:</label></td>
+                <td style="width:44%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:5%"> <label for="qty">Phone:</label></td>
+                <td style="width:36%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Phone}
+                    </div>
+                </td>
+                <td style="width:24%"> <label for="qty"> Facility or Project Name:</label></td>
+                <td style="width:32%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Opportunity_Name__c}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:9%"> <label for="qty">Ship to:</label></td>
+                <td style="width:34%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.ShippingStreet},&nbsp;{!customForm.quoteRecord.ShippingCity}
+                    </div>
+                </td>
+                <td style="width:6%"> <label for="qty"> Fax:</label></td>
+                <td style="width:50%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Fax}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:9%"></td>
+                <td style="width:33%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.ShippingState},&nbsp;{!customForm.quoteRecord.ShippingCountry}&nbsp;{!customForm.quoteRecord.ShippingPostalCode}
+                    </div>
+                </td>
+                <td style="width:8%"> <label for="qty"> E-Mail:</label></td>
+                <td style="width:47%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Email}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="border-collapse: collapse; border: 1px solid black; width:100%">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Quantity</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Size</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Hospital Twin, Twin,<br/>Full, Queen, King</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Fabric Supplier</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Pattern</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Color</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Throw or Boxed Corner Style<br/>(if boxed width, length and thickness of<br/>mattress are needed)</th>
+                </tr>
+            </thead>
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"><apex:outputText value="{!FLOOR(quoteLine.Quantity)}"></apex:outputText></td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;">{!quoteLine.size}</td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;">{!quoteLine.type}</td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;">{!quoteLine.vendor}</td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;">{!quoteLine.patten}</td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;">{!quoteLine.color}</td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;">{!quoteLine.style}</td>
+                    </tr>
+                </tbody>
+            </apex:repeat>
+        </table>
+        <br/><br/>
+        <img src="{!$Resource.cf_ipc223_BedSpread}" alt="BedSpread" width="720" height="200"/>
+      </apex:form>
+    </body>
+  </html>
+</apex:outputText>
+
+<apex:outputText rendered="{!BlankForm == true}">
+  <html>
+    <head>
+      <style>
+        @page {
+          margin-top: 1.2cm;
+          margin-bottom: 1.5cm;
+          margin-left: 1cm;
+          margin-right: 1cm;
+
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+
+        div.header {
+          padding: 10px;
+          position: running(header);
+          width: 100%;
+        }
+
+        div.footer {
+          padding: 10px;
+          position: running(footer);
+          width: 100%;
+          text-align: right;
+        }
+
+        .pagenumber:before {
+          content: counter(page);
+        }
+
+        .pagecount:before {
+          content: counter(pages);
+        }
+
+        div.content {
+          border-style: dotted;
+          float: left;
+          width: 100%;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div style="width:100%;">
+            <table style="width:100%;">
+              <tr>
+                <td style="width:15%">
+                  <!-- Empty cell for layout -->
+                </td>
+                <td style="width:70%"></td>
+                <td><label for="qty">Page</label></td>
+                <td style="width:7%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <span class="pagenumber"></span>
+                    </div>
+                </td>
+                <td><label for="qty">of</label></td>
+                <td style="width:8%;">
+                    <div
+                        style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <span class="pagecount"></span>
+                    </div>
+                </td>
+              </tr>
+            </table>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div style="width:100%;">
+          <table style="width:100%;">
+            <tr>
+              <td style="width:85%"></td>
+              <td style="width:15%">IPC.223/Rev.3</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  
+      <apex:form style="font-family: sans-serif; font-size: 8pt;">
+        <table style="width:100%">
+            <tr>
+              <td>
+                <img src="{!$Resource.cf_ipc223_Clickezelogo}" alt="Clickezelogo" width="190" height="90" />
+              </td>
+              <td style="text-align: center;">
+                  S80 W18766 Apollo Drive<br/>
+                  Muskego, WI 53150<br/>
+                  PH: 800-222-5556   Fax: 888-715-8407
+              </td>
+              <td style="text-align: right;">
+                  <img src="{!$Resource.cf_ipc223_InproLogo}" alt="InproLogo" width="140" height="70"/>
+              </td>
+            </tr>
+        </table>
+        <h3 style="text-align:center"> BEDSPREAD MEASURE FORM</h3>
+        <div style="width:35%">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:32%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
+                    <td style="width:20%">
+                        <div
+                            style=" display: inline-block; width: 95%; border: none; outline: none;">
+                            <!-- Empty div for layout -->
+                        </div>
+                    </td>
+                    <td style="width:32%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote #</td>
+                    <td style="width:20%">
+                        <div
+                            style=" display: inline-block; width: 95%; border: none; outline: none;">
+                            {!customForm.quoteRecord.QuoteNumber} 
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <table style="width:100%">
+            <tr>
+                <td style="width:4%"> <label for="qty">Date:</label></td>
+                <td style="width:38%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                    </div>
+                </td>
+                <td style="width:26%"> <label for="qty"> Customer Account Number:</label></td>
+                <td style="width:32%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:5%"> <label for="qty">Contact:</label></td>
+                <td style="width:35%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                    </div>
+                </td>
+                <td style="width:12%"> <label for="qty"> Sales Rep:</label></td>
+                <td style="width:44%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:5%"> <label for="qty">Phone:</label></td>
+                <td style="width:36%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Phone}
+                    </div>
+                </td>
+                <td style="width:24%"> <label for="qty"> Facility or Project Name:</label></td>
+                <td style="width:32%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Opportunity_Name__c}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:9%"> <label for="qty">Ship to:</label></td>
+                <td style="width:34%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.ShippingStreet},&nbsp;{!customForm.quoteRecord.ShippingCity}
+                    </div>
+                </td>
+                <td style="width:6%"> <label for="qty"> Fax:</label></td>
+                <td style="width:50%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Fax}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="width:9%"></td>
+                <td style="width:33%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.ShippingState},&nbsp;{!customForm.quoteRecord.ShippingCountry}&nbsp;{!customForm.quoteRecord.ShippingPostalCode}
+                    </div>
+                </td>
+                <td style="width:8%"> <label for="qty"> E-Mail:</label></td>
+                <td style="width:47%;">
+                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">
+                        {!customForm.quoteRecord.Email}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="border-collapse: collapse; border: 1px solid black; width:100%">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Quantity</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Size</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Hospital Twin, Twin,<br/>Full, Queen, King</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Fabric Supplier</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Pattern</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Color</th>
+                    <th style="border: 1px solid #000; padding: 10px; text-align: center; background-color: #f2f2f2;">Throw or Boxed Corner Style<br/>(if boxed width, length and thickness of<br/>mattress are needed)</th>
+                </tr>
+            </thead>
+            
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                    </tr>
+                    <tr>
+                      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                  </tr>
+
+                  <tr>
+                    <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                  <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                  <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                  <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                  <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                  <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                  <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+                <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+              <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+              <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+              <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+              <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+              <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+              <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+            <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+            <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+            <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+            <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+            <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+            <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+          <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+          <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+          <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+          <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+          <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+          <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+        <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+      <td style="border: 1px solid #000; text-align: center; padding: 10px;"></td>
+  </tr>
+                </tbody>
+            
+        </table>
+        <br/><br/>
+        <img src="{!$Resource.cf_ipc223_BedSpread}" alt="BedSpread" width="720" height="200"/>
+      </apex:form>
+    </body>
+  </html>
+</apex:outputText>
+
+
+
+
+</apex:page>

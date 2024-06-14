@@ -1,0 +1,24 @@
+<aura:component  implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:isUrlAddressable,flexipage:availableForAllPageTypes" access="global">
+    <!--  this tag sets modal width -->
+    <aura:html tag="style">        
+        .cuf-content{
+            padding:0 !important;
+        }
+        .slds-p-around--medium{
+            padding:0 !important;
+        }
+        .slds-modal__container{
+            min-width: 950px; 
+        }
+        .slds-modal__content{
+           
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>  
+    <aura:attribute type="String" name="currentRecordId"/>
+    <aura:attribute type="String" name="divisionInput"/>
+    <aura:attribute type="String" name="divSectionInput"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    <c:accountNewOpportunity recordId="{!v.recordId}" onclose="{!c.closeQA}" currentRecordId="{!v.currentRecordId}" divisionInput="{!v.divisionInput}" divSectionInput="{!v.divSectionInput}"></c:accountNewOpportunity>
+</aura:component>

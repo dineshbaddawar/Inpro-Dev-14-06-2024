@@ -1,0 +1,9 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <!--  this tag sets modal width -->
+    <!-- <aura:html tag="style">
+        .slds-modal__container {
+        min-width: 90vw;          
+        }
+    </aura:html>   -->
+    <c:rcaCreate recordId="{!v.recordId}" onclose="{!c.closeQA}"></c:rcaCreate>
+</aura:component>

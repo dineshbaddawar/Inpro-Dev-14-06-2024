@@ -1,0 +1,13 @@
+.pointer{
+    cursor:pointer;
+}
+
+.qcHolder
+{
+    min-height: 500px;
+    min-width: 500px;
+}
+
+:host {
+    --sds-c-textarea-sizing-min-height: 300px;
+ }

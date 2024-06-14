@@ -1,0 +1,19 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Resend Nexus Invoice</strong>
+        </h3>        
+        <h1 style="padding: 10px;">This will resend the invoice associated to Nexus.</h1>
+        <lightning-button style="float: right;" variant="brand-outline" title="Send Invoice" class="slds-m-left_x-small"
+            onclick={handleSendInvoiceClick}  label="Send Invoice">
+        </lightning-button>
+        <lightning-button style="float: left;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+        
+    </template>
+</template>

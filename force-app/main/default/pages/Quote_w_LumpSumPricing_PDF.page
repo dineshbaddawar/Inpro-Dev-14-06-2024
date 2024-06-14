@@ -1,0 +1,1315 @@
+<apex:page renderAs="PDF" standardStylesheets="false" controller="QuoteBidPDFController"  lightningStylesheets="false"  applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                body {
+                    background-image: url("{!IF(quoteDetails.internal,URLFOR($Resource.Quote_Draft_Watermark),URLFOR($Resource.Quote_Empty_Watermark))}");
+                    background-repeat: repeat;
+                }
+                @page {
+                margin-top:20px;
+                margin-bottom:40px;
+                size: 8.5in 11in;
+                margin-left: 0.3in;
+                margin-right: 0.3in;
+                size: portrait;
+                @top-center {
+                content: element(header);
+                }
+                @bottom-left {
+                content: element(footer);
+                }
+                }
+                html{
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                }
+                body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font: 8.5pt "Calibri";
+                }                   
+                div.header {
+                padding:20px;
+                position: header;
+                }
+                div.footer {
+                display: block;
+                padding: 2px;
+                position: running(footer);
+                }
+                .pagenumber:before {
+                content: counter(page);
+                }
+                .pagecount:before {
+                content: counter(pages);
+                }
+                
+                table{
+                
+                border-collapse: collapse;
+                }
+                
+                #leftHeader{
+                float:right;
+                width: 25%;
+                }
+                
+                #rightHeader{
+                display: inline-block;
+                float:right;
+                width: 35%;
+                margin-top: 3%;
+                }
+                
+                #middleHeader{
+                float:right;
+                width: 40%;
+                margin-top: 6%;
+                }
+                
+                #leftFooter{
+                float:left;
+                width: 33%;
+                text-align:left;
+                font: 12pt "Calibri";
+                }
+                
+                #rightFooter{
+                float:right;
+                width: 33%;
+                text-align:right;
+                font: 12pt "Calibri";
+                }
+                
+                #middleFooter{
+                float:left;
+                width: 33%;
+                text-align:center;
+                font: 12pt "Calibri";
+                }
+                
+                .addressLine{
+                text-align:right;
+                font: 8pt "Calibri";
+                }
+                
+                #titleDiv{
+                padding-left:260px;
+                font: 8.5pt "Calibri";
+                }
+                
+                #titleDiv{
+                float:left;
+                font: 8.5pt "Calibri";
+                width:100%
+                }
+                
+                #detailDiv{
+                padding-top:85px;
+                }
+                
+                #detailDiv td {
+                border-top:1px;
+                border-bottom:1px;
+                padding-right:20px;   
+                }
+                
+                #detailTable{
+                border-collapse:separate; 
+                border-spacing:0 1px; 
+                width:100%
+                }
+                
+                #detailTable .col1{
+                width:10%;
+                text-align:right;
+                }
+                
+                #detailTable .col2{
+                width:55%;
+                height:15px;
+                line-height: 2px;
+                }
+                
+                #detailTable .col3{
+                width:15%;
+                text-align:right;
+                }
+                
+                #detailTable .col4{
+                width:20%;
+                }
+                
+                #infoDiv{
+                line-height: 5px;
+                }
+                
+                /*.td1{
+                border-style: solid;
+                border-width: 0px 1px 0px 0px;
+                }*/
+                
+                
+                
+            </style>
+            
+            <STYLE type="text/css">
+                
+                body {margin-top: 0px;margin-left: 0px;}
+                
+                
+                .ft0{font: 12px 'Helvetica';line-height: 13px;}
+                .ft1{font: 12px 'Helvetica';line-height: 12px;}
+                .ft2{font: 12px 'Helvetica';line-height: 11px;}
+                .ft3{font: 1px 'Helvetica';line-height: 1px;}
+                .ft4{font: bold 19px 'Helvetica';line-height: 22px;}
+                .ft5{font: bold 11px 'Helvetica';line-height: 12px;}
+                .ft6{font: bold 11px 'Helvetica';line-height: 11px;}
+                .ft7{font: 12px 'Helvetica';line-height: 12px;}
+                .ft8{font: 1px 'Helvetica';line-height: 12px;}
+                .ft9{font: 10px 'Helvetica';text-decoration: underline;color: #0000ff;line-height: 13px;}
+                .ft10{font: 1px 'Helvetica';line-height: 11px;}
+                .ft11{font: 12px 'Helvetica';line-height: 11px;}
+                .ft12{font: 1px 'Helvetica';line-height: 9px;}
+                .ft13{font: 1px 'Helvetica';line-height: 10px;}
+                .ft14{font: 1px 'Helvetica';line-height: 2px;}
+                .ft15{font: 1px 'Helvetica';line-height: 5px;}
+                .ft16{font: bold 15px 'Helvetica';line-height: 18px;}
+                .ft17{font: 1px 'Helvetica';line-height: 3px;}
+                .ft18{font: bold 16px 'Helvetica';line-height: 19px;}
+                .ft19{font: bold 12px 'Helvetica';line-height: 15px;}
+                .ft20{font: 8px 'Calibri';line-height: 10px;}
+                .ft21{font: 1px 'Helvetica';line-height: 4px;}
+                .ft22{font: bold 12px 'Helvetica';line-height: 21px;}
+                .ft23{font: bold 9px 'Helvetica';line-height: 17px;}
+                .ft24{font: 12px 'Helvetica';margin-left: 3px;line-height: 13px;}
+                .ft25{font: 9px 'Helvetica';text-decoration: underline;color: #0000ff;line-height: 12px;}
+                .ft26{font: 10px 'Helvetica';line-height: 10px;}
+                .ft27{font: 10px 'Helvetica';margin-left: 3px;line-height: 10px;}
+                .ft28{font: 10px 'Helvetica';margin-left: 3px;line-height: 11px;}
+                
+                .ft9b{font: bold 9px 'Helvetica';text-align:center;line-height: 12px;}
+                .ft11b{font: bold 11px 'Helvetica';text-align:center;line-height: 12px;}
+                .ft12b{font: bold 12px 'Helvetica';text-align:center;line-height: 21px;}
+                .ft14b{font: bold 14px 'Helvetica';text-align:center;line-height:18px;}
+
+                .p0{text-align: right;padding-right: 8px;margin-top: 0px;margin-bottom: 0px;}
+                .p1{text-align: left;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p1a{text-align: left;margin-top: 0px;margin-bottom: 0px;overflow-wrap: break-word;}
+                .p1b{text-align: left;margin-left: 12px;margin-bottom: 0px;overflow-wrap: break-word;}
+                .p2{text-align: left;padding-left: 16px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p3{text-align: left;padding-left: 72px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p4{text-align: left;padding-left: 10px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p5{text-align: left;padding-left: 57px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p6{text-align: left;padding-left: 18px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p7{text-align: left;padding-left: 93px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p8{text-align: left;padding-left: 67px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p9{text-align: left;padding-left: 31px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p10{text-align: left;padding-left: 50px;margin-top: 0px;margin-bottom: 0px;overflow-wrap: break-word;}
+                .p11{text-align: left;padding-left: 26px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p12{text-align: left;padding-left: 42px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p13{text-align: left;padding-left: 36px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p14{text-align: left;padding-left: 19px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p15{text-align: left;padding-left: 4px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p16{text-align: left;padding-left: 8px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p17{text-align: left;padding-left: 6px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p18{text-align: left;padding-left: 38px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p19{text-align: right;padding-right: 22px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p20{text-align: right;padding-right: 20px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p21{text-align: right;padding-right: 19px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p22{text-align: left;padding-left: 2px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p23{text-align: center;padding-right: 27px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p24{text-align: right;padding-right: 3px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p25{text-align: right;padding-right: 4px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p26{text-align: right;padding-right: 2px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p27{text-align: center;padding-right: 28px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p28{text-align: left;padding-left: 29px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p29{text-align: left;padding-left: 13px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p30{text-align: left;padding-left: 45px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p31{text-align: left;margin-top: 0px;margin-bottom: 0px;}
+                .p32{text-align: left;padding-left: 85px;margin-top: 0px;margin-bottom: 0px;}
+                .p33{text-align: right;padding-right: 58px;margin-top: 0px;margin-bottom: 0px;overflow-wrap:break-word;}
+                .p34{text-align: center;padding-left: 68px;padding-right: 138px;margin-top: 36px;margin-bottom: 0px;}
+                .p35{text-align: left;padding-left: 107px;padding-right: 94px;margin-top: 13px;margin-bottom: 0px;text-indent: -90px;}
+                .p36{text-align: left;padding-left: 145px;padding-right: 209px;margin-top: 8px;margin-bottom: 0px;text-indent: -5px;}
+                .p37{text-align: left;padding-left: 4px;margin-top: 9px;margin-bottom: 0px;}
+                .p38{text-align: left;padding-left: 4px;margin-top: 11px;margin-bottom: 0px;}
+                .p39{text-align: justify;padding-left: 4px;padding-right: 89px;margin-top: 11px;margin-bottom: 0px;}
+                .p40{text-align: left;padding-left: 4px;margin-top: 0px;margin-bottom: 0px;}
+                .p41{text-align: left;padding-left: 4px;padding-right: 86px;margin-top: 11px;margin-bottom: 0px;}
+                .p42{text-align: left;padding-left: 153px;margin-top: 2px;margin-bottom: 0px;}
+                .p43{text-align: right;padding-right: 174px;margin-top: 0px;margin-bottom: 0px;}
+                .p44{text-align: left;padding-left: 42px;margin-top: 70px;margin-bottom: 0px;}
+                .p45{text-align: left;padding-left: 21px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p46{text-align: left;padding-left: 3px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p47{text-align: left;padding-left: 7px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p47a{text-align: right;padding-left: 7px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p48{text-align: left;padding-left: 24px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p49{text-align: left;padding-left: 17px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p50{text-align: left;padding-left: 73px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p51{text-align: left;padding-left: 33px;margin-top: 0px;margin-bottom: 0px;}
+                .p52{text-align: left;padding-left: 43px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p53{text-align: right;padding-right: 235px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p54{text-align: left;padding-left: 68px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p55{text-align: right;padding-right: 215px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                .p56{text-align: left;padding-left: 58px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+                
+
+                .td0{padding: 0px;margin: 0px;width: 124px;vertical-align: bottom;}
+                .td1{padding: 0px;margin: 0px;width: 168px;vertical-align: bottom;}
+                .td2{padding: 0px;margin: 0px;width: 191px;vertical-align: bottom;}
+                .td3{padding: 0px;margin: 0px;width: 49px;vertical-align: bottom;}
+                .td4{padding: 0px;margin: 0px;width: 91px;vertical-align: bottom;}
+                .td5{padding: 0px;margin: 0px;width: 292px;vertical-align: bottom;}
+                .td5a{padding: 0px;margin: 0px;width: 100px;vertical-align: bottom;}
+                .td6{padding: 0px;margin: 0px;width: 43px;vertical-align: bottom;}
+                .td7{padding: 0px;margin: 0px;width: 121px;vertical-align: bottom;}
+                .td8{padding: 0px;margin: 0px;width: 27px;vertical-align: bottom;}
+                .td9{padding: 0px;margin: 0px;width: 140px;vertical-align: bottom;}
+                .td10{padding: 0px;margin: 0px;width: 231px;vertical-align: bottom;}
+                .td11{padding: 0px;margin: 0px;width: 483px;vertical-align: bottom;}
+                .td12{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 124px;vertical-align: bottom;}
+                .td13{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 168px;vertical-align: bottom;}
+                .td14{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 43px;vertical-align: bottom;}
+                .td15{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 121px;vertical-align: bottom;}
+                .td16{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 27px;vertical-align: bottom;}
+                .td17{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 49px;vertical-align: bottom;}
+                .td18{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 91px;vertical-align: bottom;}
+                .td19{border-left: #000000 1px solid;padding: 0px;margin: 0px;width: 122px;vertical-align: bottom;background: #b0c4de;}
+                .td20{padding: 0px;margin: 0px;width: 168px;vertical-align: bottom;background: #b0c4de;}
+                .td21{padding: 0px;margin: 0px;width: 42px;vertical-align: bottom;background: #b0c4de;}
+                .td22{padding: 0px;margin: 0px;width: 120px;vertical-align: bottom;background: #b0c4de;}
+                .td23{padding: 0px;margin: 0px;width: 27px;vertical-align: bottom;background: #b0c4de;}
+                .td24{padding: 0px;margin: 0px;width: 48px;vertical-align: bottom;background: #b0c4de;}
+                .td25{padding: 0px;margin: 0px;width: 90px;vertical-align: bottom;background: #b0c4de;}
+                .td26{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 90px;vertical-align: bottom;background: #b0c4de;}
+                .td27{border-left: #000000 1px solid;border-right: #b0c4de 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 122px;vertical-align: bottom;background: #b0c4de;}
+                .td28{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 168px;vertical-align: bottom;background: #b0c4de;}
+                .td29{border-right: #b0c4de 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 42px;vertical-align: bottom;background: #b0c4de;}
+                .td30{border-right: #b0c4de 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 120px;vertical-align: bottom;background: #b0c4de;}
+                .td31{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 27px;vertical-align: bottom;background: #b0c4de;}
+                .td32{border-right: #b0c4de 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 48px;vertical-align: bottom;background: #b0c4de;}
+                .td33{border-right: #b0c4de 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 90px;vertical-align: bottom;background: #b0c4de;}
+                .td34{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 90px;vertical-align: bottom;background: #b0c4de;}
+                .td35{border-left: #000000 1px solid;border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 122px;vertical-align: bottom;background: #b0c4de;}
+                .td36{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 42px;vertical-align: bottom;background: #b0c4de;}
+                .td37{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 120px;vertical-align: bottom;background: #b0c4de;}
+                .td38{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 48px;vertical-align: bottom;background: #b0c4de;}
+                .td39{border-left: #000000 1px solid;border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 122px;vertical-align: bottom;background: #b0c4de;}
+                .td40{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 42px;vertical-align: bottom;background: #b0c4de;}
+                .td41{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 120px;vertical-align: bottom;background: #b0c4de;}
+                .td42{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 48px;vertical-align: bottom;background: #b0c4de;}
+                .td43{border-left: #000000 1px solid;padding: 0px;margin: 0px;width: 123px;vertical-align: bottom;}
+                .td44{padding: 0px;margin: 0px;width: 148px;vertical-align: bottom;}
+                .td45{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 90px;vertical-align: bottom;}
+                .td46{border-left: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 123px;vertical-align: bottom;}
+                .td47{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 197px;vertical-align: bottom;}
+                .td48{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 90px;vertical-align: bottom;}
+                .td49{padding: 0px;margin: 0px;width: 197px;vertical-align: bottom;}
+                .td50{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 240px;vertical-align: bottom;}
+                .td51{padding: 0px;margin: 0px;width: 240px;vertical-align: bottom;}
+                .td52{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 148px;vertical-align: bottom;}
+                .td53{border-left: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 291px;vertical-align: bottom;}
+                .td54{border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 181px;vertical-align: bottom;}
+                .td55{padding: 0px;margin: 0px;width: 182px;vertical-align: bottom;}
+                .td56{padding: 0px;margin: 0px;width: 587px;vertical-align: bottom;}
+                .td57{padding: 0px;margin: 0px;width: 127px;vertical-align: bottom;}
+                .td58{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 587px;vertical-align: bottom;}
+                .td59{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 127px;vertical-align: bottom;}
+                .td60{padding: 0px;margin: 0px;width: 319px;vertical-align: bottom;}
+                .td61{padding: 0px;margin: 0px;width: 229px;vertical-align: bottom;}
+                .td62{padding: 0px;margin: 0px;width: 134px;vertical-align: bottom;}
+                .td63{padding: 0px;margin: 0px;width: 418px;vertical-align: bottom;}
+                .td64{padding: 0px;margin: 0px;width: 71px;vertical-align: bottom;}
+                .td65{padding: 0px;margin: 0px;width: 53px;vertical-align: bottom;}
+                .td66{padding: 0px;margin: 0px;width: 451px;vertical-align: bottom;}
+                .td67{padding: 0px;margin: 0px;width: 177px;vertical-align: bottom;}
+                .td68{padding: 0px;margin: 0px;width: 107px;vertical-align: bottom;}
+                .td69{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 210px;vertical-align: bottom;}
+                .td70{padding: 0px;margin: 0px;width: 153px;vertical-align: bottom;}
+                .td71{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 232px;vertical-align: bottom;}
+                .td72{padding: 0px;margin: 0px;width: 317px;vertical-align: bottom;}
+                .td73{padding: 0px;margin: 0px;width: 385px;vertical-align: bottom;}
+                .td74{border-top: #000000 1px solid;padding: 0px;margin: 0px;width: 210px;vertical-align: bottom;}
+                .td75{border-top: #000000 1px solid;padding: 0px;margin: 0px;width: 232px;vertical-align: bottom;}
+                .td76{padding: 0px;margin: 0px;width: 232px;vertical-align: bottom;}
+                .td77{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 153px;vertical-align: bottom;}
+                .td100{padding: 0px;margin: 0px;width: 560px;vertical-align: bottom;}
+                .td101{padding: 0px;margin: 0px;width: 1400px;vertical-align: bottom;}
+                
+                .tr0{height: 31px;}
+                .tr1{height: 25px;}
+                .tr2{height: 24px;}
+                .tr3{height: 24px;}
+                .tr4{height: 24px;}
+                .tr5{height: 21px;}
+                .tr6{height: 29px;}
+                .tr7{height: 11px;}
+                .tr010{height: 24px;}
+                .tr07{height: 24px;}
+                .tr8{height: 22px;}
+                .tr9{height: 9px;}
+                
+                .tr10{height: 14px;}
+                .tr11{height: 10px;}
+                .tr12{height: 2px;}
+                .tr13{height: 14px;}
+                .tr14{height: 5px;}
+                .tr15{height: 19px;}
+                .tr16{height: 23px;}
+                .tr17{height: 3px;}
+                .tr18{height: 62px;}
+                .tr19{height: 17px;}
+                .tr20{height: 4px;}
+                .tr21{height: 18px;}
+                .tr22{height: 15px;}
+                .tr23{height: 33px;}
+                .tr24{height: 32px;}
+                .tr25{height: 46px;}
+                .tr26{height: 28px;}
+                
+                .t0{width: 714px;margin-left: 20px;margin-top: 27px;font: 10px 'Helvetica';}
+                .t1{width: 714px;margin-top: 7px;font: bold 10px 'Helvetica';margin-left: 20px;}
+                .t2{width: 682px;margin-left: 29px;margin-top: 412px;font: bold 16px 'Helvetica';}
+                .t3{width: 542px;margin-left: 54px;margin-top: 11px;font: 10px 'Helvetica';}
+                .t4{width: 628px;margin-left: 22px;margin-top: 7px;font: 10px 'Helvetica';}
+                .t5{width: 702px;margin-left: 33px;margin-top: 43px;font: bold 10px 'Helvetica';}
+                .t6{width: 682px;margin-left: 56px;margin-top: 176px;font: bold 16px 'Helvetica';}
+                .ft002{font: bold 20px 'Helvetica';line-height: 22px;}
+                 
+                .subTotal{text-align: right;padding-right: 3px;margin-top: 0px;margin-bottom: 0px; overflow-wrap: break-word;}
+            </STYLE>
+        </head>
+        <body>
+            
+            <div class="header" >
+                <div id="leftHeader">
+                </div>
+                <div id="rightHeader">
+                    <div class="addressLine">Corporate Headquarters</div>
+                    <div class="addressLine">S80 W18766 Apollo Drive</div>
+                    <div class="addressLine">PO Box 406</div>
+                    <div class="addressLine">Muskego, WI 53150</div>
+                    <div class="addressLine">www.inprocorp.com</div>
+                    <div class="addressLine">Nationwide: (800) 222-5556</div>
+                    <div class="addressLine">Fax: (888) 715-8407</div>
+                    <br/>
+                    <div class="addressLine">
+                        <!--apex:image url="{!$Resource.IPC_Logo}" width="175" height="40" /--> 
+                    </div>
+                </div>
+                <div id="middleHeader">
+                    <apex:image url="{!$Resource.Inpro_Logo}" width="250" height="100"/>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <div id="leftFooter">
+                    <!--<b>Quote:{!quoteDetails.quoteRecord.Name}</b>-->
+                </div>
+                <div id="middleFooter">
+                    <b><div>Page <span class="pagenumber"/> of <span class="pagecount"/></div></b>
+                </div>
+                <div id="rightFooter">
+                    <!--<b>{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</b>-->
+                </div>
+            </div>
+            
+            
+            <div class="content" style="margin-top:150px;">
+                
+                
+                <DIV id="page_1">
+                    
+                    <DIV id="id1_1">
+                        
+                        <TABLE cellpadding="0" cellspacing="0" class="t0">
+                            <TR style=" {!IF (! quoteDetails.submittalVersion, 'display:none;','')}">
+                                <TD colspan="10" class="tr0 td2 ft4" style="text-align:center">
+                                    
+                                    {!IF(quoteDetails.internal,'In-House Version ','')}Submittal
+                                </TD>
+                            </TR>
+                             <TR style=" {!IF (quoteDetails.submittalVersion, 'display:none;','')}">
+                                <TD colspan="10" class="tr0 td2 ft4" style="text-align:center">
+                                      {!IF(quoteDetails.internal,'In-House Version ','')} Quotation
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr1 td5a"><P class="p3 ft0"><SPAN class="ft5">To:</SPAN></P></TD>
+                                <TD class="tr1 td6"><P class="p1 ft3"><SPAN class="ft5">{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</SPAN></P></TD>
+                                <TD class="tr1 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr1 td8"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr1 td3"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr1 td4"><P class="p4 ft7"><SPAN class="ft6">&nbsp;&nbsp;Date:&nbsp; </SPAN>
+                                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                        <apex:param value="{!today()}" /> 
+                                    </apex:outputText></P></TD>
+                                <TD class="tr1 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr2 td5a"><P class="p5 ft0"><SPAN class="ft5">ATTN:</SPAN> </P></TD>
+                                <TD class="tr2 td100"><P class="p1a ft5"><SPAN class="ft0">{!quoteDetails.contactName} {!quoteDetails.contactPhone}</SPAN></P></TD>
+                                <TD class="tr2 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr2 td8"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD colspan="2" class="tr2 td9"><P class="p6 ft5" style="padding-left: 6px">Project Number:<SPAN class="ft0">&nbsp;{!quoteDetails.opportunityRecord.Project_Number__c}</SPAN></P></TD>
+                                <TD class="tr2 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                             <TR>
+                                <TD class="tr2 td5a"><P class="p5 ft0" style="padding-left:93px">&nbsp;</P></TD>
+                                <TD class="tr2 td100"><P class="p1a ft5"><SPAN class="ft0">{!quoteDetails.contactEmail}</SPAN></P></TD>
+                                <TD class="tr2 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr2 td8"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD colspan="2" class="tr2 td9"><P class="p6 ft5" style="padding-left: 46px">Quote #:<SPAN class="ft0">&nbsp;{!quoteDetails.quoteRecord.QuoteNumber}</SPAN></P></TD>
+                                <TD class="tr2 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            
+                            <TR>
+                                <TD class="tr4 td5a"><P class="p8 ft0"><span class="ft5">Fax: </span></P></TD>
+                                <TD class="tr2 td100"><P class="p1a ft5"><SPAN class="ft0">{!quoteDetails.fax}</SPAN></P></TD>
+                                <TD class="tr4 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr4 td8"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD colspan="2" class="tr4 td9"><P class="p9 ft5" style="padding-left: 29px;">&nbsp;&nbsp;Revision #: <SPAN class="ft0">&nbsp;{!quoteDetails.quoteRecord.Revision_Number__c}</SPAN></P></TD>
+                                <TD class="tr4 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr2 td5a"><P class="p10 ft5">&nbsp;Project: </P></TD>
+                                <TD class="tr2 td100"><P class="p1a ft5"><SPAN class="ft0">{!quoteDetails.project}</SPAN></P></TD>
+                                <TD class="tr2 td6"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr2 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD colspan="2" class="tr2 td9"><P class="p11 ft5">&nbsp;Customer #: <SPAN class="ft0">&nbsp;{!quoteDetails.quoteRecord.Primary_Bidder__r.Customer_Number__c}</SPAN></P></TD>
+                                <TD class="tr2 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr2 td5a"><P class="p12 ft0"><SPAN class="ft5">&nbsp;Location: </SPAN></P></TD>
+                                <TD class="tr2 td100"><P class="p1a ft5"><SPAN class="ft0">{!quoteDetails.location}</SPAN></P></TD>
+                                <TD class="tr2 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr2 td8"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD colspan="2" class="tr2 td9"><P class="p9 ft5">Printed By: <SPAN class="ft0">&nbsp;{!quoteDetails.printingUser}</SPAN></P></TD>
+                                <TD class="tr2 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr2 td5a"><P class="p13 ft5">&nbsp;&nbsp;Sales Rep: <SPAN class="ft0"></SPAN></P></TD>
+                                <TD class="tr2 td6"><P class="p1a ft5"><SPAN class="ft0">{!quoteDetails.opportunityRecord.Owner.Name}</SPAN></P></TD>
+                                <TD class="tr2 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr2 td8"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD colspan="3" class="tr2 td10"><P class="p14 ft0"><SPAN class="ft5">Document ID: </SPAN><NOBR>&nbsp;{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</NOBR></P></TD>
+                            </TR>
+                            <TR>
+                                <TD colspan="2" class="tr5 td5"><P class="p7 ft9"><A href="mailto:{!quoteDetails.opportunityRecord.Owner.Email}">{!quoteDetails.opportunityRecord.Owner.Email}</A></P></TD>
+                                <TD class="tr5 td6"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr5 td7"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr5 td8"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr5 td3"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr5 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr5 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                    <TD  colspan="8" style="Padding:5px;" class="tr6 td0 ft0">
+                                    <apex:outputField value="{!quoteDetails.quoteRecord.Introduction__c}"/>
+                                  </TD>
+                                
+                            </TR>
+                            <!--TR>
+                                    <TD  colspan="8" style="Padding:5px;" class="tr6 td0 ft0">
+                                    <apex:outputField value="{!quoteDetails.quoteRecord.Quote_Estimating_Notes__c}"/>
+                                    </TD>
+                                
+                            </TR-->
+                            
+                            
+                        </TABLE>
+                        <apex:pageBlock rendered="{!quoteDetails.isTaxable}"> 
+                            <TABLE cellpadding="0" cellspacing="0" class="t0" >
+                                <TR>
+                                    <TD class="tr9 td12"><P class="p1 ft12">&nbsp;</P></TD>
+                                    <TD class="tr9 td13"><P class="p1 ft12">&nbsp;</P></TD>
+                                    <TD class="tr9 td14"><P class="p1 ft12">&nbsp;</P></TD>
+                                    <TD class="tr9 td15"><P class="p1 ft12">&nbsp;</P></TD>
+                                    <TD class="tr9 td16"><P class="p1 ft12">&nbsp;</P></TD>
+                                    <TD class="tr9 td17"><P class="p1 ft12">&nbsp;</P></TD>
+                                    <TD class="tr9 td18"><P class="p1 ft12">&nbsp;</P></TD>
+                                    <TD class="tr9 td18"><P class="p1 ft12">&nbsp;</P></TD>
+                                </TR>
+                                
+                                <apex:repeat value="{!quoteDetails.groupMap}" var="key">
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, '', 'display:none;')} ">
+                                        <TD class="tr10 td19" style="background:#5b8dde; border-top: #000000 1px solid; text-align: center;" colspan="8"><P class="p16 ft5" style="text-align: center;">{!quoteDetails.groupMap[key].groupName}</P></TD>
+                                    </TR>
+
+                                <apex:repeat value="{!quoteDetails.groupMap[key].alternates}" var="alt">
+                                <TR style="border: 1px solid black;">
+                                    <TD colspan="8" class="tr10 td19" style="border-top: #000000 1px solid;border-right:#000000 1px solid;"><P class="p16 ft5">{!alt.alternateName}</P></TD>
+                                </TR>
+                                     
+                                <TR>
+                                    <TD class="tr11 td27"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td28"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td29"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td30"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td31"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td32"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td33"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td34"><P class="p1 ft13">&nbsp;</P></TD>
+                                </TR>
+                                    
+                                    
+                                    <TR>
+                                        <TD class="tr10 td35" style="background:rgb(184, 223, 255);"><P class="p16 ft5">Item Number</P></TD>
+                                        <TD class="tr10 td20" style="background:rgb(184, 223, 255);"><P class="p17 ft5">Item Description</P></TD>
+                                        <TD class="tr10 td36" style="background:rgb(184, 223, 255);"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD  colspan="3" class="tr10 td37" style="background:rgb(184, 223, 255);"><P class="p18 ft5">Item Color</P></TD>
+                                        
+                                        
+                                        <TD colspan="2" class="tr10 td26" style="background:rgb(184, 223, 255);"><P class="p20 ft5">
+                                            {!IF (quoteDetails.hideQty, '','Piece')}
+                                            </P></TD>
+                                        
+                                    </TR>
+                                    <TR>
+                                        <TD class="tr11 td39" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td28" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td40" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD colspan="3" class="tr11 td41" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        
+                                        <TD  colspan="2" class="tr11 td34" style="background:rgb(184, 223, 255);"><P class="p1 ft13"></P></TD>
+                                        
+                                        
+                                    </TR>
+                                    <apex:repeat value="{!alt.quoteItems}" var="item">  
+                                        
+                                        <TR>
+                                            <TD class="tr10 td43"><P class="p15 ft0">{! IF(item.Custom_Part_Number__c != null, item.Custom_Part_Number__c,item.Item_Number__c)}</P></TD>
+                                            <TD class="tr10 td1"><P class="p22 ft0">&nbsp;{!item.Description}</P></TD>
+                                            <TD class="tr10 td6"><P class="p1 ft3">&nbsp;</P></TD>
+                                            <TD colspan="3" class="tr10 td44"><P class="p23 ft7">{!item.Color__c}</P></TD>
+                                            
+                                            <TD  colspan="2" class="tr10 td45">
+                                                
+                                                <P class="p25 ft0">
+                                                    <apex:outputText value="{! IF (quoteDetails.hideQty, '',FLOOR(item.Quantity))}"/>
+                                                    {!IF (quoteDetails.hideQty, '',item.Unit_of_Measure__c)}</P>
+                                                
+                                            </TD>
+                                            
+                                        </TR>
+                                        <TR>
+                                            <TD class="tr7 td43"><P class="p1 ft10">&nbsp;</P></TD>
+                                            <TD class="tr7 td1 ft2">
+                                                  {!item.Description_2__c}<br/>{!item.Note__c}
+                                            </TD>
+                                            <TD class="tr7 td6"><P class="p1 ft10">&nbsp;</P></TD>
+                                            
+                                            <TD colspan="3" class="tr7 td8"><P class="p1 ft10">&nbsp;</P></TD>
+                                            
+                                            <TD  colspan="2" class="tr10 td45"><P class="p1 ft10"></P></TD>
+                                            
+                                        </TR>
+                                        
+                                        <TR>
+                                            <TD class="tr12 td46"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td13"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td14"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD colspan="3" class="tr12 td47"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td18"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td48"><P class="p1 ft14">&nbsp;</P></TD>
+                                        </TR>
+                                    </apex:repeat>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr13 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                       
+                                        <TD colspan="5" class="tr13 td49"><P class="ft5 subTotal">{!alt.alternateName} Sub Total:</P></TD>
+                                        <TD class="tr13 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr13 td45"><P class="p26 ft5">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.subTotal}" />
+                                            </apex:outputText>
+                                            &nbsp;
+                                            </P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} " >
+                                        <TD class="tr14 td46"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td13"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD colspan="4" class="tr14 td50"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td18"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td48"><P class="p1 ft15">&nbsp;</P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                       
+                                        <TD colspan="5" class="tr10 td51"><P class="p24 ft5">Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! alt.freightCarrier}:</P></TD>
+                                        <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr10 td45"><P class="p26 ft5">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.freightAmount}" />
+                                            </apex:outputText>&nbsp;&nbsp;
+                                            </P></TD>
+                                    </TR>
+                                    
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr14 td46"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td13"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD colspan="4" class="tr14 td50"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td18"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td48"><P class="p1 ft15">&nbsp;</P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr10 td1"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD colspan="4" class="tr10 td51"><P class="p24 ft5">Product Tax Amount:</P></TD>
+                                        <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr10 td45"><P class="p26 ft5">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.productTax}" />
+                                            </apex:outputText>&nbsp;
+                                            &nbsp;
+                                            </P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr10 td1"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD colspan="4" class="tr10 td51"><P class="p24 ft5">Freight Tax Amount:</P></TD>
+                                        <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr10 td45"><P class="p26 ft5">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.freightTax}" />
+                                            </apex:outputText>&nbsp;
+                                            &nbsp;
+                                            </P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr11 td46"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td13"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td14"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD colspan="3" class="tr11 td47"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td18"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td48"><P class="p1 ft13">&nbsp;</P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">                                                                  
+                                        <TD colspan="6" class="tr15 td49"  style="border-left: #000000 1px solid;border-bottom:#000000 1px solid;"><P class="subTotal ft16">{!alt.alternateName} Total: (USD)</P></TD>
+                                        <TD class="tr15 td4" style="border-bottom:#000000 1px solid;"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr15 td45" style="border-bottom:#000000 1px solid;"><P class="p26 ft16">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.alternateTotalwTax}" />
+                                            </apex:outputText>
+                                            &nbsp; 
+                                            </P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;','')}">
+                                        <TD class="tr16 td46" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td13" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td14" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td15" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td16" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td17" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td18" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td48" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    </TR>
+                                    <TR>
+                                        <TD><P>&nbsp;</P></TD>
+                                        <TD><P>&nbsp;</P></TD>
+                                        <TD><P>&nbsp;</P></TD>
+                                        <TD><P>&nbsp;</P></TD>
+                                        <TD><P>&nbsp;</P></TD>
+                                        <TD><P>&nbsp;</P></TD>
+                                        <TD><P>&nbsp;</P></TD>
+                                        <TD><P>&nbsp;</P></TD>
+                                    </TR>
+                                </apex:repeat>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr13 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                   
+                                    <TD colspan="5" class="tr13 td49"><P class="subTotal ft5">{!key} Sub Total:</P></TD>
+                                    <TD class="tr13 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr13 td45"><P class="p26 ft5">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].subTotal}" />
+                                        </apex:outputText>
+                                        &nbsp;
+                                        </P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} " >
+                                    <TD class="tr14 td46"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td13"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD colspan="4" class="tr14 td50"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td18"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td48"><P class="p1 ft15">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                   
+                                    <TD colspan="5" class="tr10 td51"><P class="p24 ft5">Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! quoteDetails.groupMap[key].freightCarrier}:</P></TD>
+                                    <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr10 td45"><P class="p26 ft5">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].freightAmount}" />
+                                        </apex:outputText>&nbsp;&nbsp;
+                                        </P></TD>
+                                </TR>
+                                
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr14 td46"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td13"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD colspan="4" class="tr14 td50"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td18"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td48"><P class="p1 ft15">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr10 td1"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD colspan="4" class="tr10 td51"><P class="p24 ft5">Tax Amount:</P></TD>
+                                    <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr10 td45"><P class="p26 ft5">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].freightTax + quoteDetails.groupMap[key].productTax }" />
+                                        </apex:outputText>&nbsp;
+                                        &nbsp;
+                                        </P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr11 td46"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td13"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td14"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD colspan="3" class="tr11 td47"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td18"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td48"><P class="p1 ft13">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">                                                                  
+                                    <TD colspan="6" class="tr15 td49"  style="border-left: #000000 1px solid;"><P class="subTotal ft16">{!key} Total: (USD)</P></TD>
+                                    <TD class="tr15 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr15 td45"><P class="p26 ft16">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].groupTotalwTax}" />
+                                        </apex:outputText>
+                                        &nbsp; 
+                                        </P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr12 td46"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td13"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td14"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td15"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td16"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td17"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td18"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td48"><P class="p1 ft14">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr16 td46" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td13" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td14" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td15" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td16" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td17" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td18" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td48" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                </TR>
+                                <TR>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                    <TD><P>&nbsp;</P></TD>
+                                </TR>
+                            </apex:repeat>
+                            </TABLE>
+                        </apex:pageBlock>
+                        
+                        <apex:pageBlock rendered="{! !quoteDetails.isTaxable}"> 
+                            <TABLE cellpadding="0" cellspacing="0" class="t0">
+                                <apex:repeat value="{!quoteDetails.groupMap}" var="key">
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, '', 'display:none;')} ">
+                                        <TD class="tr10 td19" style="background:#5b8dde; border-top: #000000 1px solid; text-align: center;" colspan="8"><P class="p16 ft5" style="text-align: center;">{!quoteDetails.groupMap[key].groupName}</P></TD>
+                                    </TR>
+
+                                <apex:repeat value="{!quoteDetails.groupMap[key].alternates}" var="alt">
+                                <TR style="border: 1px solid black;">
+                                    <TD colspan="8" class="tr10 td19" style="border-top: #000000 1px solid;border-right:#000000 1px solid;"><P class="p16 ft5">{!alt.alternateName}</P></TD>
+                                </TR>
+                                     
+                                <TR>
+                                    <TD class="tr11 td27"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td28"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td29"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td30"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td31"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td32"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td33"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td34"><P class="p1 ft13">&nbsp;</P></TD>
+                                </TR>
+                                    
+                                    
+                                    <TR>
+                                        <TD class="tr10 td35" style="background:rgb(184, 223, 255);"><P class="p16 ft5">Item Number</P></TD>
+                                        <TD class="tr10 td20" style="background:rgb(184, 223, 255);"><P class="p17 ft5">Item Description</P></TD>
+                                        <TD class="tr10 td36" style="background:rgb(184, 223, 255);"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD  colspan="3" class="tr10 td37" style="background:rgb(184, 223, 255);"><P class="p18 ft5">Item Color</P></TD>
+                                        
+                                        
+                                        <TD colspan="2" class="tr10 td26" style="background:rgb(184, 223, 255);"><P class="p20 ft5">
+                                            {!IF (quoteDetails.hideQty, '','Piece')}
+                                            </P></TD>
+                                        
+                                    </TR>
+                                    <TR>
+                                        <TD class="tr11 td39" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td28" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td40" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD colspan="3" class="tr11 td41" style="background:rgb(184, 223, 255);"><P class="p1 ft13">&nbsp;</P></TD>
+                                        
+                                        <TD  colspan="2" class="tr11 td34" style="background:rgb(184, 223, 255);"><P class="p1 ft13"></P></TD>
+                                        
+                                        
+                                    </TR>
+                                    <apex:repeat value="{!alt.quoteItems}" var="item">  
+                                        
+                                        <TR>
+                                            <TD class="tr10 td43"><P class="p15 ft0">{! IF(item.Custom_Part_Number__c != null, item.Custom_Part_Number__c,item.Item_Number__c)}</P></TD>
+                                            <TD class="tr10 td1"><P class="p22 ft0">{!item.Description}</P></TD>
+                                            <TD class="tr10 td6"><P class="p1 ft3">&nbsp;</P></TD>
+                                            <TD colspan="3" class="tr10 td44"><P class="p23 ft7">{!item.Color__c}</P></TD>
+                                            
+                                            <TD  colspan="2" class="tr10 td45"><P class="p25 ft0">
+                                                <apex:outputText value="{! IF (quoteDetails.hideQty, '',FLOOR(item.Quantity))}"/>
+                                                {!IF (quoteDetails.hideQty, '',item.Unit_of_Measure__c)}</P>
+                                            </TD>
+                                            
+                                        </TR>
+                                        <TR>
+                                            <TD class="tr7 td43"><P class="p1 ft10">&nbsp;</P></TD>
+                                           <TD class="tr7 td1 ft2">
+                                                  {!item.Description_2__c}<br/>{!item.Note__c}
+                                            </TD>
+                                            <TD class="tr7 td6"><P class="p1 ft10">&nbsp;</P></TD>
+                                            
+                                            <TD colspan="3" class="tr7 td8"><P class="p1 ft10">&nbsp;</P></TD>
+                                            
+                                            <TD  colspan="2" class="tr10 td45"><P class="p1 ft10"></P></TD>
+                                            
+                                        </TR>
+                                        
+                                        <TR>
+                                            <TD class="tr12 td46"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td13"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td14"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD colspan="3" class="tr12 td47"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td18"><P class="p1 ft14">&nbsp;</P></TD>
+                                            <TD class="tr12 td48"><P class="p1 ft14">&nbsp;</P></TD>
+                                        </TR>
+                                    </apex:repeat>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr13 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                       
+                                        <TD colspan="5" class="tr13 td49"><P class="ft5 subTotal">{!alt.alternateName} Sub Total:</P></TD>
+                                        <TD class="tr13 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr13 td45"><P class="p26 ft5">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.subTotal}" />
+                                            </apex:outputText>
+                                            &nbsp;
+                                            </P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} " >
+                                        <TD class="tr14 td46"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td13"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD colspan="4" class="tr14 td50"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td18"><P class="p1 ft15">&nbsp;</P></TD>
+                                        <TD class="tr14 td48"><P class="p1 ft15">&nbsp;</P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                       
+                                        <TD colspan="5" class="tr10 td51"><P class="p24 ft5">Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! alt.freightCarrier}:</P></TD>
+                                        <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr10 td45"><P class="p26 ft5">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.freightAmount}" />
+                                            </apex:outputText>&nbsp;&nbsp;
+                                            </P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">
+                                        <TD class="tr11 td46"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td13"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td14"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD colspan="3" class="tr11 td47"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td18"><P class="p1 ft13">&nbsp;</P></TD>
+                                        <TD class="tr11 td48"><P class="p1 ft13">&nbsp;</P></TD>
+                                    </TR>
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', IF (quoteDetails.submittalVersion, 'display:none;',''))} ">                                                                  
+                                        <TD colspan="6" class="tr15 td49"  style="border-left: #000000 1px solid;border-bottom: #000000 1px solid;"><P class="subTotal ft16">{!alt.alternateName} Total: (USD)</P></TD>
+                                        <TD class="tr15 td4" style="border-bottom:#000000 1px solid;"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr15 td45" style="border-bottom:#000000 1px solid;"><P class="p26 ft16">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!alt.alternateTotal}" />
+                                            </apex:outputText>
+                                            &nbsp; 
+                                            </P></TD>
+                                    </TR>
+                                    <!-- <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;','')} ">
+                                        <TD class="tr12 td46"><P class="p1 ft14">&nbsp;</P></TD>
+                                        <TD class="tr12 td13"><P class="p1 ft14">&nbsp;</P></TD>
+                                        <TD class="tr12 td14"><P class="p1 ft14">&nbsp;</P></TD>
+                                        <TD class="tr12 td15"><P class="p1 ft14">&nbsp;</P></TD>
+                                        <TD class="tr12 td16"><P class="p1 ft14">&nbsp;</P></TD>
+                                        <TD class="tr12 td17"><P class="p1 ft14">&nbsp;</P></TD>
+                                        <TD class="tr12 td18"><P class="p1 ft14">&nbsp;</P></TD>
+                                        <TD class="tr12 td48"><P class="p1 ft14">&nbsp;</P></TD>
+                                    </TR> -->
+                                    <TR style=" {!IF (quoteDetails.containsFreightGroups, 'display:none;', '')}">
+                                        <TD class="tr16 td46" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td13" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td14" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td15" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td16" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td17" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td18" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                        <TD class="tr16 td48" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    </TR>
+                                </apex:repeat>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr13 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                   
+                                    <TD colspan="5" class="tr13 td49"><P class="subTotal ft5">{!key} Sub Total:</P></TD>
+                                    <TD class="tr13 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr13 td45"><P class="p26 ft5">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].subTotal}" />
+                                        </apex:outputText>
+                                        &nbsp;
+                                        </P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} " >
+                                    <TD class="tr14 td46"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td13"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD colspan="4" class="tr14 td50"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td18"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td48"><P class="p1 ft15">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                   
+                                    <TD colspan="5" class="tr10 td51"><P class="subTotal ft5">Shipping ({!quoteDetails.quoteRecord.ShippingCity} {!quoteDetails.quoteRecord.ShippingStateCode} {!quoteDetails.quoteRecord.ShippingPostalCode}) via {! quoteDetails.groupMap[key].freightCarrier}:</P></TD>
+                                    <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr10 td45"><P class="p26 ft5">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].freightAmount}" />
+                                        </apex:outputText>&nbsp;&nbsp;
+                                        </P></TD>
+                                </TR>
+                                
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr14 td46"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td13"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD colspan="4" class="tr14 td50"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td18"><P class="p1 ft15">&nbsp;</P></TD>
+                                    <TD class="tr14 td48"><P class="p1 ft15">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr10 td43"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr10 td1"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD colspan="4" class="tr10 td51"><P class="p24 ft5">Tax Amount:</P></TD>
+                                    <TD class="tr10 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr10 td45"><P class="p26 ft5">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].freightTax + quoteDetails.groupMap[key].productTax }" />
+                                        </apex:outputText>&nbsp;
+                                        &nbsp;
+                                        </P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr11 td46"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td13"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td14"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD colspan="3" class="tr11 td47"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td18"><P class="p1 ft13">&nbsp;</P></TD>
+                                    <TD class="tr11 td48"><P class="p1 ft13">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">                                                                  
+                                    <TD colspan="6" class="tr15 td49"  style="border-left: #000000 1px solid;border-bottom: #000000 1px solid;"><P class="subTotal ft16">{!key} Total: (USD)</P></TD>
+                                    <TD class="tr15 td4"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr15 td45"><P class="p26 ft16">
+                                        <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                            <apex:param value="{!quoteDetails.groupMap[key].groupTotalwTax}" />
+                                        </apex:outputText>
+                                        &nbsp; 
+                                        </P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr12 td46"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td13"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td14"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td15"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td16"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td17"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td18"><P class="p1 ft14">&nbsp;</P></TD>
+                                    <TD class="tr12 td48"><P class="p1 ft14">&nbsp;</P></TD>
+                                </TR>
+                                <TR style=" {!IF (quoteDetails.containsFreightGroups, IF (quoteDetails.submittalVersion, 'display:none;',''), 'display:none;')} ">
+                                    <TD class="tr16 td46" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td13" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td14" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td15" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td16" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td17" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td18" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                    <TD class="tr16 td48" style="border:none"><P class="p1 ft3">&nbsp;</P></TD>
+                                </TR>
+                                </apex:repeat>
+                            </TABLE>
+                        </apex:pageBlock>
+                    </DIV>
+                    
+                </DIV>
+                <DIV id="page_2">
+                    <DIV id="p2dimg1">
+                        
+                        <DIV id="id2_1">
+                            <apex:pageBlock rendered="{!quoteDetails.printGrandTotal}">
+                                <TABLE cellpadding="0" cellspacing="0" class="t1">
+                                    
+                                    <TR>
+                                        <TD class="tr15 td56" style="border-bottom:#000000 1px solid;"><P class="p33 ft16">Grand Total for: ({!quoteDetails.quoteRecord.Project__c}) USD</P></TD>
+                                        <TD class="tr15 td57" style="border-bottom:#000000 1px solid;"><P class="p24 ft16">
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!quoteDetails.grandTotal}" />
+                                            </apex:outputText></P></TD>
+                                    </TR>
+                                </TABLE>
+                                
+                            </apex:pageBlock>
+                            <br/>
+                            <P  style="line-height: 21px;margin-left:20px">
+                                <apex:outputField value="{!quoteDetails.quoteRecord.Ending__c}"/>
+                            </P>
+                            <p class="ft14b">
+                                Given the current volatility of the raw materials market, pricing is valid for 30 days on immediate release of materials only. 
+                                Contracts for projects with extended ship dates will be subject to escalation terms including provisions for cost increases over the project schedule.
+                            </p>
+                            <P class="ft12b">Customer is responsible for supplying a valid sales tax exemption certificate at time of order if an exemption is claimed. This proposal is valid for thirty (30) days from the date of issue and is subject to Inpro's Standard Terms and Conditions. If you choose to ship with a third party carrier, please add (2) two days to quoted lead times.</P>
+                            <P class="ft12b">All custom and <NOBR>non-stocked</NOBR> products are not returnable. No returns after 60 days. If a return is authorized, a restocking fee based on the time elapsed will be charged in addition to the return shipping costs. Refer to InPro's return policy for details.</P>
+                            <P class="ft12b">2% discount not available on credit card payments, shipping charges or PREPAY accounts. Due to the volatility of freight rates, actual charges will be applied at the time of shipping.</P>
+                            <P><SPAN><b>Inpro's Estimators Qualifications - Please read</b></SPAN>:</P>
+                            <apex:repeat value="{!quoteDetails.estimatingQualifications}" var="item"> 
+                                <P class="p37 ft0"><SPAN class="ft0">-</SPAN><SPAN class="ft24">{!item.Description__c}</SPAN></P>
+                            </apex:repeat>
+                            <P><SPAN><b>Inpro's Qualifications</b></SPAN>:</P>
+                            <apex:repeat value="{!quoteDetails.qualifications}" var="item">     
+                                <P class="p37 ft0"><SPAN class="ft0">-</SPAN><SPAN class="ft24">{!item.Description__c}</SPAN></P>
+                             </apex:repeat>
+                            <P class="ft12b">If you have any questions regarding this quote, please contact {!quoteDetails.opportunityRecord.Owner.Name} at <NOBR>1-800-222-5556</NOBR></P>
+                             
+                            
+                        </DIV>
+                        
+                    </DIV>
+                    
+                    <div style="page-break-after:always"/>
+                    <DIV >
+                        <div class="header" >
+                            <div id="leftHeader">
+                            </div>
+                            <div id="rightHeader" >
+                                <div class="addressLine">Corporate Headquarters</div>
+                                <div class="addressLine">S80 W18766 Apollo Drive</div>
+                                <div class="addressLine">PO Box 406</div>
+                                <div class="addressLine">Muskego, WI 53150</div>
+                                <div class="addressLine">www.inprocorp.com</div>
+                                <div class="addressLine">Nationwide: (800) 222-5556</div>
+                                <div class="addressLine">Fax: (888) 715-8407</div>
+                                <br/>
+                                <!--div class="addressLine">
+                                    <apex:image url="{!$Resource.IPC_Logo}" width="175" height="40" /> 
+                                </div-->
+                            </div>
+                            <div id="middleHeader">
+                                <apex:image url="{!$Resource.Inpro_Logo}" width="250" height="100"/>
+                            </div>
+                        </div>
+                    </DIV>
+                    
+                    <DIV id="id3_1" style="margin-top:200px">
+                        
+                        <P class="p44 ft4" style="margin-left:30px">To place this quote as an order, please sign below and return to Sales Rep</P>
+                        <TABLE cellpadding="0" cellspacing="0" class="t4">
+                            <TR>
+                                <TD class="tr10 td64"><P class="p45 ft0"><SPAN class="ft5">To: </SPAN></P></TD>
+                                <TD class="tr10 td101"><P class="p1b ft5">&nbsp;{!quoteDetails.quoteRecord.Primary_Bidder__r.Name} </P></TD>
+                                <TD class="tr10 td64"><P class="p26 ft5">Date:</P></TD>
+                                <TD class="tr10 td66"><P class="p1b ft7"><apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!today()}" /> 
+                                    </apex:outputText></P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr10 td64"><P class="p47a ft0" style="padding-left:4px;"><SPAN class="ft5">ATTN: </SPAN></P></TD>
+                                <TD class="tr10 td101"><P class="p1b ft5">&nbsp;{!quoteDetails.contactName} {!quoteDetails.contactPhone} </P></TD>
+                                <TD class="tr10 td64"><P class="p47a ft6">Project Number:</P></TD>
+                                <TD class="tr10 td66"><P class="p1b ft0">{!quoteDetails.opportunityRecord.Project_Number__c}</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr10 td64"><P class="p47a ft17">&nbsp;</P></TD>
+                                <TD class="tr10 td101"><P class="p1b ft2">&nbsp;{!quoteDetails.contactEmail}</P></TD>
+                                <TD class="tr10 td64"><P class="p47a ft5">Quote #:</P></TD>
+                                <TD class="tr10 td66"><P class="p1b ft0">{!quoteDetails.quoteRecord.QuoteNumber}</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr10 td64"><P class="p47a ft0"><SPAN class="ft5">Fax: </SPAN></P></TD>
+                                <TD class="tr10 td101"><P class="p1b ft2"><NOBR>&nbsp;{!quoteDetails.fax}</NOBR></P></TD>
+                                <TD class="tr10 td64"><P class="p47a ft5">Revision #:</P></TD>
+                                <TD class="tr10 td66"><P class="p1b ft0">{!quoteDetails.quoteRecord.Revision_Number__c}</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr10 td64"><P class="p47a ft17">&nbsp;</P></TD>
+                                <TD class="tr10 td101"><P class="p1b ft17">&nbsp;</P></TD>
+                                <TD class="tr10 td64"><P class="p47a ft17">&nbsp;</P></TD>
+                                <TD class="tr10 td66"><P class="p1b ft17">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr10 td64"><P class="p47a ft5">Project:</P></TD>
+                                <TD class="tr10 td101"><P class="p1b ft5"><SPAN class="ft0">&nbsp;{!quoteDetails.project}</SPAN></P></TD>
+                                <TD class="tr10 td64"><P class="p47a ft5">Cust #:</P></TD>
+                                <TD class="tr10 td66"><P class="p1b ft0">{!quoteDetails.quoteRecord.Primary_Bidder__r.Customer_Number__c}</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr10 td64"><P class="p1 ft17">&nbsp;</P></TD>
+                                <TD class="tr10 td101"><P class="p1 ft17">&nbsp;</P></TD>
+                                <TD class="tr10 td64"><P class="p1 ft17">&nbsp;</P></TD>
+                                <TD class="tr10 td66"><P class="p1 ft17">&nbsp;</P></TD>
+                            </TR>
+                        </TABLE>
+                        <TABLE cellpadding="0" cellspacing="0" class="t4">
+                            <TR>
+                                <TD rowspan="2" class="tr19 td66"><P class="p48 ft0"><SPAN class="ft5">Location: </SPAN>{!quoteDetails.location}</P></TD>
+                                <TD class="tr22 td67"><P class="p49 ft5">Sales Rep: <SPAN class="ft0">{!quoteDetails.opportunityRecord.Owner.Name}</SPAN></P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr12 td67"><P class="p1 ft14">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD rowspan="2" class="tr2 td66"><P class="p13 ft5">Terms: <SPAN class="ft0">{!quoteDetails.quoteRecord.Account.Payment_Terms__c}</SPAN></P></TD>
+                                <TD class="tr5 td67"><P class="p50 ft0"><A href="mailto:{!quoteDetails.opportunityRecord.Owner.Email}">{!quoteDetails.opportunityRecord.Owner.Email}</A></P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr17 td67"><P class="p1 ft17">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr5 td66"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr5 td67"><P class="p46 ft0"><SPAN class="ft5">Document ID: </SPAN><NOBR>{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</NOBR></P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr2 td66"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr2 td67">
+                                    <apex:pageBlock rendered="{! !quoteDetails.submittalVersion}">
+                                        <P class="p1 ft5">&nbsp;&nbsp;&nbsp;&nbsp;Total Amount: <SPAN class="ft0">&nbsp;
+                                            <apex:outputText value="${0, number, ###,###,###,##0.00}">
+                                                <apex:param value="{!quoteDetails.grandTotal}" />
+                                            </apex:outputText>
+                                            </SPAN></P>
+                                    </apex:pageBlock>
+
+                                    <apex:pageBlock rendered="{!quoteDetails.submittalVersion}">
+                                        <P class="p1 ft3">&nbsp;</P>
+                                    </apex:pageBlock>
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr22 td66"><P class="p1 ft0">By signing below I certify:</P></TD>
+                                <TD class="tr22 td67"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                        </TABLE>
+                        <P class="p51 ft0"><SPAN class="ft0">-</SPAN><SPAN class="ft24">I am authorized to place this order.</SPAN></P>
+                        <P class="p51 ft26"><SPAN class="ft26">-</SPAN><SPAN class="ft24">This document will be accepted by my organization as a valid Purchase Order.</SPAN></P>
+                        <P class="p51 ft2"><SPAN class="ft2">-</SPAN><SPAN class="ft24">I acknowledge that the material, models, quantities, colors and prices quoted are accepted.</SPAN></P>
+                        <P class="p51 ft2"><SPAN class="ft2">-</SPAN><SPAN class="ft24">All orders subject to approval by Financial Services Department.</SPAN></P>
+                        <P class="p51 ft2"><SPAN class="ft2">-</SPAN><SPAN class="ft24">Shipping charges are based on one shipment from original quote.</SPAN></P>
+                        <P class="p51 ft26"><SPAN class="ft26">-</SPAN><SPAN class="ft24">Any deviation in shipment per customer request will result in additional shipping charges.</SPAN></P>
+                        <P class="p51 ft0"><SPAN class="ft0">-</SPAN><SPAN class="ft24">Sales tax will be added at time of invoicing, if applicable.</SPAN></P>
+                        <TABLE cellpadding="0" cellspacing="0" class="t5">
+                            <TR>
+                                <TD class="tr4 td68"><P class="p24 ft6">Authorized Signature:</P></TD>
+                                <TD class="tr22 td69"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr4 td70"><P class="p24 ft5">Printed Name:</P></TD>
+                                <TD class="tr22 td71"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr23 td68"><P class="p24 ft5">Title:</P></TD>
+                                <TD class="tr24 td69"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr23 td70"><P class="p24 ft5">Date:</P></TD>
+                                <TD class="tr24 td71"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD colspan="2" class="tr25 td72"><P class="p52 ft0"><SPAN class="ft5">Bill to Name: </SPAN>{!quoteDetails.quoteRecord.Primary_Bidder__r.Name}</P></TD>
+                                <TD colspan="2" class="tr25 td73"><P class="p53 ft5">Ship to Location Name:</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr20 td68"><P class="p1 ft21">&nbsp;</P></TD>
+                                <TD class="tr17 td69"><P class="p1 ft17">&nbsp;</P></TD>
+                                <TD class="tr20 td70"><P class="p1 ft21">&nbsp;</P></TD>
+                                <TD class="tr17 td71"><P class="p1 ft17">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD colspan="2" class="tr26 td72"><P class="p9 ft0"><SPAN class="ft5">Bill to Address: </SPAN>{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingStreet}</P></TD>
+                                <TD colspan="2" class="tr26 td73"><P class="p53 ft5">Ship to Address:</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr19 td68"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr4 td74"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr19 td70"><P class="p54 ft5">Ship to Contact /</P></TD>
+                                <TD class="tr4 td75"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr22 td68"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr13 td69"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr22 td70"><P class="p24 ft5">Phone Number:</P></TD>
+                                <TD class="tr13 td71"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD colspan="2" class="tr15 td72"><P class="p55 ft5">Bill to City, State</P></TD>
+                                <TD class="tr15 td70"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr15 td76"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD colspan="2" class="tr10 td72"><P class="p56 ft0"><SPAN class="ft5">Zip Code: </SPAN>{!quoteDetails.quoteRecord.Primary_Bidder__r.BillingCity}, {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingState} {!quoteDetails.quoteRecord.Primary_Bidder__r.BillingPostalCode}</P></TD>
+                                <TD colspan="2" class="tr10 td73"><P class="p53 ft5">Ship to City:</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr1 td68"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr2 td74"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr1 td70"><P class="p24 ft5">Ship to State</P></TD>
+                                <TD class="tr2 td75"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr22 td68"><P class="p24 ft5">PO Number:</P></TD>
+                                <TD class="tr13 td69"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr22 td70"><P class="p24 ft5">Zip Code:</P></TD>
+                                <TD class="tr13 td71"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD colspan="2" class="tr26 td72"><P class="p55 ft5">Special Delivery</P></TD>
+                                <TD class="tr26 td70"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr26 td76"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                            <TR>
+                                <TD class="tr22 td68"><P class="p24 ft5">Instructions:</P></TD>
+                                <TD class="tr13 td69"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr13 td77"><P class="p1 ft3">&nbsp;</P></TD>
+                                <TD class="tr13 td71"><P class="p1 ft3">&nbsp;</P></TD>
+                            </TR>
+                        </TABLE>
+                        
+                    </DIV>
+                    
+                </DIV>
+            </div>
+            
+            
+            
+        </body>
+    </html>
+</apex:page>

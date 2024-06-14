@@ -1,0 +1,169 @@
+<template>
+    <template if:true={isMain}>
+        <div>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">
+                    Sample Item Wizard
+                </h2>
+            </header>
+            <div class="slds-p-around_medium column-padding fixed-height ">
+                <div class="full-screen">
+                    <template if:false={loaded}>
+                        <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                    </template>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_12-of-12">
+                            <template if:true={isDeleteActive}>
+                                <lightning-button variant="brand" title="Delete Selected"
+                                    class="slds-m-left_x-small" onclick={handleDelete} label="Delete Selected">
+                                </lightning-button>
+                            </template>
+                            <template if:false={isDeleteActive}>
+                                <lightning-button variant="outline" disabled="disabled" title="Delete Selected"
+                                    class="slds-m-left_x-small" label="Delete Selected">
+                                </lightning-button>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_12-of-12">
+                            <lightning-datatable
+                                name="sampleItemList"
+                                label="Sample Request Items"
+                                key-field="Id"
+                                data={sampleItemList}
+                                columns={itemColumns}
+                                onrowselection={handleInput}
+                                selected-rows={selectedItems}>
+                            </lightning-datatable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Finish"
+                    class="slds-m-left_x-small" onclick={handleClose} label="Finish">
+                </lightning-button>
+                <lightning-button style="float: right; padding:10px;" variant="brand-outline" title="Back" 
+                    class="slds-m-left_x-small" onclick={handleStartSearch} label="Back">
+                </lightning-button>
+            </footer>
+        </div>
+    </template>
+    <template if:true={isSearch}>
+        <div>
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">
+                    Sample Item Wizard
+                </h2>
+            </header>
+            <div class="slds-p-around_medium column-padding fixed-height ">
+                <div class="full-screen">
+                    <template if:false={loaded}>
+                        <c-spinner size="medium" variant="brand" message={loadMessage}></c-spinner>
+                    </template>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_3-of-12">
+                            <lightning-combobox
+                                name="searchDivision"
+                                label="Division"
+                                value={searchDivision}
+                                options={divisionList}
+                                onchange={handleDelayInput}>
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_3-of-12">
+                            <lightning-combobox
+                                name="searchProductFamily"
+                                label="Product Family"
+                                value={searchProductFamily}
+                                options={productFamilyList}
+                                onchange={handleDelayInput}
+                                class="mobile-offset-1">
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_6-of-12">
+                            <lightning-input 
+                                type="text" 
+                                label="Product Name" 
+                                name="searchName" 
+                                value={searchName} 
+                                onchange={handleDelayInput}
+                                ></lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_3-of-12 search-page-label">
+                            <p style="margin-left:15px;margin-top:7px;"><b>Page:</b> {searchPage}</p>
+                        </div>
+                        <div class="slds-col slds-col-space slds-size_9-of-12" style="display:flex;">
+                            <div class="search-page">
+                                <lightning-button-icon icon-name="utility:back" onclick={handlePageBack} alternative-text="Back" title="Back"></lightning-button-icon>
+                            </div>
+                            <div>
+                                <lightning-combobox
+                                    name="searchPage"
+                                    value={searchPage}
+                                    options={pageLibrary}
+                                    onchange={handleDelayInput}
+                                    placeholder={searchPage}
+                                    class="search-droplist">
+                                </lightning-combobox>
+                            </div>
+                            <div class="search-page">
+                                <lightning-button-icon icon-name="utility:forward" onclick={handlePageForward} alternative-text="Next" title="Next"></lightning-button-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-col-space slds-size_12-of-12">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <td>Quantity</td>
+                                        <td>Name</td>
+                                        <td>Division</td>
+                                        <td>Family</td>
+                                        <td>Available Inventory</td>
+                                        <td>Image</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={searchList} for:item="item">
+                                        <tr class="sample-row" accesskey={item.Id} key={item.Id}>
+                                            <td>
+                                                <lightning-input type="checkbox" accesskey={item.Id} onchange={handleOptionChecked} name="itemSelected"
+                                                    checked={item.Selected}>
+                                                </lightning-input>
+                                            </td>
+                                            <td><lightning-input name="itemQuantity" accesskey={item.Id} style="margin-top:-20px;width:50px;"
+                                                onchange={handleInput} type="number"
+                                                value={item.Quantity}></lightning-input></td>
+                                            <td>{item.Name}</td>
+                                            <td>{item.Division__c}</td>
+                                            <td>{item.Family}</td>
+                                            <td>{item.Available_Inventory__c}</td>
+                                            <td>
+                                                <template if:true={item.ShowImage}>
+                                                    <img style="min-height:100px;min-width:100px;" src={item.ImageUrl}/>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 5em;">
+                <lightning-button style="float: left; padding:10px;" variant="brand-outline" title="Close" 
+                class="slds-m-left_x-small" onclick={closeQuickAction} label="Close">
+            </lightning-button>
+                <lightning-button style="float: right; padding:10px;" variant="brand" title="Save"
+                    class="slds-m-left_x-small" onclick={handleSaveSearch} label={saveButtonText}>
+                </lightning-button>
+            </footer>
+        </div>
+    </template>
+    
+</template>

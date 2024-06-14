@@ -1,0 +1,813 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC237Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" >  IPC.237/Rev.8</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <b>Bead Board - Custom Cut</b>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        
+        
+                <div style="font-size:12px">
+                    <title>IPC237</title>
+                    
+                    <p style="padding-left: 8pt;;text-align: left;padding-top:20px;font-size:12px">
+                        
+                        Please complete the following information based on field verified dimensions. Use one order form per size.Orders for 
+                        custom products cannot be cancelled or returned.Please sign and return to proceed with your order.  Fax to {!customForm.quoteRecord.Inside_Rep__c} 888-715
+                        8407 for quotation. 
+                    </p>
+                    
+                    <!--Header Table-->
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black;padding-top:5px;font-size:12px">
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                            <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                            <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                            <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="font-size:12px;width:100%">
+                        <tr>
+                            <td style="width:20%"> Mat’l Thickness (Select One):</td>
+                            <td style="width:3%">
+                                <div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div> <br/>
+                                <div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div>
+                            </td>
+                            <td>
+                                <div >
+                                    
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.016mm Std. <br/>
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        .040 Std. (3/64") <br/>
+                                    </apex:outputText>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.524mm Std.
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        .060 Std. (1/16")
+                                    </apex:outputText>
+                                    
+                                </div>
+                            </td>
+                            <td>
+                                <div> Color Name:</div>
+                                <div style="display:inline-block;width:60px;margin-left:80px;margin-top:-20px;border-bottom:1px solid black;"> </div>
+                            </td>
+                            <td>
+                                <div> Color Number:</div>
+                                <div style="display:inline-block;width:60px;margin-left:80px;margin-top:-20px;border-bottom:1px solid black;"> </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="font-size:12px;width:30%" >
+                        <tr>
+                            <td style="width:10%">
+                                <div>Send Drop To Customer:</div>
+                                <div style="width: 12px; height: 20px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;margin-left:130px;margin-top:-18px;background:"></div>
+                                <div style="padding-left:160px;margin-top:-18px">
+                                    No
+                                </div>
+                                <div style="width: 12px; height: 20px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;margin-left:180px;margin-top:-19px;background:"></div>
+                                <div style="padding-left:210px;margin-top:-16px">
+                                    Yes
+                                </div> 
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <td>
+                                <br/>
+                                <div> Quantity (of the Finish Cut Size): </div>
+                                <div style="display:inline-block;width:60px;margin-left:180px;margin-top:-25px;border-bottom:1px solid black;"> </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    
+                    <p style="text-align:center;font-size:14px">
+                        SELECT ONE OF THE DRAWINGS &amp; ENTER DIMENSIONS
+                    </p>
+                    
+                    <table style="font-size:12px">
+                        <tr style="">
+                            
+                            <td style="width:40%;padding-left:150px">
+                                <div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div>
+                                <div style="margin-left:30px;margin-top:-20px">
+                                    Half Wainscot
+                                </div>
+                            </td>
+                            
+                            <td style="width:30%"></td>
+                            
+                            <td><div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer;  background:;"></div>
+                                <div style="margin-left:30px;margin-top:-20px">
+                                    
+                                    Floor to Ceiling
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="border-collapse: collapse; width: 100%; font-size: 12px;margin-left:30px">
+                        <tr>
+                            <td rowspan="2" style="">
+                                <img style="width: 150px; margin-left: 30px;" src="{!$Resource.cf_ipc237_Selecthalfwainscot}" alt="Inpro" />
+                            </td>
+                            <td style=""></td>
+                            <td rowspan="2" style="">
+                                <img style="width: 100px;" src="{!$Resource.cf_ipc237_SelectFloortoCeiling}" alt="Inpro" />
+                            </td>
+                            <td style=""></td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 70px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    120.65cm Max. Height
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (47 ½'' Max. Height)
+                                </apex:outputText>
+                                
+                            </td>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 70px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    238.76cm Max. Height
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (94'' Max. Height)
+                                </apex:outputText>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;margin-left:40px"></div>
+                                <div style="margin-left: 95px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                    
+                                </div>
+                                <div style="margin-left:55px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        111.76cm Max. Width
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (44'' Max. Width)
+                                    </apex:outputText>
+                                    
+                                </div>
+                                
+                            </td>
+                            <td style=""></td>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 65px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    111.76cm Max. Width
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (44'' Max. Width)
+                                </apex:outputText>
+                            </td>
+                            <td style=""></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="">
+                                <div style="display: inline-block; width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div>
+                                <div style="margin-left: 30px; margin-top: -20px;">Full Wainscot</div>
+                                <div style="margin-left: 30px; font-size: 10px;">
+                                    Note: Not available in Woodland woodgrain sheet and Elements patterns 5E025, 5E026, and 5E027.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <img style="width: 200px;" src="{!$Resource.cf_ipc237_SelectFullWainscot}" alt="Inpro" />
+                            </td>
+                            <td style="">
+                                
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 65px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    111.76cm Max. Width
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (44'' Max. Width)
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;margin-left:40px"></div>
+                                <div style="margin-left:85px; margin-top: -15px;">&nbsp;&nbsp;&nbsp;&nbsp; 
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <div style="margin-left:55px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        238.76cm Max. width
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (94'' Max. width)
+                                    </apex:outputText>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="margin-bottom:20px;font-size:12px;border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                        <tr>
+                            <td style="border: 1px solid black; padding:5px;font-weight:bold;">
+                                <b>
+                                    FOR INPRO USE ONLY
+                                </b>
+                            </td>
+                            <td style="border: 1px solid black; padding:5px;">
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                            </td>
+                            <td style="border: 1px solid black; padding:5px;">
+                                Customer Order #:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding:5px;">
+                                Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                            </td>
+                            <td style="border: 1px solid black; padding:5px;">
+                                Inpro Drawing: N/A
+                            </td>
+                            <td style="border: 1px solid black;padding:5px;">
+                                Inpro #:
+                            </td>
+                        </tr>   
+                    </table>
+                </div>
+            
+    </apex:outputText>
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" >  IPC.237/Rev.8</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <b>Bead Board - Custom Cut</b>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        
+        <apex:form >
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                <div style="font-size:12px">
+                    <title>IPC237</title>
+                    
+                    <p style="padding-left: 8pt;;text-align: left;padding-top:15px;font-size:12px">
+                        
+                        Please complete the following information based on field verified dimensions. Use one order form per size.Orders for 
+                        custom products cannot be cancelled or returned.Please sign and return to proceed with your order.  Fax to {!customForm.quoteRecord.Inside_Rep__c} 888-715
+                        8407 for quotation. 
+                    </p>
+                    
+                    <!--Header Table-->
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black;padding-top:5px;font-size:12px">
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                            <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                            <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                            <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="font-size:12px;width:100%">
+                        <tr>
+                            <td style="width:20%"> Mat’l Thickness (Select One):</td>
+                            <td style="width:3%">
+                                <div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div> <br/>
+                                <div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div>
+                            </td>
+                            <td>
+                                <div >
+                                    
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.016mm Std. <br/>
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        .040 Std. (3/64") <br/>
+                                    </apex:outputText>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.524mm Std.
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        .060 Std. (1/16")
+                                    </apex:outputText>
+                                    
+                                </div>
+                            </td>
+                            <td>
+                                <div> Color Name:</div>
+                                <div style="display:inline-block;width:60px;margin-left:80px;margin-top:-20px;border-bottom:1px solid black;"> </div>
+                            </td>
+                            <td>
+                                <div> Color Number:</div>
+                                <div style="display:inline-block;width:60px;margin-left:80px;margin-top:-20px;border-bottom:1px solid black;"> </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="font-size:12px;width:30%" >
+                        <tr>
+                            <td style="width:10%">
+                                <div>Send Drop To Customer:</div>
+                                <div style="width: 12px; height: 20px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;margin-left:130px;margin-top:-18px;background:"></div>
+                                <div style="padding-left:160px;margin-top:-18px">
+                                    No
+                                </div>
+                                <div style="width: 12px; height: 20px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;margin-left:180px;margin-top:-19px;background:"></div>
+                                <div style="padding-left:210px;margin-top:-16px">
+                                    Yes
+                                </div> 
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <td>
+                                <br/>
+                                <div> Quantity (of the Finish Cut Size): </div>
+                                <div style="display:inline-block;width:60px;margin-left:180px;margin-top:-25px;border-bottom:1px solid black;"> </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    
+                    <p style="text-align:center;font-size:14px">
+                        SELECT ONE OF THE DRAWINGS &amp; ENTER DIMENSIONS
+                    </p>
+                    
+                    <table style="font-size:12px">
+                        <tr style="">
+                            
+                            <td style="width:40%;padding-left:150px">
+                                <div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div>
+                                <div style="margin-left:30px;margin-top:-20px">
+                                    Half Wainscot
+                                </div>
+                            </td>
+                            
+                            <td style="width:30%"></td>
+                            
+                            <td><div style="width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer;  background:;"></div>
+                                <div style="margin-left:30px;margin-top:-20px">
+                                    
+                                    Floor to Ceiling
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="border-collapse: collapse; width: 100%; font-size: 12px;margin-left:30px">
+                        <tr>
+                            <td rowspan="2" style="">
+                                <img style="width: 150px; margin-left: 30px;" src="{!$Resource.cf_ipc237_Selecthalfwainscot}" alt="Inpro" />
+                            </td>
+                            <td style=""></td>
+                            <td rowspan="2" style="">
+                                <img style="width: 100px;" src="{!$Resource.cf_ipc237_SelectFloortoCeiling}" alt="Inpro" />
+                            </td>
+                            <td style=""></td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 70px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    120.65cm Max. Height
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (47 ½'' Max. Height)
+                                </apex:outputText>
+                                
+                            </td>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 70px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    238.76cm Max. Height
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (94'' Max. Height)
+                                </apex:outputText>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;margin-left:40px"></div>
+                                <div style="margin-left: 95px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                    
+                                </div>
+                                <div style="margin-left:55px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        111.76cm Max. Width
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (44'' Max. Width)
+                                    </apex:outputText>
+                                    
+                                </div>
+                                
+                            </td>
+                            <td style=""></td>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 65px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    111.76cm Max. Width
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (44'' Max. Width)
+                                </apex:outputText>
+                            </td>
+                            <td style=""></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="">
+                                <div style="display: inline-block; width: 12px; height: 20px; padding-right: 10px; border: 1px solid #333; cursor: pointer; margin-right: 1px; background:;"></div>
+                                <div style="margin-left: 30px; margin-top: -20px;">Full Wainscot</div>
+                                <div style="margin-left: 30px; font-size: 10px;">
+                                    Note: Not available in Woodland woodgrain sheet and Elements patterns 5E025, 5E026, and 5E027.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <img style="width: 200px;" src="{!$Resource.cf_ipc237_SelectFullWainscot}" alt="Inpro" />
+                            </td>
+                            <td style="">
+                                
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;"></div>
+                                <div style="margin-left: 65px; margin-top: -15px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    111.76cm Max. Width
+                                </apex:outputText>
+                                
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    (44'' Max. Width)
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <div style="display: inline-block; width: 60px; border-bottom: 1px solid black;margin-left:40px"></div>
+                                <div style="margin-left:85px; margin-top: -15px;">&nbsp;&nbsp;&nbsp;&nbsp; 
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        +1.524mm/-0
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        +.060''/-0
+                                    </apex:outputText>
+                                </div>
+                                <div style="margin-left:55px;">
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        238.76cm Max. width
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (94'' Max. width)
+                                    </apex:outputText>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="margin-bottom:20px;font-size:12px;border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                        <tr>
+                            <td style="border: 1px solid black; padding:5px;font-weight:bold;">
+                                <b>
+                                    FOR INPRO USE ONLY
+                                </b>
+                            </td>
+                            <td style="border: 1px solid black; padding:5px;">
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                            </td>
+                            <td style="border: 1px solid black; padding:5px;">
+                                Customer Order #:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding:5px;">
+                                Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                            </td>
+                            <td style="border: 1px solid black; padding:5px;">
+                                Inpro Drawing: N/A
+                            </td>
+                            <td style="border: 1px solid black;padding:5px;">
+                                Inpro #:
+                            </td>
+                        </tr>   
+                    </table>
+                </div>
+            </apex:repeat>
+        </apex:form>
+    </apex:outputText>
+    
+</apex:page>

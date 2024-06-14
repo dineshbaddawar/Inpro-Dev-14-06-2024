@@ -1,0 +1,268 @@
+<apex:page renderAs="PDF" standardStylesheets="false" controller="SampleCommercialInvoiceController" 
+    lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                @page {
+                    margin-top:20px;
+                    margin-bottom:40px;
+                    size: 8.5in 11in;
+                    margin-left: 0.3in;
+                    margin-right: 0.3in;
+                    size: portrait;
+                    @top-center {
+                        content: element(header);
+                    }
+                    @bottom-left {
+                        content: element(footer);
+                    }
+                }
+                html{
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                }
+                body {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                    font: 8.5pt "Calibri";
+                }                   
+                div.header {
+                    padding:20px;
+                    position: header;
+                }
+                div.footer {
+                    display: block;
+                    padding: 2px;
+                    position: running(footer);
+                }
+                .pagenumber:before {
+                    content: counter(page);
+                }
+                .pagecount:before {
+                    content: counter(pages);
+                }
+                
+                table{
+                    border-collapse: collapse;
+                }
+                
+                #leftHeader{
+                    float:left;
+                    width: 25%;
+                    margin-top: 4%;
+                }
+                
+                #rightHeader{
+                    display: inline-block;
+                    float:right;
+                    width: 25%;
+                    margin-top: 2%;
+                }
+                
+                #middleHeader{
+                    float:right;
+                    align-content: center;
+                    text-align:center;
+                    width: 50%;
+                    margin-top: 3%;
+                }
+                
+                #leftFooter{
+                    float:left;
+                    width: 33%;
+                    text-align:left;
+                    font: 12pt "Calibri";
+                }
+                
+                #rightFooter{
+                    float:right;
+                    width: 33%;
+                    text-align:right;
+                    font: 12pt "Calibri";
+                }
+                
+                #middleFooter{
+                    float:left;
+                    width: 33%;
+                    text-align:center;
+                    font: 12pt "Calibri";
+                }
+                
+                .addressLine{
+                    text-align:right;
+                    font: 8pt "Calibri";
+                }
+                
+                #titleDiv{
+                    padding-left:260px;
+                    font: 8.5pt "Calibri";
+                }
+                
+                #titleDiv{
+                    float:left;
+                    font: 8.5pt "Calibri";
+                    width:100%;
+                }
+                
+                .headerTable{
+                    border-collapse:separate; 
+                    border-spacing:0 1px; 
+                    width:100%;
+                }
+                .headerTable tr td.label{
+                    font-weight:bold;
+                    font-size:14px;
+                    padding-bottom:5px;
+                    padding-left:20px;
+                    width:20%;
+                }
+                .headerTable tr td.description{
+                    font-size:14px;
+                    overflow-wrap: break-word;
+                    padding-bottom:5px;
+                    padding-left:10px;
+                    width:30%;
+                }
+
+                .detailTable{
+                    border-collapse:separate; 
+                    border-spacing:0 1px; 
+                    width:100%;
+                    margin-top:100px;
+                }
+
+                .detailTable .col-header{
+                    font-size:14px;
+                    font-weight:bold;
+                    border-bottom:1px black solid;
+                    padding:5px;
+                }
+
+                .detailTable .col-center{
+                    text-align:center;
+                }
+
+                .detailTable .col1{
+                    font-size:14px;
+                    width:10%;
+                    padding:5px;
+                    text-align:center;
+                }
+
+                .detailTable .col2{
+                    font-size:14px;
+                    width:50%;
+                    padding:5px;
+                }
+                .detailTable .col3{
+                    font-size:14px;
+                    width:20%;
+                    padding:5px;
+                    text-align:center;
+                }
+                .detailTable .col4{
+                    font-size:14px;
+                    width:20%;
+                    padding:5px;
+                    text-align:center;
+                }
+            </style>
+        </head>
+        <div class="header" >
+            <div id="leftHeader">
+                <apex:image url="{!$Resource.Inpro_Logo}" width="125" height="50"/>
+            </div>
+            <div id="rightHeader">
+                <div class="addressLine">Corporate Headquarters</div>
+                <div class="addressLine">S80 W18766 Apollo Drive</div>
+                <div class="addressLine">PO Box 406</div>
+                <div class="addressLine">Muskego, WI 53150</div>
+                <div class="addressLine">www.inprocorp.com</div>
+                <div class="addressLine">Nationwide: (800) 222-5556</div>
+                <div class="addressLine">Fax: (888) 715-8407</div>
+                <br/>
+                <div class="addressLine">
+                    <!--apex:image url="{!$Resource.IPC_Logo}" width="175" height="40" /--> 
+                </div>
+            </div>
+            <div id="middleHeader">
+                <h1>Commercial Invoice for Sample</h1>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div id="leftFooter">
+                <!--<b>Quote:{!quoteDetails.quoteRecord.Name}</b>-->
+            </div>
+            <div id="middleFooter">
+                <b><div>Page <span class="pagenumber"/> of <span class="pagecount"/></div></b>
+            </div>
+            <div id="rightFooter">
+                <!--<b>{!quoteDetails.quoteRecord.Inpro_Document_Number__c}</b>-->
+            </div>
+        </div>
+        <apex:pageBlock rendered="{!IF(dataFound,false,true)}">
+            <div class="content" style="margin-top:150px;">
+                <h2>An error occurred while rendering this page.</h2>
+                <h3>{!exceptionMessage}</h3>
+                <h4>{!exceptionStackTrace}</h4>
+            </div>
+        </apex:pageBlock>
+        <apex:pageBlock rendered="{!IF(dataFound,true,false)}">
+            <div class="content" style="margin-top:150px;">
+                <table class="headerTable">
+                    <tr class="headerRow">
+                        <td class="label">Sample Number:</td>
+                        <td class="description">{!data.Sample.Name}</td>
+                        <td class="label">Customer Number:</td>
+                        <td class="description">{!data.Sample.Customer_Number__c}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Company Name:</td>
+                        <td class="description">{!data.Sample.Ship_to_Company__c}</td>
+                        <td class="label">Contact Name:</td>
+                        <td class="description">{!data.Sample.Ship_to_Name__c}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Street:</td>
+                        <td class="description">{!data.Sample.Street_Address__c}</td>
+                        <td class="label">City:</td>
+                        <td class="description">{!data.Sample.City__c}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">State:</td>
+                        <td class="description">{!data.Sample.State__c}</td>
+                        <td class="label">Country:</td>
+                        <td class="description">{!data.Sample.Country__c}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Postal Code:</td>
+                        <td class="description">{!data.Sample.Postal_Code__c}</td>
+                        <td class="label"></td>
+                        <td class="description"></td>
+                    </tr>
+                </table>
+                <table class="detailTable">
+                    <tr class="row-header">
+                        <td class="col-header col-center">Quantity</td>
+                        <td class="col-header">Description</td>
+                        <td class="col-header col-center">Cost (Each)</td>
+                        <td class="col-header col-center">Cost (Extended)</td>
+                    </tr>
+                    <apex:repeat value="{!data.SampleItems}" var="item">
+                        <tr>
+                            <td class="col1">{!item.Quantity__c}</td>
+                            <td class="col2">{!item.Sample_Product__r.Name}</td>
+                            <td class="col3">{!item.Item_Cost__c}</td>
+                            <td class="col4">{!item.Total_Cost__c}</td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+        </apex:pageBlock>
+        
+    </html>
+</apex:page>

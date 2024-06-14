@@ -1,0 +1,25 @@
+<template>
+    <div class="slds-grid slds-wrap">
+        <div align="center" class="slds-col slds-size_12-of-12">
+            <template if:false={loaded}>
+                <lightning-button variant="brand" disabled="true"
+                            title="Navigate to Estimating Files" class="slds-m-left_x-medium" label="Loading...">
+                </lightning-button>
+            </template>
+            <template if:true={loaded}>
+                <template if:true={projectNumberPresent}>
+                    <lightning-button variant="brand"
+                                      title="Navigate to Estimating Files" 
+                                      class="slds-m-left_x-medium" 
+                                      onclick={handleNavigate} 
+                                      label="Navigate to SharePoint Online Estimating Files">
+                    </lightning-button>
+                </template>
+                <template if:false={projectNumberPresent}>
+                    <lightning-formatted-text value="To access Estimating Files for the project, create an opportunity first."></lightning-formatted-text>
+                </template>
+            </template>
+            
+        </div>
+    </div>
+</template>

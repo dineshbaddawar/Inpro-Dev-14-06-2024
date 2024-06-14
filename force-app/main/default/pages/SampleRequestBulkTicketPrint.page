@@ -1,0 +1,193 @@
+<apex:page controller="SampleRequestBulkTicketPrintController" renderAs="pdf" applyHtmlTag="false" showHeader="false">
+     <head>     
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />    
+        <style type="text/css">    
+            
+            @page {    
+            
+            size: A4 ;    
+            
+            padding-left: 8px;    
+            padding-right: 8px;      
+            
+            }    
+            
+            th {    
+            font-family: SansSerif;
+            font-size: 13px;
+            font-weight: bold;    
+            padding:5px;
+            
+            }    
+            
+            
+            td {    
+            
+            padding:3px;
+            font-size: 13px;    
+            font-family: SansSerif;
+            }
+            #label {
+            text-align:right;
+            font-family: SansSerif;
+            font-weight: bold; 
+            }
+            #tdboader{
+            border-bottom: 1px solid black;
+            }
+            
+        </style>
+    </head>  
+    <apex:variable value="{!1}" var="RowCount"/> 
+    <apex:repeat value="{!sampleRequestList}" var="sampleRequest">
+        <center>    
+        
+        <h3></h3>    
+        
+    </center><br/><br/>    
+    <apex:variable var="AccountName" value="{!IF(sampleRequest.Account__r.Name != null, sampleRequest.Account__r.Name, sampleRequest.Lead__r.Company)}"/>
+    <apex:variable var="ContactName" value="{!IF(sampleRequest.Contact__r.Name != null, sampleRequest.Contact__r.Name, sampleRequest.Lead__r.Name)}"/>
+        <table border="0" width="99%">    
+        <colgroup>
+            <col span="1" style="width: 25%;text-align: right;"/>
+            <col span="1" style="width: 25%;"/>
+            <col span="1" style="width: 25%;text-align:right;"/>
+            <col span="1" style="width: 25%;"/>
+        </colgroup>
+        
+        <tr>    
+            
+            <td style="" Id="label"><b> Sample Number:</b></td>
+            <td><b> {!sampleRequest.Name}</b></td>  
+            <td Id="label"><b>Date:</b></td>
+            <td>
+                <b> <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                    <apex:param value="{!TODAY()}" /> 
+                    </apex:outputText></b>
+            </td>  
+        </tr>    
+        <tr>    
+            
+            <td style="" Id="label"></td>
+            <td> 
+                <!--apex:image value="https://www.barcodesinc.com/generator/image.php?code=12343&style=325&type=C128B&width=150&height=50&xres=1&font=3"/-->
+                <apex:image style="width:130px;" value="https://barcode.tec-it.com/barcode.ashx?data={!sampleRequest.Name}&code=Code128&dpi=72&dataseparator="/>
+            </td>  
+            <td Id="label"></td>
+            <td></td>  
+        </tr>    
+        <tr>
+            <td Id="label">Company Name:</td>
+            <td> {!AccountName}</td>
+            <td Id="label">Customer Number: </td>
+            <td>{!sampleRequest.Account__r.Customer_Number__c}</td>
+            
+        </tr>
+        <tr>
+            <td Id="label">Contact Name:</td>
+            <td>{!ContactName}</td>
+            <td Id="label"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td Id="label">Street:</td>
+            <td>{!sampleRequest.Street_Address__c}</td>
+            <td Id="label"></td>
+        </tr>
+        <tr>
+            <td Id="label">City:</td>
+            <td>{!sampleRequest.City__c}</td>
+            <td Id="label"></td>
+        </tr>
+        <tr>
+            <td Id="label">State:</td>
+            <td>{!sampleRequest.State__c}</td>
+            <td Id="label"></td>
+        </tr>
+        <tr>
+            <td Id="label">Country:</td>
+            <td>{!sampleRequest.Country__c}</td>
+            <td Id="label"></td>
+        </tr>
+                <tr>
+            <td Id="label">Postal Code:</td>
+            <td>{!sampleRequest.Postal_Code__c}</td>
+            <td Id="label"></td>
+        </tr>
+        <tr>
+            <td Id="label">Outside Rep:</td>
+            <td>{!sampleRequest.Account__r.Owner.Name}</td>
+            
+            <td Id="label">Please Ship Via:</td>
+            <td>{!sampleRequest.Desired_Shipping_Method__c}</td>
+            
+        </tr>
+        <tr>
+            <td Id="label">Owner:</td>
+            <td>{!sampleRequest.Owner.Name}</td>
+            
+            <td Id="label"></td>
+            <td></td>
+            
+        </tr>
+        <tr>
+            <td Id="label">Notes:</td>
+            <td colspan="3">{!sampleRequest.Notes__c}</td>
+            
+            <td Id="label"></td>
+            <td></td>
+            
+        </tr>
+        
+    </table>  
+         <br/><br/>  
+        <apex:variable value="{!0}" var="Total"/> 
+        <table style="border-collapse:collapse;"  width="99%">    
+        <colgroup>
+            <col span="1" style="width: 8%;text-align:left"/>
+            <col span="1" style="width: 52%;text-align:left"/>
+            <col span="1" style="width: 16%;text-align:center"/>
+            <col span="1" style="width: 12%;text-align:center"/>
+            <col span="1" style="width: 12%;text-align:left"/>
+        </colgroup>
+        <tr style="border-bottom: 1px solid black">    
+            <th id="tdboader">Quantity</th>
+            <th id="tdboader">Description</th>
+            <th id="tdboader" style="text-align:center">Cost<br/> (Each)</th>
+            <th id="tdboader" style="text-align:center">Cost<br/>(Extended)</th>
+            <th id="tdboader">Item Number</th>
+            <th id="tdboader">Barcode</th>
+        </tr> 
+        <apex:repeat value="{!sampleRequest.Sample_Request_Items__r}" var="Item">
+            <tr style="border-bottom: 1px solid black">    
+                <td >{!Item.Quantity__c}</td>
+                <td>{!Item.Sample_Product__r.Name}</td>
+                <td style="text-align:center">{!Item.Item_Cost__c}</td>
+                <td style="text-align:center">{!Item.Total_Cost__c}</td>
+                <td>{!Item.Sample_Product__r.ProductCode}</td>
+                <td><apex:image style="width:130px;" value="https://barcode.tec-it.com/barcode.ashx?data={!Item.Sample_Product__r.ProductCode}&code=Code128&dpi=72&dataseparator="/></td>
+            </tr> 
+            
+            <apex:variable var="Total" value="{!Total + IF(Item.Total_Cost__c = null, 0, Item.Total_Cost__c)}"/>
+        </apex:repeat>
+        <tr>
+            <td id="tdboader"></td>
+            <td id="tdboader"></td>
+            <td id="tdboader"></td>
+            <td id="tdboader"></td>
+            <td id="tdboader"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td><b>Sample Total:</b></td>
+            <td style="text-align:center"><b>{!Total}</b></td>
+            <td></td>    
+        </tr> 
+    </table>
+          
+       
+       <div style="{! IF( sampleRequestList.size > RowCount , 'page-break-after: always ', ' ') }"/>
+        <apex:variable var="RowCount" value="{!RowCount +1 }"/>
+    </apex:repeat>
+</apex:page>

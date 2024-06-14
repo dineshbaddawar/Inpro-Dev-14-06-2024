@@ -1,0 +1,105 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                        <h3 slot="title">
+                            <lightning-icon style="padding: 5px;" icon-name="utility:preview"
+                                alternative-text="Preview" size="medium" title="Print Preview" onclick={printPreviewPDFs}
+                                class="pointer"></lightning-icon>
+                            <lightning-icon style="padding: 5px;" icon-name="utility:save"
+                                alternative-text="Print" size="medium" title="Print PDFs" onclick={printPDFs}
+                                class="pointer"></lightning-icon>
+                            &nbsp;<strong>PDF Printing</strong>
+                        </h3>
+                        <a if:true={pdfGenerated}  target="_blank" href={fileUrl}>Download PDF</a>
+                        <lightning-layout vertical-align="space">
+                            <lightning-layout-item>
+                                <div style="width: 400px;">
+                                    <div style="padding:5px;">
+                                        <h2 style="font-weight:bold;">Categories</h2>
+                                    </div>
+
+<!--                                     
+                                    <lightning-vertical-navigation onselect={handleSelected}
+                                    selected-item={selectedItem}>
+                                            <template for:each={categoryList} for:item="item">
+                                                 <template if:true={item.children.length}> 
+                                                    <lightning-vertical-navigation-item label={item.Name} name={item.Id} key={item.Id}>
+                                                        <template for:each={item.children} for:item="child">
+                                                            <lightning-vertical-navigation-item label={child.Name}
+                                                             name={child.Id} key={child.Id}></lightning-vertical-navigation-item>
+                                                        </template>
+                                                    </lightning-vertical-navigation-item>
+                                                 </template> 
+                                                <template if:false={item.children.length}>
+                                                    <lightning-vertical-navigation-item label={item.Name} name={item.Id} key={item.Id}></lightning-vertical-navigation-item>
+                                                </template>
+                                            </template>
+                                        </lightning-vertical-navigation> 
+                                    -->
+
+                                        <div class="slds-p-around_medium lgc-bg">
+                                            <lightning-tree items={categoryList} header="Profiles" onselect={handleSelected}></lightning-tree>
+                                        </div>
+                                    
+                                    
+
+                                    <!-- <lightning-vertical-navigation onselect={handleSelected}
+                                        selected-item={selectedItem}>
+                                        <lightning-vertical-navigation-section>
+                                            <template for:each={categoryList} for:item="cat">
+                                                <lightning-vertical-navigation-item name={cat.Id}
+                                                    key={cat.Id} label={cat.Name}>
+                                                </lightning-vertical-navigation-item>
+                                            </template>
+                                        </lightning-vertical-navigation-section>
+                                    </lightning-vertical-navigation> -->
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="width:100%">
+                                <!-- begin data Grid -->
+                                <div class="slds-box slds-theme_default" style="margin: 5px;">
+                                    <table
+                                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                        <thead>
+                                            <tr>                                                
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Product">Sequence #</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Color">PDF</div>
+                                                </th>                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={filteredPDFList} for:item="pdf">
+                                                <tr key={pdf.Id}>
+                                                    <td style="width: 50px;">
+                                                        <lightning-input name="SequenceNumber"
+                                                            accesskey={pdf.Id} onchange={handleGridInputChange}
+                                                            type="text" value={pdf.SequenceNumber}>
+                                                        </lightning-input>
+                                                    </td>
+                                                    <td>{pdf.Name}</td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>                           
+                                <!-- end data grid-->
+                            </lightning-layout-item>
+                        </lightning-layout>
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+            </div>
+            <div if:true={showError}>
+                <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                </lightning-button>
+                {errorMessage}
+            </div>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,53 @@
+<template>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+        <tbody>
+            <tr>
+                <td>
+                    <c-lookup name="From" onsearch={handleFromSearch} secondary-search-term={secondarySearchTerm}
+                        scrollafternitems=10 label="From:" placeholder="Search Users"
+                        onselectionchange={handleLookupSelectionChange} selection={selectedFrom}>
+                    </c-lookup>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <c-lookup name="To" onsearch={handleContactSearch} secondary-search-term={recordId}
+                        scrollafternitems=10 label="To:" placeholder="Search Contacts"
+                        onselectionchange={handleLookupSelectionChange} ismultientry="true">
+                    </c-lookup>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <c-lookup name="Cc" onsearch={handleContactSearch} secondary-search-term={recordId}
+                        scrollafternitems=10 label="CC:" placeholder="Search Contacts"
+                        onselectionchange={handleLookupSelectionChange} ismultientry="true">
+                    </c-lookup>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lightning-input name="Subject" value={Subject} onchange={handleInputChange} type="text"
+                        label="Subject:">
+                    </lightning-input>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lightning-input-rich-text name="Body" label="Body:" value={Body} onchange={handleInputChange}>
+                    </lightning-input-rich-text>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        {results}
+                    </div>
+                    <lightning-button style="float:right" variant="brand-outline" title="Send Email"
+                        class="slds-m-left_x-small" onclick={handleSendEmail} label="Send Email">
+                    </lightning-button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>

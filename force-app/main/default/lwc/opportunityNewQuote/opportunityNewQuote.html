@@ -1,0 +1,78 @@
+<template>
+    <lightning-card>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Create Quote</strong>
+        </h3>
+        <lightning-input name="li_versiondescription" label="Version Description" onchange={handleInputOnChange} ></lightning-input>
+        <lightning-combobox if:false={isEstimator}
+            name="lcb_quoteRecipient"
+            label="Quote Recipient"
+            value={quoteRecipient}
+            placeholder="Select Quote Recipient..."
+            options={quoteRecipientOptions}
+            onchange={handleInputOnChange}>
+        </lightning-combobox>
+        <lightning-combobox if:false={isEstimator}
+            name="lcb_Contact"
+            label="Contact"
+            value={contact}
+            placeholder="Select Contact..."
+            options={contactOptions}
+            onchange={handleInputOnChange}>
+        </lightning-combobox>
+        <lightning-combobox
+            name="lcb_QuoteType"
+            label="Quote Type"
+            value={quoteType}
+            placeholder="Select Quote Type..."
+            options={quoteTypeOptions}
+            onchange={handleInputOnChange}>
+        </lightning-combobox>        
+        <lightning-input name="li_revision" label="Revision" onchange={handleInputOnChange} value="0" ></lightning-input>
+        <lightning-combobox
+            name="lcb_CopyShippingAddressFrom"
+            label="Copy Shipping Address From"
+            value={shippingAddressLocation}
+            placeholder="Select Address Location..."
+            options={addressLocationOptions}
+            onchange={handleInputOnChange}>
+        </lightning-combobox>
+        <lightning-input name="chk_relateToContract" label="Relate to Contract?" onchange={handleInputOnChange} type="checkbox"></lightning-input>
+        <template if:true={showContractOptions}>
+            <lightning-combobox
+                name="lcb_attachToContract"
+                label="Attach to Contract"
+                value={contract}
+                placeholder="Attach to Contract..."
+                options={contractOptions}
+                onchange={handleInputOnChange}>
+            </lightning-combobox>
+        </template>  
+        <lightning-combobox
+            name="lcb_Priority"
+            label="Priority"
+            value={quotePriority}
+            placeholder="Priority..."
+            options={priorityOptions}
+            onchange={handleInputOnChange}>
+        </lightning-combobox>
+        <lightning-input type="date" name="dt_quoteExpirationDate" label="Quote Expiration Date" onchange={handleInputOnChange} value={expirationDate} ></lightning-input>
+        <br/>
+        <template if:true={createQuoteButtonVisible}>
+            <lightning-button variant="brand-outline" title="Create Quote" class="slds-m-left_x-small" onclick={handleCreateQuoteClick}  label="Create Quote"> </lightning-button>
+        </template>
+        <br/>
+        <br/>
+        <h2 style="color: rgb(0, 0, 0); padding:5px;" >Creation Response:</h2>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+        <br/>
+        <lightning-button style="float: left;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+    </template>
+</lightning-card>
+</template>

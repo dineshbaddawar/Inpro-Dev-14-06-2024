@@ -1,0 +1,16 @@
+<apex:page standardController="Expedite_Request__c" recordSetVar="risks">
+    <apex:includeLightning />
+    <div id="Con" />
+    <script>
+        $Lightning.use("c:expediteCreateAuraApp", function() {
+            $Lightning.createComponent(
+                "c:createExpediteRequest",
+                {},
+                "Con",
+                function(cmp) {
+                    console.log("Component is created!");
+                    console.log(cmp);
+                });
+            });        
+      </script>
+</apex:page>

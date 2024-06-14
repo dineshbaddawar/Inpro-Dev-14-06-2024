@@ -1,0 +1,63 @@
+<template>
+    <div>
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">
+                Product Image Tool
+            </h2>
+        </header>
+        <div class="slds-p-around_medium column-padding fixed-height ">
+            <div class="full-screen">
+                <template if:false={loaded}>
+                    <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-col-space slds-size_12-of-12">
+                        <div style="text-align: center;">
+                            <table>
+                                <tr>
+                                    <td style="width:10px;text-align:center;">
+                                        <lightning-button-icon style="float: right; padding:10px;" variant="brand" title="Rotate Left"
+                                            class="slds-m-left_x-small" onclick={handleRotateLeft} icon-name="utility:chevronleft">
+                                        </lightning-button-icon> Rotate Image Left 90°
+                                    </td>
+                                    <td style="text-align:center;"><img class="image-preview" style="width:250px;height:250px;background:black;" src={imageData} /></td>
+                                    <td style="width:10px;text-align:center;">
+                                        
+                                        <lightning-button-icon style="float: right; padding:10px;" variant="brand" title="Rotate Right"
+                                            class="slds-m-left_x-small" onclick={handleRotateRight} icon-name="utility:chevronright">
+                                        </lightning-button-icon>
+                                        Rotate Image Right 90°
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td style="text-align:center;">
+                                        <lightning-file-upload
+                                            label="Browse..."
+                                            name="fileUploader"
+                                            accept={acceptedFormats}
+                                            onuploadfinished={handleFilesChange} style="padding-left:50px;">
+                                        </lightning-file-upload>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-modal__footer" style="padding: 0.5rem 1rem; height: 70px;">
+            <lightning-button style="float: right; padding:10px; margin-left:20px;margin-right:20px;" variant="brand" title="Save"
+                class="slds-m-left_x-small" onclick={handleSave} label="Save">
+            </lightning-button>
+            <lightning-button style="float: right; padding:10px; margin-left:20px;margin-right:20px;" variant="brand" title="Delete"
+                class="slds-m-left_x-small" onclick={handleDelete} label="Delete">
+            </lightning-button>
+            <lightning-button style="float: right; padding:10px; margin-left:20px;margin-right:20px;" variant="brand-outline" title="Close"
+                class="slds-m-left_x-small" onclick={handleClose} label="Close">
+            </lightning-button>
+        </footer>
+    </div>
+</template>

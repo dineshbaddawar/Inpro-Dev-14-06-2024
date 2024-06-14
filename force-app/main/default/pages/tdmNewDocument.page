@@ -1,0 +1,16 @@
+<apex:page standardController="Technical_Document__c" recordSetVar="documents">
+    <apex:includeLightning />
+    <div id="Con" />
+    <script>
+        $Lightning.use("c:tdmNewDocumentAuraApp", function() {
+            $Lightning.createComponent(
+                "c:tdmNewDocumentWizard",
+                {},
+                "Con",
+                function(cmp) {
+                    console.log("Component is created!");
+                    console.log(cmp);
+                });
+            });        
+      </script>
+</apex:page>

@@ -1,0 +1,30 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Create RCA</strong>
+        </h3>
+        <lightning-combobox
+            name="lcb_rcaType"
+            label="RCA Type"
+            value={rcaType}
+            placeholder="Select RCA Type..."
+            options={options}
+            onchange={handleChange}>
+        </lightning-combobox>  
+        <lightning-input name="li_orderNumber" label="Order Number" onchange={handleOrderNumberOnChange} ></lightning-input>
+        <lightning-input name="li_invoiceNumber" label="Invoice Number" onchange={handleInvoiceNumberOnChange} ></lightning-input>
+        <br/>
+        <lightning-button variant="brand-outline" title="Create RCA" class="slds-m-left_x-small" onclick={handleCreateRCAClick}  label="Create RCA"> </lightning-button>
+        <br/>
+        <br/>
+        <h2 style="color: rgb(0, 0, 0); padding:5px;" >Creation Response:</h2><br/>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </template>
+</template>

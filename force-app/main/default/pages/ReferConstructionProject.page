@@ -1,0 +1,25 @@
+<apex:page standardController="Construction_Project__c" standardStylesheets="false" applyBodyTag="false" >
+    <apex:slds />
+        <apex:includeLightning />
+        <style>
+            html, body {
+            margin: 0;
+            padding: 0;
+            }
+            #lightningComponent {width: 100%;}
+        </style>
+        <div id="content" class="slds-align_absolute-center">
+            <div id="lightningComponent" />
+        </div>
+        <script>
+        var recordId = '{!Construction_Project__c.Id}';
+        var myUserContext = "{!$User.UITheme}";
+        $Lightning.use("c:ReferConstructionProjectVisualforce", function() {
+            $Lightning.createComponent("c:ReferConstructionProject",
+                                       {recordId: recordId,
+                                        userTheme: UITheme.getUITheme()},
+                                       "lightningComponent"
+                                      );
+        });
+        </script>
+</apex:page>

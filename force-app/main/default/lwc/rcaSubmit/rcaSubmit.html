@@ -1,0 +1,18 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+        <h3 slot="title">       
+            <lightning-icon icon-name="standard:account"></lightning-icon>&nbsp;<strong>Submit RCA</strong>
+        </h3>        
+        <h1 style="padding: 10px;">Click the button below to submit the RCA.</h1>
+        <lightning-button style="float: left;padding-top:10px;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+        <lightning-button style="float: right;padding-top:10px;" variant="brand-outline" title="Submit RCA" class="slds-m-left_x-small"
+            onclick={handleSubmitRCAClick}  label="Submit RCA">
+        </lightning-button>
+        <h2 style="color: rgb(104, 2, 2); padding:5px;" >{Response}</h2>
+    </template>
+</template>

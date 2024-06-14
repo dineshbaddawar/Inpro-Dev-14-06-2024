@@ -1,0 +1,11 @@
+<template>
+    
+    <lightning-card title="Quote Line Items">        
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Loading">Loading....</lightning-spinner>
+        </template>
+        <template if:true={loaded}>
+            <c-table key-field="Id" records={data} columns={columns} page-size="25" max-page-size="500" display-row-number="true"></c-table>
+        </template>
+    </lightning-card>
+</template>

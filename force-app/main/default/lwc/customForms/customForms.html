@@ -1,0 +1,71 @@
+<template>
+    <template if:true={loaded}>
+        <div if:false={showError}>
+            <h3 slot="title">
+                <lightning-icon style="padding: 5px;" icon-name="utility:save" alternative-text="Save" size="Medium"
+                    title="Save" onclick={saveDocuments} class="pointer"></lightning-icon>
+                &nbsp;<strong>Custom Forms</strong>
+            </h3>
+            <lightning-input style="padding:5px;" type="checkbox" checked={isBlank}  onchange={handleIncludeProductsChecked} label="Exclude Products? (If included, and the quote doesn't have the correct product, form may not generate)"     >     </lightning-input>
+            <a style="padding:5px;" if:true={fileDownloaded} href={downloadLink} download="orderForm.pdf">Download
+                File</a>
+            <!-- Define table structure -->
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                <thead>
+                    <tr>
+                        <th class="" scope="col">
+
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="FormName">Form Name</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="ISO Doc">ISO Doc</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="ISO Rev">ISO Rev</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Division">Division</div>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- Loop through groups -->
+                <tbody>
+                    <template for:each={CustomFormList} for:item="form">
+                        <tr key={form.ISOName}>
+                            <td>
+                                <lightning-input type="checkbox" accesskey={form.ISOName} onchange={handleOptionChecked}
+                                    checked={form.Selected}>
+                                </lightning-input>
+                            </td>
+                            <td>
+                                {form.Description}
+                            </td>
+                            <td>
+                                {form.ISOName}
+                            </td>
+                            <td>
+                                {form.ISORev}
+                            </td>
+                            <td>
+                                {form.Division}
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>       
+        <div style="color:red; padding: 10px;" if:true={showError}>
+            {errorMessage}
+            <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+            </lightning-button>
+        </div>
+        <lightning-button style="float: right;padding:10px;" variant="brand" title="Cancel"
+            class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+        </lightning-button>
+    </template>
+    <template if:false={loaded}>
+        <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+    </template>
+</template>

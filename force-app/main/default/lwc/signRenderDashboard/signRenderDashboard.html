@@ -1,0 +1,309 @@
+<template>
+    <lightning-card>
+        <div class="qcHolder">
+            <div if:false={showError}>
+                <template if:true={loaded}>
+                    <h3 style="padding:5px;" slot="title">
+                        &nbsp;Review Signs
+                    </h3>
+                    <div if:false={saveSigns}>
+                        <div style="padding:10px;">
+                            <!-- <lightning-button style="padding: 5px;" label="Email" onclick={handleEmail}>
+                            </lightning-button> -->
+                            <lightning-button style="padding: 5px;" label="Save To CRM" onclick={handleSaveImage}>
+                            </lightning-button>
+                            <lightning-button style="padding: 5px;" title="Cancel"
+                                class="slds-m-left_x-small" onclick={handleCancel} label="Cancel">
+                            </lightning-button>
+                            <a if:true={renderedSign} download='sign.png' href={imageData}>Save Image</a>
+                        </div>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <tr>
+                                <td>
+                                    <lightning-combobox name="alternateComboBox" label="Select an Alternate"
+                                        placeholder="Select Alternate" options={alternateOptionList}
+                                        onchange={handleAlternateComboBoxOnchange} value={alternateId}>
+                                    </lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-combobox name="productComboBox" label="Select a Product"
+                                        placeholder="Select Product" options={productOptionList}
+                                        onchange={handleProductComboBoxOnchange} value={selectedProductId}>
+                                    </lightning-combobox>
+                                </td>
+                            </tr>
+                        </table>
+                        <lightning-layout vertical-align="space">
+                            <lightning-layout-item>
+                                <div style="width: 150px;">
+                                    <div style="padding:5px;">
+                                        <h2 style="font-weight:bold;">Sign Schedule Items</h2>
+                                    </div>
+                                    <lightning-vertical-navigation onselect={handleSelected}
+                                        selected-item={selectedItem}>
+                                        <lightning-vertical-navigation-section>
+                                            <template for:each={currentSignSchedule} for:item="ss">
+                                                <lightning-vertical-navigation-item style="font-size: 10px;"
+                                                    name={ss.Id} key={ss.Id} label={ss.Name}>
+                                                </lightning-vertical-navigation-item>
+                                            </template>
+                                        </lightning-vertical-navigation-section>
+                                    </lightning-vertical-navigation>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="width:100%">
+                                <div style="text-align: center;">
+                                    <img style="padding: 100px;" src={imageData} />
+                                    <a if:true={renderedSign} download='sign.png' href={imageData}>Save Image</a>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <div if:true={saveSigns} style="overflow-y: scroll;">
+                        <h3 if:true={emailSigns} style="padding:5px;" slot="title">
+                            <lightning-icon icon-name="utility:save" alternative-text="Email Signs" size="medium"
+                                title="Email Signs" onclick={handleEmailSigns} class="pointer"></lightning-icon>
+                            &nbsp;Email Signs
+                        </h3>
+                        <h3 if:false={emailSigns} style="padding:5px;" slot="title">
+                            <lightning-icon icon-name="utility:save" alternative-text="Save Signs" size="medium"
+                                title="Save Signs" onclick={handleUploadSigns} class="pointer"></lightning-icon>
+                            &nbsp;Save Signs
+                        </h3>
+                        <table style="overflow-x: scroll;"
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                        <!-- <div class="slds-truncate">
+                                        <lightning-input type="checkbox"
+                                            onchange={handleCheckAllChecked}>
+                                        </lightning-input>
+                                    </div> -->
+                                    </th>
+                                    <!-- <th>
+                                    </th> -->
+                                    <th>
+                                        Alternate
+                                    </th>
+                                    <th>
+                                        Product
+                                    </th>
+                                    <th>
+                                        Save To CRM
+                                    </th>
+                                    <th>
+                                        Text to Tall?
+                                    </th>
+                                    <th>
+                                        Text to Wide?
+                                    </th>
+                                    <th>
+                                        Missing Info?
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 1">Line 1</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 2">Line 2</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 3">Line 3</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 4">Line 4</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 5">Line 5</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 6">Line 6</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 7">Line 7</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 8">Line 8</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 9">Line 9</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 10">Line 10</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 11">Line 11</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 12">Line 12</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 13">Line 13</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 14">Line 14</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 15">Line 15</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 16">Line 16</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 17">Line 17</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 18">Line 18</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 19">Line 19</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Line 20">Line 20</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={AllSignSchedules} for:item="product">
+                                    <tr accesskey={product.Id} key={product.Id}>
+                                        <td>
+                                            <div if:false={emailSigns}>
+                                                <lightning-input if:false={product.SavedToCRM__c} type="checkbox"
+                                                    accesskey={product.Id} onchange={handleOptionChecked}
+                                                    checked={product.Selected}>
+                                                </lightning-input>
+                                            </div>
+                                            <lightning-input if:true={emailSigns} type="checkbox" accesskey={product.Id}
+                                                onchange={handleOptionChecked} checked={product.Selected}>
+                                            </lightning-input>
+                                        </td>
+                                        <!-- <td>
+                                            <lightning-button accesskey={product.Id} style="padding: 5px;"
+                                                label="View Rendering" onclick={handleViewImage}>
+                                            </lightning-button>
+                                        </td> -->
+                                        <td>
+                                            {product.Alternate}
+                                        </td>
+                                        <td>
+                                            {product.ItemNumber}
+                                        </td>
+                                        <td>
+                                            {product.SavedToCRM__c}
+                                        </td>
+                                        <td>
+                                            {product.Text_Too_Tall__c}
+                                        </td>
+                                        <td>
+                                            {product.Text_Too_Wide__c}
+                                        </td>
+                                        <td>
+                                            {product.Missing_Configuration_Info__c}
+                                        </td>
+                                        <td>
+                                            {product.Line1}
+                                        </td>
+                                        <td>
+                                            {product.Line2}
+                                        </td>
+                                        <td>
+                                            {product.Line3}
+                                        </td>
+                                        <td>
+                                            {product.Line4}
+                                        </td>
+                                        <td>
+                                            {product.Line5}
+                                        </td>
+                                        <td>
+                                            {product.Line6}
+                                        </td>
+                                        <td>
+                                            {product.Line7}
+                                        </td>
+                                        <td>
+                                            {product.Line8}
+                                        </td>
+                                        <td>
+                                            {product.Line9}
+                                        </td>
+                                        <td>
+                                            {product.Line10}
+                                        </td>
+                                        <td>
+                                            {product.Line11}
+                                        </td>
+                                        <td>
+                                            {product.Line12}
+                                        </td>
+                                        <td>
+                                            {product.Line13}
+                                        </td>
+                                        <td>
+                                            {product.Line14}
+                                        </td>
+                                        <td>
+                                            {product.Line15}
+                                        </td>
+                                        <td>
+                                            {product.Line16}
+                                        </td>
+                                        <td>
+                                            {product.Line17}
+                                        </td>
+                                        <td>
+                                            {product.Line18}
+                                        </td>
+                                        <td>
+                                            {product.Line19}
+                                        </td>
+                                        <td>
+                                            {product.Line20}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+
+                        <div if:true={emailSigns}>
+                            <table>
+                                <tr>
+                                    <td style="padding:10px;">
+                                        <lightning-dual-listbox name="contacts" label="Select Email Recipients"
+                                            source-label="Available" selected-label="Selected"
+                                            field-level-help="Select your contacts" options={contactList}
+                                            onchange={handleContactsChange}></lightning-dual-listbox>
+                                    </td>
+                                    <td style="padding:10px;">
+                                        <lightning-input label="Attach SignSchedule" type="checkbox"
+                                            onchange={handleAttachChecked}>
+                                        </lightning-input>
+                                        <lightning-dual-listbox name="alternates"
+                                            label="Select Alternates for SignSchedule" source-label="Available"
+                                            selected-label="Selected" field-level-help="Select your alternates"
+                                            options={alternateOptionList} onchange={handleAlternatesChange}>
+                                        </lightning-dual-listbox>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="padding:10px;">
+                            <lightning-button label="Back" onclick={handleSaveSignsBack}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner style="margin-top:10%" alternative-text="Loading">Loading....</lightning-spinner>
+                </template>
+            </div>
+            <template if:true={showError}>
+                <div style="padding: 10px;">
+                    <lightning-button style="padding: 5px;" label="Back" onclick={handleErrorMessageBack}>
+                    </lightning-button>
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
