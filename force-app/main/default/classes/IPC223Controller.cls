@@ -11,7 +11,7 @@ public with sharing class IPC223Controller {
 
             if (quoteId == null) {
                 BlankForm = true;
-            } else if (String.isNotEmpty(quoteId)) {
+            } else if (String.isNotEmpty(quoteId) || quoteId != null) {
                 customForm.quoteRecord = CustomFormHelper.GetQuoteData(quoteId);
                 List<QuoteLineItem> quoteLines = CustomFormHelper.GetQuoteLineData(quoteId);
                 if (quoteLines != null && quoteLines.size() > 0) {

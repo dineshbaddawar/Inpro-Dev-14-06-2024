@@ -95,6 +95,34 @@ public class IPC256ControllerTests {
         System.assertEquals(line3.Description_2__c, '1 1/2" x 90 deg', 'QuoteLineItem Description_2__c should be 1 1/2" x 90 deg');
         
     }    
+    @IsTest
+    static void testController4() {
+        
+        Opportunity opportunity = new Opportunity(Name = 'Opportunity1', StageName = 'Estimating', CloseDate = date.valueOf('2024-04-17 00:00:00'));
+        insert opportunity;
+        
+        Quote quoRec1 = new Quote(Name = 'Quote1');
+        quoRec1.OpportunityId = opportunity.Id;
+        quoRec1.Pricebook2Id = Test.getStandardPricebookId();
+        insert quoRec1;
+        PricebookEntry pricebookEntry = CommonSetup.InsertProductAndPrice('Test product', 2.25);
+        
+        QuoteLineItem line4 = new QuoteLineItem(
+            UnitPrice = 2.50, Quantity = 1, QuoteId = quoRec1.Id, Description = '1 1/8" x 90 deg',Description_2__c ='1 1/2" x 90 deg', Item_Number__c = 'POLY7444F',
+            Product2Id = pricebookEntry.Product2Id, PricebookEntryId = pricebookEntry.Id, Mounting_Type__c = 'Tape', Length__c = 5.0);
+        
+        insert line4;
+        
+        
+        ApexPages.StandardController sc1 = new ApexPages.StandardController(quoRec1);
+        PageReference pageRef1 = Page.IPC256;
+        pageRef1.getParameters().put('Id', quoRec1.Id);
+        Test.setCurrentPage(pageRef1);
+        IPC256Controller pdf1 = new IPC256Controller(sc1);
+        
+
+        System.assertEquals(pdf1.customForm.quoteLines.size(), 0, 'No QuoteLineItem should be included with Item_Number__c ending in "F"');
+    } 
     
     @IsTest
     static void testControllerBlankForm() {

@@ -14,11 +14,11 @@ public class IPC260ControllerTest {
             Product2Id = pricebookEntry.Product2Id, PricebookEntryId = pricebookEntry.Id, 
             Item_Number__c = 'DW-BEND', Color__c = 'Clamshell-0154' );
         QuoteLineItem line3 = new QuoteLineItem(
-            UnitPrice = 2.50, Quantity = 1, QuoteId = quote.Id, Description = 'DFG',document_Name__c = 'IPC.214',
+            UnitPrice = 2.50, Quantity = 1, QuoteId = quote.Id, Description = 'Dfg',document_Name__c = 'IPC.214',
             Product2Id = pricebookEntry.Product2Id, PricebookEntryId = pricebookEntry.Id, 
             Item_Number__c = 'D12345-BEND', Color__c = 'Clamshell-0154' );
         QuoteLineItem line4 = new QuoteLineItem(
-            UnitPrice = 2.50, Quantity = 1, QuoteId = quote.Id, Description = 'DFG',document_Name__c = 'IPC.260',
+            UnitPrice = 2.50, Quantity = 1, QuoteId = quote.Id, Description = 'dfg',document_Name__c = 'IPC.260',
             Product2Id = pricebookEntry.Product2Id, PricebookEntryId = pricebookEntry.Id, Alloy_Type__c = '304',
             Item_Number__c = 'SS', Color__c = 'Clamshell-0154' );
         insert new List<QuoteLineItem>{line1, line2,line3,line4};

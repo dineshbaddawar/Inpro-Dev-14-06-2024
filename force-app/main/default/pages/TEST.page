@@ -1,0 +1,146 @@
+<apex:page renderAs=""   standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    
+    <head>
+        <style type="text/css">
+            @page {
+            margin: 20px 30px 60px 30px ;
+            padding: 0px 0px 0px 0px ;
+            size: 16.5in 10.5in;     
+            @bottom-left {font-family: Arial Unicode MS; font-size:8pt;}
+            @bottom-center {font-family: Arial Unicode MS; font-size:8pt;}
+            }
+        </style>
+        <title>Custom Order Form</title>
+    </head>
+    <body style="font-family: Arial, sans-serif;">
+        <div style="border: 1px solid #000; padding: 0px; margin: 0 auto;">
+            
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="text-align: left; width: 70%; font-size: 20px; font-weight: bold; border: 1px solid #000;padding:5px;">
+                        Custom Order Form:<br/>
+                        Prism™ Solid Surface Custom Window Sill
+                    </td>
+                    <td style="width: 15%; font-size: 12px; height: 46px; text-align: left; font-weight: bold; border: 1px solid #000;">
+                        WORK ORDER #:<br/>
+                        (for internal use only)
+                    </td>
+                    <td style="width: 15%; font-size: 12px; height: 46px; text-align: left; font-weight: bold; border: 1px solid #000;">
+                        SALES ORDER #:<br/>
+                        (for internal use only)
+                    </td>
+                </tr>
+            </table>
+            
+            <p style=" margin-top: 2px;font-size:13px; ">Please complete the following information based on field verified dimensions. Use one order form per size. Orders for custom products cannot be returned. The signed form must be sent with your order. Fax to 888-715-8407 for quotation. Sales Contact: 800-222-5556</p>
+            
+            <div style="margin-top: 10px;">
+                <div style="font-size: 16px;  margin-bottom: 10px;padding:5px;"><b>STEP 1: EDGE THICKNESS -</b> CHOOSE YOUR EDGE THICKNESS</div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px;">
+                            <div style="width: 20px; height: 20px; border: 1px solid #000; display: inline-block; margin-right: 5px;"></div>
+                            <label for="thickness1"><b>½" WITHOUT DROP EDGE</b> <span style="font-size:12px; ">(DSWSPWO)</span></label>
+                        </td>
+                        <td><img src="{!$Resource.cf_ipc782_edgethicknessnewFirstImg}" alt="edgethicknessnewFirstImg" width="290" /></td>
+                        <td style="padding: 10px; ">
+                            <div style="width: 20px; height: 20px; display: inline-block; margin-right: 5px;border: 1px solid #000;"></div>
+                            <label for="thickness1"><b>½" WITH DROP EDGE</b> <span style="font-size:12px; ">(DSWSPWL)</span></label>
+                        </td>
+                        <td><img src="{!$Resource.cf_ipc782_edgethicknessnewSecondImg}" alt="edgethicknessnewSecondImg"  width="290" /></td>
+                    </tr>
+                </table>
+            </div>
+            
+            
+            <div style="margin-top: 10px;border: 1px solid #000;">
+                <br/>
+                <div style="font-size: 16px; margin-bottom: 10px;padding:5px;"><b>STEP 2: EDGE TREATMENT -</b> CHOOSE YOUR EDGE TREATMENT</div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px;  text-align: center;">
+                            <div style="width: 20px; height: 20px; border: 1px solid #000; display: inline-block; margin-right: 5px;"> </div>
+                            <label for="treatment1"><b>DOUBLE EASED</b> <br/> <span style="font-size:12px; ">(DOUBLE, ⅛" RADIUS)</span></label>
+                        </td>
+                        <td style="text-align: left;"><img src="{!$Resource.cf_ipc782_edgetreatmentnew1First}" alt="edgetreatmentnew1First" width="100"  /></td>
+                        <td style="padding: 10px;  text-align: center;">
+                            <div style="width: 20px; height: 20px; border: 1px solid #000; display: inline-block; margin-right: 5px;">     </div>
+                            <label for="treatment2"><b>DOUBLE RADIUS*</b><br/> <span style="font-size:12px; ">(DOUBLE, ¼" RADIUS)</span></label>
+                        </td>
+                        <td style="text-align: left;"><img src="{!$Resource.cf_ipc782_edgetreatmentnew1Second}" alt="edgetreatmentnew1Second" width="100" /></td>
+                        <td style="padding: 10px;  text-align: center;">
+                            <div style="width: 20px; height: 20px; border: 1px solid #000; display: inline-block; margin-right: 5px;">   </div>
+                            <label for="treatment3"><b>BEVEL</b><br/> <span style="font-size:12px; ">(SINGLE, ¼" BEVEL, TOP EDGE)</span></label>
+                        </td>
+                        <td style="text-align: left;"><img src="{!$Resource.cf_ipc782_edgetreatmentnew1Third}" alt="edgetreatmentnew1Third" width="120"/></td>
+                        <td style="padding: 10px;  text-align: center;">
+                            <div style="width: 20px; height: 20px; border: 1px solid #000; display: inline-block; margin-right: 5px;"> </div>
+                            <label for="treatment4"><b>FULL BULLNOSE</b><br/> <span style="font-size:12px; ">(FULL RADIUS, ½", 1", OR 1½")</span></label>
+                        </td>
+                        <td style="text-align: left;"><img src="{!$Resource.cf_ipc782_edgetreatmentnew1Forth}" alt="edgetreatmentnew1Forth" width="100"/></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div style="border: 1px solid #000;">
+                <br/>
+                <div style="font-size: 16px; margin-bottom: 10px;padding:5px;"><b>STEP 3: DIMENSIONS &amp; STYLE</b> </div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px;  text-align: center;">
+                            <img style="" src="{!$Resource.cf_ipc782_ipc782_rev10_img11}" alt="Inpro" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+        </div>
+        
+        <table style="border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;">
+            <tr >
+                <td style="border: 1px solid black;" rowSpan="2">
+                    <img style="width:70px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+                </td>
+                <td style="border: 1px solid black;  font-size:12px">
+                    JOB Name: 
+                </td>
+                <td style="border: 1px solid black; padding:5px;">
+                    Project#: 
+                </td>
+                <td style="border: 1px solid black; padding:5px;">
+                    Date: 
+                </td>
+                <td style="border: 1px solid black; padding:5px;">
+                    Tag: 
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; padding:3px; text-align:left;font-size:12px;" colSpan="2">
+                    COLOR Name/ COLOR NUMBER: 
+                </td>
+                <td style="border: 1px solid black; padding:3px; text-align:right">
+                    <span style="font-size: 12px;">FINISH:</span> 
+                    <span style="font-size: 7px;">*based on Color Selection</span> <br/>
+                    <span style="font-size: 12px;font-weight:bold;">FINAL FINISH</span> 
+                </td>
+                <td style="border: 1px solid black; padding:3px;">
+                    <span style="font-size: 11px;text-align:left;">SCALE:</span>  <br/>
+                    <span style="font-size: 14px;text-align:right;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;N.T.S.</span> 
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;padding:5px; text-align:left;font-size:12px;" colSpan="1">
+                    QTY:       
+                </td>
+                <td style="border: 1px solid black;padding:5px; text-align:left;font-size:12px;" colSpan="3">
+                    NOTES:       
+                </td>
+                <td  style="border: 1px solid black; padding:5px; text-align:right">
+                    IPC.782/Rev12
+                </td>
+            </tr>
+        </table>
+        
+    </body>
+    
+</apex:page>

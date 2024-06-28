@@ -102,96 +102,87 @@
                 </b>
             </p>
             
+            <table style="width:100%">
+                           <tr>
+                               <td style="width:5%"></td>
+                               <td style="width:7%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
+                               <td style="width:8%;border-bottom: 1px solid #000;">
+                                   <div
+                                       style=" display: inline-block; width: 95%; border: none;  outline: none;">
+                                       
+                                   </div>
+                               </td>
+                               <td style="width:8%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote # </td>
+                               <td style="width:7%;border-bottom: 1px solid #000;">
+                                   <div
+                                       style=" display: inline-block; width: 95%; border: none; outline: none;">
+                                       {!customForm.quoteRecord.QuoteNumber} 
+                                   </div>
+                               </td>
+                               <td style="width:65%"></td>
+                           </tr>
+                       </table>                    
+                   
+                   <br/>
+ 
             
-            
-            
-            <div style="width:35%;margin-left: 5%;">
-                <table style="width:100%">
-                    <tr>
-                        <td style="width:15%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
-                        <td style="width:20%">
-                            <div
-                                style=" display: inline-block; width: 95%; border: none;  outline: none;">
-                                <!-- Empty div for layout -->
-                            </div>
-                        </td>
-                        <td style="width:15%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote # </td>
-                        <td style="width:20%">
-                            <div
-                                style=" display: inline-block; width: 95%; border: none; outline: none;">
-                                {!customForm.quoteRecord.QuoteNumber} 
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            
-            <table style="border-collapse: collapse; margin-left: 5%; width: 100%;font-size: 14px;">
-                <tr>
-                    <td style=" width: 5%;"> Date: </td>
-                    <td style="width:30%;">
-                        <div style="border-bottom: none; width: 230px; display: inline-block;">
-                            {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
-                        </div>
-                    </td>
-                    
-                    <td style="width:25%;"> </td>
-                    <td style=" width: 40%;">
-                        Customer Account Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!customForm.quoteRecord.Account.Customer_Number__c}    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-                    </td>
-                </tr>
-                <tr>
-                    <td style=" width: 5%;">  Contact: </td>
-                    <td style="width:30%;">
-                        <div style="border-bottom: none; width: 230px; display: inline-block; background:">
-                            {!customForm.quoteRecord.Contact.Name}
-                        </div>
-                    </td>
-                    <td style="width:5%;"> </td>
-                    <td style=" width: 30%;">  Sales Rep: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{!customForm.quoteRecord.Inside_Rep__c} </td>
-                    <!-- <td style="width:20%;">
-                        <div style="border-bottom: none; width: 200px; display: inline-block;margin-left:-150px; background:">
-                            
-                        </div>
-                    </td> -->
-                </tr>
-                <tr>
-                    <td style=" width: 5%;"> Phone: </td>
-                    <td style="width:30%;">
-                        <div style="border-bottom: none; width: 230px; display: inline-block; background:">
-                            {!customForm.quoteRecord.Phone}
-                        </div>
-                    </td>
-                    <td style="width:5%;">  </td>
-                    <td style=" width: 35%;"> Facility or Project Name:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{!customForm.quoteRecord.Opportunity_Name__c} </td>
-                    <td style="width:20%;">  </td>
-                </tr>
-                <tr>
-                    <td style=" width: 5%;"> Ship to: </td>
-                    <td style="width:30%;">
-                        <div style="border-bottom: none; width: 230px; display: inline-block; background:">
+            <table style="border-collapse: collapse; margin-left: 5%; width: 100%; font-size: 14px;">
+                       <tr>
+                           <td style="width: 5%;">Date:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Customer Account Number:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Account.Customer_Number__c}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="width: 5%;">Contact:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Contact.Name}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Sales Rep:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Inside_Rep__c}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="width: 5%;">Phone:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Phone}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Facility or Project Name:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Opportunity_Name__c}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="width: 5%;">Ship to:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
                             {!customForm.quoteRecord.ShippingStreet}
-                        </div>
-                    </td>
-                    <td style="width:5%;"> </td>
-                    <td style=" width: 30%;">
-                        Fax:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!customForm.quoteRecord.Fax}  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-                    </td>
-                    <td style=" width: 30%;">
-                    
-                 </td>
-                </tr>
-                <tr>
-                    <td style=" width: 5%;"> </td>
-                    <td style="width:30%;">
-                        <div style="border-bottom: none; width: 230px; display: inline-block; background:">
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Fax:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Fax}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td></td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
                             {!customForm.quoteRecord.ShippingCity}, {!customForm.quoteRecord.ShippingState} {!customForm.quoteRecord.ShippingPostalCode}
-                        </div>
-                    </td>
-                    <td style="width:5%;">    </td>
-                    <td>E-Mail:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{!customForm.quoteRecord.Fax}</td>
-                </tr>
-            </table>    
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">E-Mail:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Email}
+                           </td>
+                       </tr>
+                   </table>
                 
 
             <table style="width:100%">
@@ -381,7 +372,7 @@
                     ALL CUSTOM ORDERS ARE NON-CANCELABLE AND PRODUCTS ARE NON-RETURNABLE
                 </b>
             </p>
-            <br/>
+            <br/><br/><br/><br/>
             <br/>
             <br/>
             <br/>
@@ -515,96 +506,87 @@
         </p>
         
         
+        <table style="width:100%">
+                           <tr>
+                               <td style="width:5%"></td>
+                               <td style="width:7%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
+                               <td style="width:8%;border-bottom: 1px solid #000;">
+                                   <div
+                                       style=" display: inline-block; width: 95%; border: none;  outline: none;">
+                                       
+                                   </div>
+                               </td>
+                               <td style="width:8%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote # </td>
+                               <td style="width:7%;border-bottom: 1px solid #000;">
+                                   <div
+                                       style=" display: inline-block; width: 95%; border: none; outline: none;">
+                                       {!customForm.quoteRecord.QuoteNumber} 
+                                   </div>
+                               </td>
+                               <td style="width:65%"></td>
+                           </tr>
+                       </table>                    
+                   
+                   <br/>
+ 
         
-        
-        <div style="width:35%;margin-left: 5%;">
-            <table style="width:100%">
-                <tr>
-                    <td style="width:15%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Order #</td>
-                    <td style="width:20%">
-                        <div
-                            style=" display: inline-block; width: 95%; border: none;  outline: none;">
-                            <!-- Empty div for layout -->
-                        </div>
-                    </td>
-                    <td style="width:15%"><a href="#" style="display: inline-block; width: 10px; height: 10px; border: 1px solid black; margin-right: 5px;"></a>Quote # </td>
-                    <td style="width:20%">
-                        <div
-                            style=" display: inline-block; width: 95%; border: none; outline: none;">
-                            {!customForm.quoteRecord.QuoteNumber} 
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        
-        <table style="border-collapse: collapse; margin-left: 5%; width: 100%;font-size: 14px;">
-            <tr>
-                <td style=" width: 5%;"> Date: </td>
-                <td style="width:30%;">
-                    <div style="border-bottom: none; width: 230px; display: inline-block;">
-                        {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
-                    </div>
-                </td>
-                
-                <td style="width:25%;"> </td>
-                <td style=" width: 40%;">
-                    Customer Account Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!customForm.quoteRecord.Account.Customer_Number__c}    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-                </td>
-            </tr>
-            <tr>
-                <td style=" width: 5%;">  Contact: </td>
-                <td style="width:30%;">
-                    <div style="border-bottom: none; width: 230px; display: inline-block; background:">
-                        {!customForm.quoteRecord.Contact.Name}
-                    </div>
-                </td>
-                <td style="width:5%;"> </td>
-                <td style=" width: 30%;">  Sales Rep: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{!customForm.quoteRecord.Inside_Rep__c} </td>
-                <!-- <td style="width:20%;">
-                    <div style="border-bottom: none; width: 200px; display: inline-block;margin-left:-150px; background:">
-                        
-                    </div>
-                </td> -->
-            </tr>
-            <tr>
-                <td style=" width: 5%;"> Phone: </td>
-                <td style="width:30%;">
-                    <div style="border-bottom: none; width: 230px; display: inline-block; background:">
-                        {!customForm.quoteRecord.Phone}
-                    </div>
-                </td>
-                <td style="width:5%;">  </td>
-                <td style=" width: 35%;"> Facility or Project Name:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{!customForm.quoteRecord.Opportunity_Name__c} </td>
-                <td style="width:20%;">  </td>
-            </tr>
-            <tr>
-                <td style=" width: 5%;"> Ship to: </td>
-                <td style="width:30%;">
-                    <div style="border-bottom: none; width: 230px; display: inline-block; background:">
-                        {!customForm.quoteRecord.ShippingStreet}
-                    </div>
-                </td>
-                <td style="width:5%;"> </td>
-                <td style=" width: 30%;">
-                    Fax:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!customForm.quoteRecord.Fax}  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-                </td>
-                <td style=" width: 30%;">
-                
-                </td>
-            </tr>
-            <tr>
-                <td style=" width: 5%;"> </td>
-                <td style="width:30%;">
-                    <div style="border-bottom: none; width: 230px; display: inline-block; background:">
-                        {!customForm.quoteRecord.ShippingCity}, {!customForm.quoteRecord.ShippingState} {!customForm.quoteRecord.ShippingPostalCode}
-                    </div>
-                </td>
-                <td style="width:5%;">    </td>
-                <td>E-Mail:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{!customForm.quoteRecord.Fax}</td>
-            </tr>
-        </table>    
-        
+        <table style="border-collapse: collapse; margin-left: 5%; width: 100%; font-size: 14px;">
+                       <tr>
+                           <td style="width: 5%;">Date:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Customer Account Number:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Account.Customer_Number__c}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="width: 5%;">Contact:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Contact.Name}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Sales Rep:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Inside_Rep__c}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="width: 5%;">Phone:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Phone}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Facility or Project Name:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Opportunity_Name__c}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="width: 5%;">Ship to:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                            {!customForm.quoteRecord.ShippingStreet}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">Fax:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Fax}
+                           </td>
+                       </tr>
+                       <tr>
+                           <td></td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                            {!customForm.quoteRecord.ShippingCity}, {!customForm.quoteRecord.ShippingState} {!customForm.quoteRecord.ShippingPostalCode}
+                           </td>
+                           <td style="width: 15%;"></td>
+                           <td style="width: 12%;">E-Mail:</td>
+                           <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
+                               {!customForm.quoteRecord.Email}
+                           </td>
+                       </tr>
+                   </table>
         
         <table style="width:100%">
             <tr>

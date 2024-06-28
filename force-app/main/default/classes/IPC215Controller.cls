@@ -38,12 +38,10 @@ public with sharing class IPC215Controller {
                             customForm.quoteLines.add(customLine);
                         }
                     }
-                }else {
-                     BlankForm = true;
                 }
             }
             if(quoteId == null){
-              BlankForm = true;  
+                BlankForm = true;
             }else{
                 BlankForm = false;
             }
@@ -60,6 +58,7 @@ public with sharing class IPC215Controller {
     public class CustomFormWrapper {
         public Quote quoteRecord { get; set; }
         public List<CustomQuoteLineItem> quoteLines { get; set; }
+        
         
         public CustomFormWrapper() {
             quoteRecord = new Quote();

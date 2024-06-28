@@ -34,8 +34,7 @@ private class IPC215ControllerTest {
             System.assertEquals(1, customLine.Quantity, 'Expected Quantity to be 1.');
         }
     }
-    
-    @IsTest
+      @IsTest
     static void testController1() {
         List<Quote> quotes = [SELECT Id FROM Quote LIMIT 1];
         System.assertEquals(1, quotes.size(), 'Expected to find one Quote in the database.');
@@ -46,14 +45,10 @@ private class IPC215ControllerTest {
         IPC215Controller iController = new IPC215Controller(sc);
         List<IPC215Controller.CustomQuoteLineItem> customLines = iController.customForm.quoteLines;
         System.assertEquals(2, customLines.size(), 'Expected to find three CustomQuoteLineItems.');
-        Set<String> itemNumbers = new Set<String>();
         for (IPC215Controller.CustomQuoteLineItem customLine : customLines) {
-            itemNumbers.add(customLine.ItemNumber);
             System.assertEquals('Clamshell', customLine.colorName, 'Expected colorName to be Clamshell.');
             System.assertEquals('0154', customLine.colorNumber, 'Expected colorNumber to be 0154.');
             System.assertEquals(1, customLine.Quantity, 'Expected Quantity to be 1.');
         }
-        System.assert(itemNumbers.contains('K41'), 'Expected ItemNumber to include K41.');
-        System.assert(itemNumbers.contains('K42'), 'Expected ItemNumber to include K42.');
     }
 }

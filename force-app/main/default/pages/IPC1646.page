@@ -1,0 +1,1748 @@
+<apex:page setup="false" sidebar="false" renderAs="pdf" showHeader="false"  controller="IPC1646Controller" applyHtmlTag="false" applyBodyTag="false">
+    <title>IPC1646</title>
+    <apex:outputText rendered="{!BlankForm == true}">
+        
+        <head>
+            <style type="text/css">
+                @page {
+                size: 8.5in 11in portrait;
+                background-repeat: no-repeat;
+                background-position: center;
+                @top-center {
+                content: element(header);
+                }
+                @bottom-left {
+                content: element(footer);
+                }
+                }
+                div.header {
+                padding: 5px;
+                position: running(header);
+                }
+                }
+            </style>
+        </head>
+        
+        <body style="font-family: sans-serif; font-size: 10pt;">
+            
+            <!--Header-->
+            <div class="header">
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                        </td>
+                        <td style="text-align: right;">
+                            Custom Product Order Form
+                            <div style="text-align: right; font-weight:bold;">
+                                Stainless Steel Wall Panels
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width:1px;" />
+                <p style="padding-left: 6pt;text-align: left;">
+                    Please complete the following information based on field verified dimensions.Orders for custom
+                    products cannot be
+                    cancelled or returned. Please sign and return to proceed with your order. Fax to
+                    {!customForm.quoteRecord.Inside_Rep__c}
+                    at 888715-8407 for quotation. Sales contact: 800-222-5556.
+                </p>
+            </div>
+            <!--Header Table-->
+            <table style="width:100%; border-collapse: collapse; border: 1px solid black; border-spacing: 20px;">
+                <tr>
+                    <td style="width: 25%; border: 1px solid black;padding:4px;">Authorized Signature/Date</td>
+                    <td style="width: 20%; border: 1px solid black;padding:4px;"></td>
+                    <td style="width: 20%; border: 1px solid black;padding:4px;">Inpro Quote #</td>
+                    <td style="width: 35%; border: 1px solid black;padding:4px;">
+                        <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black;padding:4px;">Print Name/Title</td>
+                    <td style="width: 20%; border: 1px solid black;padding:4px;">
+                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                    </td>
+                    <td style="width: 20%; border: 1px solid black;padding:4px;">Project Name</td>
+                    <td style="width: 35%; border: 1px solid black;padding:4px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black;padding:4px;">Company Name</td>
+                    <td style="width: 20%; border: 1px solid black;padding:4px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                    </td>
+                    <td style="width: 20%; border: 1px solid black;padding:4px;">Account #</td>
+                    <td style="width: 35%; border: 1px solid black;padding:4px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                    </td>
+                </tr>
+            </table>
+            
+            <br/>
+            <span style="font-size:17px;"><u>Stainless Steel Wall Panels:</u></span> <br/>
+            
+            <table style="border-collapse: collapse;font-size:13px;">
+                <tr>
+                    <td style="padding: 5px;">Texture:</td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
+                    </td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px;">Alloy:</td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px;">Gauge:</td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">18 (standard)</div>
+                    </td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">16 (available)</div>
+                    </td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">20 (available - Smooth
+                            texture only)</div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Mounting Option 1 -->
+            <table style="font-size:13px;padding-top:5px">
+                <tr>
+                    <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
+                    <td style="padding:10px;width:10%">
+                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                        <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
+                    </td>
+                    <td style="padding:5px;width:25%">
+                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                        <div style="padding-left:28px;margin-top:-18px">&nbsp; Screw-On** (Smooth texture with straight cut &nbsp;&nbsp;&nbsp;edges and no overlap only)</div>
+                    </td>
+                </tr>
+            </table>
+            
+            <table>
+                <tr>
+                    <apex:outputText rendered="{!isMetric == false}">
+                        <td colspan="5">Total Square Feet of Stainless Steel Wall Panels: ____________________________</td>
+                    </apex:outputText>
+                    <apex:outputText rendered="{!isMetric == true}">
+                        <td colspan="5">Total Square Meters of Stainless Steel Wall Panels: ____________________________</td>
+                    </apex:outputText>
+                </tr>
+            </table>
+            
+            <br/>
+            <span style="font-size:10px;">Note: Final quantities to be calculated by Inpro based on customer's completed measurement form</span>
+            <br/>
+            <br/>
+            
+            <span style="font-size:17px;"><u>Stainless Steel Corners:</u></span> <br/>
+            
+            <table style="border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 5px;">Texture:</td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
+                    </td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px;">Alloy:</td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px;">Gauge:</td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">16 (standard)</div>
+                    </td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">18 (available)</div>
+                    </td>
+                    <td style="padding: 5px;">
+                        <div
+                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                        <div style="display: inline-block; float: right;padding-left:8px;">20 (available)</div>
+                    </td>
+                </tr>
+            </table>
+            <!-- Mounting Option 2 -->
+            <table style="font-size:13px;padding-top:5px">
+                <tr>
+                    <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
+                    <td style="padding:10px;width:10%">
+                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                        <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
+                    </td>
+                    <td style="padding:5px;width:25%">
+                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                        <div style="padding-left:28px;margin-top:-18px">&nbsp; &nbsp;Screw-On**</div>
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="padding:10px;">
+                <tr>
+                    <apex:outputText rendered="{!isMetric == false}">
+                        <td style=";">Total Linear Feet of Inside Corners: </td>
+                    </apex:outputText>
+                    <apex:outputText rendered="{!isMetric == true}">
+                        <td style=";">Total Linear Meters of Inside Corners: </td>
+                    </apex:outputText>
+                    <td colspan="2"> ________________________________ </td>
+                </tr>
+                <tr>
+                    <apex:outputText rendered="{!isMetric == false}">
+                        <td style=""> Total Linear Feet of Outside Corners: </td>
+                    </apex:outputText>
+                    <apex:outputText rendered="{!isMetric == true}">
+                        <td style=""> Total Linear Meters of Outside Corners: </td>
+                    </apex:outputText>
+                    <td colspan="2"> ________________________________ </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <span style="font-size:11px;">Note: Final quantities to be calculated by Inpro based on customer's completed measurement form.</span>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <span style="color:blue;font-size:14px;">Inpro Product Manager Signature Required: </span>
+            <span>____________________________</span>
+            <br/> <br/>
+            <span style="padding: 10px 10px 10px 0;margin-Bottom:15px;">Note: Diamond plate texture is only available as cement-on.</span><br/>
+            <span>*Double-sided tape and PL Premium included.</span><br/>
+            
+            <apex:outputText rendered="{!isMetric == false}">
+                <span>**#6 x 1¼'' Phillips flat head self-tapping screw and ¼'' plastic alligator anchor included.</span>
+            </apex:outputText>
+            <apex:outputText rendered="{!isMetric == true}">
+                <span>**#6 x 3.175cm Phillips flat head self-tapping screw and 0.635cm plastic alligator anchor included.</span>
+            </apex:outputText>
+            
+            <br/>
+            <div class="footer">
+                <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;margin-top:5px;">
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                        <td style="border: 1px solid black; padding:6px;"> </td>
+                        <td style="border: 1px solid black; padding:6px;"> Customer Order #:</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;"> Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of </td>
+                        <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                        <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                    </tr>
+                </table>
+                <table style="width:100%; padding:2px;">
+                    <tr>
+                        <td style="width:15%">
+                            <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                        <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                        <td style="width:15%">IPC.1646/Rev.11</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="page-break-after: always" />
+            <!--Page 1 --End-->
+            
+            <br/>
+            <div class="header">
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                        </td>
+                        <td style="text-align: right;">
+                            Measurement Form
+                            <div style="text-align: right; font-weight:bold;">
+                                Stainless Steel Wall Panels
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width:1px;" />
+            </div>
+            
+            <p>
+                Note: See Measurement Instructions for details on completing this form. Measurements from this form will
+                be used
+                by Inpro to calculate the final order quantities.
+            </p>
+            
+            <table style="border-collapse: collapse; width: 100%;">
+                <tr>
+                    <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Wall #</b></td>
+                    
+                    <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Location</b></td>
+                    
+                    <td colspan="2" style="border: 1px solid black; padding: 8px; text-align: center; border-bottom: hidden;"><b> Left End Condition</b></td>
+                    
+                    <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Actual Distance Between Left &amp; Right End Condition</b><br/>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            (Feet-Inches)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            (Meters)
+                        </apex:outputText>
+                    </td>
+                    
+                    <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Height</b><br/>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            (Feet-Inches)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            (Meters)
+                        </apex:outputText>
+                    </td>
+                    
+                    <td colspan="2" style="border: 1px solid black; padding: 8px; border-bottom:hidden; text-align: center;"><b>Right End Condition</b></td>
+                    
+                    <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Grain Direction</b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"><b>IC, OC, Straight</b> </td>
+                    
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"> <b>Height IC/OC only</b> <br/>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            (Feet-Inches)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            (Meters)
+                        </apex:outputText>
+                    </td>
+                    
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"><b>IC, OC, Straight</b></td>
+                    
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"><b>Height IC/OC only</b><br/>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            (Feet-Inches)
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            (Meters)
+                        </apex:outputText>
+                    </td>
+                    
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr><tr>
+                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                </tr>
+            </table>
+            
+            <br/><br/>
+            <span>• Note: Grain direction will be horizontal unless otherwise noted.</span> <br/>
+            <span>• Note: Minimum size = 4" x 4". Maximum panel size is 120"w x 48"h if grain direction is horizontal or 48"w x 120"h if grain direction is vertical. </span>
+            <br/> <br/> <br/>
+            <br/>
+            <div class="footer">
+                <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                        <td style="border: 1px solid black; padding:6px;">{!customForm.quoteRecord.Inside_Rep__c} </td>
+                        <td style="border: 1px solid black; padding:6px;"> Customer Order #:</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:6px;"> Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of </td>
+                        <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                        <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                    </tr>
+                </table>
+                
+                <table style="width:100%; padding:2px;">
+                    <tr>
+                        <td style="width:15%">
+                            <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                        <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                        <td style="width:15%">IPC.1646/Rev.11</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="page-break-after: always"/>
+            <!-- Page 2 End -->
+            
+            <div class="header">
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                        </td>
+                        <td style="text-align: right;">
+                            Measurement Instructions
+                            <div style="text-align: right; font-weight:bold;">
+                                Stainless Steel Wall Panels
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width:1px;" />
+            </div>
+            
+            <span><b>1. WALL # -</b> Identify/label as 1, 2, 3, etc. (wall panels will be labeled for field location).</span>
+            <br/><br/>
+            <span><b>2. LOCATION/ROOM # -</b> Identify/label as room #, corridor, etc.</span> <br/><br/>
+            <span><b>3. LEFT OR RIGHT END CONDITION -</b> Choose from the following wall conditions: <b>IC/Inside Corner,</b>  </span>
+            <span><b>OC/Outside Corner,</b> or <b>Straight Cut</b> wall panel end. If your end condition will be an Inside or Outside</span>
+            <br/>
+            <span>Corner, indicate height.</span><br/><br/>
+            <span><b>4. ACTUAL DISTANCE BETWEEN CONDITIONS -</b> Measure distance between left and right end condition</span><br/>
+            <span>and enter dimension in feet and inches (meters).</span><br/><br/>
+            <span><b>5. HEIGHT -</b> Indicate panel height in feet and inches (meters).</span><br/><br/>
+            <span><b>6. GRAIN DIRECTION -</b> Grain direction will be horizontal unless otherwise noted "vertical".</span><br/><br/><br/><br/>
+            
+            <span><b>Example: Wall Condition</b></span>
+            <table style="width:100%">
+                <tr>
+                    <td>	<img style="width:630px;" src="{!$Resource.cf_ipc1646_id1648}"/>  </td>
+                </tr>
+            </table>
+            
+            <span style="font-size:15px;">Sample Measurement Form</span>
+            <table style="border-collapse: collapse; width: 100%;">
+                <tr>
+                    <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Wall #</th>
+                    <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Location</th>
+                    <th colspan="2"	style="border: 1px solid black; padding: 5px; text-align: center; border-bottom: hidden;">Left	End Condition</th>
+                    <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Actual Distance
+                        Between Left &amp; Right End Condition <br/>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            <span style="font-weight: 100;">(Feet-Inches)</span>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            <span style="font-weight: 100;">(Meters)</span>
+                        </apex:outputText>
+                    </th>
+                    <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Height<br/>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            <span style="font-weight: 100;">(Feet-Inches)</span>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            <span style="font-weight: 100;">(Meters)</span>
+                        </apex:outputText>
+                    </th>
+                    <th colspan="2"	style="border: 1px solid black; padding: 5px;border-bottom:hidden; text-align: center;">Right End Condition</th>
+                </tr>
+                <tr>
+                    <th style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC, OC, Straight</th>
+                    <th style="border: 1px solid black; padding: 5px; text-align: center;">Height
+                        <br/> 
+                        <apex:outputText rendered="{!isMetric == false}">
+                            <span style="font-weight: 100;">(Feet-Inches)</span>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            <span style="font-weight: 100;">(Meters)</span>
+                        </apex:outputText>
+                    </th>
+                    <th style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC, OC, Straight</th>
+                    <th style="border: 1px solid black; padding: 5px; text-align: center;">Height
+                        <br/>
+                        <apex:outputText rendered="{!isMetric == false}">
+                            <span style="font-weight: 100;">(Feet-Inches)</span>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            <span style="font-weight: 100;">(Meters)</span>
+                        </apex:outputText>
+                    </th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">1</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">Room 214</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">OC</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            8' 0"
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            2.4384
+                        </apex:outputText>
+                        
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            12' 3''
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            3.7338
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            4' 0''
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            1.2192
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            8' 0"
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            2.4384
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">2</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">Room 214</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            8' 0"
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            2.4384
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            10' 1''
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            3.0734
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            4' 0''
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            1.2192
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            8' 0"
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            2.4384
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">3</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">Room 214</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            8' 0"
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            2.4384
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            12' 3''
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            3.7338
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            4' 0''
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            1.2192
+                        </apex:outputText>
+                    </td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">Straight</td>
+                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                        <apex:outputText rendered="{!isMetric == false}">
+                            4' 0''
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            1.2192
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            
+            <!-- Bottom Footer -->
+            <div class="footer">
+                <table style="width:100%; padding:2px;">
+                    <tr>
+                        <td style="width:15%">
+                            <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                        <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                        <td style="width:15%">IPC.1646/Rev.11</td>
+                    </tr>
+                </table>
+            </div>
+        </body>
+    </apex:outputText>
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <apex:form >
+            <apex:variable var="cnt" value="{!0}" />  	
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                <div style="{!if(cnt < 1, 'page-break-before:avoid;','page-break-before:always;')}">
+                    <apex:variable var="cnt" value="{!cnt+1}"/>
+                    <head>
+                        <style type="text/css">
+                            @page {
+                            size: 8.5in 11in portrait;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            @top-center {
+                            content: element(header);
+                            }
+                            @bottom-left {
+                            content: element(footer);
+                            }
+                            }
+                            div.header {
+                            padding: 5px;
+                            position: running(header);
+                            }
+                            }
+                        </style>
+                    </head>
+                    
+                    <body style="font-family: sans-serif; font-size: 10pt;">
+                        
+                        <!--Header-->
+                        <div class="header">
+                            <table style="width:100%">
+                                <tr>
+                                    <td>
+                                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                    </td>
+                                    <td style="text-align: right;">
+                                        Custom Product Order Form
+                                        <div style="text-align: right; font-weight:bold;">
+                                            Stainless Steel Wall Panels
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <hr style="border-width:1px;" />
+                            <p style="padding-left: 6pt;text-align: left;">
+                                Please complete the following information based on field verified dimensions.Orders for custom
+                                products cannot be
+                                cancelled or returned. Please sign and return to proceed with your order. Fax to
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                                at 888715-8407 for quotation. Sales contact: 800-222-5556.
+                            </p>
+                        </div>
+                        <!--Header Table-->
+                        <table style="width:100%; border-collapse: collapse; border: 1px solid black; border-spacing: 20px;">
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black;padding:4px;">Authorized Signature/Date</td>
+                                <td style="width: 20%; border: 1px solid black;padding:4px;"></td>
+                                <td style="width: 20%; border: 1px solid black;padding:4px;">Inpro Quote #</td>
+                                <td style="width: 35%; border: 1px solid black;padding:4px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black;padding:4px;">Print Name/Title</td>
+                                <td style="width: 20%; border: 1px solid black;padding:4px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                                </td>
+                                <td style="width: 20%; border: 1px solid black;padding:4px;">Project Name</td>
+                                <td style="width: 35%; border: 1px solid black;padding:4px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black;padding:4px;">Company Name</td>
+                                <td style="width: 20%; border: 1px solid black;padding:4px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                                </td>
+                                <td style="width: 20%; border: 1px solid black;padding:4px;">Account #</td>
+                                <td style="width: 35%; border: 1px solid black;padding:4px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <br/>
+                        <span style="font-size:17px;"><u>Stainless Steel Wall Panels:</u></span> <br/>
+                        
+                        <table style="border-collapse: collapse;font-size:13px;">
+                            <tr>
+                                <td style="padding: 5px;">Texture:</td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                    </div>
+                                    <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
+                                </td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;">Alloy:</td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.AlloyThreeZeroFourForWall}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;">Gauge:</td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Eighteen_Standard_Wall}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">18 (standard)</div>
+                                </td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Sixteen_Avaialable_Wall}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">16 (available)</div>
+                                </td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Twenty_Availaable_Smooth_Wall}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">20 (available - Smooth texture only)</div>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <!-- Mounting Option 1 -->
+                        <table style="font-size:13px;padding-top:5px">
+                            <tr>
+                                <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
+                                <td style="padding:10px;width:10%">
+                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                                    <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
+                                </td>
+                                <td style="padding:5px;width:25%">
+                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                                    <div style="padding-left:28px;margin-top:-18px">&nbsp; Screw-On** (Smooth texture with straight cut &nbsp;&nbsp;&nbsp;edges and no overlap only)</div>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table>
+                            <tr>
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    <td colspan="5">Total Square Feet of Stainless Steel Wall Panels: ____________________________</td>
+                                </apex:outputText>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    <td colspan="5">Total Square Meters of Stainless Steel Wall Panels: ____________________________</td>
+                                </apex:outputText>
+                            </tr>
+                        </table>
+                        
+                        <br/>
+                        <span style="font-size:10px;">Note: Final quantities to be calculated by Inpro based on customer's completed measurement form</span>
+                        <br/>
+                        <br/>
+                        
+                        <span style="font-size:17px;"><u>Stainless Steel Corners:</u></span> <br/>
+                        
+                        <table style="border-collapse: collapse;">
+                            <tr>
+                                <td style="padding: 5px;">Texture:</td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                    </div>
+                                    <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
+                                </td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;">Alloy:</td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.AlloyThreeZeroFourForCorner}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;">Gauge:</td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Sixteen_Standard_Corner}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">16 (standard)</div>
+                                </td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Eighteen_Avaialable_Corner}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">18 (available)</div>
+                                </td>
+                                <td style="padding: 5px;">
+                                    <div
+                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Twenty_Avaialable_Corner}">
+                                    </div>
+                                    <div style="display: inline-block; float: right;padding-left:8px;">20 (available)</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Mounting Option 2 -->
+                        <table style="font-size:13px;padding-top:5px">
+                            <tr>
+                                <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
+                                <td style="padding:10px;width:10%">
+                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                                    <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
+                                </td>
+                                <td style="padding:5px;width:25%">
+                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                                    <div style="padding-left:28px;margin-top:-18px">&nbsp; &nbsp;Screw-On**</div>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table style="padding:10px;">
+                            <tr>
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    <td style=";">Total Linear Feet of Inside Corners: </td>
+                                </apex:outputText>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    <td style=";">Total Linear Meters of Inside Corners: </td>
+                                </apex:outputText>
+                                <td colspan="2"> ________________________________ </td>
+                            </tr>
+                            <tr>
+                                <apex:outputText rendered="{!isMetric == false}">
+                                    <td style=""> Total Linear Feet of Outside Corners: </td>
+                                </apex:outputText>
+                                <apex:outputText rendered="{!isMetric == true}">
+                                    <td style=""> Total Linear Meters of Outside Corners: </td>
+                                </apex:outputText>
+                                <td colspan="2"> ________________________________ </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <span style="font-size:11px;">Note: Final quantities to be calculated by Inpro based on customer's completed measurement form.</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <span style="color:blue;font-size:14px;">Inpro Product Manager Signature Required: </span>
+                        <span>____________________________</span>
+                        <br/> <br/>
+                        <span style="padding: 10px 10px 10px 0;margin-Bottom:15px;">Note: Diamond plate texture is only available as cement-on.</span><br/>
+                        <span>*Double-sided tape and PL Premium included.</span><br/>
+                        
+                        <apex:outputText rendered="{!isMetric == false}">
+                            <span>**#6 x 1¼'' Phillips flat head self-tapping screw and ¼'' plastic alligator anchor included.</span>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!isMetric == true}">
+                            <span>**#6 x 3.175cm Phillips flat head self-tapping screw and 0.635cm plastic alligator anchor included.</span>
+                        </apex:outputText>
+                        
+                        <br/>
+                        <div class="footer">
+                            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;margin-top:5px;">
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                                    <td style="border: 1px solid black; padding:6px;">{!customForm.quoteRecord.Inside_Rep__c} </td>
+                                    <td style="border: 1px solid black; padding:6px;"> Customer Order #:</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;"> Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of </td>
+                                    <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                                    <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                                </tr>
+                            </table>
+                            <table style="width:100%; padding:2px;">
+                                <tr>
+                                    <td style="width:15%">
+                                        <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                    <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                    <td style="width:15%">IPC.1646/Rev.11</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="page-break-after: always" />
+                        <!--Page 1 --End-->
+                        
+                        <br/>
+                        <div class="header">
+                            <table style="width:100%">
+                                <tr>
+                                    <td>
+                                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                    </td>
+                                    <td style="text-align: right;">
+                                        Measurement Form
+                                        <div style="text-align: right; font-weight:bold;">
+                                            Stainless Steel Wall Panels
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <hr style="border-width:1px;" />
+                        </div>
+                        
+                        <p>
+                            Note: See Measurement Instructions for details on completing this form. Measurements from this form will
+                            be used
+                            by Inpro to calculate the final order quantities.
+                        </p>
+                        
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Wall #</b></td>
+                                
+                                <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Location</b></td>
+                                
+                                <td colspan="2" style="border: 1px solid black; padding: 8px; text-align: center; border-bottom: hidden;"><b> Left End Condition</b></td>
+                                
+                                <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Actual Distance Between Left &amp; Right End Condition</b><br/>
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (Feet-Inches)
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        (Meters)
+                                    </apex:outputText>
+                                </td>
+                                
+                                <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Height</b><br/>
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (Feet-Inches)
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        (Meters)
+                                    </apex:outputText>
+                                </td>
+                                
+                                <td colspan="2" style="border: 1px solid black; padding: 8px; border-bottom:hidden; text-align: center;"><b>Right End Condition</b></td>
+                                
+                                <td rowspan="2" style="border: 1px solid black; padding: 8px; text-align: center;"><b>Grain Direction</b></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"><b>IC, OC, Straight</b> </td>
+                                
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"> <b>Height IC/OC only</b> <br/>
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (Feet-Inches)
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        (Meters)
+                                    </apex:outputText>
+                                </td>
+                                
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"><b>IC, OC, Straight</b></td>
+                                
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"><b>Height IC/OC only</b><br/>
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        (Feet-Inches)
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        (Meters)
+                                    </apex:outputText>
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr><tr>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center; border-right:hidden;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                                <td style="border: 1px solid black; padding: 8px; text-align: center;"></td>
+                            </tr>
+                        </table>
+                        
+                        <br/><br/>
+                        <span>• Note: Grain direction will be horizontal unless otherwise noted.</span> <br/>
+                        <span>• Note: Minimum size = 4" x 4". Maximum panel size is 120"w x 48"h if grain direction is horizontal or 48"w x 120"h if grain direction is vertical. </span>
+                        <br/> <br/> <br/>
+                        <br/>
+                        <div class="footer">
+                            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
+                                    <td style="border: 1px solid black; padding:6px;">{!customForm.quoteRecord.Inside_Rep__c} </td>
+                                    <td style="border: 1px solid black; padding:6px;"> Customer Order #:</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black; padding:6px;"> Form &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of </td>
+                                    <td style="border: 1px solid black; padding:6px;"> Inpro Drawing: N/A</td>
+                                    <td style="border: 1px solid black;padding:6px;"> Inpro #: </td>
+                                </tr>
+                            </table>
+                            
+                            <table style="width:100%; padding:2px;">
+                                <tr>
+                                    <td style="width:15%">
+                                        <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                    <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                    <td style="width:15%">IPC.1646/Rev.11</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="page-break-after: always"/>
+                        <!-- Page 2 End -->
+                        
+                        <div class="header">
+                            <table style="width:100%">
+                                <tr>
+                                    <td>
+                                        <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                    </td>
+                                    <td style="text-align: right;">
+                                        Measurement Instructions
+                                        <div style="text-align: right; font-weight:bold;">
+                                            Stainless Steel Wall Panels
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <hr style="border-width:1px;" />
+                        </div>
+                        
+                        <span><b>1. WALL # -</b> Identify/label as 1, 2, 3, etc. (wall panels will be labeled for field location).</span>
+                        <br/><br/>
+                        <span><b>2. LOCATION/ROOM # -</b> Identify/label as room #, corridor, etc.</span> <br/><br/>
+                        <span><b>3. LEFT OR RIGHT END CONDITION -</b> Choose from the following wall conditions: <b>IC/Inside Corner,</b>  </span>
+                        <span><b>OC/Outside Corner,</b> or <b>Straight Cut</b> wall panel end. If your end condition will be an Inside or Outside</span>
+                        <br/>
+                        <span>Corner, indicate height.</span><br/><br/>
+                        <span><b>4. ACTUAL DISTANCE BETWEEN CONDITIONS -</b> Measure distance between left and right end condition</span><br/>
+                        <span>and enter dimension in feet and inches (meters).</span><br/><br/>
+                        <span><b>5. HEIGHT -</b> Indicate panel height in feet and inches (meters).</span><br/><br/>
+                        <span><b>6. GRAIN DIRECTION -</b> Grain direction will be horizontal unless otherwise noted "vertical".</span><br/><br/><br/><br/>
+                        
+                        <span><b>Example: Wall Condition</b></span>
+                        <table style="width:100%">
+                            <tr>
+                                <td>	<img style="width:630px;" src="{!$Resource.cf_ipc1646_id1648}"/>  </td>
+                            </tr>
+                        </table>
+                        
+                        <span style="font-size:15px;">Sample Measurement Form</span>
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Wall #</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Location</th>
+                                <th colspan="2"	style="border: 1px solid black; padding: 5px; text-align: center; border-bottom: hidden;">Left	End Condition</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Actual Distance
+                                    Between Left &amp; Right End Condition <br/>
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        <span style="font-weight: 100;">(Feet-Inches)</span>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        <span style="font-weight: 100;">(Meters)</span>
+                                    </apex:outputText>
+                                </th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 5px; text-align: center;">Height<br/>
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        <span style="font-weight: 100;">(Feet-Inches)</span>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        <span style="font-weight: 100;">(Meters)</span>
+                                    </apex:outputText>
+                                </th>
+                                <th colspan="2"	style="border: 1px solid black; padding: 5px;border-bottom:hidden; text-align: center;">Right End Condition</th>
+                            </tr>
+                            <tr>
+                                <th style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC, OC, Straight</th>
+                                <th style="border: 1px solid black; padding: 5px; text-align: center;">Height
+                                    <br/> 
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        <span style="font-weight: 100;">(Feet-Inches)</span>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        <span style="font-weight: 100;">(Meters)</span>
+                                    </apex:outputText>
+                                </th>
+                                <th style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC, OC, Straight</th>
+                                <th style="border: 1px solid black; padding: 5px; text-align: center;">Height
+                                    <br/>
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        <span style="font-weight: 100;">(Feet-Inches)</span>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        <span style="font-weight: 100;">(Meters)</span>
+                                    </apex:outputText>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">1</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">Room 214</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">OC</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        8' 0"
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        2.4384
+                                    </apex:outputText>
+                                    
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        12' 3''
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        3.7338
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        4' 0''
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.2192
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        8' 0"
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        2.4384
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">2</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">Room 214</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        8' 0"
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        2.4384
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        10' 1''
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        3.0734
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        4' 0''
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.2192
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        8' 0"
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        2.4384
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">3</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">Room 214</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">IC</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        8' 0"
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        2.4384
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        12' 3''
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        3.7338
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        4' 0''
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.2192
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;border-right:hidden;">Straight</td>
+                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        4' 0''
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        1.2192
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        
+                        <!-- Bottom Footer -->
+                        <div class="footer">
+                            <table style="width:100%; padding:2px;">
+                                <tr>
+                                    <td style="width:15%">
+                                        <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                    <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                    <td style="width:15%">IPC.1646/Rev.11</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </body>
+                </div>
+            </apex:repeat>
+        </apex:form>
+        
+        
+        
+    </apex:outputText>
+    
+</apex:page>

@@ -52,7 +52,8 @@ public with sharing class IPC256Controller {
                     customForm.quoteLines = new List<CustomQuoteLineItem>();
                     for (QuoteLineItem line : quoteLines) {
                         system.debug('Line == >'+line.Item_Number__c);
-                        if (line != null && line.Item_Number__c != null && line.Item_Number__c.containsIgnoreCase('POLY')) {
+                        if (line != null && line.Item_Number__c != null && line.Item_Number__c.startsWith('POLY') && !line.Item_Number__c.endsWith('F')) {
+
                             CustomQuoteLineItem customLine = new CustomQuoteLineItem();
                             if (line.Quantity != null) {
                                 customLine.Quantity = (Integer)line.Quantity;

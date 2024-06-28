@@ -1,0 +1,430 @@
+<apex:page renderAs="pdf" controller="IPC070Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style type="text/css">
+            @page {
+            margin: 20px 30px 60px 30px ;
+            padding: 0px 0px 0px 0px ;
+            size:A1;        
+            @bottom-left {font-family: Arial Unicode MS; font-size:8pt;}
+            @bottom-center {font-family: Arial Unicode MS; font-size:8pt;}
+            /* @bottom-right {content: "Page " counter(page) " of " counter(pages); font-family: Arial Unicode MS; font-size:8pt;} */
+            
+            }
+        </style>
+    </head>
+    
+    <body style="font-family: sans-serif;  ">
+        <div style="border: 1px solid black;">
+            
+            
+            <table style="width:100%; margin-bottom: 0;">
+                <tr>
+                    <td style="text-align: left;">
+                        Custom Order Form:
+                        <br/>
+                        <div style="text-align: left; font-weight:bold;">
+                            Prism™ Solid Surface Custom Wall Panels and Decorative Wall Panels
+                        </div>
+                    </td>
+                    <td>
+                        <div style="text-align: right;">
+                            Sales Order #:<br/>
+                            <span style="font-size:12px;">(for Internal User Only)</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+            <p style="padding-left: 1pt; text-align: left; padding-top:8pt; margin-top: 0;font-size:11px">
+                PLEASE COMPLETE THE FOLLOWING INFORMATION BASED ON FIELD VERIFIED DIMENSIONS.  SEE PG. 2 FOR DECORATIVE WALL PANEL OPTIONS. 
+                ORDERS FOR CUSTOM PRODUCTS CANNOT BE RETURNED. THE SIGNED FORM
+                MUST BE SENT WITH YOUR ORDER. FAX TO 888-715-8407 FOR QUOTATION. SALES CONTACT: 800-222-5556
+            </p>
+            
+            
+            <p style="text-decoration: underline; font-weight:bold; font-size: 15px; line-height: 0.1px; margin-top: 0;margin-bottom: 0;">
+                FILL IN DIMENSIONS:
+            </p>
+            <!--Dimensions -->        
+            <table style="line-height: 0.1px; margin-top: 0;margin-bottom:0px;">
+                <tr>
+                    <td style="font-size: 8px; line-height: 0.1px; margin-top: 0;"> •¼" THICK PANELS 30" - 48" WIDTHS AVAILABLE IN LENGTHS UP TO 120", >48" - 61¾" WIDE </td>
+                    <td style="text-align:center;">
+                        <div style="display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 20px;margin-top: 12px; margin-left:10px;"> </div>
+                        <label style="display: block; padding-left:10px;margin-left:1px;margin-top: 5px;text-align:left;font-size: 10px;">Print Name</label>
+                    </td>
+                    <td style="text-align:center;">
+                        <div style="display: inline-block; width: 150px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 20px; margin-left:10px;margin-top: 22px;"> </div>
+                        <label  style="display: block; margin-top: 5px;text-align:left;padding-left:10px;font-size: 10px;">Signature</label>
+                        <label  style="display: block; margin-top: 5px;text-align:right;padding-right:20px;padding-bottom:5px;font-size: 10px;">Date</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 10px; line-height: 0.1px; margin-top: 0;">  AVAILABLE IN LENGTHS UP TO 96"  </td>
+                </tr>
+            </table>
+            
+            <!--table style="width:50%; padding:2px;margin-bottom:0px;">
+                <tr>
+                    <td style="width:10%" ><img style="width:175px;" src="{!$Resource.cf_ipc778_A1_Dimension}" alt="Inpro" /></td>
+                    <td style="width:10%" ><img style="width:175px;" src="{!$Resource.cf_ipc778_A1_Dimension}" alt="Inpro" /></td>
+                    <td style="width:10%" ><img style="width:175px;" src="{!$Resource.cf_ipc778_A1_Dimension}" alt="Inpro" /></td>
+                    <td style="width:10%" ><img style="width:175px;" src="{!$Resource.cf_ipc778_A1_Dimension}" alt="Inpro" /></td>
+                </tr>
+            </table>
+            <br/-->
+   
+        <!--Custom table -->
+    <table style="margin-left:40px;border-spacing: 40px;">
+            <tr>
+                <td style="padding:15px;">
+                    <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                        <!-- Vertical measurement line with arrows at the top and bottom -->
+                        <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                            <!-- Top arrow -->
+                            <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                            <!-- Bottom arrow -->
+                            <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                            <!-- Vertical Label -->
+                            <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                              "B1" +18"/-0
+                            </div>
+                        </div>
+                        <!-- Horizontal measurement line with arrows at both ends at the top -->
+                        <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                            <!-- Left arrow -->
+                            <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                            <!-- Right arrow -->
+                            <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                            <!-- Horizontal Label -->
+                            <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                "A1" +18"/-0
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding:15px;">
+                    <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                        <!-- Vertical measurement line with arrows at the top and bottom -->
+                        <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                            <!-- Top arrow -->
+                            <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                            <!-- Bottom arrow -->
+                            <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                            <!-- Vertical Label -->
+                            <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                             "B2" +18"/-0
+                            </div>
+                        </div>
+                        <!-- Horizontal measurement line with arrows at both ends at the top -->
+                        <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                            <!-- Left arrow -->
+                            <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                            <!-- Right arrow -->
+                            <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                            <!-- Horizontal Label -->
+                            <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                "A2" +18"/-0
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding:15px;">
+                    <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                        <!-- Vertical measurement line with arrows at the top and bottom -->
+                        <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                            <!-- Top arrow -->
+                            <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                            <!-- Bottom arrow -->
+                            <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                            <!-- Vertical Label -->
+                            <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                             "B3" +18"/-0
+                            </div>
+                        </div>
+                        <!-- Horizontal measurement line with arrows at both ends at the top -->
+                        <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                            <!-- Left arrow -->
+                            <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                            <!-- Right arrow -->
+                            <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                            <!-- Horizontal Label -->
+                            <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                "A3" +18"/-0
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding:15px;">
+                    <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                        <!-- Vertical measurement line with arrows at the top and bottom -->
+                        <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                            <!-- Top arrow -->
+                            <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                            <!-- Bottom arrow -->
+                            <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                            <!-- Vertical Label -->
+                           <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                            "B4" +18"/-0
+                            </div>
+                        </div>
+                        <!-- Horizontal measurement line with arrows at both ends at the top -->
+                        <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                            <!-- Left arrow -->
+                            <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                            <!-- Right arrow -->
+                            <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                            <!-- Horizontal Label -->
+                            <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                               "A4" +18"/-0
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+       <!--Custom table -->
+
+            <!--Lengths Table-->
+            <table style="width:20%; padding-left:5px; padding-top:20px; padding-bottom:5px;">
+                <tr>
+                    <td style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty:</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >Qty:</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >Qty:</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >Qty:</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                </tr>
+                <tr style="margin-bottom:20px;padding-bottom:50px">
+                    <td style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >TAG</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >TAG</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >TAG</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                </tr>
+                <tr style="margin-top:20px">
+                    <td style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O.</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >W.O.</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >W.O.</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                    <td style="white-space: nowrap; padding-right:5px;padding-left: 50px;"><label >W.O.1</label></td>
+                    <td style="width:0px; white-space: nowrap;">  _________ </td> 
+                </tr>
+                
+            </table>
+            
+            <!--edge Table-->
+            <table style="page-break-after: auto; margin-top:20px; margin-bottom:20px;">
+                <tr>
+                    <td style="width:100%" ><img style="width:700px;" src="{!$Resource.cf_ipc778_edgeTreatments}" alt="Inpro" /></td>
+                </tr>
+            </table>
+            <br/>
+            
+            
+            <!-- Bottom Footer -->
+            <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px margin-top:250px; margin-bottom:0px;">
+                <br/>
+                <table style="padding-top:50px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;">
+                    <tr >
+                        <td style="border: 1px solid black;" rowSpan="2">
+                            <img style="width:70px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+                        </td>
+                        <td style="border: 1px solid black;  font-size:12px">
+                            JOB Name: {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Project#: {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Date: {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:6px;">
+                            Tag: {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:3px; text-align:left;font-size:12px;" colSpan="2">
+                            COLOR Name/ COLOR NUMBER: {!customForm.quoteRecord.Inside_Rep__c}
+                        </td>
+                        <td style="border: 1px solid black; padding:3px; text-align:right">
+                            <span style="font-size: 12px;">FINISH:</span> 
+                            <span style="font-size: 6px;">*based on Color Selection</span> <br/>
+                            <span style="font-size: 12px;font-weight:bold;">FINAL FINISH</span> 
+                        </td>
+                        <td style="border: 1px solid black; padding:3px;">
+                            <span style="font-size: 11px;text-align:left;">SCALE:</span>  <br/>
+                            <span style="font-size: 14px;text-align:right;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;N.T.S.</span> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black;padding:6px; text-align:left;font-size:12px;" colSpan="4">
+                            NOTES:       
+                        </td>
+                        <td style="border: 1px solid black; padding:6px; text-align:right">
+                            IPC.778/Rev24
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="page-break-after: always"/>
+        
+        <!-- Page 1 End-->
+        <div style="border: 1px solid black;">
+            <span>
+                <table style="width:100%; margin-bottom: 0;">
+                    <tr>
+                        <td style="text-align: left;">
+                            Custom Order Form:
+                            <br/>
+                            <div style="text-align: left; font-weight:bold;">
+                                Prism™ Solid Surface Custom Wall Panels and Decorative Wall Panels
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: right;">
+                                Sales Order #:<br/>
+                                <span style="font-size:12px;">(for Internal User Only)</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <p style="padding-left: 1pt; text-align: left; padding-top:4pt; margin-top: 0;font-size:11px;">
+                    <span style="font-weight:bold;text-decoration: underline;">
+                        DECORATIVE OPTIONS AVAILABLE FOR PRISM™ ¼” THICK DECORATIVE WALL PANELS 
+                    </span>
+                    <span style="padding-bottom:100%;font-size:7px">
+                        <sup><b>ADDITIONAL CHARGES APPLY</b></sup>
+                    </span>
+                    <span style="font-size:11px;">
+                        IF YOU WISH TO CHOOSE A DECORATIVE PATTERN, PLEASE SELECT
+                        THE PATTERN BELOW. IF YOU HAVE A CUSTOM DESIGN PLEASE PROVIDE A DETAILED SKETCH OF THE DESIRED DESIGN. 
+                    </span> 
+                    <span style="font-weight:bold;font-size:11px;">
+                        ALL DECORATIVE PATTERNS REQUIRE A SKETCH WITH DIMENSIONS
+                        INDICATING THE DETAIL OF THE DESIGN PATTERN AND PRECISE LOCATION OF THE PATTERN ON THE WALL PANELS. 
+                    </span>
+                    <span style="font-size:11px;">
+                        PLEASE SUBMIT YOUR COMPLETED ORDER FORM AND SKETCH TO AN
+                        INPRO® SALES REP. WE WILL PROVIDE A CUSTOM ORDER DRAWING FOR YOUR REVIEW AND APPROVAL.
+                    </span>
+                    
+                </p>
+                <span style="font-weight:bold;text-decoration: underline;font-size:12px;padding:5px;">
+                    DECORATIVE PANEL SIZE RESTRICTIONS:
+                </span><br/>
+                
+                <span style="font-size:9px;padding:5px;">
+                    • 14" THICK DECORATIVE PANELS 30" - 48" WIDTHS AVAILABLE IN LENGTHS UP TO 120", >48" - 61 3 4" WIDE AVAILABLE IN LENGTHS UP TO 96"
+                </span>
+            </span>
+            <table>
+                
+            </table>
+            <table>
+                <tr>
+                    <td >
+                        <span style="text-align:left;font-weight:bold;text-decoration: underline;font-size:12px;">
+                            WAINSCOT APPLICATION:
+                        </span>
+                        <span style="font-weight:normal;text-decoration:none;font-size:6px">
+                            <br/>
+                            (FOR DECORATIVE PANEL REQUESTS ONLY)
+                        </span>
+                    </td>
+                    <td style="padding: 10px;">
+                        <div
+                             style="width: 20px; height: 20px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <th colspan="6" style=" text-align: left; padding: 8px;">Decorative Pattern Selection:</th>
+        </tr>
+        <tr style="font-size:12px;">
+             <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <div style="width: 25px; height: 20px; border: 1px solid black; display: inline-block; vertical-align: middle; margin-right: 5px;"></div> <span style="vertical-align: middle;"><b>4" Square</b></span>
+            </td>
+           <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <div style="width: 25px; height: 20px; border: 1px solid black; display: inline-block; vertical-align: middle; margin-right: 5px;"></div> <span style="vertical-align: middle;"><b>3" x 6" Subway</b></span>
+            </td>
+            
+           
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <div style="width: 25px; height: 20px; border: 1px solid black; display: inline-block; vertical-align: middle; margin-right: 5px;"></div> <span style="vertical-align: middle;"><b>6" x 24" Horizontal</b></span>
+            </td>
+       
+           
+             <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <div style="width: 25px; height: 20px; border: 1px solid black; display: inline-block; vertical-align: middle; margin-right: 5px;"></div> <span style="vertical-align: middle;"><b>10" x 8"</b></span>
+            </td>
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <div style="width: 25px; height: 20px; border: 1px solid black; display: inline-block; vertical-align: middle; margin-right: 5px;"></div> <span style="vertical-align: middle;"><b>12" Square</b></span>
+            </td>
+             <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <div style="width: 25px; height: 20px; border: 1px solid black; display: inline-block; vertical-align: middle; margin-right: 5px;"></div> <span style="vertical-align: middle;"><b>8" Square</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <img style="width:100px;" src="{!$Resource.FourSQUAREBox}" alt="Inpro" />
+            </td>
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+               <img style="width:100px;" src="{!$Resource.threeintosixSUBWAbox}" alt="Inpro" />
+            </td>
+            
+            
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <img style="width:100px;" src="{!$Resource.sizbytwofourHORIZONTAL}" alt="Inpro" />
+            </td>
+            
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                <img style="width:100px;" src="{!$Resource.tenintoeightbox}" alt="Inpro" />
+            </td>
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+               <img style="width:100px;" src="{!$Resource.televeseuqrebox}" alt="Inpro" />
+            </td>
+            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+               <img style="width:100px;" src="{!$Resource.eightsquarebox}" alt="Inpro" />
+            </td>
+        </tr>
+    </table>
+            
+         <table style="margin-top:50px;">
+                <tr>
+                    <td style="width:100%" ><img style="width:730px;" src="{!$Resource.ScreenshotIPC778standardplankbead}" alt="Inpro" /></td>
+                </tr>
+            </table>
+            
+            <!-- Bottom Footer -->
+            
+            <div>
+                <table style="padding-top:50px; border-collapse: collapse; width:100%; border: 1px solid black;margin-top:140px;">
+                    <tr>
+                        <td style="border: 1px solid black; font-size:12px;" rowspan="2">
+                            <img style="width:80px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                            <div style="border: 1px solid black;width:20%;float:right;padding:5px;">
+                                 IPC.778/Rev24
+                            </div>
+                           
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+    
+</apex:page>

@@ -1,11 +1,12 @@
-<apex:page applyHtmlTag="false" docType="html-5.0" applyBodyTag="false" showHeader="false" sidebar="false" renderAs="pdf" >
+<apex:page renderAs="PDF" controller="IPC1001Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false" docType="html-5.0">
     <html>
         <head>
             <style>
                 @page {
-                
-                size:  A1;
-                
+                3.3cm;
+                3cm;
+                1cm;
+                1cm;
                 @top-center {
                 content: element(header);
                 }
@@ -46,39 +47,275 @@
         </head>
         <body>
             <div class="footer" style="margin-left: auto; margin-right: auto;">
-                 <div style="page-break-after: auto;font-size:10px">
+                <div style="page-break-after: auto;font-size:10px">
                     <table style="width:100%;">
-                        <tr>
-                            <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
-                            <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
-                            <td style="width:15%" >IPC.080/Rev.14</td>
-                        </tr>
+                        
                     </table>
                 </div>
             </div>
             
             <div class="header">
-                <div>
-                    <table style="width:100%">
-                        <tr>
-                            <td>
-                                <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
-                            </td>
-                            <td style="text-align: right;font-size:15px;padding-top:20px ">
-                                Custom Product Order Form
-                                <br/>
-                                <div style="text-align: right; font-weight:bold;">
-                                    Flat Sheet
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <hr style="border-width: 1px; border-color: black; border-style: solid;" />
-                </div>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                        <td style="text-align: right;">
+                            Measurement Form
+                            <div style="text-align: right;">
+                                <b> 3500/3510/3520/3530/3540 Series Handrail</b> <br/>
+                                Stainless Steel Top and/or Bottom Rail
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </table>
             </div>
         </body>
-        <div>
-            
-        </div>
     </html>
+    
+    <apex:form >
+        <br/>
+        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+        <p style="font-size:14px;">
+            Note: See <b>Measurement Instructions</b> for details on completing this form. Measurements from this form will be used by
+            Inpro to calculate the final order quantities. Only use this form if the top rail, bottom rail or both rails are Stainless Steel.
+        </p>
+        <table style="border-collapse: collapse;border: 1px solid black; width:100%;margin-top:20px;">
+            <tr style="border: 1px solid black;">
+                <td style="padding: 7px;border: 1px solid black;border-right:hidden"> <div> </div></td>
+                <td style="padding: 7px;border: 1px solid black;border-right:hidden"><div></div></td>
+                <td style="padding: 7px;border: 1px solid black;border-right:hidden;"><b>SS Handrail Type</b></td>
+                <td style="padding: 7px;border: 1px solid black;border-right:hidden"> &nbsp;&nbsp;&nbsp;900SSR   <div style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"> </div> <div style=" float: right;padding-left:8px;margin-top:4px !important"></div></td>
+                <td style="padding: 7px;border: 1px solid black;border-right:hidden"> &nbsp;&nbsp;900SSO <div  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"> </div> </td>
+                 <td style="padding: 7px;border: 1px solid black;border-right:hidden"> &nbsp;&nbsp;&nbsp;350050SS  <div style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;"> </div> <div style=" float: right;padding-left:8px;margin-top:4px !important"></div></td>
+                <td style="padding: 7px;border: 1px solid black;border-right:hidden"> &nbsp;&nbsp;350050SSD <div  style="width: 12px; height: 15px;padding-right:5px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"> </div> </td>
+                <td style="padding: 7px;border: 1px solid black;">  </td>
+            </tr>
+        </table>
+        
+        <table style="border-collapse: collapse;border: 1px solid black; width:100%;font-size:14px;">
+            <thead>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px; text-align: center;"><b>Handrail #</b></td>
+                    <td style="border: 1px solid #000; padding: 10px; text-align: center;"><b>Location of Handrail Section</b></td>
+                    <td style="border: 1px solid #000; padding: 10px; text-align: center;"><b>Left End Handrail Condition</b></td>
+                    <td style="border: 1px solid #000; padding: 10px; text-align: center;"><b>Actual Distance Between Left &amp; Right end Conditions</b> <br/> Feet-Inches (Meters)</td>
+                    <td style="border: 1px solid #000; padding: 10px; text-align: center;"><b>Right End Handrail Condition</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr> 
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>  <tr>
+                <td style="border: 1px solid #000; padding: 10px;"></td>
+                <td style="border: 1px solid #000; padding: 10px;"></td>
+                <td style="border: 1px solid #000; padding: 10px;"></td>
+                <td style="border: 1px solid #000; padding: 10px;"></td>
+                <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                    <td style="border: 1px solid #000; padding: 10px;"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <table style="margin-top:80px; font-size:12px;border-collapse: collapse; width:100%; border:black; border-style:solid;">
+            <tr>
+                <td style="border: 1px solid black; padding:6px;font-weight:bold;">
+                    <b>
+                        FOR INPRO USE ONLY
+                    </b>
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    
+                    <apex:outputText rendered="{!customForm.quoteRecord.Inside_Rep__c !=null }">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </apex:outputText>
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    Customer Order #:
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; padding:6px;">
+                    Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                </td>
+                <td style="border: 1px solid black; padding:6px;">
+                    Inpro Drawing: N/A
+                </td>
+                <td style="border: 1px solid black;padding:6px;">
+                    Inpro #:
+                </td>
+            </tr>            
+        </table>
+        
+    </apex:form>
 </apex:page>

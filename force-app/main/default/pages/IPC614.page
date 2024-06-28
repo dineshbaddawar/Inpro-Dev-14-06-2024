@@ -11,6 +11,7 @@
                 margin-right: 0.3in;
                 background-repeat: no-repeat;
             background-position: center;
+
             @top-center {
             content: element(header);
             }
@@ -27,15 +28,6 @@
         </style>
     </head>
 
-
-
-
-
-
-
-
-
-    
     <body style="font-family: sans-serif; font-size: 10pt;">
 
         <!--Header-->
@@ -243,7 +235,7 @@
                 <p style="padding-left: 6pt;;text-align: left;">
                     Please complete the following information based on field verified dimensions.
                     Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your
-                    order.  Fax to  at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                    order.  Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
                 </p>
             </div>
             <!--Header Table-->
@@ -253,28 +245,28 @@
                     <td style="width: 20%; border: 1px solid black;"></td>
                     <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
                     <td style="width: 35%; border: 1px solid black;">
-                        
+                        &nbsp; <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
                     <td style="width: 20%; border: 1px solid black;">
-                     
+                        &nbsp;  <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
     
                     </td>
                     <td style="width: 20%; border: 1px solid black;">Project Name</td>
                     <td style="width: 35%; border: 1px solid black;">
-                       
+                        &nbsp;  <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 25%; border: 1px solid black;">Company Name</td>
                     <td style="width: 20%; border: 1px solid black;">
-                       
+                        &nbsp;  <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
                     </td>
                     <td style="width: 20%; border: 1px solid black;">Account #</td>
                     <td style="width: 35%; border: 1px solid black;">
-                       
+                        &nbsp;  <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
                     </td>
                 </tr>
             </table>

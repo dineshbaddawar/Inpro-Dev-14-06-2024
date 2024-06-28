@@ -177,21 +177,21 @@
                             <apex:outputText rendered="{!isMetric == true}">
                                         <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;">Dimension Limits</h3><br/>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum Height = 243.84cm</p><br/>
-                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 0.635cm if height <br/>  less than or equal to 121.92cm,<br/> 0.9525cm if height is greater than 121.92</p>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 0.635cm if height <br/>   <u>&lt;</u> 121.92cm,<br/> 0.9525cm if height is  &gt; 121.92</p>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Tolerances +/- 0.15875cm</p><br/>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Material Thickness = .01016cm</p><br/>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum number of bends <br/> per frame = 8</p>
-                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if F is<br/> less than 2.54cm or 7.62cm</p>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if F is<br/> &lt;2.54cm or &gt;7.62cm</p>
                                     </apex:outputText>
                                         
                                     <apex:outputText rendered="{!isMetric == false}">
                                         <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;">Dimension Limits</h3><br/>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum Height = 96"</p><br/>
-                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 1/4" if height <br/>  less than or equal to 48", 3/8" if height is greater than  48"</p>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 1/4" if height <br/> <u>&lt;</u> 48", 3/8" if height is &gt; 48"</p>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Tolerances +/- 1/16"</p><br/>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Material Thickness = .040"</p><br/>
                                         <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum number of bends <br/> per frame = 8</p>
-                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if B or H are<br/> less than 1" or greater than 3"</p>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if B or H<br/> are &lt; 1'' or &gt; 3''.</p>
                                     </apex:outputText> 
                         </div>    
                     </td>    
@@ -500,23 +500,23 @@
                                 <td style="width:10%" >
                                     <div style="border: 1px solid black; width: 200px; padding: 2px;">
                                         <apex:outputText rendered="{!isMetric == true}">
-                                            <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;">Dimension Limits</h3><br/>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum Height = 243.84cm</p><br/>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 0.635cm if height <br/>  less than or equal to 121.92cm,<br/> 0.9525cm if height is greater than 121.92</p>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Tolerances +/- 0.15875cm</p><br/>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Material Thickness = .01016cm</p><br/>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum number of bends <br/> per frame = 8</p>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if F is<br/> less than 2.54cm or 7.62cm</p>
-                                        </apex:outputText>
+                                        <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;">Dimension Limits</h3><br/>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum Height = 243.84cm</p><br/>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 0.635cm if height <br/>   <u>&lt;</u> 121.92cm,<br/> 0.9525cm if height is  &gt; 121.92</p>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Tolerances +/- 0.15875cm</p><br/>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Material Thickness = .01016cm</p><br/>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum number of bends <br/> per frame = 8</p>
+                                        <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if F is<br/> &lt;2.54cm or &gt;7.62cm</p>
+                                    </apex:outputText>
                                             
                                         <apex:outputText rendered="{!isMetric == false}">
                                             <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;">Dimension Limits</h3><br/>
                                             <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum Height = 96"</p><br/>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 1/4" if height <br/>  less than or equal to 48", 3/8" if height is greater than  48"</p>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Minimum Lip Bend = 1/4" if height  <br/> <u>&lt;</u> 48", 3/8" if height &gt; 48" </p> <br/>
                                             <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Tolerances +/- 1/16"</p><br/>
                                             <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Material Thickness = .040"</p><br/>
                                             <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Maximum number of bends <br/> per frame = 8</p>
-                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if B or H are<br/> less than 1" or greater than 3"</p>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;">Lip bend not available if B or H are<br/> &lt; 1" or &gt; 3"</p>
                                         </apex:outputText> 
                                     </div>    
                                 </td>    

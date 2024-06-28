@@ -154,7 +154,7 @@
                 <tr>
                     <td style="width: 5%;">Ship to:</td>
                     <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
-                        {!customForm.quoteRecord.ShippingCity}
+                         {!customForm.quoteRecord.ShippingStreet}
                     </td>
                     <td style="width: 15%;"></td>
                     <td style="width: 12%;">E-Mail:</td>
@@ -165,7 +165,7 @@
                 <tr>
                     <td></td>
                     <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
-                        {!customForm.quoteRecord.ShippingState}, {!customForm.quoteRecord.ShippingPostalCode}
+                       {!customForm.quoteRecord.ShippingCity}, {!customForm.quoteRecord.ShippingState} {!customForm.quoteRecord.ShippingPostalCode}
                     </td>
                     <td style="width: 15%;"></td>
                     <td style="width: 12%;"></td>
@@ -459,7 +459,7 @@
                 <tr>
                     <td style="width: 5%;">Ship to:</td>
                     <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
-                        {!customForm.quoteRecord.ShippingCity}
+                        {!customForm.quoteRecord.ShippingStreet}
                     </td>
                     <td style="width: 15%;"></td>
                     <td style="width: 12%;">E-Mail:</td>
@@ -470,7 +470,7 @@
                 <tr>
                     <td></td>
                     <td style="width: 45%; border-bottom: 1px solid #000; display: inline-block;">
-                        {!customForm.quoteRecord.ShippingState}, {!customForm.quoteRecord.ShippingPostalCode}
+                        {!customForm.quoteRecord.ShippingCity}, {!customForm.quoteRecord.ShippingState} {!customForm.quoteRecord.ShippingPostalCode}
                     </td>
                     <td style="width: 15%;"></td>
                     <td style="width: 12%;"></td>

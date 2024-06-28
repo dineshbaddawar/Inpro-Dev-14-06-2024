@@ -34,10 +34,10 @@ public class IPC252Controller {
                                 quoteLine.colorNumber = last4.isNumeric() ? last4 : '';
                             }
                             if(line.Description != null){
-                                if(line.Description.containsIgnoreCase('screw-On') || line.Description.containsIgnoreCase('screw On') || line.Description.containsIgnoreCase('srw On')){
+                                if(line.Description.containsIgnoreCase('screw-On') || line.Description.containsIgnoreCase('screw On') || line.Description.containsIgnoreCase('srw On') || line.Description.containsIgnoreCase('srw-On')){
                                     quoteLine.MountingScrew = checked;
                                 }
-                                if(line.Description.containsIgnoreCase('cement-On') || line.Description.containsIgnoreCase('cement On') || line.Description.containsIgnoreCase('cmt On')){
+                                if(line.Description.containsIgnoreCase('cement-On') || line.Description.containsIgnoreCase('cement On') || line.Description.containsIgnoreCase('cmt On') || line.Description.containsIgnoreCase('cmt-On')){
                                     quoteLine.MountingCementON = checked;
                                 }
                             }

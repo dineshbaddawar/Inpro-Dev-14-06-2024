@@ -10,20 +10,20 @@ public with sharing class IPC216Controller {
         try {
             String quoteId = ApexPages.currentPage().getParameters().get('quoteId');
             String isMetricValue = ApexPages.currentPage().getParameters().get('isMetric');
+            if (isMetricValue == null) {
+                isMetric = false;
+            } else if (isMetricValue.toLowerCase() == 'false') {
+                isMetric = false;
+            } else if (isMetricValue.toLowerCase() == 'true') {
+                isMetric = true;
+            }
             
             if (quoteId == null) {
                 BlankForm = true;
+                
             } else if (String.isNotEmpty(quoteId)) {
                 customForm.quoteRecord = CustomFormHelper.GetQuoteData(quoteId);
                 List<QuoteLineItem> quoteLines = CustomFormHelper.GetQuoteLineData(quoteId);
-
-                if (isMetricValue == null) {
-                    isMetric = false;
-                } else if (isMetricValue.toLowerCase() == 'false') {
-                    isMetric = false;
-                } else if (isMetricValue.toLowerCase() == 'true') {
-                    isMetric = true;
-                }
 
                 if (quoteLines != null && quoteLines.size() > 0) {
                     List<CustomQuoteLineItem> lines = new List<CustomQuoteLineItem>();

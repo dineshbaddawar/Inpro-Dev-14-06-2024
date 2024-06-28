@@ -129,7 +129,7 @@
           <table style="width:100%;">
             <tr>
               <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <img  src="{!$Resource.cf_ipc255_flushmountendwallprotectors}" alt="flushmountendwallprotectors" width="500" height="280"/>
+                <img  src="{!$Resource.cf_ipc255_flushmountendwallprotectors}" alt="flushmountendwallprotectors" width="500" height="265"/>
               </td>
             </tr>
         </table>
@@ -247,13 +247,27 @@
               
           </table>
           <br/>
-          <span>*Note:</span>
+          <apex:outputText rendered="{!isMetric == false}">
+            <span>*Note:</span>
 				<li>Max End Wall Height of 10'</li> 
 				<li>Mounting Hardware Included</li> 
 				<li>Min. 5/8 in. Drywall Required</li> 
 				<li>End Wall Width Min. 3¾" Max 12"</li> 
 				<li>Final width is 1/8 in. wider than end wall width for movement/expansion</li> 
 				<li>Tolerances are +/- 1/16'</li> 
+
+          </apex:outputText>
+                
+          <apex:outputText rendered="{!isMetric == true}">
+            <span>*Note:</span>
+            <li>Max End Wall Height of 3.048m</li> 
+            <li>Mounting Hardware Included</li> 
+            <li>Min. 1.5875 cm. Drywall Required</li> 
+            <li>End Wall Width Min. 1.905cm Max 30.48cm</li> 
+            <li>Final width is.3175cm wider than end wall width for movement/expansion</li> 
+            <li>Tolerances are +/- 1.5875mm</li> 
+              </apex:outputText>
+          
                 
                 <br/>
                 <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
@@ -535,13 +549,26 @@
               
           </table>
           <br/>
-          <span>*Note:</span>
+          <apex:outputText rendered="{!isMetric == false}">
+            <span>*Note:</span>
 				<li>Max End Wall Height of 10'</li> 
 				<li>Mounting Hardware Included</li> 
 				<li>Min. 5/8 in. Drywall Required</li> 
 				<li>End Wall Width Min. 3¾" Max 12"</li> 
 				<li>Final width is 1/8 in. wider than end wall width for movement/expansion</li> 
 				<li>Tolerances are +/- 1/16'</li> 
+
+          </apex:outputText>
+                
+          <apex:outputText rendered="{!isMetric == true}">
+            <span>*Note:</span>
+            <li>Max End Wall Height of 3.048m</li> 
+            <li>Mounting Hardware Included</li> 
+            <li>Min. 1.5875 cm. Drywall Required</li> 
+            <li>End Wall Width Min. 1.905cm Max 30.48cm</li> 
+            <li>Final width is.3175cm wider than end wall width for movement/expansion</li> 
+            <li>Tolerances are +/- 1.5875mm</li> 
+              </apex:outputText>
                 
                 <br/>
                 <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">

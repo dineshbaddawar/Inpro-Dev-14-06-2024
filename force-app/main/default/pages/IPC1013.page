@@ -1,0 +1,448 @@
+<apex:page renderAs="PDF" standardController="Quote" extensions="IPC1013Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            
+            <head>
+                <style>
+                    @page {
+                    margin-top: 2.2cm;
+                    margin-bottom: 2.2cm;
+                    margin-left: 1cm;
+                    margin-right: 1cm;
+                    
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-center {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    width: 100%;
+                    border-bottom: 1px solid black;
+                    }
+                    
+                    div.footer {
+                    padding: 10px;
+                    position: running(footer);
+                    width: 100%;
+                    
+                    }
+                    
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    
+                    div.content {
+                    border-style: dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                            </td>
+                            <td style="text-align: right;">
+                                Custom Product Order Form
+                                <div style="text-align: right; font-weight:bold;">
+                                    <strong>Bead Board Standard Sizes</strong>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="footer">
+                    <div style="width:100%;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%">
+                                    <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+                                </td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%">IPC.1013/Rev.8 </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <apex:form style="font-family: sans-serif; font-size: 9pt;">
+                    
+                    <p style="padding-left: 6pt; text-align: left;padding-top: 6pt;">
+                        Please complete the following information based on field verified dimensions. Use one order form per size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                    </p>
+                    
+                    <!--Header Table-->
+                    <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                            <td style="width: 20%; border: 1px solid black;"></td>
+                            <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                            <td style="width: 20%; border: 1px solid black;">
+                                <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                            <td style="width: 20%; border: 1px solid black;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                            </td>
+                            <td style="width: 20%; border: 1px solid black;">Account #</td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table>
+                        <tr>
+                            <td style="width :5%">Qty:</td>
+                            <td style="width :20%">
+                                <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                            </td>
+                            <td style="width :20%">Material Thickness:</td>
+                            <td style="width:15%;">
+                                <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                            </td>
+                            <td style="width :40%">{!isMetricThickness}</td>
+                            
+                        </tr>
+                    </table>
+                    
+                    <table>
+                        <tr>
+                            <td style="width :12%">Color Name:</td>
+                            <td style="width:20%;">
+                                <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                            </td>
+                            <td style="width :5%"></td>
+                            <td style="width :10%">Color #:</td>
+                            <td style="width:20%;">
+                                <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                            </td>
+                            <td style="width :33%"></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td style="Width :30%"></td>
+                            <td style="Width :40%"><b>Grain Directions and Available Sizes</b></td>
+                            <td style="Width :30%"></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table>
+                                   <tr>
+              <td style="text-align:center">Half Wainscot <br/> {!isMetricWainscot} <br/><img src="{!$Resource.cf_ipc1013_Halfwainscot1}" alt="Halfwainscot1" /><br/></td>
+              
+              <td rowspan="2" style="text-align:center">Floor to Ceiling<br/>{!isMetricCeling}<br/><img src="{!$Resource.cf_ipc1013_FloortoCeiling1}" alt="FloortoCeiling1" /> </td>
+            </tr>
+            <tr>
+              <td style="text-align:center">Full Wainscot - Not available in Woodland Sheet or<br/>Elements patterns 5E025, 5E026, and 5E027.<br/>{!isMetricFullWainscot}<br/><img src="{!$Resource.cf_ipc1013_Fullwainscot1}" alt="Fullwainscot1" /></td>
+              
+              
+            </tr>
+                    </table>
+                    
+                    
+                    <br/><br/>
+                    
+                    
+                    <span>NOTE: Not available with peel and stick adhesive.</span><br/><br/>
+                    <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">
+                                <b>FOR INPRO USE ONLY</b>
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                {!customForm.quoteRecord.Inside_Rep__c}
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Customer Order #:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                            </td>
+                            <td style="border: 1px solid black; padding:6px;">
+                                Inpro Drawing: N/A
+                            </td>
+                            <td style="border: 1px solid black;padding:6px;">
+                                Inpro #:
+                            </td>
+                        </tr>            
+                    </table>
+                    
+                </apex:form>
+            </body>
+        </html>
+    </apex:outputText>
+    
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                <head>
+                    <style>
+                        @page {
+                        margin-top: 2.2cm;
+                        margin-bottom: 2.2cm;
+                        margin-left: 1cm;
+                        margin-right: 1cm;
+                        
+                        @top-center {
+                        content: element(header);
+                        }
+                        @bottom-center {
+                        content: element(footer);
+                        }
+                        }
+                        
+                        div.header {
+                        padding: 10px;
+                        position: running(header);
+                        width: 100%;
+                        border-bottom: 1px solid black;
+                        }
+                        
+                        div.footer {
+                        padding: 10px;
+                        position: running(footer);
+                        width: 100%;
+                        
+                        }
+                        
+                        .pagenumber:before {
+                        content: counter(page);
+                        }
+                        
+                        .pagecount:before {
+                        content: counter(pages);
+                        }
+                        
+                        div.content {
+                        border-style: dotted;
+                        float: left;
+                        width: 100%;
+                        }
+                        
+                        table {
+                        border-collapse: collapse;
+                        width: 100%;
+                        }
+                        
+                        th, td {
+                        padding: 8px;
+                        text-align: left;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;">
+                                    Custom Product Order Form
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <strong>Bead Board Standard Sizes</strong>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="footer">
+                        <div style="width:100%;">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:15%">
+                                        <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+                                    </td>
+                                    <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                    <td style="width:15%">IPC.1013/Rev.8 </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <apex:form style="font-family: sans-serif; font-size: 9pt;">
+                        
+                        <p style="padding-left: 6pt; text-align: left;padding-top: 6pt">
+                            Please complete the following information based on field verified dimensions. Use one order form per size. Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with order. Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                        </p>
+                        
+                        <!--Header Table-->
+                        <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
+                                <td style="width: 20%; border: 1px solid black;"></td>
+                                <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
+                                <td style="width: 35%; border: 1px solid black;">
+                                    <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
+                                <td style="width: 20%; border: 1px solid black;">
+                                    <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                                </td>
+                                <td style="width: 20%; border: 1px solid black;">Project Name</td>
+                                <td style="width: 35%; border: 1px solid black;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black;">Company Name</td>
+                                <td style="width: 20%; border: 1px solid black;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                                </td>
+                                <td style="width: 20%; border: 1px solid black;">Account #</td>
+                                <td style="width: 35%; border: 1px solid black;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table>
+                            <tr>
+                                <td style="width :5%">Qty:</td>
+                                <td style="width :20%">
+                                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Quantity}</div>
+                                </td>
+                                <td style="width :20%">Material Thickness:</td>
+                                <td style="width:15%;">
+                                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.Thickness}</div>
+                                </td>
+                                <td style="width :40%">{!isMetricThickness}</td>
+                                
+                            </tr>
+                        </table>
+                        
+                        <table>
+                            <tr>
+                                <td style="width :12%">Color Name:</td>
+                                <td style="width:20%;">
+                                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.colorName}</div>
+                                </td>
+                                <td style="width :5%"></td>
+                                <td style="width :10%">Color #:</td>
+                                <td style="width:20%;">
+                                    <div style="text-align:center; display: inline-block; width: 95%; border: none; border-bottom: 1px solid #999; outline: none;">{!quoteLine.colorNumber}</div>
+                                </td>
+                                <td style="width :33%"></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td style="Width :30%"></td>
+                                <td style="Width :40%"><b>Grain Directions and Available Sizes</b></td>
+                                <td style="Width :30%"></td>
+                            </tr>
+                        </table>
+                         <br/>
+                        <table>
+                            <tr>
+                                <td style="text-align:center;padding-bottom:5px">
+                                    <apex:outputText rendered="{!quoteLine.ShowAImage == true}">
+                                        Half Wainscot <br/> {!isMetricWainscot} <br/>
+                                        <img src="{!$Resource.cf_ipc1013_Halfwainscot1}" alt="Halfwainscot1A" />
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{!quoteLine.ShowAImage == false}">
+                                        <div style="width: 200px; height: 100px; background-color: white; padding: 10px; margin: 20px auto; text-align: center;"> </div>
+                                    </apex:outputText>
+                                    <br/>
+                                </td>
+                                
+                                <td rowspan="2" style="text-align:center">
+                                   <apex:outputText rendered="{!quoteLine.ShowCImage == true}">
+                                        Floor to Ceiling<br/>{!isMetricCeling}<br/><img src="{!$Resource.cf_ipc1013_FloortoCeiling1}" alt="FloortoCeiling1B" /> 
+                                    </apex:outputText>
+                                     <apex:outputText rendered="{!quoteLine.ShowCImage == false}">
+                                        <div style="width: 200px; height: 100px; background-color: white; padding: 10px; margin: 20px auto; text-align: center;">     </div>
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td style="text-align:center">
+                                 <apex:outputText rendered="{!quoteLine.ShowBImage == true}">
+                                    Full Wainscot - Not available in Woodland Sheet or<br/>Elements patterns 5E025, 5E026, and 5E027.<br/>{!isMetricFullWainscot}<br/><img src="{!$Resource.cf_ipc1013_Fullwainscot1}" alt="Fullwainscot1C" />
+                                </apex:outputText>
+                                 <apex:outputText rendered="{!quoteLine.ShowBImage == false}">
+                                    <div style="width: 200px; height: 100px; background-color: white; padding: 10px; margin: 20px auto; text-align: center;"> </div>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        </table>
+                        
+                        
+                        <br/> <br/><br/><br/><br/><br/>
+                        
+                        
+                        <span>NOTE: Not available with peel and stick adhesive.</span><br/><br/>
+                        <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                            <tr>
+                                <td style="border: 1px solid black; padding:6px;">
+                                    <b>FOR INPRO USE ONLY</b>
+                                </td>
+                                <td style="border: 1px solid black; padding:6px;">
+                                    {!customForm.quoteRecord.Inside_Rep__c}
+                                </td>
+                                <td style="border: 1px solid black; padding:6px;">
+                                    Customer Order #:
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding:6px;">
+                                    Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                                </td>
+                                <td style="border: 1px solid black; padding:6px;">
+                                    Inpro Drawing: N/A
+                                </td>
+                                <td style="border: 1px solid black;padding:6px;padding-bottom:6px;">
+                                    Inpro #:
+                                </td>
+                            </tr>            
+                        </table>
+                        <br/>
+                    </apex:form>
+                </body>
+            </apex:repeat>
+        </html>
+    </apex:outputText>
+</apex:page>

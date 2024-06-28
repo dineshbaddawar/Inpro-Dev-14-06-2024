@@ -1,0 +1,650 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC236Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
+    
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" > IPC.248-INT/Rev.9</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <b>Custom Formed Door Frame Guards</b><br/>
+                                        <b>Style 4</b>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        <div style="font-size:10px">
+            <title>IPC248</title>
+            
+            <p style="padding-left: 8pt;;text-align: left;padding-top:35px;font-size:10px">
+                
+                Please complete the following information based on field verified dimensions. Use one order form per size.Orders for 
+                custom products cannot be cancelled or returned.Please sign and return to proceed with your order.  Fax to {!customForm.quoteRecord.Inside_Rep__c} 888-715
+                8407 for quotation. 
+            </p>
+            
+            <!--Header Table-->
+            <table style="width:100%; border-collapse: collapse; border: 2px solid black;padding-top:5px;font-size:10px">
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                    <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                    </td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                    <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                    </td>
+                    <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                    <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="width:80%;font-size:10px">
+                <tr>
+                    <td style="width:30%;">
+                        <b>Note:</b> Door Frame Guards  <br/>
+                        are not intended for wood  <br/>
+                        frames or multiple piece<br/>
+                        modular hollow metal frames.<br/>
+                    </td>
+                    <td style="width:5%;">
+                        
+                    </td>
+                    <td style="width:80%;display:inline-flex">
+                        <div>
+                            <b>Must Indicate Left</b>
+                        </div>
+                        <div  style="width:80px;border-bottom:1px solid black;margin-left:100px;"> </div>
+                        <div style="margin-left:190px;margin-top:-15px">
+                            <b>or  Right</b>
+                        </div>
+                        <div  style="width:80px;border-bottom:1px solid black;margin-left:240px;"> </div>
+                        <div style="margin-left:330px;margin-top:-15px">
+                            <b>side of Frame</b>
+                        </div>
+                        <div><b>Reference Location</b></div>
+                        <div  style="width:80px;border-bottom:1px solid black;margin-left:120px;"></div><br/>
+                        <div style="margin-left:80px;">
+                            <apex:outputText rendered="{!isMetric == true}">
+                                <b> Unit of Measure: Centimeter</b>
+                            </apex:outputText>
+                            
+                            <apex:outputText rendered="{!isMetric == false}">
+                                <b> Unit of Measure: Inch</b>
+                            </apex:outputText>
+                            
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="width:100%;font-size:10px">
+                <tr>
+                    <td style="width:10%" >
+                        <div style="border: 1px solid black; width: 200px; padding: 10px;">
+                            <apex:outputText rendered="{!isMetric == true}">
+                                <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;padding-bottom:4px">Dimension Limits</h3>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum Height = 243.84cm</p> 
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Minimum Lip Bend = 0.635cm if  <br/> height is <u>&lt;</u>  to 121.92cm, 0.9525cm<br/> if height is &gt; 121.92</p> <br/>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Tolerances +/- 0.15875cm</p>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Material Thickness = .01016cm</p>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum number of bends <br/> per frame = 8</p>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Lip bend not available if F is<br/> &lt; 2.54cm or &gt; 7.62cm</p>
+                            </apex:outputText>
+                            
+                            <apex:outputText rendered="{!isMetric == false}">
+                                <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;padding-bottom:4px">Dimension Limits</h3><br/>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum Height = 96"</p><br/>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Minimum Lip Bend = 1/4" if height <br/> <u>&lt;</u> 48", 3/8" if height &gt; 48"</p>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Tolerances +/- 1/16"</p><br/>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Material Thickness = .040"</p><br/>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum number of bends <br/> per frame = 8</p>
+                                <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Lip bend not available if F is<br/> &lt; 1" or  &gt; 3"</p>
+                            </apex:outputText> 
+                        </div>    
+                    </td>    
+                    <td style="width:50%" >
+                        <apex:outputText rendered="{!isMetric == true}">
+                            <img style="width:450px;" src="{!$Resource.cf_ipc248_ID2481CM}" alt="Inpro" />
+                        </apex:outputText> 
+                        <apex:outputText rendered="{!isMetric == false}">
+                            <img style="width:450px;" src="{!$Resource.cf_ipc248_ID2481Inches}" alt="Inpro" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:red;width:10%;font-size:10px">
+                        <b>Note:</b> If dimensions require vacuum forming, try 
+                        reversing the template (if using right side view, 
+                        change to left side view) and enter dimensions again
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="width:80%;padding-left:9px;font-size:10px">
+                <tr>
+                    <td style="width:10%;"><label for="qty">  Height:</label></td>
+                    <td style="width:30%;">
+                        <div
+                             style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #000000; outline: none;">
+                        </div>
+                    </td>
+                    
+                    <td style="width:10%;"><label for="qty">Quantity:</label></td>
+                    <td style="width:30%;">
+                        <div
+                             style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #000000; outline: none;">
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+            
+            <table style="font-size:10px;width:60%">
+                <tr>
+                    <td style="width:20%;"><label for="qty">Color Name/#:</label></td>
+                    <td style="width:30%;">
+                        <div
+                             style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #000000; outline: none;">
+                        </div>
+                    </td>
+                    <td style="width:10%;"><label for="qty">Material:</label></td>
+                    <td style="width:30%;">
+                        <div style="width: 10px; height: 10px;border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                        <div style="padding-left:25px;margin-top:-12px">PVC</div>
+                        
+                        <div style="width: 10px; height: 10px;border: 1px solid #333; cursor: pointer;margin-left: 70px;margin-top: -13px;background:"></div>
+                        <div style="padding-left:90px;margin-top:-12px">Non-PVC</div>
+                    </td>
+                </tr>
+                
+            </table>
+            
+            <table style="font-size:10px;width:100%" >
+                <tr>
+                    <td style="width:30%"> Is a measurement template required?:</td>
+                    <td style="width:3%">
+                        <div style="width: 2px; height: 10px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                    </td>
+                    <td>
+                        <div>
+                            No
+                        </div>
+                    </td>
+                    <td style="width:3%">
+                        <div style="width: 2px; height: 10px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                    </td>
+                    <td>
+                        <div>
+                            Yes (Provide shipping address for templates below)
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                </tr>
+            </table>
+            <br/>
+            
+            <table style="font-size:10px;border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                <tr>
+                    <td style="border: 1px solid black; padding:5px;font-weight:bold;">
+                        <b>
+                            FOR INPRO USE ONLY
+                        </b>
+                    </td>
+                    <td style="border: 1px solid black; padding:5px;">
+                        {!customForm.quoteRecord.Inside_Rep__c}
+                    </td>
+                    <td style="border: 1px solid black; padding:5px;">
+                        Customer Order #:
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding:5px;">
+                        Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                    </td>
+                    <td style="border: 1px solid black; padding:5px;">
+                        Inpro Drawing: N/A
+                    </td>
+                    <td style="border: 1px solid black;padding:5px;">
+                        Inpro #:
+                    </td>
+                </tr>   
+                <tr>
+                    <td style="border: 1px solid black; padding:5px;">
+                        cut Width:       
+                    </td>
+                    <td style="border: 1px solid black; padding:5px;" colspan="2">
+                        Part Number:
+                    </td>
+                </tr>          
+            </table>
+        </div>
+    </apex:outputText>
+    
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    3.3cm;
+                    3cm;
+                    1cm;
+                    1cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 10px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 8px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="footer" style="margin-left: auto; margin-right: auto;">
+                    <div style="page-break-after: auto;font-size:10px">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                                <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
+                                <td style="width:15%" > IPC.248-INT/Rev.9</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                                </td>
+                                <td style="text-align: right;font-size:15px;padding-top:20px ">
+                                    Custom Product Order Form
+                                    <br/>
+                                    <div style="text-align: right; font-weight:bold;">
+                                        <b>Custom Formed Door Frame Guards</b><br/>
+                                        <b>Style 4</b>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                    </div>
+                </div>
+            </body>
+        </html>
+        
+        <apex:form >
+            <apex:variable var="cnt" value="{!0}" />  
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                <div style="{!if(cnt < 1, 'page-break-before:avoid;','page-break-before:always;')}">
+                    <div style="font-size:10px">
+                        <title>IPC248</title>
+                        
+                        <p style="padding-left: 8pt;;text-align: left;padding-top:45px;font-size:10px">
+                            
+                            Please complete the following information based on field verified dimensions. Use one order form per size.Orders for 
+                            custom products cannot be cancelled or returned.Please sign and return to proceed with your order.  Fax to {!customForm.quoteRecord.Inside_Rep__c} 888-715
+                            8407 for quotation. 
+                        </p>
+                        
+                        <!--Header Table-->
+                        <table style="width:100%; border-collapse: collapse; border: 2px solid black;padding-top:5px;font-size:10px">
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black; padding: 8px;">Authorized Signature/Date</td>
+                                <td style="width: 20%; border: 1px solid black; padding: 8px;"></td>
+                                <td style="width: 20%; border: 1px solid black; padding: 8px;">Inpro Quote #</td>
+                                <td style="width: 35%;  border: 1px solid black; padding: 8px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black; padding: 8px;">Print Name/Title</td>
+                                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                                </td>
+                                <td style="width: 20%; border: 1px solid black; padding: 8px;">Project Name</td>
+                                <td style="width: 350%; border: 1px solid black; padding: 8px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%; border: 1px solid black; padding: 8px;">Company Name</td>
+                                <td style="width: 20%; border: 1px solid black; padding: 8px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                                </td>
+                                <td style="width: 20%; border: 1px solid black; padding: 8px;">Account #</td>
+                                <td style="width: 35%; border: 1px solid black; padding: 8px;">
+                                    <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table style="width:80%;font-size:10px">
+                            <tr>
+                                <td style="width:30%;">
+                                    <b>Note:</b> Door Frame Guards  <br/>
+                                    are not intended for wood  <br/>
+                                    frames or multiple piece<br/>
+                                    modular hollow metal frames.<br/>
+                                </td>
+                                <td style="width:5%;">
+                                    
+                                </td>
+                                <td style="width:85%;display:inline-flex">
+                                    <div>
+                                        <b>Must Indicate Left</b>
+                                    </div>
+                                    <div  style="width:80px;border-bottom:1px solid black;margin-left:100px;"> </div>
+                                    <div style="margin-left:190px;margin-top:-15px">
+                                        <b>or  Right</b>
+                                    </div>
+                                    <div  style="width:80px;border-bottom:1px solid black;margin-left:240px;"> </div>
+                                    <div style="margin-left:330px;margin-top:-15px">
+                                        <b>side of Frame</b>
+                                    </div>
+                                    <div><b>Reference Location</b></div>
+                                    <div  style="width:80px;border-bottom:1px solid black;margin-left:120px;"></div><br/>
+                                    <div style="margin-left:80px;">
+                                        <apex:outputText rendered="{!isMetric == true}">
+                                            <b> Unit of Measure: Centimeter</b>
+                                        </apex:outputText>
+                                        
+                                        <apex:outputText rendered="{!isMetric == false}">
+                                            <b> Unit of Measure: Inch</b>
+                                        </apex:outputText>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table style="width:100%;font-size:10px">
+                            <tr>
+                                <td style="width:10%" >
+                                    <div style="border: 1px solid black; width: 200px; padding: 10px;">
+                                        <apex:outputText rendered="{!isMetric == true}">
+                                            <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;padding-bottom:4px">Dimension Limits</h3>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum Height = 243.84cm</p> 
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Minimum Lip Bend = 0.635cm if  <br/> height is <u>&lt;</u>  to 121.92cm, 0.9525cm<br/> if height is &gt; 121.92</p> <br/>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Tolerances +/- 0.15875cm</p>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Material Thickness = .01016cm</p>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum number of bends <br/> per frame = 8</p>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Lip bend not available if F is<br/> &lt; 2.54cm or &gt; 7.62cm</p>
+                                        </apex:outputText>
+                                        
+                                        <apex:outputText rendered="{!isMetric == false}">
+                                            <h3 style="color: blue; font-family: Arial, sans-serif; margin-top: 0;padding-bottom:4px">Dimension Limits</h3><br/>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum Height = 96"</p><br/>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Minimum Lip Bend = 1/4" if height <br/> <u>&lt;</u> 48", 3/8" if height &gt; 48"</p>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Tolerances +/- 1/16"</p><br/>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Material Thickness = .040"</p><br/>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Maximum number of bends <br/> per frame = 8</p>
+                                            <p style="color: blue; font-family: Arial, sans-serif; margin: 5px 0;padding-bottom:4px">Lip bend not available if F is<br/> &lt; 1" or  &gt; 3"</p>
+                                        </apex:outputText> 
+                                    </div>    
+                                </td>    
+                                <td style="width:50%" >
+                                    <apex:outputText rendered="{!isMetric == true}">
+                                        <img style="width:450px;" src="{!$Resource.cf_ipc248_ID2481CM}" alt="Inpro" />
+                                    </apex:outputText> 
+                                    <apex:outputText rendered="{!isMetric == false}">
+                                        <img style="width:450px;" src="{!$Resource.cf_ipc248_ID2481Inches}" alt="Inpro" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:red;width:10%;font-size:10px">
+                                    <b>Note:</b> If dimensions require vacuum forming, try 
+                                    reversing the template (if using right side view, 
+                                    change to left side view) and enter dimensions again
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table style="width:80%;padding-left:9px;font-size:10px">
+                            <tr>
+                                <td style="width:10%;"><label for="qty">  Height:</label></td>
+                                <td style="width:30%;">
+                                    <div
+                                         style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #000000; outline: none;">
+                                    </div>
+                                </td>
+                                
+                                <td style="width:10%;"><label for="qty">Quantity:</label></td>
+                                <td style="width:30%;">
+                                    <div
+                                         style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #000000; outline: none;">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <table style="font-size:10px;width:60%">
+                            <tr>
+                                <td style="width:20%;"><label for="qty">Color Name/#:</label></td>
+                                <td style="width:30%;">
+                                    <div
+                                         style="text-align:center; display: inline-block; width: 95%;  border: none; border-bottom: 1px solid #000000; outline: none;">
+                                    </div>
+                                </td>
+                                <td style="width:10%;"><label for="qty">Material:</label></td>
+                                <td style="width:30%;">
+                                    <div style="width: 10px; height: 10px;border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                                    <div style="padding-left:25px;margin-top:-12px">PVC</div>
+                                    
+                                    <div style="width: 10px; height: 10px;border: 1px solid #333; cursor: pointer;margin-left: 70px;margin-top: -13px;background:"></div>
+                                    <div style="padding-left:90px;margin-top:-12px">Non-PVC</div>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <table style="font-size:10px;width:100%" >
+                            <tr>
+                                <td style="width:30%"> Is a measurement template required?:</td>
+                                <td style="width:3%">
+                                    <div style="width: 2px; height: 10px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                                </td>
+                                <td>
+                                    <div>
+                                        No
+                                    </div>
+                                </td>
+                                <td style="width:3%">
+                                    <div style="width: 2px; height: 10px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                                </td>
+                                <td>
+                                    <div>
+                                        Yes (Provide shipping address for templates below)
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table style="border: 1px solid black; width: 100%; border-collapse: collapse;margin-bottom:5px">
+                            <tr>
+                                <td style="border: 1px solid black; height: 20px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; height: 20px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; height: 20px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; height: 20px;"></td>
+                            </tr>
+                        </table>
+                        
+                        
+                        <table style="font-size:10px;border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                            <tr>
+                                <td style="border: 1px solid black; padding:5px;font-weight:bold;">
+                                    <b>
+                                        FOR INPRO USE ONLY
+                                    </b>
+                                </td>
+                                <td style="border: 1px solid black; padding:5px;">
+                                    {!customForm.quoteRecord.Inside_Rep__c}
+                                </td>
+                                <td style="border: 1px solid black; padding:5px;">
+                                    Customer Order #:
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding:5px;">
+                                    Form  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of        
+                                </td>
+                                <td style="border: 1px solid black; padding:5px;">
+                                    Inpro Drawing: N/A
+                                </td>
+                                <td style="border: 1px solid black;padding:5px;">
+                                    Inpro #:
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td style="border: 1px solid black; padding:5px;">
+                                    cut Width:       
+                                </td>
+                                <td style="border: 1px solid black; padding:5px;" colspan="2">
+                                    Part Number:
+                                </td>
+                            </tr>          
+                        </table>
+                        
+                    </div>
+                    <apex:variable var="cnt" value="{!cnt+1}"/>
+                </div>
+            </apex:repeat>
+        </apex:form>
+    </apex:outputText>
+    
+</apex:page>

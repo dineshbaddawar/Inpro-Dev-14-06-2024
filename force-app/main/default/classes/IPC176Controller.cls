@@ -41,7 +41,7 @@ public with sharing class IPC176Controller {
                 BlankForm = true;
             }
         } catch (Exception e) {
-            
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'An error occurred: ' + e.getMessage()));
             BlankForm = true;
         }
     }

@@ -1,0 +1,1032 @@
+<apex:page renderAs="pdf" controller="IPC1962Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style type="text/css">
+            @page {
+            margin: 20px 30px 40px 30px ;
+            padding: 0px 0px 0px 0px ;
+            size:A1;        
+            @bottom-left {font-family: Arial Unicode MS; font-size:8pt;}
+            @bottom-center {font-family: Arial Unicode MS; font-size:8pt;}
+            }
+        </style>
+    </head>
+   
+    <body style="font-family: sans-serif; ">
+        <apex:outputText rendered="{!BlankForm == true}">
+            <div style="border: 1px solid black;">
+                <table style="width:100%; margin-bottom: 0;">
+                    <tr>
+                        <td style="text-align: left;font-size:14px">
+                            Custom Order Form:
+                            <br/>
+                            <div style="font-weight:bold;width :70%">
+                                Prism™ Solid Surface Custom Trench Receptor
+
+                            </div>
+                        </td>
+                        <td style="width :15%;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;">
+                            
+                                Work Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+
+                        </td>
+                        <td style="text-align: right;width :15%">	
+                            
+                                Sales Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <p style="padding-left: 1pt; text-align: left; padding-top:2pt; margin-top: 0;font-size:9px">
+                    PLEASE COMPLETE THE FOLLOWING INFORMATION BASED ON <b>FIELD VERIFIED DIMENSIONS. USE ONE ORDER FORM PER SIZE  &amp; COLOR.</b> ORDERS FOR CUSTOM PRODUCTS CANNOT BE RETURNED.
+					THE SIGNED FORM MUST BE SENT WITH YOUR ORDER. FAX TO 888-715-8407 FOR QUOTATION. SALES CONTACT: 800-222-5556
+                </p>
+                <table style="font-size:10px;Width:100%;">
+                    <tr>
+                        <td Colspan="6" style="Width:100%; Padding-top:-50px">
+                            <span Style= "font-size:14px;">&nbsp;&nbsp;<b>STEP 1: RECEPTOR MEASUREMENTS</b></span>	
+                            
+                        </td>
+                        </tr>
+                    <tr>
+                        <td Colspan="6" Style= "font-size:6px;">&nbsp;&nbsp;&nbsp;&nbsp;(ALLOW FOR 3/16" GAP FROM STUD. USE INPRO'S "TRENCH RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR WIDTH "A":</td>
+                        <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>37 1/2" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>61 3/4" </td>
+                    <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>73 3/4" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>CUSTOM WIDTH: </td>
+                    <td Style= "Width:23%;"><div style="text-align:center; display: inline-block; width: 45%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                        (MAX. 73 3/4")</td>
+                    </tr>
+                    
+                    <tr>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR DEPTH "B":</td>
+                        <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>30 7/8" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>36 3/4" </td>
+                    <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>48 7/8" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>CUSTOM DEPTH: </td>
+                    <td Style= "Width:23%;"><div style="text-align:center; display: inline-block; width: 45%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                        (MAX. 48 7/8")</td>
+                    </tr>
+                </table>
+                
+                <table>
+                    
+                     <tr>
+                        <td style="Width:32%; Padding-bottom:-50px">
+                            <span Style= "font-size:10px;">&nbsp;&nbsp;DRAIN LOCATION - WIDTH OFFSET "C":</span>	
+                            
+                        </td>
+                        <td style="font-size:10px;"><div style="text-align:center; display: inline-block;font-size:10px; width: 25%; border: none; border-bottom: 1px solid #999; outline: none;"></div>&nbsp;&nbsp;(SEE TABLE 1)</td>
+                        </tr>
+                    <tr>
+                        <td Colspan="2" style="Width:100%; Padding-top:-50px">
+                            <span Style= "font-size:6px;">&nbsp;&nbsp;• BRASS DRAIN FOR 2" SCH 40 DWV PVC PIPE (STANDARD)</span>	
+                            
+                        </td>
+                        </tr>
+                    
+                </table>
+                <table Style="Width:100%;">
+                    <tr>
+                        <td Style="Width:50%;"><img src="{!$Resource.cf_ipc1962_ID1962_step1}" alt="ID1962_step1" width="400" height="270" /></td>
+                        
+                        <td Style="Width:50%;">
+                        
+                        <table style="border-collapse: collapse;">
+    <tr>
+        <td colspan="2">TABLE 1</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:12px;"><b>WIDTH RANGE</b></td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:12px;"><b>"C" MIN DISTANCE FROM EITHER EDGE</b></td>
+    	<td style="width: 15%;"></td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px;">Up to 37 1/2"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">11"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">37 9/16" to 49 3/4"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">15"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">49 13/16" to 61 3/4"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">19"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">61 13/16" to 68"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">23"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">68 1/16" to 73 3/4"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">29"</td>
+    </tr>
+</table>
+
+                        
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="font-size:8px; text-align:center">Underside of receptor may vary from level no more than 1/4" due to the curing process. </td>
+                    </tr>
+                    
+                </table>
+                
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+               
+                <table>
+                    <tr>
+                    	<td style="Width:55%">
+                        <table>
+                            <tr>
+                        <td colspan = "2" style="font-size:14px">&nbsp;&nbsp;<b>STEP 2: GRATE</b> <span style="font-size:8px">- (SEE PG. 2 FOR DETAILS)</span></td>
+                    </tr>
+                    <tr>
+                    	<td style="width: 40%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;STANDARD</div>
+                    </td>
+                        <td style="width: 60%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT
+                            <span style="font-size: 7px;"><br /> (1/4" ADD-ON THRESHOLD REQUIRED)</span></div>
+                    </td>
+                    </tr>
+                            </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                        <table>
+                            <tr>
+                        <td colspan = "2" style="font-size:14px;padding-top:5pt;">&nbsp;&nbsp;<b>STEP 4: FASTENERS</b></td>
+                    </tr>
+                    <tr>
+                    	<td colspan = "2" style=" padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;MAGNETIC HOLD DOWN<span style="font-size: 7px;"><br /> (NOT RECOMMENDED FOR USE WITH THE TAMPER RESISTANT GRATE)</span></div>
+                    </td>
+                        
+                    </tr>
+                            <tr>
+                    	<td colspan = "2" style=" padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT SCREWS</div>
+                    </td>
+                        
+                    </tr>
+                            </table>
+                        </td>
+                        
+                        
+                        <td rowspan="2" style="border-left: 1px solid #333;width:45%">
+                        <table>
+                            <tr>
+                        <td colspan = "2" style="font-size:14px">&nbsp;&nbsp;<b>STEP 3: DRAIN</b> </td>
+                    </tr>
+                    <tr>
+                    	<td style="width: 35%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;None</div>
+                    </td>
+                    <td colspan = "2" style="width: 65%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;BRASS DRAIN* <span style="font-size: 7px;">( STANDARD )<br />FOR USE WITH 2" SCH 40 DWV PVC PIPE</span></div>
+                    </td>
+                    </tr>
+                            <tr>
+                            <td colspan = "3" style=" padding-top: 5px;border-top: 1px solid #333;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;CAST IRON MEMBRANE DRAIN<span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />ACCOMMODATES MEMBRANE INSTALLATION</span></div>
+                    </td>
+                            </tr>
+                            <tr>
+                            
+                    <td style="width: 35%; text-align: right; padding-bottom: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left;  margin-left: 30px;background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;NO HUB</div>
+                    </td>
+                    <td style="width: 30%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;THREADED</div>
+                    </td>
+                                <td style="width: 35%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;INSIDE CAULK</div>
+                    </td>
+                               
+                
+                            </tr>
+                            <tr>
+                            <td>&nbsp;</td>
+                            </tr>
+                            
+                            </table>
+                        </td>
+                   
+                    </tr>
+                    
+                </table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                
+                <table Style="Width=100%">
+                            <tr>
+                        <td colspan = "2" style="font-size:14px">&nbsp;&nbsp;<b>STEP 5: THRESHOLD</b> <span style="font-size:8px">- (SEE PG. 2 FOR DETAILS)</span></td>
+                    </tr>
+                    <tr>
+                    	<td style="width: 40%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp; NO THRESHOLD (STANDARD)</div>
+                    </td>
+                        <td style="width: 60%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                            <div style="display: inline-block; font-size: 10px;">&nbsp;1/4"THICK ADD-ON THRESHOLD
+                            <span style="font-size: 7px;"><br />  (REQUIRED WHEN ORDERING THE TAMPER RESISTANT GRATE)</span></div>
+                    </td>
+                    </tr>
+                            </table>
+                
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <h3 style="font-size:14px;">
+                &nbsp;&nbsp;    STEP 6: COLORS
+                </h3>
+               <table style="width: 100%; border-collapse: collapse; font-size: 9px;padding-top:10pt">
+    <tr>
+        <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A</b></td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Antique White<br/><span style="font-size: 7px;">P9001</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;White Sand<br/><span style="font-size: 7px;">P9002</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Taupe<br/><span style="font-size: 7px;">P9005</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Bone<br/><span style="font-size: 7px;">P9009</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Bright White<br/><span style="font-size: 7px;">P9011</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Shadow<br/><span style="font-size: 7px;">P9081</span></div>
+        </td>
+        <td style="width: 9%;"></td>
+        
+    </tr>
+    <tr>
+        <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A1*</b></td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Haven<br/><span style="font-size: 7px;">P9701</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Arid<br/><span style="font-size: 7px;">P9702</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Quarry<br/><span style="font-size: 7px;">P9705</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Wool<br/><span style="font-size: 7px;">P9709</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Frosted White<br/><span style="font-size: 7px;">P9711</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Dusk<br/><span style="font-size: 7px;">P9781</span></div>
+        </td>
+        <td style="width: 9%;"></td>
+       
+    </tr>
+    <tr>
+        <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS B*</b></td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Candlelight<br/><span style="font-size: 7px;">P9014</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Sandbar<br/><span style="font-size: 7px;">P9016</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Natural Linen<br/><span style="font-size: 7px;">P9079</span></div>
+        </td>
+        <td style="width: 13%;"></td>
+        <td style="width: 13%;"></td>
+        <td style="width: 13%;"></td>
+        <td style="width: 9%;"></td>
+        
+    </tr>
+    <tr>
+        <td colspan="8" style="font-size: 9px;">&nbsp;&nbsp;&nbsp;*Additional Charges May Apply</td>
+    </tr>
+</table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <h3 style="font-size:14px;">
+                  &nbsp;&nbsp;  STEP 7: APPROVAL PROCESS
+                </h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
+    <tr>
+        <td rowspan="3" style="width: 70%; padding: 2px;">
+            <b>&nbsp;&nbsp;Field verification is required on all dimensions.</b> Please review all drawings and dimensions prior to signing.<br/>
+            &nbsp; The customer is responsible for final approval of all products, parts and dimensions on all order drawings and <br/>&nbsp; order forms associated with the project number. By signing the order drawings you (the customer) assume<br/>&nbsp; responsibility of any product ordered incorrectly for any reason.
+        </td>
+        <td style="width: 20%; padding: 2px; border-top: 1px solid #999;">Signature</td>
+        <td style="width: 10%; padding: 2px; border-top: 1px solid #999;">Date</td>
+    </tr>
+    <tr>
+        <td style="padding: 2px;"></td>
+        <td style="padding: 2px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="padding: 2px; border-top: 1px solid #999;">Print Name</td>
+    </tr>
+</table>
+
+                
+                <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px margin-top:150px; margin-bottom:0px;">
+    <table style="padding-top:50px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;font-size:9px;">
+        <tr>
+            <td style="border: 1px solid black;Width:10%;" rowSpan="2">
+                <img style="width:80px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+            </td>
+            <td colSpan="2" style="border: 1px solid black;  font-size:9px;Width:55%;">
+                JOB Name: {!customForm.quoteRecord.Opportunity_Name__c}
+            </td>
+            <td style="border: 1px solid black; padding:6px;Width:10%;">
+                Project #: {!customForm.quoteRecord.QuoteNumber}
+            </td>
+            <td style="border: 1px solid black; padding:6px;Width:15%;">
+                Date: {!formattedDate}
+            </td>
+            <td style="border: 1px solid black; padding:6px;Width:10%;">
+                Tag:
+            </td>
+        </tr>
+
+       <tr>
+            <td style="border: 1px solid black; text-align:left;font-size:9px;Width:6%">QTY:</td>
+            <td style="border: 1px solid black; text-align:left;font-size:9px;Width:49%;">
+                NOTES:
+            </td>
+            <td style="border: 1px solid black; Width:10%;">
+                <span style="font-size: 9px;text-align:left;">SCALE:</span>
+                <br/>
+                <span style="font-size: 12px;text-align:right;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;N.T.S.</span>
+            </td>
+            <td style="border: 1px solid black;Width:15%;">
+                <span style="font-size: 9px;">FINISH:</span>
+                <span style="font-size: 5px;">*based on Color Selection</span>
+                <br/>
+                <span style="font-size: 12px;font-weight:bold;">FINAL FINISH</span>
+            </td>
+
+
+            <td style="border: 1px solid black; padding:6px;font-size: 12px; text-align:right;Width:10%;">
+                 IPC.1962/Rev11
+            </td>
+        </tr>
+    </table>
+                    
+</div>
+
+            </div><br/>
+            <!-- End of page 1 -->
+             <div style="border: 1px solid black;">
+            <table style="width:100%; margin-bottom: 0;">
+                    <tr>
+                        <td style="text-align: left;font-size:14px">
+                            Custom Order Form:
+                            <br/>
+                            <div style="font-weight:bold;width :70%">
+                                Prism™ Solid Surface Custom Trench Receptor
+
+                            </div>
+                        </td>
+                        <td style="width :15%;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;">
+                            
+                                Work Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+
+                        </td>
+                        <td style="text-align: right;width :15%">	
+                            
+                                Sales Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <p style="padding-left: 1pt; text-align: left; padding-top:2pt; margin-top: 0;font-size:9px">
+                    PLEASE COMPLETE THE FOLLOWING INFORMATION BASED ON <b>FIELD VERIFIED DIMENSIONS. USE ONE ORDER FORM PER SIZE  &amp; COLOR.</b> ORDERS FOR CUSTOM PRODUCTS CANNOT BE RETURNED.
+					THE SIGNED FORM MUST BE SENT WITH YOUR ORDER. FAX TO 888-715-8407 FOR QUOTATION. SALES CONTACT: 800-222-5556
+                </p>
+                 
+                
+                 <h3>
+                    &nbsp; &nbsp; • GRATE DETAILS <span style="Font-size:10px">- 12 GAUGE STAINLESS STEEL</span>
+                 </h3>
+                 <img src="{!$Resource.cf_ipc1962_ID1962_GrateDetails}" alt="ID1962_GrateDetails" width="700"  />
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                 <h3>
+                    &nbsp; &nbsp;• THRESHOLD DETAILS
+                 </h3>
+                 <img src="{!$Resource.cf_ipc1962_ID1962_Threshold}" alt="ID1962_Threshold" width="700"  />
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                 
+                
+                <li><b>RECEPTOR INSTALL CROSS SECTION - DOUBLE WATER BARRIER</b></li>
+                <img src="{!$Resource.cf_ipc777_ID2281p2bottom}" alt="ID2281p2bottom" height="250" width="550"/>
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                 
+                 <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="Text-align:left"><b>• RECEPTOR INSTALL CROSS SECTION - DRAIN RING</b></td>
+                        
+                    
+                </tr>
+                     <tr><td style="Text-align:center">
+                        <img src="{!$Resource.cf_ipc1962_ID1962_ReceptorInstallImage}" alt="ID1962_ReceptorInstallImage" height="180" width="300"/></td>
+                    </tr>
+                 </table>
+                 
+                
+                <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px margin-top:150px; margin-bottom:0px;">
+    <table style="padding-top:50px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;font-size:12px;">
+        <tr>
+            <td style="border: 1px solid black;Width:10%;" rowSpan="2">
+                <img style="width:80px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+            </td>
+            <td colSpan="2" style="  font-size:12px;Width:55%;">
+                
+            </td>
+            <td style=" padding:6px;Width:10%;">
+               
+            </td>
+            <td style=" padding:6px;Width:15%;">
+               
+            </td>
+            <td style=" padding:6px;Width:10%;">
+               
+            </td>
+        </tr>
+
+       <tr>
+            <td style=" text-align:left;font-size:12px;Width:6%"></td>
+            <td style=" text-align:left;font-size:12px;Width:49%;">
+               
+            </td>
+            <td style="Width:10%;">
+                <span style="font-size: 11px;text-align:left;"></span>
+                <br/>
+                <span style="font-size: 14px;text-align:right;"></span>
+            </td>
+            <td style="Width:15%;">
+                <span style="font-size: 12px;"></span>
+                <span style="font-size: 5px;"></span>
+                <br/>
+                <span style="font-size: 12px;font-weight:bold;"></span>
+            </td>
+
+
+            <td style="border: 1px solid black; padding:6px; text-align:right;Width:10%;">
+                 IPC.1962/Rev11
+            </td>
+        </tr>
+    </table>
+</div>
+                 
+                 
+            </div>
+            
+        </apex:outputText>
+        
+        
+        <apex:outputText rendered="{!BlankForm == false}">
+            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+            <div style="border: 1px solid black;">
+                <table style="width:100%; margin-bottom: 0;">
+                    <tr>
+                        <td style="text-align: left;font-size:14px">
+                            Custom Order Form:
+                            <br/>
+                            <div style="font-weight:bold;width :70%">
+                                Prism™ Solid Surface Custom Trench Receptor
+
+                            </div>
+                        </td>
+                        <td style="width :15%;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;">
+                            
+                                Work Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+
+                        </td>
+                        <td style="text-align: right;width :15%">	
+                            
+                                Sales Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <p style="padding-left: 1pt; text-align: left; padding-top:2pt; margin-top: 0;font-size:9px">
+                    PLEASE COMPLETE THE FOLLOWING INFORMATION BASED ON <b>FIELD VERIFIED DIMENSIONS. USE ONE ORDER FORM PER SIZE  &amp; COLOR.</b> ORDERS FOR CUSTOM PRODUCTS CANNOT BE RETURNED.
+					THE SIGNED FORM MUST BE SENT WITH YOUR ORDER. FAX TO 888-715-8407 FOR QUOTATION. SALES CONTACT: 800-222-5556
+                </p>
+                <table style="font-size:10px;Width:100%;">
+                    <tr>
+                        <td Colspan="6" style="Width:100%; Padding-top:-50px">
+                            <span Style= "font-size:14px;">&nbsp;&nbsp;<b>STEP 1: RECEPTOR MEASUREMENTS</b></span>	
+                            
+                        </td>
+                        </tr>
+                    <tr>
+                        <td Colspan="6" Style= "font-size:6px;">&nbsp;&nbsp;&nbsp;&nbsp;(ALLOW FOR 3/16" GAP FROM STUD. USE INPRO'S "TRENCH RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR WIDTH "A":</td>
+                        <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>37 1/2" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>61 3/4" </td>
+                    <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>73 3/4" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>CUSTOM WIDTH: </td>
+                    <td Style= "Width:23%;"><div style="text-align:center; display: inline-block; width: 45%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                        (MAX. 73 3/4")</td>
+                    </tr>
+                    
+                    <tr>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR DEPTH "B":</td>
+                        <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>30 7/8" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>36 3/4" </td>
+                    <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>48 7/8" </td>
+                    <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>CUSTOM DEPTH: </td>
+                    <td Style= "Width:23%;"><div style="text-align:center; display: inline-block; width: 45%; border: none; border-bottom: 1px solid #999; outline: none;"></div>
+                        (MAX. 48 7/8")</td>
+                    </tr>
+                </table>
+                
+                <table>
+                    
+                     <tr>
+                        <td style="Width:32%; Padding-bottom:-50px">
+                            <span Style= "font-size:10px;">&nbsp;&nbsp;DRAIN LOCATION - WIDTH OFFSET "C":</span>	
+                            
+                        </td>
+                        <td style="font-size:10px;"><div style="text-align:center; display: inline-block;font-size:10px; width: 25%; border: none; border-bottom: 1px solid #999; outline: none;"></div>&nbsp;&nbsp;(SEE TABLE 1)</td>
+                        </tr>
+                    <tr>
+                        <td Colspan="2" style="Width:100%; Padding-top:-50px">
+                            <span Style= "font-size:6px;">&nbsp;&nbsp;• BRASS DRAIN FOR 2" SCH 40 DWV PVC PIPE (STANDARD)</span>	
+                            
+                        </td>
+                        </tr>
+                    
+                </table>
+                <table Style="Width:100%;">
+                    <tr>
+                        <td Style="Width:50%;"><img src="{!$Resource.cf_ipc1962_ID1962_step1}" alt="ID1962_step1" width="400" height="270" /></td>
+                        
+                        <td Style="Width:50%;">
+                        
+                        <table style="border-collapse: collapse;">
+    <tr>
+        <td colspan="2">TABLE 1</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:12px;"><b>WIDTH RANGE</b></td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:12px;"><b>"C" MIN DISTANCE FROM EITHER EDGE</b></td>
+    	<td style="width: 15%;"></td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px;">Up to 37 1/2"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">11"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">37 9/16" to 49 3/4"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">15"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">49 13/16" to 61 3/4"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">19"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">61 13/16" to 68"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">23"</td>
+    </tr>
+    <tr>
+        <td style="width: 40%; border: 1px solid black; text-align:center;font-size:10px">68 1/16" to 73 3/4"</td>
+        <td style="width: 45%; border: 1px solid black; text-align:center;font-size:10px">29"</td>
+    </tr>
+</table>
+
+                        
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="font-size:8px; text-align:center">Underside of receptor may vary from level no more than 1/4" due to the curing process. </td>
+                    </tr>
+                    
+                </table>
+                
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+               
+                <table>
+                    <tr>
+                    	<td style="Width:55%">
+                        <table>
+                            <tr>
+                        <td colspan = "2" style="font-size:14px">&nbsp;&nbsp;<b>STEP 2: GRATE</b> <span style="font-size:8px">- (SEE PG. 2 FOR DETAILS)</span></td>
+                    </tr>
+                    <tr>
+                    	<td style="width: 40%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;STANDARD</div>
+                    </td>
+                        <td style="width: 60%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT
+                            <span style="font-size: 7px;"><br /> (1/4" ADD-ON THRESHOLD REQUIRED)</span></div>
+                    </td>
+                    </tr>
+                            </table>
+                        <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                        <table>
+                            <tr>
+                        <td colspan = "2" style="font-size:14px;padding-top:5pt;">&nbsp;&nbsp;<b>STEP 4: FASTENERS</b></td>
+                    </tr>
+                    <tr>
+                    	<td colspan = "2" style=" padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;MAGNETIC HOLD DOWN<span style="font-size: 7px;"><br /> (NOT RECOMMENDED FOR USE WITH THE TAMPER RESISTANT GRATE)</span></div>
+                    </td>
+                        
+                    </tr>
+                            <tr>
+                    	<td colspan = "2" style=" padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT SCREWS</div>
+                    </td>
+                        
+                    </tr>
+                            </table>
+                        </td>
+                        
+                        
+                        <td rowspan="2" style="border-left: 1px solid #333;width:45%">
+                        <table>
+                            <tr>
+                        <td colspan = "2" style="font-size:14px">&nbsp;&nbsp;<b>STEP 3: DRAIN</b> </td>
+                    </tr>
+                    <tr>
+                    	<td style="width: 35%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;None</div>
+                    </td>
+                    <td colspan = "2" style="width: 65%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;BRASS DRAIN* <span style="font-size: 7px;">( STANDARD )<br />FOR USE WITH 2" SCH 40 DWV PVC PIPE</span></div>
+                    </td>
+                    </tr>
+                            <tr>
+                            <td colspan = "3" style=" padding-top: 5px;border-top: 1px solid #333;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;CAST IRON MEMBRANE DRAIN<span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />ACCOMMODATES MEMBRANE INSTALLATION</span></div>
+                    </td>
+                            </tr>
+                            <tr>
+                            
+                    <td style="width: 35%; text-align: right; padding-bottom: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left;  margin-left: 30px;background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;NO HUB</div>
+                    </td>
+                    <td style="width: 30%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;THREADED</div>
+                    </td>
+                                <td style="width: 35%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;INSIDE CAULK</div>
+                    </td>
+                               
+                
+                            </tr>
+                            <tr>
+                            <td>&nbsp;</td>
+                            </tr>
+                            
+                            </table>
+                        </td>
+                   
+                    </tr>
+                    
+                </table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                
+                <table Style="Width=100%">
+                            <tr>
+                        <td colspan = "2" style="font-size:14px">&nbsp;&nbsp;<b>STEP 5: THRESHOLD</b> <span style="font-size:8px">- (SEE PG. 2 FOR DETAILS)</span></td>
+                    </tr>
+                    <tr>
+                    	<td style="width: 40%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 10px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp; NO THRESHOLD (STANDARD)</div>
+                    </td>
+                        <td style="width: 60%; padding: 2px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                            <div style="display: inline-block; font-size: 10px;">&nbsp;1/4"THICK ADD-ON THRESHOLD
+                            <span style="font-size: 7px;"><br />  (REQUIRED WHEN ORDERING THE TAMPER RESISTANT GRATE)</span></div>
+                    </td>
+                    </tr>
+                            </table>
+                
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <h3 style="font-size:14px;">
+                &nbsp;&nbsp;    STEP 6: COLORS
+                </h3>
+               <table style="width: 100%; border-collapse: collapse; font-size: 9px;padding-top:10pt">
+    <tr>
+        <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A</b></td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Antique White<br/><span style="font-size: 7px;">P9001</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;White Sand<br/><span style="font-size: 7px;">P9002</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Taupe<br/><span style="font-size: 7px;">P9005</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Bone<br/><span style="font-size: 7px;">P9009</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Bright White<br/><span style="font-size: 7px;">P9011</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Shadow<br/><span style="font-size: 7px;">P9081</span></div>
+        </td>
+        <td style="width: 9%;"></td>
+        
+    </tr>
+    <tr>
+        <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A1*</b></td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Haven<br/><span style="font-size: 7px;">P9701</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Arid<br/><span style="font-size: 7px;">P9702</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Quarry<br/><span style="font-size: 7px;">P9705</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Wool<br/><span style="font-size: 7px;">P9709</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Frosted White<br/><span style="font-size: 7px;">P9711</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Dusk<br/><span style="font-size: 7px;">P9781</span></div>
+        </td>
+        <td style="width: 9%;"></td>
+       
+    </tr>
+    <tr>
+        <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS B*</b></td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Candlelight<br/><span style="font-size: 7px;">P9014</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Sandbar<br/><span style="font-size: 7px;">P9016</span></div>
+        </td>
+        <td style="width: 13%; font-size: 9px;">
+            <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
+            <div style="display: inline-block;">&nbsp;Natural Linen<br/><span style="font-size: 7px;">P9079</span></div>
+        </td>
+        <td style="width: 13%;"></td>
+        <td style="width: 13%;"></td>
+        <td style="width: 13%;"></td>
+        <td style="width: 9%;"></td>
+        
+    </tr>
+    <tr>
+        <td colspan="8" style="font-size: 9px;">&nbsp;&nbsp;&nbsp;*Additional Charges May Apply</td>
+    </tr>
+</table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <h3 style="font-size:14px;">
+                  &nbsp;&nbsp;  STEP 7: APPROVAL PROCESS
+                </h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
+    <tr>
+        <td rowspan="3" style="width: 70%; padding: 2px;">
+            <b>&nbsp;&nbsp;Field verification is required on all dimensions.</b> Please review all drawings and dimensions prior to signing.<br/>
+            &nbsp; The customer is responsible for final approval of all products, parts and dimensions on all order drawings and <br/>&nbsp; order forms associated with the project number. By signing the order drawings you (the customer) assume<br/>&nbsp; responsibility of any product ordered incorrectly for any reason.
+        </td>
+        <td style="width: 20%; padding: 2px; border-top: 1px solid #999;">Signature</td>
+        <td style="width: 10%; padding: 2px; border-top: 1px solid #999;">Date</td>
+    </tr>
+    <tr>
+        <td style="padding: 2px;"></td>
+        <td style="padding: 2px;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="padding: 2px; border-top: 1px solid #999;">Print Name</td>
+    </tr>
+</table>
+
+                
+                <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px margin-top:150px; margin-bottom:0px;">
+    <table style="padding-top:50px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;font-size:9px;">
+        <tr>
+            <td style="border: 1px solid black;Width:10%;" rowSpan="2">
+                <img style="width:80px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+            </td>
+            <td colSpan="2" style="border: 1px solid black;  font-size:9px;Width:55%;">
+                JOB Name: {!customForm.quoteRecord.Opportunity_Name__c}
+            </td>
+            <td style="border: 1px solid black; padding:6px;Width:10%;">
+                Project #: {!customForm.quoteRecord.QuoteNumber}
+            </td>
+            <td style="border: 1px solid black; padding:6px;Width:15%;">
+                Date: {!formattedDate}
+            </td>
+            <td style="border: 1px solid black; padding:6px;Width:10%;">
+                Tag:
+            </td>
+        </tr>
+
+       <tr>
+            <td style="border: 1px solid black; text-align:left;font-size:9px;Width:6%">QTY:{!quoteLine.Quantity}</td>
+            <td style="border: 1px solid black; text-align:left;font-size:9px;Width:49%;">
+                NOTES:
+            </td>
+            <td style="border: 1px solid black; Width:10%;">
+                <span style="font-size: 9px;text-align:left;">SCALE:</span>
+                <br/>
+                <span style="font-size: 12px;text-align:right;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;N.T.S.</span>
+            </td>
+            <td style="border: 1px solid black;Width:15%;">
+                <span style="font-size: 9px;">FINISH:</span>
+                <span style="font-size: 5px;">*based on Color Selection</span>
+                <br/>
+                <span style="font-size: 12px;font-weight:bold;">FINAL FINISH</span>
+            </td>
+
+
+            <td style="border: 1px solid black; padding:6px;font-size: 12px; text-align:right;Width:10%;">
+                  IPC.1962/Rev11
+            </td>
+        </tr>
+    </table>
+                    
+</div>
+
+            </div><br/>
+            <!-- End of page 1 -->
+             <div style="border: 1px solid black;">
+            <table style="width:100%; margin-bottom: 0;">
+                    <tr>
+                        <td style="text-align: left;font-size:14px">
+                            Custom Order Form:
+                            <br/>
+                            <div style="font-weight:bold;width :70%">
+                                Prism™ Solid Surface Custom Trench Receptor
+
+                            </div>
+                        </td>
+                        <td style="width :15%;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;">
+                            
+                                Work Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+
+                        </td>
+                        <td style="text-align: right;width :15%">	
+                            
+                                Sales Order #:<br/>
+                                <span style="font-size:7px;">(for Internal User Only)</span>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                <p style="padding-left: 1pt; text-align: left; padding-top:2pt; margin-top: 0;font-size:9px">
+                    PLEASE COMPLETE THE FOLLOWING INFORMATION BASED ON <b>FIELD VERIFIED DIMENSIONS. USE ONE ORDER FORM PER SIZE  &amp; COLOR.</b> ORDERS FOR CUSTOM PRODUCTS CANNOT BE RETURNED.
+					THE SIGNED FORM MUST BE SENT WITH YOUR ORDER. FAX TO 888-715-8407 FOR QUOTATION. SALES CONTACT: 800-222-5556
+                </p>
+                 
+                
+                 <h3>
+                    &nbsp; &nbsp; • GRATE DETAILS <span style="Font-size:10px">- 12 GAUGE STAINLESS STEEL</span>
+                 </h3>
+                 <img src="{!$Resource.cf_ipc1962_ID1962_GrateDetails}" alt="ID1962_GrateDetails" width="700"  />
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                 <h3>
+                    &nbsp; &nbsp;• THRESHOLD DETAILS
+                 </h3>
+                 <img src="{!$Resource.cf_ipc1962_ID1962_Threshold}" alt="ID1962_Threshold" width="700"  />
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                 
+                
+                <li><b>RECEPTOR INSTALL CROSS SECTION - DOUBLE WATER BARRIER</b></li>
+                <img src="{!$Resource.cf_ipc777_ID2281p2bottom}" alt="ID2281p2bottom" height="250" width="550"/>
+                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
+                 
+                 <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="Text-align:left"><b>• RECEPTOR INSTALL CROSS SECTION - DRAIN RING</b></td>
+                        
+                    
+                </tr>
+                     <tr><td style="Text-align:center">
+                        <img src="{!$Resource.cf_ipc1962_ID1962_ReceptorInstallImage}" alt="ID1962_ReceptorInstallImage" height="180" width="300"/></td>
+                    </tr>
+                 </table>
+                 
+                
+                <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px margin-top:150px; margin-bottom:0px;">
+    <table style="padding-top:50px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;font-size:12px;">
+        <tr>
+            <td style="border: 1px solid black;Width:10%;" rowSpan="2">
+                <img style="width:80px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
+            </td>
+            <td colSpan="2" style="  font-size:12px;Width:55%;">
+                
+            </td>
+            <td style=" padding:6px;Width:10%;">
+               
+            </td>
+            <td style=" padding:6px;Width:15%;">
+               
+            </td>
+            <td style=" padding:6px;Width:10%;">
+               
+            </td>
+        </tr>
+
+       <tr>
+            <td style=" text-align:left;font-size:12px;Width:6%"></td>
+            <td style=" text-align:left;font-size:12px;Width:49%;">
+               
+            </td>
+            <td style="Width:10%;">
+                <span style="font-size: 11px;text-align:left;"></span>
+                <br/>
+                <span style="font-size: 14px;text-align:right;"></span>
+            </td>
+            <td style="Width:15%;">
+                <span style="font-size: 12px;"></span>
+                <span style="font-size: 5px;"></span>
+                <br/>
+                <span style="font-size: 12px;font-weight:bold;"></span>
+            </td>
+
+
+            <td style="border: 1px solid black; padding:6px; text-align:right;Width:10%;">
+                 IPC.1962/Rev11
+            </td>
+        </tr>
+    </table>
+</div>
+                 
+                 
+            </div>
+                  
+             </apex:repeat>
+        </apex:outputText>
+      
+    </body>
+</apex:page>
