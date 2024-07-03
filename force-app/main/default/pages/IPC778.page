@@ -26,7 +26,7 @@
                             </div>
                         </td>
                         <td>
-                            <div style="text-align: right;">
+                            <div style="text-align: left;">
                                 Sales Order #:<br/>
                                 <span style="font-size:12px;">(for Internal User Only)</span>
                             </div>
@@ -64,7 +64,7 @@
                 </table>
                 
                 <!--Custom table -->
-                <table style="margin-left:40px;border-spacing: 40px;width:100%;">
+                <table style="margin-left:40px;border-spacing: 20px;width:100%;">
                     <tr>
                         <td style="padding:15px;">
                             <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
@@ -143,7 +143,7 @@
                 <!--Custom table -->
                 
                 <!--Lengths Table-->
-                <table style=" padding-left:5px; padding-top:10px; padding-bottom:5px;width:100%;">
+                <table style=" padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
                     <tr>
                         <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
                         <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
@@ -165,16 +165,15 @@
                 </table>
                 
                 <!--edge Table-->
-                <table style="page-break-after: auto; margin-top:20px; margin-bottom:20px;width:100%;">  
+                <table style="page-break-after: auto; margin-top:10px; margin-bottom:0px;width:100%;">  
                     <tr>
-                        <td style="width:100%;text-align:center;" ><img style="width:700px;" src="{!$Resource.cf_ipc778_edgeTreatments}" alt="Inpro" /></td>
+                        <td style="width:100%;text-align:center;" ><img style="" src="{!$Resource.cf_ipc778_edgeTreatmentsv1}" alt="Inpro" /></td>
                     </tr>
                 </table>
-                <br/>
                 
                 <!-- Bottom Footer -->
-                <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px margin-top:150px; margin-bottom:0px;">
-                    <table style="padding-top:50px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;font-size:12px;">
+                <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px; margin-bottom:0px;">
+                    <table style="padding-top:0px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;font-size:12px;">
                         <tr >
                             <td style="border: 1px solid black;" rowSpan="2">
                                 <img style="width:80px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
@@ -216,7 +215,7 @@
                 <span>
                     <table style="width:100%; margin-bottom: 0;border: 1px solid black;">
                         <tr>
-                            <td style="text-align: left;border-left:hidden;border-top:hidden;border-bottom:hidden;">
+                        <td style="text-align: left;border: 1px solid black;border-left:hidden;border-top:hidden;border-bottom:hidden;">
                                 Custom Order Form:
                                 <br/>
                                 <div style="text-align: left; font-weight:bold;">
@@ -224,7 +223,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="text-align: right;"> Sales Order #:<br/>
+                                <div style="text-align: left;"> Sales Order #:<br/>
                                     <span style="font-size:12px;">(for Internal User Only)</span>
                                 </div>
                             </td>
@@ -326,23 +325,23 @@
                 </table>
                 
                 <br/><br/><br/>
-                <h3>
-                    &nbsp;&nbsp;STANDARD PLANK/BEAD BOARD SELECTION :
-                </h3>
+                <h4> &nbsp;&nbsp;STANDARD PLANK/BEAD BOARD SELECTION :</h4>
                 <table style="border:1px solid #333;width:100%;">
                     <tr>
                         <td style="width: 50%; padding: 2px; border:1px solid #333;">
                             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                            <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;PLANKBOARD <span style="font-size: 7px;">( 3/16" BALL NOSE , 0.05" DEEP)</span></div>
+                            <div style="display: inline-block; font-size: 13px;">&nbsp;&nbsp;<b>PLANKBOARD</b> <span style="font-size: 7px;"><b>( 3/16" BALL NOSE , 0.05" DEEP)</b></span></div>
                         </td>
                         <td style="width: 50%; padding: 2px;border:1px solid #333;">
                             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                            <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;BEADBOARD <span style="font-size: 7px;">( " 1/8" BALL NOSE , 0.015" DEEP, DOUBLE)</span></div>
+                            <div style="display: inline-block; font-size: 13px;">&nbsp;&nbsp;<b>BEADBOARD</b> <span style="font-size: 7px;"><b>( " 1/8" BALL NOSE , 0.015" DEEP, DOUBLE)</b></span></div>
                         </td>
+                        <td><div style="display: inline-block; font-size: 13px;"><b style="text-align:center;">STANDARD GROOVE DETAILS:</b> </div></td>
                     </tr>
                     <tr>
                         <td style="width: 50%; padding: 2px;border:1px solid #333;">&nbsp;&nbsp;<img src="{!$Resource.IPC778_decorativepanelnew1FirstImg}" alt="decorativepanelnew1FirstImg" width="400" /></td>
                         <td style="width: 50%; padding: 2px;border:1px solid #333;">&nbsp;&nbsp;<img src="{!$Resource.IPC778_decorativepanelnew1Second}" alt="decorativepanelnew1Second" width="400"/></td>
+                        <td style="width: 50%; padding: 2px;border:1px solid #333;">&nbsp;&nbsp;<img src="{!$Resource.IPC778_decorativepanelnew1SecondV1}" alt="decorativepanelnew1SecondV1" width="400"/></td>
                     </tr>
                 </table>
                 <br/>
@@ -391,7 +390,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="text-align: right;">
+                                <div style="text-align: left;">
                                     Sales Order #:<br/>
                                     <span style="font-size:12px;">(for Internal User Only)</span>
                                 </div>
@@ -411,25 +410,25 @@
                     
                     <!--Dimensions -->        
                     <table style="line-height: 0.1px; margin-top: 0;margin-bottom:0px;width:100%;">
-                        <tr>
-                            <td style="font-size: 8px; line-height: 0.1px; margin-top: 0;"> •¼" THICK PANELS 30" - 48" WIDTHS AVAILABLE IN LENGTHS UP TO 120", >48" - 61¾" WIDE </td>
-                            <td style="text-align:center;">
-                                <div style="display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 20px;margin-top: 12px; margin-left:10px;"> </div>
-                                <label style="display: block; padding-left:10px;margin-left:1px;margin-top: 5px;text-align:left;font-size: 10px;">Print Name</label>
-                            </td>
-                            <td style="text-align:center;">
-                                <div style="display: inline-block; width: 150px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 20px; margin-left:10px;margin-top: 22px;"> </div>
-                                <label  style="display: block; margin-top: 5px;text-align:left;padding-left:10px;font-size: 10px;">Signature</label>
-                                <label  style="display: block; margin-top: 5px;text-align:right;padding-right:20px;padding-bottom:5px;font-size: 10px;">Date</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="font-size: 10px; line-height: 0.1px; margin-top: 0;">  AVAILABLE IN LENGTHS UP TO 96"  </td>
-                        </tr>
-                    </table>
+                    <tr>
+                        <td style="font-size: 8px; line-height: 0.1px; margin-top: 0;"> •¼" THICK PANELS 30" - 48" WIDTHS AVAILABLE IN LENGTHS UP TO 120", >48" - 61¾" WIDE </td>
+                        <td style="text-align:center;">
+                            <div style="display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px;margin-top: 12px; margin-left:-10px;"> </div>
+                            <label style="display: block; padding-left:10px;margin-left:1px;margin-top: 5px;text-align:left;font-size: 10px;">Print Name</label>
+                        </td>
+                        <td style="text-align:center;">
+                            <div style="display: inline-block; width: 150px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px; margin-left:-10px;margin-top: 22px;"> </div>
+                            <label  style="display: block; margin-top: 5px;text-align:left;padding-left:10px;font-size: 10px;">Signature</label>
+                            <label  style="display: block; margin-top: 5px;text-align:right;padding-right:70px;padding-bottom:5px;font-size: 10px;">Date</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 10px; line-height: 0.1px; margin-top: 0;">  AVAILABLE IN LENGTHS UP TO 96"  </td>
+                    </tr>
+                </table>
                     
                     <!--Custom table -->
-                    <table style="margin-left:40px;border-spacing: 40px;width:100%;">
+                    <table style="margin-left:40px;border-spacing: 20px;width:100%;">
                         <tr>
                             <td style="padding:15px;">
                                 <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
@@ -508,7 +507,7 @@
                     <!--Custom table -->
                     
                     <!--Lengths Table-->
-                    <table style=" padding-left:5px; padding-top:10px; padding-bottom:5px;width:100%;">
+                    <table style=" padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
                         <tr>
                             <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
                             <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
@@ -530,12 +529,11 @@
                     </table>
                     
                     <!--edge Table-->
-                    <table style="page-break-after: auto; margin-top:20px; margin-bottom:20px;width:100%;">  
-                        <tr>
-                            <td style="width:100%;text-align:center;" ><img style="width:700px;" src="{!$Resource.cf_ipc778_edgeTreatments}" alt="Inpro" /></td>
-                        </tr>
-                    </table>
-                    <br/>
+                    <table style="page-break-after: auto; margin-top:10px; margin-bottom:0px;width:100%;">  
+                    <tr>
+                        <td style="width:100%;text-align:center;" ><img style="" src="{!$Resource.cf_ipc778_edgeTreatmentsv1}" alt="Inpro" /></td>
+                    </tr>
+                </table>
                     
                     <!-- Bottom Footer -->
                     <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px margin-top:150px; margin-bottom:0px;">
@@ -590,7 +588,7 @@
                 <span>
                     <table style="width:100%; margin-bottom: 0;border: 1px solid black;">
                         <tr>
-                            <td style="text-align: left;border-left:hidden;border-top:hidden;border-bottom:hidden;">
+                            <td style="text-align: left;border: 1px solid black;border-left:hidden;border-top:hidden;border-bottom:hidden;">
                                 Custom Order Form:
                                 <br/>
                                 <div style="text-align: left; font-weight:bold;">
@@ -598,8 +596,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="text-align: right;">
-                                    Sales Order #:<br/>
+                                <div style="text-align: left;"> Sales Order #:<br/>
                                     <span style="font-size:12px;">(for Internal User Only)</span>
                                 </div>
                             </td>
@@ -703,23 +700,23 @@
                 </table>
                 
                 <br/><br/><br/>
-                <h3>
-                    &nbsp;&nbsp;STANDARD PLANK/BEAD BOARD SELECTION :
-                </h3>
+                <h4> &nbsp;&nbsp;STANDARD PLANK/BEAD BOARD SELECTION :</h4>
                 <table style="border:1px solid #333;width:100%;">
                     <tr>
                         <td style="width: 50%; padding: 2px; border:1px solid #333;">
                             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                            <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;PLANKBOARD <span style="font-size: 7px;">( 3/16" BALL NOSE , 0.05" DEEP)</span></div>
+                            <div style="display: inline-block; font-size: 13px;">&nbsp;&nbsp;<b>PLANKBOARD</b> <span style="font-size: 7px;"><b>( 3/16" BALL NOSE , 0.05" DEEP)</b></span></div>
                         </td>
                         <td style="width: 50%; padding: 2px;border:1px solid #333;">
                             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                            <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;BEADBOARD <span style="font-size: 7px;">( " 1/8" BALL NOSE , 0.015" DEEP, DOUBLE)</span></div>
+                            <div style="display: inline-block; font-size: 13px;">&nbsp;&nbsp;<b>BEADBOARD</b> <span style="font-size: 7px;"><b>( " 1/8" BALL NOSE , 0.015" DEEP, DOUBLE)</b></span></div>
                         </td>
+                        <td><div style="display: inline-block; font-size: 13px;"><b style="text-align:center;">STANDARD GROOVE DETAILS:</b> </div></td>
                     </tr>
                     <tr>
                         <td style="width: 50%; padding: 2px;border:1px solid #333;">&nbsp;&nbsp;<img src="{!$Resource.IPC778_decorativepanelnew1FirstImg}" alt="decorativepanelnew1FirstImg" width="400" /></td>
                         <td style="width: 50%; padding: 2px;border:1px solid #333;">&nbsp;&nbsp;<img src="{!$Resource.IPC778_decorativepanelnew1Second}" alt="decorativepanelnew1Second" width="400"/></td>
+                        <td style="width: 50%; padding: 2px;border:1px solid #333;">&nbsp;&nbsp;<img src="{!$Resource.IPC778_decorativepanelnew1SecondV1}" alt="decorativepanelnew1SecondV1" width="400"/></td>
                     </tr>
                 </table>
                 <br/>

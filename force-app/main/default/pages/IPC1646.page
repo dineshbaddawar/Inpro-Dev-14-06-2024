@@ -1,5 +1,6 @@
 <apex:page setup="false" sidebar="false" renderAs="pdf" showHeader="false"  controller="IPC1646Controller" applyHtmlTag="false" applyBodyTag="false">
     <title>IPC1646</title>
+    
     <apex:outputText rendered="{!BlankForm == true}">
         
         <head>
@@ -89,13 +90,13 @@
                     <td style="padding: 5px;">Texture:</td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
                     </td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
                     </td>
@@ -104,7 +105,7 @@
                     <td style="padding: 5px;">Alloy:</td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
                     </td>
@@ -113,19 +114,19 @@
                     <td style="padding: 5px;">Gauge:</td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">18 (standard)</div>
                     </td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">16 (available)</div>
                     </td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">20 (available - Smooth
                             texture only)</div>
@@ -138,11 +139,11 @@
                 <tr>
                     <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
                     <td style="padding:10px;width:10%">
-                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                        <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
                         <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
                     </td>
                     <td style="padding:5px;width:25%">
-                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                        <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
                         <div style="padding-left:28px;margin-top:-18px">&nbsp; Screw-On** (Smooth texture with straight cut &nbsp;&nbsp;&nbsp;edges and no overlap only)</div>
                     </td>
                 </tr>
@@ -171,13 +172,13 @@
                     <td style="padding: 5px;">Texture:</td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
                     </td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
                     </td>
@@ -186,7 +187,7 @@
                     <td style="padding: 5px;">Alloy:</td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
                     </td>
@@ -195,19 +196,19 @@
                     <td style="padding: 5px;">Gauge:</td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">16 (standard)</div>
                     </td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">18 (available)</div>
                     </td>
                     <td style="padding: 5px;">
                         <div
-                             style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                             style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                         </div>
                         <div style="display: inline-block; float: right;padding-left:8px;">20 (available)</div>
                     </td>
@@ -218,11 +219,11 @@
                 <tr>
                     <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
                     <td style="padding:10px;width:10%">
-                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                        <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
                         <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
                     </td>
                     <td style="padding:5px;width:25%">
-                        <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                        <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
                         <div style="padding-left:28px;margin-top:-18px">&nbsp; &nbsp;Screw-On**</div>
                     </td>
                 </tr>
@@ -266,8 +267,9 @@
             <apex:outputText rendered="{!isMetric == true}">
                 <span>**#6 x 3.175cm Phillips flat head self-tapping screw and 0.635cm plastic alligator anchor included.</span>
             </apex:outputText>
-            
             <br/>
+            <br/>
+
             <div class="footer">
                 <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;margin-top:5px;">
                     <tr>
@@ -622,10 +624,12 @@
                 </tr>
             </table>
             
-            <br/><br/>
+            <br/><br/><br/>
             <span>• Note: Grain direction will be horizontal unless otherwise noted.</span> <br/>
             <span>• Note: Minimum size = 4" x 4". Maximum panel size is 120"w x 48"h if grain direction is horizontal or 48"w x 120"h if grain direction is vertical. </span>
             <br/> <br/> <br/>
+            <br/>   <br/>
+            <br/>
             <br/>
             <div class="footer">
                 <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
@@ -852,7 +856,7 @@
                     </td>
                 </tr>
             </table>
-            <br/>
+            <br/><br/>
             
             <!-- Bottom Footer -->
             <div class="footer">
@@ -895,6 +899,7 @@
                         </style>
                     </head>
                     
+                     
                     <body style="font-family: sans-serif; font-size: 10pt;">
                         
                         <!--Header-->
@@ -961,13 +966,13 @@
                                 <td style="padding: 5px;">Texture:</td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                         style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                                     </div>
                                     <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
                                 </td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
                                 </td>
@@ -976,7 +981,7 @@
                                 <td style="padding: 5px;">Alloy:</td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.AlloyThreeZeroFourForWall}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.AlloyThreeZeroFourForWall}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
                                 </td>
@@ -985,19 +990,19 @@
                                 <td style="padding: 5px;">Gauge:</td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Eighteen_Standard_Wall}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Eighteen_Standard_Wall}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">18 (standard)</div>
                                 </td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Sixteen_Avaialable_Wall}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Sixteen_Avaialable_Wall}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">16 (available)</div>
                                 </td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Twenty_Availaable_Smooth_Wall}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Twenty_Availaable_Smooth_Wall}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">20 (available - Smooth texture only)</div>
                                 </td>
@@ -1009,11 +1014,11 @@
                             <tr>
                                 <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
                                 <td style="padding:10px;width:10%">
-                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                                    <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
                                     <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
                                 </td>
                                 <td style="padding:5px;width:25%">
-                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                                    <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
                                     <div style="padding-left:28px;margin-top:-18px">&nbsp; Screw-On** (Smooth texture with straight cut &nbsp;&nbsp;&nbsp;edges and no overlap only)</div>
                                 </td>
                             </tr>
@@ -1042,13 +1047,13 @@
                                 <td style="padding: 5px;">Texture:</td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                                     </div>
                                     <div style="display: inline-block; float: revert;padding-left:8px;">Smooth</div>
                                 </td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">Diamond Plate</div>
                                 </td>
@@ -1057,7 +1062,7 @@
                                 <td style="padding: 5px;">Alloy:</td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.AlloyThreeZeroFourForCorner}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.AlloyThreeZeroFourForCorner}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">304 (standard)</div>
                                 </td>
@@ -1066,19 +1071,19 @@
                                 <td style="padding: 5px;">Gauge:</td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Sixteen_Standard_Corner}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Sixteen_Standard_Corner}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">16 (standard)</div>
                                 </td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Eighteen_Avaialable_Corner}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Eighteen_Avaialable_Corner}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">18 (available)</div>
                                 </td>
                                 <td style="padding: 5px;">
                                     <div
-                                         style="width: 12px; height: 15px;padding-right:10px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Twenty_Avaialable_Corner}">
+                                         style="width: 18px; height: 18px;  border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:#{!quoteLine.Twenty_Avaialable_Corner}">
                                     </div>
                                     <div style="display: inline-block; float: right;padding-left:8px;">20 (available)</div>
                                 </td>
@@ -1089,11 +1094,11 @@
                             <tr>
                                 <td style="padding: 5px;width:15%">Mounting Option (provided):</td>
                                 <td style="padding:10px;width:10%">
-                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
+                                    <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px;background:"></div>
                                     <div style="padding-left:28px;margin-top:-0px">&nbsp; &nbsp;Cement-On*  &nbsp; &nbsp; &nbsp; &nbsp; Or</div>
                                 </td>
                                 <td style="padding:5px;width:25%">
-                                    <div style="width: 12px; height: 15px;padding-right:10px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
+                                    <div style="width: 18px; height: 18px; border: 1px solid #333; cursor: pointer;  margin-right: 1px;background:"></div>
                                     <div style="padding-left:28px;margin-top:-18px">&nbsp; &nbsp;Screw-On**</div>
                                 </td>
                             </tr>
@@ -1139,8 +1144,9 @@
                         </apex:outputText>
                         
                         <br/>
+                        
                         <div class="footer">
-                            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;margin-top:5px;">
+                            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;margin-top:10px;">
                                 <tr>
                                     <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
                                     <td style="border: 1px solid black; padding:6px;">{!customForm.quoteRecord.Inside_Rep__c} </td>
@@ -1497,9 +1503,9 @@
                         <span>• Note: Grain direction will be horizontal unless otherwise noted.</span> <br/>
                         <span>• Note: Minimum size = 4" x 4". Maximum panel size is 120"w x 48"h if grain direction is horizontal or 48"w x 120"h if grain direction is vertical. </span>
                         <br/> <br/> <br/>
-                        <br/>
+                        <br/><br/><br/><br/><br/>
                         <div class="footer">
-                            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                            <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;margin-top:10px;">
                                 <tr>
                                     <td style="border: 1px solid black; padding:6px;"> <b>FOR INPRO USE ONLY</b> </td>
                                     <td style="border: 1px solid black; padding:6px;">{!customForm.quoteRecord.Inside_Rep__c} </td>
@@ -1723,7 +1729,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <br/>
+                        <br/><br/>
                         
                         <!-- Bottom Footer -->
                         <div class="footer">
@@ -1737,6 +1743,7 @@
                             </table>
                         </div>
                     </body>
+                    
                 </div>
             </apex:repeat>
         </apex:form>

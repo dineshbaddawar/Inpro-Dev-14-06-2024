@@ -31,7 +31,7 @@
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;width :15%">	
+                        <td style="text-align: right;width :15%;font-size:12px;">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
@@ -52,11 +52,11 @@
                         </td>
                         </tr>
                     <tr>
-                        <td Colspan="6" Style= "font-size:6px;">&nbsp;&nbsp;&nbsp;&nbsp;(ALLOW FOR 3/16" GAP FROM STUD. USE INPRO'S "TRENCH RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)
+                        <td Colspan="6" Style= "font-size:6px;">&nbsp;&nbsp;&nbsp;&nbsp;(ALLOW FOR 3/16" GAP FROM STUD. USE INPRO'S "TRENCH RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS) <a href="https://www.inprocorp.com/architectural-products/washroom-systems/custom-trench-drain-shower-bases/"><span Style= "font-size:10px;">Click here</span></a>
                         </td>
                     </tr>
                     <tr>
-                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR WIDTH "A":</td>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;<b>RECEPTOR WIDTH "A":</b></td>
                         <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>37 1/2" </td>
                     <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>61 3/4" </td>
                     <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>73 3/4" </td>
@@ -66,7 +66,7 @@
                     </tr>
                     
                     <tr>
-                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR DEPTH "B":</td>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;<b>RECEPTOR DEPTH "B":</b></td>
                         <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>30 7/8" </td>
                     <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>36 3/4" </td>
                     <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>48 7/8" </td>
@@ -80,7 +80,7 @@
                     
                      <tr>
                         <td style="Width:32%; Padding-bottom:-50px">
-                            <span Style= "font-size:10px;">&nbsp;&nbsp;DRAIN LOCATION - WIDTH OFFSET "C":</span>	
+                            <span Style= "font-size:10px;">&nbsp;&nbsp;<b>DRAIN LOCATION - WIDTH OFFSET "C":</b></span>	
                             
                         </td>
                         <td style="font-size:10px;"><div style="text-align:center; display: inline-block;font-size:10px; width: 25%; border: none; border-bottom: 1px solid #999; outline: none;"></div>&nbsp;&nbsp;(SEE TABLE 1)</td>
@@ -101,7 +101,7 @@
                         
                         <table style="border-collapse: collapse;">
     <tr>
-        <td colspan="2">TABLE 1</td>
+        <td colspan="2"><b>TABLE 1</b></td>
     </tr>
     <tr>
         <td style="width: 40%; border: 1px solid black; text-align:center;font-size:12px;"><b>WIDTH RANGE</b></td>
@@ -135,8 +135,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="font-size:8px; text-align:center">Underside of receptor may vary from level no more than 1/4" due to the curing process. </td>
-                    </tr>
+                       <td colspan="2" style="font-size:8px; text-align:center; color:red;">Underside of receptor may vary from level no more than 1/4" due to the curing process.</td>
+  </tr>
                     
                 </table>
                 
@@ -162,7 +162,8 @@
                     </tr>
                             </table>
                         <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
-                        <table>
+                        
+                            <table>
                             <tr>
                         <td colspan = "2" style="font-size:14px;padding-top:5pt;">&nbsp;&nbsp;<b>STEP 4: FASTENERS</b></td>
                     </tr>
@@ -185,6 +186,7 @@
                         
                         
                         <td rowspan="2" style="border-left: 1px solid #333;width:45%">
+                            
                         <table>
                             <tr>
                         <td colspan = "2" style="font-size:14px">&nbsp;&nbsp;<b>STEP 3: DRAIN</b> </td>
@@ -200,9 +202,9 @@
                     </td>
                     </tr>
                             <tr>
-                            <td colspan = "3" style=" padding-top: 5px;border-top: 1px solid #333;">
+                            <td colspan = "3" style=" padding-top: 8px;border-top: 1px solid #333;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;CAST IRON MEMBRANE DRAIN<span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />ACCOMMODATES MEMBRANE INSTALLATION</span></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;CAST IRON MEMBRANE DRAIN<span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;ACCOMMODATES MEMBRANE INSTALLATION</span></div>
                     </td>
                             </tr>
                             <tr>
@@ -426,7 +428,7 @@
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;width :15%">	
+                         <td style="text-align: right;width :15%;font-size:12px;">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
@@ -539,7 +541,7 @@
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;width :15%">	
+                        <td style="text-align: right;width :15%;font-size:12px;">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
@@ -560,11 +562,11 @@
                         </td>
                         </tr>
                     <tr>
-                        <td Colspan="6" Style= "font-size:6px;">&nbsp;&nbsp;&nbsp;&nbsp;(ALLOW FOR 3/16" GAP FROM STUD. USE INPRO'S "TRENCH RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)
+                        <td Colspan="6" Style= "font-size:6px;">&nbsp;&nbsp;&nbsp;&nbsp;(ALLOW FOR 3/16" GAP FROM STUD. USE INPRO'S "TRENCH RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)<a href="https://www.inprocorp.com/architectural-products/washroom-systems/custom-trench-drain-shower-bases/"><span Style= "font-size:10px;">Click here</span></a>
                         </td>
                     </tr>
                     <tr>
-                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR WIDTH "A":</td>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;<b>RECEPTOR WIDTH "A":</b></td>
                         <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>37 1/2" </td>
                     <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>61 3/4" </td>
                     <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>73 3/4" </td>
@@ -574,7 +576,7 @@
                     </tr>
                     
                     <tr>
-                        <td Style= "Width:20%;">&nbsp;&nbsp;RECEPTOR DEPTH "B":</td>
+                        <td Style= "Width:20%;">&nbsp;&nbsp;<b>RECEPTOR DEPTH "B":</b></td>
                         <td Style= "Width:15%;"	><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>30 7/8" </td>
                     <td Style= "Width:15%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>36 3/4" </td>
                     <td Style= "Width:12%;"><div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>48 7/8" </td>
@@ -588,7 +590,7 @@
                     
                      <tr>
                         <td style="Width:32%; Padding-bottom:-50px">
-                            <span Style= "font-size:10px;">&nbsp;&nbsp;DRAIN LOCATION - WIDTH OFFSET "C":</span>	
+                            <span Style= "font-size:10px;">&nbsp;&nbsp;<b>DRAIN LOCATION - WIDTH OFFSET "C":</b></span>	
                             
                         </td>
                         <td style="font-size:10px;"><div style="text-align:center; display: inline-block;font-size:10px; width: 25%; border: none; border-bottom: 1px solid #999; outline: none;"></div>&nbsp;&nbsp;(SEE TABLE 1)</td>
@@ -609,7 +611,7 @@
                         
                         <table style="border-collapse: collapse;">
     <tr>
-        <td colspan="2">TABLE 1</td>
+        <td colspan="2"><b>TABLE 1</b></td>
     </tr>
     <tr>
         <td style="width: 40%; border: 1px solid black; text-align:center;font-size:12px;"><b>WIDTH RANGE</b></td>
@@ -643,8 +645,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="font-size:8px; text-align:center">Underside of receptor may vary from level no more than 1/4" due to the curing process. </td>
-                    </tr>
+                        <td colspan="2" style="font-size:8px; text-align:center; color:red;">Underside of receptor may vary from level no more than 1/4" due to the curing process.</td>
+  </tr>
                     
                 </table>
                 
@@ -708,9 +710,9 @@
                     </td>
                     </tr>
                             <tr>
-                            <td colspan = "3" style=" padding-top: 5px;border-top: 1px solid #333;">
+                           <td colspan = "3" style=" padding-top: 8px;border-top: 1px solid #333;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;CAST IRON MEMBRANE DRAIN<span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />ACCOMMODATES MEMBRANE INSTALLATION</span></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;CAST IRON MEMBRANE DRAIN<span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;ACCOMMODATES MEMBRANE INSTALLATION</span></div>
                     </td>
                             </tr>
                             <tr>
@@ -934,7 +936,7 @@
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;width :15%">	
+                         <td style="text-align: right;width :15%;font-size:12px;">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>

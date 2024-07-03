@@ -18,6 +18,7 @@ export default class AccountSummaryLetter extends LightningElement {
     @track customerNumber = '';
     @track poNumber = '';
 
+    
     connectedCallback() {
         try
         {

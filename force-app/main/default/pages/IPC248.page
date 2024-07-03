@@ -1,4 +1,4 @@
-<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC236Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC248Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
     
     <apex:outputText rendered="{!BlankForm == true}">
         <html>
