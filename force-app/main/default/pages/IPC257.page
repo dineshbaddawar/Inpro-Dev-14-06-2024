@@ -82,7 +82,7 @@
                           <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
                         </td>
                         <td style="width:67%">Sales 800.222.5556 / Fax: 888.715.8407</td>
-                        <td style="width:18%">IPC.257/Rev. 10</td>
+                        <td style="width:18%">IPC.257/Rev. 18</td>
                       </tr>
                     </table>
                   </div>
@@ -403,7 +403,7 @@
                           <img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" />
                         </td>
                         <td style="width:67%">Sales 800.222.5556 / Fax: 888.715.8407</td>
-                        <td style="width:18%">IPC.257/Rev. 10</td>
+                        <td style="width:18%">IPC.257/Rev. 18</td>
                       </tr>
                     </table>
                   </div>

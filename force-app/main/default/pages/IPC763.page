@@ -409,7 +409,7 @@
                     </td>
                     <td style="border: 1px solid black; padding:6px;font-size:15px">
                         DATE: {!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}
-                    </td>
+                    </td> 
                     <td style="border: 1px solid black; padding:6px;font-size:15px">
                         TAG: {!customForm.quoteRecord.Inside_Rep__c}
                     </td>

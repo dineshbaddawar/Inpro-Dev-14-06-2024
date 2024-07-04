@@ -1,527 +1,349 @@
-<apex:page renderAs="pdf" controller="IPC1225Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false">
-    <title>IPC1225</title>
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="PDF" controller="IPC1225Controller" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false">
     
-    <apex:outputText rendered="{!BlankForm == true}">
+    <apex:outputText rendered="{!BlankForm == false}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    margin-left: 0cm;
+                    margin-right: 0cm; 
+                    margin-top: 0cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 5px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 5px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+        </html>
         
-        <head>
-            <style type="text/css" media="Print" >
-                @page {
-                size: 8.5in 11in portrait;
-                margin-top: 0.2in;
-                margin-bottom: 0.2in;
-                margin-left: 0.0cm !imp;
-                margin-right: 0.0cm !imp;
-                }
-            </style>
-        </head>
-        <body style="font-family: sans-serif; font-size: 11px;">
+        <apex:form >
             
-            <!--Header-->
-            <div>
+            <div style="font-size:14px">
+                
                 <table style="width:100%">
                     <tr>
                         <td>
-                            <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                            <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
                         </td>
-                        <td style="text-align: right;">
-                            <h2>
-                                Custom Product Order Form
-                                <div style="text-align: right; font-weight:bold;">
-                                    <strong>Palladium 3D</strong> </div>
-                            </h2>   
+                        <td style="text-align: right;font-size:15px;padding-top:20px ">
+                            Custom Product Order Form
+                            <br/>
+                            <div style="text-align: right; font-weight:bold;">
+                                <b>Palladium 3D</b>
+                            </div>
                         </td>
                     </tr>
                 </table>
-                <hr style="border-width:1px;" />
-                <p style="padding-left: 6pt;;text-align: left;margin-top: 0px;">
-                    Please complete the following information based on field verified dimensions.
-                    Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your
-                    order. <br /> Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                
+                <p style="padding-left: 8pt;;text-align: left;">
+                    Please complete the following information based on field verified dimensions. Use one order form per size.Orders for 
+                    custom products cannot be cancelled or returned.Please sign and return to proceed with your order.  Fax to {!customForm.quoteRecord.Inside_Rep__c} 888-715
+                    8407 for quotation. 
                 </p>
-            </div>
-            <!--Header Table-->
-            <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
-                <tr>
-                    <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
-                    <td style="width: 20%; border: 1px solid black;"></td>
-                    <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
-                    <td style="width: 35%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
-                    <td style="width: 20%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" /> 
-                    </td>
-                    <td style="width: 20%; border: 1px solid black;">Project Name</td>
-                    <td style="width: 35%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 25%; border: 1px solid black;">Company Name</td>
-                    <td style="width: 20%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
-                    </td>
-                    <td style="width: 20%; border: 1px solid black;">Account #</td>
-                    <td style="width: 35%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
-                    </td>
-                </tr>
-                <tr>
-                <td colspan="2"  style="text-align:center;margin-top:5px;"><br/>
-                 <b>Horizontal Board</b>
-                </td>
-                <td colspan="2" style="text-align:center;margin-top:5px;"><br/>
-                <b>Horizontal Top Cap Board</b>
-                </td>
-                </tr>
-
-            </table>
-            
-            <div style="width:100%;">
-                <div style="width:15%; float: left;">
-                    <br/> <br/> <br/> <br/>
-                    <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="Hrizonal_top_cap_board" /><br/><br/>
-                    <img src="{!$Resource.cf_ipc_1225_vertical_board}" alt="ertical_board" /><br/>
-                    <img src="{!$Resource.cf_ipc_1225_Inside_corner_partial}" alt="Inside_corner_partial" width="90" height="60" /><br/><br/><br/><br/><br/>
-                    <img src="{!$Resource.cf_ipc_1225_inside_corner_full}" alt="inside_corner_full" width="90" height="60" /><br/><br/>
-                    <img src="{!$Resource.cf_ipc_1225_decorative_molding_vertical}" alt="decorative_molding_vertical" width="33" height="80" />
-                    <img src="{!$Resource.cf_ipc_1225_decorative_molding_horizontal}" alt="decorative_molding_horizontal" width="33" height="80" />
-                </div>
                 
-                <div style="width:35%; float: left;">
-                    <span style="padding-bottom: 3px;">*Add suffic '5B' for 5/8" thickness</span>
-                    
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHB2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHB3 (3")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHB4 (4")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHB6 (6")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHB8 (8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                    </table>
-                    
-                    <h3>
-                        Vertical Board
-                    </h3>
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DVB2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DVB3 (3")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DVB4 (4")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DVB6 (6")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DVB8 (8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                    </table>
-                    
-                    <h3>
-                        Inside corner - Partial Height
-                    </h3>
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICP2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICP3 (3")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICP4 (4")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICP6 (6")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICP8 (8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                    </table>
-                    
-                    <h3>
-                        Inside Corner - Full Height
-                    </h3>
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICF2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICF3 (3")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICF4 (4")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICF6 (6")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DICF8 (8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                    </table>
-                    
-                    <h3> Decorative Molding <br/> Vertical and Horizontal </h3>
-                    
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%;">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DMA25 (3/8") 1</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DVMA25 (5/8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>                            
-                    </table>
-                </div>
+                <!--Header Table-->
+                <table style="width:100%; border-collapse: collapse; border: 1px solid black;padding-top:2px;font-size:10px">
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black; padding: 5px;">Authorized Signature/Date</td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;"></td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">Inpro Quote #</td>
+                        <td style="width: 35%;  border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black; padding: 5px;">Print Name/Title</td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                        </td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">Project Name</td>
+                        <td style="width: 350%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black; padding: 5px;">Company Name</td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                        </td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">Account #</td>
+                        <td style="width: 35%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                        </td>
+                    </tr>
+                </table>
                 
-                <div style="width:35%; float: right;">
-                    
-                    <span style="padding-bottom: 3px;">*Add suffic '5B' for 5/8" thickness</span>
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHTC2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHTC3 (3")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHTC4 (4")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHTC6 (6")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DHTC8 (8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                    </table>
-                    
-                    <h3>
-                        Trim Shoe and Trim Cap (both 2 in.H)
-                    </h3>
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DTC2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DTS2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                    </table>
-                    
-                    <h3>
-                        Outside Corner - Partial Height
-                    </h3>
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCP2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCP3 (3")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCP4 (4")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCP6 (6")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCP8 (8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                    </table>
-                    
-                    <h3>
-                        Outside Corner - Full Height
-                    </h3>
-                    <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                        <tr style="border: 1px solid #333;">
-                            <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                            <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCF2 (2")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCF3 (3")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCF4 (4")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCF6 (6")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #333;text-align: center;">P-3DOCF8 (8")</td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                            <td style="border: 1px solid #333;text-align: center;"></td>
-                        </tr>
-                    </table>
-                    
-                    <div style="font-family: Arial, sans-serif;padding-top: 3px;">
-                        <span style="margin-top: 3px;"><b>Specifications:</b></span>
-                        <ol style="list-style-type: upper-alpha;font-size: 9px;">
-                            <li style="margin-bottom: 0.5em;">Colors: Standard, Elements Patterns, and Woodland Patterns.</li>
-                            <li style="margin-bottom: 0.5em;">Materials: PVC (all colors and patterns) and G2 (Standard colors).</li>
-                            <li style="margin-bottom: 0.5em;">All boards are 8’/96” (2.4384m) in length.</li>
-                            <li style="margin-bottom: 0.5em;">
-                                Don’t forget 
-                                <a href="#" style="color: blue; text-decoration: underline;">adhesive</a>
-                                One cartridge will cover 32 lf (4 boards).
-                            </li>
-                            <li style="margin-bottom: 0.5em;">Inside corners and outside corners available in 90° and 135°.</li>
-                        </ol>
-                    </div>  
-                </div>
+                <table style="font-size:9px">
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="Hrizonal_top_cap_board" />
+                        </td>
+                        <td>
+                            <span style="padding-bottom: 3px;text-align:center;">
+                                <br/><span><b>Horizontal Board</b></span><br/> *Add suffix '5B' for 5/8" thickness
+                            </span>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;margin-top:5px;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;"> {!quoteLine.ItemNumber}  </td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                        <td>
+                            <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="vertical_board" />
+                        </td>
+                        <td>
+                            <span style="padding-bottom: 3px;text-align:center;">
+                                <br/><span><b>Horizontal Top Cap Board</b></span><br/> *Add suffix '5B' for 5/8" thickness
+                            </span>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;margin-top:5px;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.verticalBoard1225}" alt="Inside_corner_partial" width="50" height="100" />
+                        </td>
+                        <td>
+                            <h3>Vertical Board</h3>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                        <td>
+                            <img src="{!$Resource.cf_ipc_1225_Trim_Shoe}" alt="Trim_Shoe" width="30" height="80" />
+                            <img src="{!$Resource.cf_ipc_1225_trim_cap}" alt="trim_cap" width="30" height="80" />
+                        </td>
+                        <td>
+                            <h3>Trim Shoe and Trim Cap <span style="font-size:8px;">(both 2 in. H)</span></h3>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.insidecornerpartialheight1225}" alt="decorative_molding_vertical" width="60" height="80" />                        </td>
+                        <td>
+                            <h3>Inside Corner - Partial Height</h3>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Angle</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.CustomAngleValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                        <td>
+                            <img src="{!$Resource.outsidecornerpartial1225}" alt="trim_cap" width="60" height="80" />
+                        </td>
+                        <td>
+                            <h3>Outside Corner - Partial Height</h3>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Angle</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.CustomAngleValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.insidecornerfullheight1225}" alt="external_corner_partial" width="60" height="80" />
+                        </td>
+                        <td>
+                            <h3>Inside Corner - Full Height</h3>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Angle</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.CustomAngleValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                        <td>
+                            <img src="{!$Resource.outsidecornerfull}" alt="external_corner_full" width="60" height="80" />
+                        </td>
+                        <td>
+                            <h3>Outsid Corner - Full Height</h3>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Angle</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.CustomAngleValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.decorativemoldingVertical1225}" alt="external_corner_partial" width="30" height="80" />
+                            <img src="{!$Resource.decorativemoldingverticalhorizonatl1225}" alt="external_corner_partial" width="30" height="80" />
+                        </td>
+                        <td >
+                            <h3>Decorative Molding Vertical and Horizontal</h3>
+                            <table style="border-collapse: collapse; border: 1px solid black; width: 100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333; text-align: center;">P/N</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Color</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Material</th>
+                                    <th style="border: 1px solid #333; text-align: center;">Qty</th>
+                                </tr>
+                                <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
+                                    <tr>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.ItemNumber}</td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.colorName}</td>
+                                        <td style="border: 1px solid #333; text-align: center;"></td>
+                                        <td style="border: 1px solid #333; text-align: center;">{!quoteLine.QuantyValue}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </table>
+                        </td>
+                        
+                        <td colspan="2">
+                            <span style="margin-top: 1px;"><b>Specifications:</b></span>
+                            <ol style="list-style-type: upper-alpha;font-size: 9px;">
+                                <li style="margin-bottom: 0.3em;">Colors: Standard, Elements Patterns, and Woodland Patterns.</li>
+                                <li style="margin-bottom: 0.3em;">Materials: PVC (all colors and patterns) and G2 (Standard colors).</li>
+                                <li style="margin-bottom: 0.3em;">All boards are 8’/96” (2.4384m) in length.</li>
+                                <li style="margin-bottom: 0.3em;"> Don’t forget adhesive One cartridge will cover 32 lf (4 boards). </li>
+                                <li style="margin-bottom: 0.3em;">Inside corners and outside corners available in 90° and 135°.</li>
+                            </ol>
+                        </td>
+                    </tr>
+                </table>
                 
-                <div style="width:15%; float: left;">
-                    <br/> <br/> <br/> <br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="Hrizonal_top_cap_board" /><br/><br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img src="{!$Resource.cf_ipc_1225_Trim_Shoe}" alt="Trim_Shoe" width="30" height="80" />
-                    <img src="{!$Resource.cf_ipc_1225_trim_cap}" alt="trim_cap" width="30" height="80" />
-                    <br/>
-                    &nbsp;&nbsp;&nbsp;   <img src="{!$Resource.cf_ipc_1225_outside_corner_partial}" alt="corner_partial" width="90" height="90" /><br/><br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp; <img src="{!$Resource.cf_ipc_1225_outisde_cornerfull}" alt="outisde_cornerfull" width="90" height="90" /><br/><br/>
-                    
-                </div>
-            </div>
-            
-            <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/>
-            <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/>
-            <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/><br/>
-            
-            <!-- Bottom Footer -->
-            <div style="page-break-after: auto;margin-top:5px;">
-                <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                <table style="border-collapse: collapse; width:100%; border:black; border: 1px solid #333;">
                     <tr>
                         <td style="border: 1px solid black; padding:6px;">
-                            FOR INPRO USE ONLY
+                            <b>FOR INPRO USE ONLY</b>
                         </td>
                         <td style="border: 1px solid black; padding:6px;">
                             {!customForm.quoteRecord.Inside_Rep__c}
@@ -541,519 +363,468 @@
                             Inpro #:
                         </td>
                     </tr>            
-                </table>
-                <table style="width:100%; padding:2px;">
+                </table>                
+                <table style="width:100%;">
                     <tr>
-                        <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                        <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
                         <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
-                        <td style="width:15%" >IPC.1225/Rev.20</td>
+                        <td style="width:15%" > IPC.1225/Rev.<b>20</b></td>
                     </tr>
                 </table>
             </div>
             
-        </body>
+        </apex:form>
         
     </apex:outputText>
     
-    <apex:outputText rendered="{!BlankForm == false}">
+    <apex:outputText rendered="{!BlankForm == true}">
+        <html>
+            <head>
+                <style>
+                    @page {
+                    margin-left: 0cm;
+                    margin-right: 0cm; 
+                    margin-top:0cm;
+                    @top-center {
+                    content: element(header);
+                    }
+                    @bottom-left {
+                    content: element(footer);
+                    }
+                    }
+                    
+                    div.header {
+                    padding: 5px;
+                    position: running(header);
+                    }
+                    div.footer {
+                    display: block;
+                    position: running(footer);
+                    }
+                    .pagenumber:before {
+                    content: counter(page);
+                    }
+                    .pagecount:before {
+                    content: counter(pages);
+                    }
+                    div.content {
+                    border-style:dotted;
+                    float: left;
+                    width: 100%;
+                    }
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+                    th, td {
+                    padding: 5px;
+                    text-align: left;
+                    }
+                </style>
+            </head>
+        </html>
         
-        <head>
-            <style type="text/css" media="Print" >
-                @page {
-                size: 8.5in 11in portrait;
-                margin-top: 0.2in;
-                margin-bottom: 0.2in;
-                margin-left: 0.0cm !imp;
-                margin-right: 0.0cm !imp;
-                }
-            </style>
-        </head>
-        
-        <body>
-        <apex:variable var="cnt" value="{!0}" />  
-            <apex:repeat value="{!customForm.quoteLines}" var="quoteLine"> 
+        <apex:form >
             
-            <div style="{!if(cnt < 1, 'page-break-before:avoid;','page-break-before:always;')}">
-             <div style="font-size:11px;">
-            <!--Header-->
-            <div tyle="width:100%">
+            <div style="font-size:14px">
+                
                 <table style="width:100%">
                     <tr>
                         <td>
-                            <img src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
+                            <img style="width:300px" src="{!$Resource.cf_shared_ipc_header}" alt="HeaderImage" />
                         </td>
-                        <td style="text-align: right;">
-                            <h2>
-                                Custom Product Order Form
-                                <div style="text-align: right; font-weight:bold;">
-                                    <strong>Palladium 3D</strong> </div>
-                            </h2>   
+                        <td style="text-align: right;font-size:15px;padding-top:20px ">
+                            Custom Product Order Form
+                            <br/>
+                            <div style="text-align: right; font-weight:bold;">
+                                <b>Palladium 3D</b>
+                            </div>
                         </td>
                     </tr>
                 </table>
-                <hr style="border-width:1px;" />
-                <p style="padding-left: 6pt;;text-align: left;margin-top: 0px;">
-                    Please complete the following information based on field verified dimensions.
-                    Orders for custom products cannot be cancelled or returned. Please sign and return to proceed with your
-                    order. <br /> Fax to {!customForm.quoteRecord.Inside_Rep__c} at 888-715-8407 for quotation. Sales contact: 800-222-5556.
+                <hr style="border-width: 1px; border-color: black; border-style: solid;" />
+                
+                <p style="padding-left: 8pt;;text-align: left;padding-top:0px;">
+                    Please complete the following information based on field verified dimensions. Use one order form per size.Orders for 
+                    custom products cannot be cancelled or returned.Please sign and return to proceed with your order.  Fax to {!customForm.quoteRecord.Inside_Rep__c} 888-715
+                    8407 for quotation. 
                 </p>
-            </div>
-            <!--Header Table-->
-            <table style="width:100%; border-collapse: collapse; border: 2px solid black; border-spacing: 20px;">
-                <tr>
-                    <td style="width: 25%; border: 1px solid black;">Authorized Signature/Date</td>
-                    <td style="width: 20%; border: 1px solid black;"></td>
-                    <td style="width: 20%; border: 1px solid black;">Inpro Quote #</td>
-                    <td style="width: 35%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 25%; border: 1px solid black;">Print Name/Title</td>
-                    <td style="width: 20%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.ContactId}" /> 
-                    </td>
-                    <td style="width: 20%; border: 1px solid black;">Project Name</td>
-                    <td style="width: 35%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 25%; border: 1px solid black;">Company Name</td>
-                    <td style="width: 20%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
-                    </td>
-                    <td style="width: 20%; border: 1px solid black;">Account #</td>
-                    <td style="width: 35%; border: 1px solid black;">
-                        <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"  style="text-align:center;margin-top:5px;"><br/> <b>Horizontal Board</b> </td>
-                    <td colspan="2" style="text-align:center;margin-top:5px;"><br/><b>Horizontal Top Cap Board</b> </td>
-                </tr>
-                <tr>
-                <td colspan="4">
-                    
-                </td>
-                </tr>
                 
-                <tr>
-                <td colspan="4">
-                    
-                </td>
-                </tr>
+                <!--Header Table-->
+                <table style="width:100%; border-collapse: collapse; border: 1px solid black;padding-top:5px;font-size:10px">
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black; padding: 5px;">Authorized Signature/Date</td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;"></td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">Inpro Quote #</td>
+                        <td style="width: 35%;  border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.QuoteNumber}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black; padding: 5px;">Print Name/Title</td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.ContactId}" />
+                        </td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">Project Name</td>
+                        <td style="width: 350%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.Opportunity_Name__c}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; border: 1px solid black; padding: 5px;">Company Name</td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.Account_Name_Formula__c}" />
+                        </td>
+                        <td style="width: 20%; border: 1px solid black; padding: 5px;">Account #</td>
+                        <td style="width: 35%; border: 1px solid black; padding: 5px;">
+                            <apex:outputField value="{!customForm.quoteRecord.Account.Customer_Number__c}" />
+                        </td>
+                    </tr>
+                </table>
                 
-                <tr>
-                <td colspan="4">
-                    
-                </td>
-                </tr>
-                
-                 <tr>
-                <td colspan="4">
-                    
-                </td>
-                </tr>
-                
-            </table>
-            
-            
-                
-                
-                <div style="width:100%;">
-                    
-                    <div style="width:15%; float: left;">
-                        <br/> <br/> <br/> <br/>
-                        <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="Hrizonal_top_cap_board" /><br/><br/>
-                        <img src="{!$Resource.cf_ipc_1225_vertical_board}" alt="ertical_board" /><br/>
-                        <img src="{!$Resource.cf_ipc_1225_Inside_corner_partial}" alt="Inside_corner_partial" width="90" height="60" /><br/><br/><br/><br/><br/>
-                        <img src="{!$Resource.cf_ipc_1225_inside_corner_full}" alt="inside_corner_full" width="90" height="60" /><br/><br/>
-                        <img src="{!$Resource.cf_ipc_1225_decorative_molding_vertical}" alt="decorative_molding_vertical" width="33" height="80" />
-                        <img src="{!$Resource.cf_ipc_1225_decorative_molding_horizontal}" alt="decorative_molding_horizontal" width="33" height="80" />
-                    </div>
-                    
-                    <div style="width:35%; float: left;">
-                        <span style="padding-bottom: 3px;">*Add suffic '5B' for 5/8" thickness</span>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>                                
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">{!quoteLine.ItemNumber}</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <h3>
-                            Vertical Board
-                        </h3>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>                                
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DVB2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DVB3 (3")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DVB4 (4")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DVB6 (6")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DVB8 (8")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <h3>
-                            Inside corner - Partial Height
-                        </h3>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICP2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICP3 (3")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICP4 (4")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICP6 (6")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICP8 (8")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <h3>
-                            Inside Corner - Full Height
-                        </h3>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICF2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICF3 (3")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICF4 (4")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICF6 (6")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DICF8 (8")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <h3> Decorative Molding <br/> Vertical and Horizontal </h3>
-                        
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%;">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DMA25 (3/8") 1</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DVMA25 (5/8")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>                            
-                        </table>
-                    </div>
-                    
-                    <div style="width:35%; float: right;">
-                        <span style="padding-bottom: 3px;">*Add suffic '5B' for 5/8" thickness</span>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DHTC2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DHTC3 (3")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DHTC4 (4")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DHTC6 (6")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DHTC8 (8")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <h3>
-                            Trim Shoe and Trim Cap (both 2 in.H)
-                        </h3>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DTC2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DTS2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <h3>
-                            Outside Corner - Partial Height
-                        </h3>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCP2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCP3 (3")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCP4 (4")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCP6 (6")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCP8 (8")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <h3>
-                            Outside Corner - Full Height
-                        </h3>
-                        <table style="border-collapse: collapse;border: 1px solid black; width:100%">
-                            <tr style="border: 1px solid #333;">
-                                <th style="border: 1px solid #333;text-align: center;"> P/N </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Color </th>
-                                <th style="border: 1px solid #333;text-align: center;"> Material</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Qty</th>
-                                <th style="border: 1px solid #333;text-align: center;"> Angle</th>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCF2 (2")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCF3 (3")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCF4 (4")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCF6 (6")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #333;text-align: center;">P-3DOCF8 (8")</td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                                <td style="border: 1px solid #333;text-align: center;"></td>
-                            </tr>
-                        </table>
-                        
-                        <div style="font-family: Arial, sans-serif;padding-top: 3px;">
-                            <span style="margin-top: 3px;"><b>Specifications:</b></span>
+                <table style="font-size:9px">
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="Hrizonal_top_cap_board" />
+                        </td>
+                        <td>
+                            <span style="padding-bottom: 3px;text-align:center;">
+                                <br/><span><b>Horizontal Board</b></span><br/> *Add suffix '5B' for 5/8" thickness
+                            </span>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%;margin-top:5px;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DHB3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DHB4 (4")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DHB6 (6")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="vertical_board" />
+                        </td>
+                        <td>
+                            <span style="padding-bottom: 3px;text-align:center;">
+                                <br/><span><b>Horizontal Top Cap Board</b></span><br/> *Add suffix '5B' for 5/8" thickness
+                            </span>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%;margin-top:5px;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DHB3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DHB4 (4")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DHB6 (6")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.verticalBoard1225}" alt="Inside_corner_partial" width="50" height="100" />
+                        </td>
+                        <td>
+                            <h3>Vertical Board</h3>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DVB3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DVB4 (4")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DVB6 (6")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DVB8 (8")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <img src="{!$Resource.cf_ipc_1225_Trim_Shoe}" alt="Trim_Shoe" width="30" height="80" />
+                            <img src="{!$Resource.cf_ipc_1225_trim_cap}" alt="trim_cap" width="30" height="80" />
+                        </td>
+                        <td>
+                            <h3>Trim Shoe and Trim Cap <span style="font-size:8px;">(both 2 in. H)</span></h3>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DTC2 (2")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DTS2 (2")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DTS2 (2")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.insidecornerpartialheight1225}" alt="decorative_molding_vertical" width="60" height="80" />                        </td>
+                        <td>
+                            <h3>Inside Corner - Partial Height</h3>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Angle</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICP2 (2")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICP3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICP4 (4")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>                   
+                        </td>
+                        <td>
+                            <img src="{!$Resource.outsidecornerpartial1225}" alt="trim_cap" width="60" height="80" />
+                        </td>
+                        <td>
+                            <h3>Outside Corner - Partial Height</h3>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Angle</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICP2 (2")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICP3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICP3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>             
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.insidecornerfullheight1225}" alt="external_corner_partial" width="60" height="80" />
+                        </td>
+                        <td>
+                            <h3>Inside Corner - Full Height</h3>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Angle</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICF2 (2")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICF3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICF4 (4")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <img src="{!$Resource.outsidecornerfull}" alt="external_corner_full" width="60" height="80" />
+                        </td>
+                        <td>
+                            <h3>Outsid Corner - Full Height</h3>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Angle</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICF2 (2")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICF3 (3")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DICF4 (4")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{!$Resource.decorativemoldingVertical1225}" alt="external_corner_partial" width="30" height="80" />
+                            <img src="{!$Resource.decorativemoldingverticalhorizonatl1225}" alt="external_corner_partial" width="30" height="80" />
+                        </td>
+                        <td >
+                            <h3>Decorative Molding Vertical and Horizontal</h3>
+                            <table style="border-collapse: collapse;border: 1px solid black; width:100%;">
+                                <tr style="border: 1px solid #333;">
+                                    <th style="border: 1px solid #333;text-align: center;"> P/N </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Color </th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Material</th>
+                                    <th style="border: 1px solid #333;text-align: center;"> Qty</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DMA25 (3/8") 1</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DVMA25 (5/8")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr> 
+                                <tr>
+                                    <td style="border: 1px solid #333;text-align: center;">P-3DVMA25 (5/8")</td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                    <td style="border: 1px solid #333;text-align: center;"></td>
+                                </tr> 
+                            </table>
+                        </td>
+                        <td colspan="2">
+                            <span style="margin-top: 1px;"><b>Specifications:</b></span>
                             <ol style="list-style-type: upper-alpha;font-size: 9px;">
-                                <li style="margin-bottom: 0.5em;">Colors: Standard, Elements Patterns, and Woodland Patterns.</li>
-                                <li style="margin-bottom: 0.5em;">Materials: PVC (all colors and patterns) and G2 (Standard colors).</li>
-                                <li style="margin-bottom: 0.5em;">All boards are 8’/96” (2.4384m) in length.</li>
-                                <li style="margin-bottom: 0.5em;">
-                                    Don’t forget 
-                                    <a href="#" style="color: blue; text-decoration: underline;">adhesive</a>
-                                    One cartridge will cover 32 lf (4 boards).
-                                </li>
-                                <li style="margin-bottom: 0.5em;">Inside corners and outside corners available in 90° and 135°.</li>
+                                <li style="margin-bottom: 0.3em;">Colors: Standard, Elements Patterns, and Woodland Patterns.</li>
+                                <li style="margin-bottom: 0.3em;">Materials: PVC (all colors and patterns) and G2 (Standard colors).</li>
+                                <li style="margin-bottom: 0.3em;">All boards are 8’/96” (2.4384m) in length.</li>
+                                <li style="margin-bottom: 0.3em;"> Don’t forget adhesive One cartridge will cover 32 lf (4 boards). </li>
+                                <li style="margin-bottom: 0.3em;">Inside corners and outside corners available in 90° and 135°.</li>
                             </ol>
-                        </div>  
-                    </div>
-                    
-                    <div style="width:15%; float: left;">
-                        <br/> <br/> <br/> <br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="{!$Resource.cf_ipc_1225_Hrizonal_top_cap_board}" alt="Hrizonal_top_cap_board" /><br/><br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img src="{!$Resource.cf_ipc_1225_Trim_Shoe}" alt="Trim_Shoe" width="30" height="80" />
-                        <img src="{!$Resource.cf_ipc_1225_trim_cap}" alt="trim_cap" width="30" height="80" />
-                        <br/>
-                        &nbsp;&nbsp;&nbsp;   <img src="{!$Resource.cf_ipc_1225_outside_corner_partial}" alt="corner_partial" width="90" height="90" /><br/><br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <img src="{!$Resource.cf_ipc_1225_outisde_cornerfull}" alt="outisde_cornerfull" width="90" height="90" /><br/><br/>
-                        
-                    </div>
-                    
-                </div>
+                        </td>
+                    </tr>
+                </table>
                 
-            
-            
-            <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/>
-            <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/>
-            <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/><br/>
-            
-            <!-- Bottom Footer -->
-            <div style="">
-                <table style="border-collapse: collapse; width:100%; border:black; border-style:solid;">
+                
+                <table style="border-collapse: collapse; width:100%; border:black; border: 1px solid #333;margin-top:20px;">
                     <tr>
                         <td style="border: 1px solid black; padding:6px;">
-                            FOR INPRO USE ONLY
+                            <b>FOR INPRO USE ONLY</b>
                         </td>
                         <td style="border: 1px solid black; padding:6px;">
                             {!customForm.quoteRecord.Inside_Rep__c}
@@ -1073,20 +844,17 @@
                             Inpro #:
                         </td>
                     </tr>            
-                </table>
-                <table style="width:100%; padding:2px;">
+                </table>                
+                <table style="width:100%;">
                     <tr>
-                        <td style="width:15%" ><img style="width:100px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
+                        <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
                         <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
-                        <td style="width:15%" >IPC.1225/Rev.20</td>
+                        <td style="width:15%" > IPC.1225/Rev.<b>20</b></td>
                     </tr>
                 </table>
             </div>
-             <apex:variable var="cnt" value="{!cnt+1}"/>
-             </div>
-            </div>
-            </apex:repeat>
-        </body>
+            
+        </apex:form>
         
     </apex:outputText>
     

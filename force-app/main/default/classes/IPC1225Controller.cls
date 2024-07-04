@@ -26,12 +26,14 @@ public class IPC1225Controller {
                         if(line.Document_Name__c != null && line.Document_Name__c.startsWithIgnoreCase('IPC.1225')){
                             if(line.Item_Number__c !=null){
                                 String itemNumberString = line.Item_Number__c;
-                                if (itemNumberString != null || itemNumberString.length() < 4) {
+                                if (itemNumberString != null && itemNumberString.length() < 4) {
+                                    quoteLine.ItemNumber = line.Item_Number__c;
+                                }else{
                                     String last4Chars = itemNumberString.substring(itemNumberString.length() - 4);
                                     Boolean isNumeric = true;
                                     try {
                                         Decimal.valueOf(last4Chars);
-                                    } catch (Exception e) {
+                                    } catch (Exception e) { 
                                         isNumeric = false;
                                     }
                                     if (isNumeric){
@@ -43,8 +45,6 @@ public class IPC1225Controller {
                             }
                             if(line.Color__c !=null){
                                 quoteLine.colorName = line.Color__c;
-                            }else{
-                                quoteLine.colorName = '';
                             }
                             if(line.Quantity !=null){
                                 quoteLine.QuantyValue = line.Quantity;

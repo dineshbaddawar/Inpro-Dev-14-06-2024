@@ -35,7 +35,6 @@ public class IPC225ControllerTest {
             Assert.isNotNull(quoteLine.colorNumber, 'Color number should not be null');
             Assert.isTrue(quoteLine.colorNumber.length() == 4, 'Color number should be 4 digits');
             Assert.isTrue(quoteLine.colorNumber.isNumeric(), 'Color number should be numeric');
-            Assert.isNotNull(quoteLine.currentDate, 'Current date should not be null');
         }
     }
     

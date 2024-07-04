@@ -16,7 +16,9 @@ public class IPC782Controller {
                 if (quoteLineItems.size() > 0){
                     List<QuoteLineWrapper> lines = new List<QuoteLineWrapper>();
                     for (QuoteLineItem line : quoteLineItems) {
-                        if ( line.Item_Number__c !=null && (line.Item_Number__c.startsWithIgnoreCase('DSWSPWL') || line.Item_Number__c.startsWithIgnoreCase('DSWSPWO'))) {
+                        System.debug('OutSide === >'+line.Item_Number__c);
+                        if (line.Item_Number__c !=null && (line.Item_Number__c.startsWithIgnoreCase('DSWSPWL') || line.Item_Number__c.startsWithIgnoreCase('DSWSPWO'))) {
+                            System.debug('Inside === >'+line.Item_Number__c);
                             QuoteLineWrapper quoteLine = new QuoteLineWrapper();
                             if(line.Color__c !=null){
                                 quoteLine.colorName = line.Color__c;
