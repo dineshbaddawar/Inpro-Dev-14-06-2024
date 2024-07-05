@@ -49,13 +49,13 @@
                     <tr>
                         <td style="font-size: 8px; line-height: 0.1px; margin-top: 0;"> •¼" THICK PANELS 30" - 48" WIDTHS AVAILABLE IN LENGTHS UP TO 120", >48" - 61¾" WIDE </td>
                         <td style="text-align:center;">
-                            <div style="display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px;margin-top: 12px; margin-left:-10px;"> </div>
-                            <label style="display: block; padding-left:10px;margin-left:1px;margin-top: 5px;text-align:left;font-size: 10px;">Print Name</label>
+                            <div style="display: inline-block; width: 90px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px;margin-top: 12px; margin-left:-40px;"> </div>
+                            <label style="display: block; padding-left:85px;margin-left:1px;margin-top: 5px;text-align:left;font-size: 10px;">Print Name</label>
                         </td>
                         <td style="text-align:center;">
                             <div style="display: inline-block; width: 150px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px; margin-left:-10px;margin-top: 22px;"> </div>
-                            <label  style="display: block; margin-top: 5px;text-align:left;padding-left:10px;font-size: 10px;">Signature</label>
-                            <label  style="display: block; margin-top: 5px;text-align:right;padding-right:70px;padding-bottom:5px;font-size: 10px;">Date</label>
+                            <label  style="display: block; margin-top: 5px;text-align:left;padding-left:93px;font-size: 10px;">Signature</label>
+                            <label  style="display: block; margin-top: 0px;text-align:right;padding-right:100px;padding-bottom:5px;font-size: 10px;">Date</label>
                         </td>
                     </tr>
                     <tr>
@@ -63,7 +63,7 @@
                     </tr>
                 </table>
                 
-                <!--Custom table -->
+                <!-- combine Table-->
                 <table style="margin-left:40px;border-spacing: 20px;width:100%;">
                     <tr>
                         <td style="padding:15px;">
@@ -83,7 +83,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label><br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span> </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image1}" alt="Inpro" />
+                            </div>
                         </td>
+                        
                         <td style="padding:15px;">
                             <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
                                 <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
@@ -101,7 +110,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label><br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span> </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image2}" alt="Inpro" />
+                            </div>
                         </td>
+                        
                         <td style="padding:15px;">
                             <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
                                 <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
@@ -119,7 +137,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label><br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span> </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image3}" alt="Inpro" />
+                            </div>
                         </td>
+                        
                         <td style="padding:15px;">
                             <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
                                 <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
@@ -137,46 +164,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label><br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span> </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image4}" alt="Inpro" />
+                            </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td style="padding:15px;"> </td>
-                        <td style="padding:15px;"> </td>
-                        <td style="padding:15px;"> </td>
-                        <td style="padding:15px;"> </td>
-                    </tr>
                 </table>
-                <!--Custom table -->
-                
-                <!--Lengths Table-->
-                <table style=" padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
-                    <tr>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                    </tr>
-                    <tr style="margin-top:20px;">
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                    </tr>
-                    <tr style="margin-top:20px;">
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                        <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                    </tr>
-                </table>
-                
-                <!--edge Table-->
-                <table style="page-break-after: auto; margin-top:10px; margin-bottom:0px;width:100%;">  
-                    <tr>
-                        <td style="width:100%;text-align:center;" ><img style="" src="{!$Resource.cf_ipc778_edgeTreatmentsv1}" alt="Inpro" /></td>
-                    </tr>
-                </table>
-                
+                <!-- combine Table-->          
+               
+               
                 <!-- Bottom Footer -->
                 <div style="pmargin-left:0px;border-spacing:0px;margin-right:0px;padding-left:0px;padding-right:0px; margin-bottom:0px;">
                     <table style="padding-top:0px; border-collapse: collapse; border:black; border-style:solid;width:100%;border-collapse: collapse;font-size:12px;">
@@ -416,16 +417,16 @@
                     
                     <!--Dimensions -->        
                     <table style="line-height: 0.1px; margin-top: 0;margin-bottom:0px;width:100%;">
-                    <tr>
+                        <tr>
                         <td style="font-size: 8px; line-height: 0.1px; margin-top: 0;"> •¼" THICK PANELS 30" - 48" WIDTHS AVAILABLE IN LENGTHS UP TO 120", >48" - 61¾" WIDE </td>
                         <td style="text-align:center;">
-                            <div style="display: inline-block; width: 95px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px;margin-top: 12px; margin-left:-10px;"> </div>
-                            <label style="display: block; padding-left:10px;margin-left:1px;margin-top: 5px;text-align:left;font-size: 10px;">Print Name</label>
+                            <div style="display: inline-block; width: 90px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px;margin-top: 12px; margin-left:-40px;"> </div>
+                            <label style="display: block; padding-left:85px;margin-left:1px;margin-top: 5px;text-align:left;font-size: 10px;">Print Name</label>
                         </td>
                         <td style="text-align:center;">
                             <div style="display: inline-block; width: 150px; border: none; border-bottom: 2px solid #999; outline: none; padding-left: 15px; margin-right: 0px; margin-left:-10px;margin-top: 22px;"> </div>
-                            <label  style="display: block; margin-top: 5px;text-align:left;padding-left:10px;font-size: 10px;">Signature</label>
-                            <label  style="display: block; margin-top: 5px;text-align:right;padding-right:70px;padding-bottom:5px;font-size: 10px;">Date</label>
+                            <label  style="display: block; margin-top: 5px;text-align:left;padding-left:93px;font-size: 10px;">Signature</label>
+                            <label  style="display: block; margin-top: 0px;text-align:right;padding-right:100px;padding-bottom:5px;font-size: 10px;">Date</label>
                         </td>
                     </tr>
                     <tr>
@@ -433,111 +434,115 @@
                     </tr>
                 </table>
                     
-                    <!--Custom table -->
-                    <table style="margin-left:40px;border-spacing: 20px;width:100%;">
-                        <tr>
-                            <td style="padding:15px;">
-                                <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
-                                    <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
-                                        <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
-                                        <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
-                                        <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "B1" +18"/-0
-                                        </div>
-                                    </div>
-                                    <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
-                                        <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
-                                        <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
-                                        <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "A1" +18"/-0
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="padding:15px;">
-                                <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
-                                    <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
-                                        <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
-                                        <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
-                                        <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "B2" +18"/-0
-                                        </div>
-                                    </div>
-                                    <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
-                                        <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
-                                        <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
-                                        <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "A2" +18"/-0
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="padding:15px;">
-                                <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
-                                    <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
-                                        <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
-                                        <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
-                                        <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "B3" +18"/-0
-                                        </div>
-                                    </div>
-                                    <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
-                                        <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
-                                        <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
-                                        <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "A3" +18"/-0
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="padding:15px;">
-                                <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
-                                    <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
-                                        <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
-                                        <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
-                                        <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "B4" +18"/-0
-                                        </div>
-                                    </div>
-                                    <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
-                                        <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
-                                        <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
-                                        <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
-                                            "A4" +18"/-0
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <!--Custom table -->
-                    
-                    <!--Lengths Table-->
-                    <table style=" padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
-                        <tr>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >Qty: __________________</label></td>
-                        </tr>
-                        <tr style="margin-top:20px;">
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >TAG  __________________</label></td>
-                        </tr>
-                        <tr style="margin-top:20px;">
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                            <td colspan="2" style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label >W.O. __________________</label></td>
-                        </tr>
-                    </table>
-                    
-                    <!--edge Table-->
-                    <table style="page-break-after: auto; margin-top:10px; margin-bottom:0px;width:100%;">  
+                <table style="margin-left:40px;border-spacing: 20px;width:100%;">
                     <tr>
-                        <td style="width:100%;text-align:center;" ><img style="" src="{!$Resource.cf_ipc778_edgeTreatmentsv1}" alt="Inpro" /></td>
+                        <td style="padding:15px;">
+                            <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                                <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                                    <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                                    <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                                    <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "B1" +18"/-0
+                                    </div>
+                                </div>
+                                <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                                    <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                                    <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                                    <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "A1" +18"/-0
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label> <br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span> </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image1}" alt="Inpro" />
+                            </div>
+                        </td>
+                        
+                        <td style="padding:15px;">
+                            <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                                <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                                    <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                                    <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                                    <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "B2" +18"/-0
+                                    </div>
+                                </div>
+                                <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                                    <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                                    <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                                    <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "A2" +18"/-0
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label><br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span></div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image2}" alt="Inpro" />
+                            </div>
+                        </td>
+                        
+                        <td style="padding:15px;">
+                            <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                                <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                                    <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                                    <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                                    <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "B3" +18"/-0
+                                    </div>
+                                </div>
+                                <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                                    <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                                    <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                                    <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "A3" +18"/-0
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label><br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span></div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image3}" alt="Inpro" />
+                            </div>
+                        </td>
+                        
+                        <td style="padding:15px;">
+                            <div style="position: relative; width: 100px; height: 140px; border: 1px solid black; margin: 50px auto;">
+                                <div style="border-left: 1px solid black; height: 140px; position: absolute; left: -20px; top: 0;">
+                                    <div style="position: absolute; top: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 5px solid black;"></div>
+                                    <div style="position: absolute; bottom: -5px; left: -3px; width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid black;"></div>
+                                    <div style="position: absolute; top: 50%; left: -45px; transform: translateY(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "B4" +18"/-0
+                                    </div>
+                                </div>
+                                <div style="border-top: 1px solid black; width: 100px; position: absolute; top: -20px; left: 0;">
+                                    <div style="position: absolute; left: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-right: 5px solid black;"></div>
+                                    <div style="position: absolute; right: -5px; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 5px solid black;"></div>
+                                    <div style="position: absolute; top: -25px; left: 20%; transform: translateX(-50%); background-color: rgba(0, 0, 255, 0.2); padding: 2px 5px;font-size:11px; text-align: center;">
+                                        "A4" +18"/-0
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left:5px; padding-top:0px; padding-bottom:5px;width:100%;">
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; Qty: __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; TAG  __________________</label></div>
+                                <div style="white-space: nowrap; padding-right: 10px;padding-left: 10px;"><label>&nbsp; &nbsp; W.O. __________________</label><br/> <span style="font-size: 9px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(for internal use only)</span></div>
+                            </div>
+                            <div style="text-align: center; margin-top: 40px;">
+                                <img style="width: 200px; height: 200px;" src="{!$Resource.IPC778Image4}" alt="Inpro" />
+                            </div>
+                        </td>
                     </tr>
                 </table>
                     
