@@ -25,13 +25,13 @@
 
                             </div>
                         </td>
-                        <td style="width :15%;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;">
+                        <td style="width :15%;font-size:10px;border-left: 1px solid #000;border-right: 1px solid #000;">
                             
                                 Work Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;font-size:12px;width :15%">	
+                        <td style="text-align: left;font-size:10px;width :15%">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
@@ -50,7 +50,7 @@
                         <td style="Width:60%">
                             <h3>&nbsp;&nbsp;STEP 1: RECEPTOR MEASUREMENTS</h3>
                            &nbsp; • INPUT RECEPTOR OUTSIDE FINISHED DIMENSIONS<br/>
-                            &nbsp;&nbsp;&nbsp;  <span style="font-size: 7px"> (ALLOW FOR PROPER GAP FROM STUD. USE INPRO'S "RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)</span><br/>
+                            &nbsp;&nbsp;&nbsp;  <span style="font-size: 6px"> (ALLOW FOR PROPER GAP FROM STUD. USE INPRO'S "RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)<a href="https://www.inprocorp.com/architectural-products/washroom-systems/custom-round-drain-shower-bases/"><span Style= "font-size:8px;">Click here</span></a></span><br/>
                             &nbsp;&nbsp;&nbsp;  <span>RECEPTOR MAX 30 Sq Ft (4,320 Sq In)</span>
                             <table>
                                 <tr>
@@ -177,37 +177,37 @@
                     </td>
                     <td style="width: 69%; padding: 2px;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;BRASS DRAIN* <span style="font-size: 7px;">( STANDARD )<br />W/ POLISHED STAINLESS STEEL STRAINER</span></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;BRASS DRAIN* <span style="font-size: 7px;">( STANDARD )<br />&nbsp;&nbsp;W/ POLISHED STAINLESS STEEL STRAINER</span></div>
                     </td>
                     <td style="width: 1%; padding: 2px;"></td>
                 </tr>
                 <tr>
                     <td colspan="2" style="padding: 2px;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />W/ TAMPER RESISTANT STAINLESS STEEL STRAINER</span></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;&nbsp;W/ TAMPER RESISTANT STAINLESS STEEL STRAINER</span></div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="padding-bottom: 10px;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;LIGATURE RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />W/ LIGATURE RESISTANT STAINLESS STEEL STRAINER</span></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;LIGATURE RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;&nbsp;W/ LIGATURE RESISTANT STAINLESS STEEL STRAINER</span></div>
                     </td>
                 </tr>
                 
                 <tr>
                     <td colspan="2" style="padding-top: 10px;border-top: 1px solid #333;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;MEMBRANE DRAIN <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />ACCOMMODATES MEMBRANE INSTALLATION</span></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;MEMBRANE DRAIN <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;&nbsp;ACCOMMODATES MEMBRANE INSTALLATION</span></div>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 15%; text-align: right; padding: 2px;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left;  margin-left: 40px;background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;NO HUB</div>
+                        <div style="display: inline-block; font-size: 10px;">NO HUB</div>
                     </td>
                     <td style="width: 75%; padding: 2px;">
-                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;THREADED</div>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left:25px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;&nbsp;THREADED</div>
                     </td>
                 </tr>
                 <tr>
@@ -227,27 +227,27 @@
         <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A</b></td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Antique White<br/><span style="font-size: 7px;">P9001</span></div>
+            <div style="display: inline-block;">&nbsp;Antique White<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9001</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;White Sand<br/><span style="font-size: 7px;">P9002</span></div>
+            <div style="display: inline-block;">&nbsp;White Sand<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9002</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Taupe<br/><span style="font-size: 7px;">P9005</span></div>
+            <div style="display: inline-block;">&nbsp;Taupe<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9005</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Bone<br/><span style="font-size: 7px;">P9009</span></div>
+            <div style="display: inline-block;">&nbsp;Bone<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9009</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Bright White<br/><span style="font-size: 7px;">P9011</span></div>
+            <div style="display: inline-block;">&nbsp;Bright White<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9011</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Shadow<br/><span style="font-size: 7px;">P9081</span></div>
+            <div style="display: inline-block;">&nbsp;Shadow<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9081</span></div>
         </td>
         <td style="width: 9%;"></td>
         
@@ -256,27 +256,27 @@
         <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A1*</b></td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Haven<br/><span style="font-size: 7px;">P9701</span></div>
+            <div style="display: inline-block;">&nbsp;Haven<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9701</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Arid<br/><span style="font-size: 7px;">P9702</span></div>
+            <div style="display: inline-block;">&nbsp;Arid<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9702</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Quarry<br/><span style="font-size: 7px;">P9705</span></div>
+            <div style="display: inline-block;">&nbsp;Quarry<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9705</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Wool<br/><span style="font-size: 7px;">P9709</span></div>
+            <div style="display: inline-block;">&nbsp;Wool<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9709</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Frosted White<br/><span style="font-size: 7px;">P9711</span></div>
+            <div style="display: inline-block;">&nbsp;Frosted White<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9711</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Dusk<br/><span style="font-size: 7px;">P9781</span></div>
+            <div style="display: inline-block;">&nbsp;Dusk<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9781</span></div>
         </td>
         <td style="width: 9%;"></td>
        
@@ -285,15 +285,15 @@
         <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS B*</b></td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Candlelight<br/><span style="font-size: 7px;">P9014</span></div>
+            <div style="display: inline-block;">&nbsp;Candlelight<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9014</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Sandbar<br/><span style="font-size: 7px;">P9016</span></div>
+            <div style="display: inline-block;">&nbsp;Sandbar<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9016</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Natural Linen<br/><span style="font-size: 7px;">P9079</span></div>
+            <div style="display: inline-block;">&nbsp;Natural Linen<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9079</span></div>
         </td>
         <td style="width: 13%;"></td>
         <td style="width: 13%;"></td>
@@ -389,13 +389,13 @@
 
                             </div>
                         </td>
-                        <td style="width :15%;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;">
+                        <td style="width :15%;font-size:10px;border-left: 1px solid #000;border-right: 1px solid #000;">
                             
                                 Work Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;font-size:12px;width :15%">	
+                        <td style="text-align: left;font-size:10px;width :15%">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
@@ -466,7 +466,7 @@
         
         
         
-         <apex:outputText rendered="{!BlankForm == false}">
+      <apex:outputText rendered="{!BlankForm ==false}">
             <div style="border: 1px solid black;">
                 <table style="width:100%; margin-bottom: 0;">
                     <tr>
@@ -478,13 +478,13 @@
 
                             </div>
                         </td>
-                        <td style="width :15%;font-size:12px;">
+                        <td style="width :15%;font-size:10px;border-left: 1px solid #000;border-right: 1px solid #000;">
                             
                                 Work Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;font-size:12px;width :15%">	
+                        <td style="text-align: left;font-size:10px;width :15%">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
@@ -502,8 +502,8 @@
                     <tr>
                         <td style="Width:60%">
                             <h3>&nbsp;&nbsp;STEP 1: RECEPTOR MEASUREMENTS</h3>
-                            • INPUT RECEPTOR OUTSIDE FINISHED DIMENSIONS<br/>
-                            &nbsp;&nbsp;&nbsp;  <span style="font-size: 7px"> (ALLOW FOR PROPER GAP FROM STUD. USE INPRO'S "RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)</span><br/>
+                           &nbsp; • INPUT RECEPTOR OUTSIDE FINISHED DIMENSIONS<br/>
+                            &nbsp;&nbsp;&nbsp;  <span style="font-size: 6px"> (ALLOW FOR PROPER GAP FROM STUD. USE INPRO'S "RECEPTOR MEASUREMENT GUIDE" FOR SIZE CALCULATIONS)<a href="https://www.inprocorp.com/architectural-products/washroom-systems/custom-round-drain-shower-bases/"><span Style= "font-size:8px;">Click here</span></a></span><br/>
                             &nbsp;&nbsp;&nbsp;  <span>RECEPTOR MAX 30 Sq Ft (4,320 Sq In)</span>
                             <table>
                                 <tr>
@@ -618,48 +618,49 @@
                 </tr>
             </table>
         </td>
-        <td style="width: 50%;">
+        <td style="width: 50%;border-left: 1px solid #333;">
             <h3 style="font-size: 12px;">
                 &nbsp;&nbsp;STEP 4: DRAIN
             </h3>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                     <td style="width: 30%; padding: 2px;">
-                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
                         <div style="display: inline-block; font-size: 10px;">&nbsp;None</div>
                     </td>
                     <td style="width: 69%; padding: 2px;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;BRASS DRAIN* <span style="font-size: 7px;">( STANDARD )<br />W/ POLISHED STAINLESS STEEL STRAINER</span></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;BRASS DRAIN* <span style="font-size: 7px;">( STANDARD )<br />&nbsp;&nbsp;W/ POLISHED STAINLESS STEEL STRAINER</span></div>
                     </td>
                     <td style="width: 1%; padding: 2px;"></td>
                 </tr>
                 <tr>
                     <td colspan="2" style="padding: 2px;">
-                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />W/ TAMPER RESISTANT STAINLESS STEEL STRAINER</span></div>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;TAMPER RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;&nbsp;W/ TAMPER RESISTANT STAINLESS STEEL STRAINER</span></div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="padding: 2px;">
-                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;LIGATURE RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />W/ LIGATURE RESISTANT STAINLESS STEEL STRAINER</span></div>
+                    <td colspan="2" style="padding-bottom: 10px;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;LIGATURE RESISTANT* <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;&nbsp;W/ LIGATURE RESISTANT STAINLESS STEEL STRAINER</span></div>
                     </td>
                 </tr>
+                
                 <tr>
-                    <td colspan="2" style="padding: 2px;">
-                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;MEMBRANE DRAIN <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />ACCOMMODATES MEMBRANE INSTALLATION</span></div>
+                    <td colspan="2" style="padding-top: 10px;border-top: 1px solid #333;">
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left: 5px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;MEMBRANE DRAIN <span style="font-size: 7px;">(ADDITIONAL CHARGES APPLY)<br />&nbsp;&nbsp;ACCOMMODATES MEMBRANE INSTALLATION</span></div>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 15%; text-align: right; padding: 2px;">
                         <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left;  margin-left: 40px;background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;NO HUB</div>
+                        <div style="display: inline-block; font-size: 10px;">NO HUB</div>
                     </td>
                     <td style="width: 75%; padding: 2px;">
-                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 1px; background:"></div>
-                        <div style="display: inline-block; font-size: 10px;">&nbsp;THREADED</div>
+                        <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-left:25px; background:"></div>
+                        <div style="display: inline-block; font-size: 10px;">&nbsp;&nbsp;&nbsp;THREADED</div>
                     </td>
                 </tr>
                 <tr>
@@ -679,27 +680,27 @@
         <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A</b></td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Antique White<br/><span style="font-size: 7px;">P9001</span></div>
+            <div style="display: inline-block;">&nbsp;Antique White<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9001</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;White Sand<br/><span style="font-size: 7px;">P9002</span></div>
+            <div style="display: inline-block;">&nbsp;White Sand<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9002</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Taupe<br/><span style="font-size: 7px;">P9005</span></div>
+            <div style="display: inline-block;">&nbsp;Taupe<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9005</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Bone<br/><span style="font-size: 7px;">P9009</span></div>
+            <div style="display: inline-block;">&nbsp;Bone<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9009</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Bright White<br/><span style="font-size: 7px;">P9011</span></div>
+            <div style="display: inline-block;">&nbsp;Bright White<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9011</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Shadow<br/><span style="font-size: 7px;">P9081</span></div>
+            <div style="display: inline-block;">&nbsp;Shadow<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9081</span></div>
         </td>
         <td style="width: 9%;"></td>
         
@@ -708,27 +709,27 @@
         <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS A1*</b></td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Haven<br/><span style="font-size: 7px;">P9701</span></div>
+            <div style="display: inline-block;">&nbsp;Haven<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9701</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Arid<br/><span style="font-size: 7px;">P9702</span></div>
+            <div style="display: inline-block;">&nbsp;Arid<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9702</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Quarry<br/><span style="font-size: 7px;">P9705</span></div>
+            <div style="display: inline-block;">&nbsp;Quarry<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9705</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Wool<br/><span style="font-size: 7px;">P9709</span></div>
+            <div style="display: inline-block;">&nbsp;Wool<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9709</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Frosted White<br/><span style="font-size: 7px;">P9711</span></div>
+            <div style="display: inline-block;">&nbsp;Frosted White<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9711</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Dusk<br/><span style="font-size: 7px;">P9781</span></div>
+            <div style="display: inline-block;">&nbsp;Dusk<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9781</span></div>
         </td>
         <td style="width: 9%;"></td>
        
@@ -737,15 +738,15 @@
         <td style="width: 13%; font-size: 9px;"><b>&nbsp;&nbsp;CLASS B*</b></td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Candlelight<br/><span style="font-size: 7px;">P9014</span></div>
+            <div style="display: inline-block;">&nbsp;Candlelight<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9014</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Sandbar<br/><span style="font-size: 7px;">P9016</span></div>
+            <div style="display: inline-block;">&nbsp;Sandbar<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9016</span></div>
         </td>
         <td style="width: 13%; font-size: 9px;">
             <div style="width: 15px; height: 15px; border: 1px solid #333; cursor: pointer; float: left; margin-right: 2px; background:"></div>
-            <div style="display: inline-block;">&nbsp;Natural Linen<br/><span style="font-size: 7px;">P9079</span></div>
+            <div style="display: inline-block;">&nbsp;Natural Linen<br/><span style="font-size: 7px;">&nbsp;&nbsp;P9079</span></div>
         </td>
         <td style="width: 13%;"></td>
         <td style="width: 13%;"></td>
@@ -799,7 +800,7 @@
                 Tag:
             </td>
         </tr>
-
+ 
        <tr>
             <td style="border: 1px solid black; text-align:left;font-size:9px;Width:6%">QTY:</td>
             <td style="border: 1px solid black; text-align:left;font-size:9px;Width:49%;">
@@ -833,28 +834,28 @@
             <div style="border: 1px solid black;">
                 <table style="width:100%; margin-bottom: 0;">
                     <tr>
-                        <td style="text-align: left;font-size:10px">
+                        <td style="text-align: left;font-size:12px;width :70%">
                             Custom Order Form:
                             <br/>
-                            <div style="font-weight:bold;width :70%">
-                                Prism™ Solid Surface Custom Shower Receptor <span style="font-size: 6px">(ADA, Curbed, No Threshold&amp; Tile Shelf)</span>
+                            <div style="font-weight:bold;">
+                                Prism™ Solid Surface Custom Shower Receptor <span style="font-size: 6px">(ADA, Curbed, No Threshold &amp; Tile Shelf)</span>
 
                             </div>
                         </td>
-                        <td style="width :15%">
+                        <td style="width :15%;font-size:10px;border-left: 1px solid #000;border-right: 1px solid #000;">
                             
                                 Work Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
 
                         </td>
-                        <td style="text-align: right;width :15%">
+                        <td style="text-align: left;font-size:10px;width :15%">	
                             
                                 Sales Order #:<br/>
                                 <span style="font-size:7px;">(for Internal User Only)</span>
                             
                         </td>
                     </tr>
-                </table>
+                </table> 
                 <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
                 <p style="padding-left: 1pt; text-align: left; padding-top:8pt; margin-top: 0;font-size:9px">
                     PLEASE COMPLETE THE FOLLOWING INFORMATION BASED ON <b>FIELD VERIFIED DIMENSIONS. USE ONE ORDER FORM PER SIZE  &amp; COLOR.</b> ORDERS FOR CUSTOM PRODUCTS CANNOT BE RETURNED.
@@ -863,7 +864,7 @@
                 
                 <li><b>RECEPTOR INSTALL CROSS SECTION - SINGLE WATER BARRIER</b></li>
                 <img src="{!$Resource.cf_ipc777_ID2281p2top}" alt="ID2281p2top" height="350" width="650" />
-                
+                <hr style="border-width: 1px; border-color: black; border-style: solid; margin: 0;margin-bottom : 0;" />
                 <li><b>RECEPTOR INSTALL CROSS SECTION - DOUBLE WATER BARRIER</b></li>
                 <img src="{!$Resource.cf_ipc777_ID2281p2bottom}" alt="ID2281p2bottom" height="350" width="650"/>
                 
@@ -914,7 +915,7 @@
             
             </div>
                 </apex:outputText>
-        
+          
         
         
         

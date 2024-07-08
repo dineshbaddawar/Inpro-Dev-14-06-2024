@@ -34,7 +34,7 @@ public class IPC782ControllerTest {
         System.assertNotEquals(null, customForm.quoteRecord, 'quoteRecord should not be null');
         System.assertEquals(quote.Id, customForm.quoteRecord.Id, 'quoteRecord.Id should match the inserted quote Id');
         System.assertNotEquals(null, customForm.quoteLines, 'quoteLines should not be null');
-        System.assertEquals(2, customForm.quoteLines.size(), 'quoteLines size should be 3');
+        System.assertEquals(2, customForm.quoteLines.size(), 'quoteLines size should be 2');
         
         for (IPC782Controller.QuoteLineWrapper qlw : customForm.quoteLines) {
             if (qlw.quoteLineItem.Item_Number__c.startsWithIgnoreCase('DSWSPWL')) {

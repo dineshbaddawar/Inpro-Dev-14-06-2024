@@ -22,7 +22,7 @@ public with sharing class IPC1013Controller {
                 isMetricFullWainscot = '238.76cm W x 120.65cm H';
             }  if((isMetricValue == 'False')||(isMetricValue == 'false')||(isMetricValue == null) || (String.isBlank(isMetricValue))){
                 isMetric = false;
-                isMetricThickness = '.040(3/64"), .60(1/16")';
+                isMetricThickness = '.040(3/64"), .060(1/16")';
                 isMetricWainscot = '44" W x 47 ½"H';
                 isMetricCeling = '44" W x 94"H';
                 isMetricFullWainscot = '94" W x 47 ½"H';

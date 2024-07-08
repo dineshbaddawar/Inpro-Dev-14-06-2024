@@ -49,7 +49,7 @@
                             <tr>
                                 <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
                                 <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
-                                <td style="width:15%" >IPC.254/Rev.19</td>
+                                <td style="width:15%" >IPC.275/Rev.17</td>
                             </tr>
                         </table>
                     </div>
@@ -80,7 +80,7 @@
         
         
         <div style="font-size:12px">
-            <title>IPC254</title>
+            <title>IPC275</title>
             
                     <p style="padding-left: 8pt;;text-align: left;padding-top:30px;font-size:12px">
                         Please complete the following information based on field verified dimensions. Use one order form per size.  Orders for 
@@ -367,7 +367,7 @@
                             <tr>
                                 <td style="width:15%" ><img style="width:90px;" src="{!$Resource.cf_shared_inpro_footer}" alt="Inpro" /></td>
                                 <td style="width:70%">Sales 800.222.5556 / Fax: 888.715.8407</td>
-                                <td style="width:15%" >IPC.254/Rev.19</td>
+                                <td style="width:15%" >IPC.275/Rev.17</td>
                             </tr>
                         </table>
                     </div>
@@ -399,7 +399,7 @@
         <apex:form >
             <apex:repeat value="{!customForm.quoteLines}" var="quoteLine">
                 <div style="font-size:12px">
-                    <title>IPC254</title>
+                    <title>IPC275</title>
                     
                     <p style="padding-left: 8pt;;text-align: left;padding-top:20px;font-size:12px">
                         Please complete the following information based on field verified dimensions. Use one order form per size.  Orders for 

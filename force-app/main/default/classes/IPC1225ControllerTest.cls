@@ -30,9 +30,8 @@ public class IPC1225ControllerTest {
             UnitPrice = 2.50, Quantity = 1, QuoteId = quote.Id, Description = 'SAS',document_Name__c = 'IPC.1225',
             Product2Id = pricebookEntry.Product2Id, PricebookEntryId = pricebookEntry.Id, Alloy_Type__c ='430',Operator__c ='14',
             Item_Number__c = 'GTK', Color__c = 'Clamshell-0154',Brackets_2__c = '87',Custom_Angle__c = '87' );
-     
         insert new List<QuoteLineItem>{line1, line2, line3, line4, line5};
-    }
+            }
     
     @IsTest
     static void testController() {
